@@ -1,8 +1,8 @@
 ---
 name: "✅FEATURE"
-about: Feature 작업 사항을 입력해주세요
+about: Feature
 title: ''
-labels: ''
+labels: '분류: 기능 추가 / 개선'
 assignees: ''
 
 ---
