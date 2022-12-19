@@ -1,0 +1,22 @@
+.layout{
+  padding-top: 80px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+  margin: 0;
+  width:100%;
+
+}
+
+.main{
+  min-height: 600px;
+  width: 100%;
+  height: 100%; /* 이렇게 해야 footer가 하단 고정 */
+  background-color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
