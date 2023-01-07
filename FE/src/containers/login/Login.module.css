@@ -1,10 +1,38 @@
 .input {
-  width: 30vw;
-  height: 3vh;
-  font-size: 15px;
-  border: 0;
-  border-radius: 15px;
+  width: 300px;
+  height: 43px;
+  font-size: 20px;
+  border: 1px  solid #000000;
   outline: none;
-  margin: 3px;
-  background-color: rgb(233, 233, 233);
+  margin: 5px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+input::-webkit-input-placeholder {
+  color: #B0B0B0;
+  font-size: 15px; 
+}
+input:-ms-input-placeholder {
+  color: #B0B0B0;font-size: 15px;
+}
+textarea::-webkit-input-placeholder {
+  color: #B0B0B0;font-size: 15px;
+}
+textarea:-ms-input-placeholder {
+  color: #B0B0B0;font-size: 15px;
+}
+
+.button{
+  width: 300px;
+  height: 45px;
+
+  background: #FFF48C;
+  border-radius: 10px;
+  border:#FFF48C;
+  font-family: "NotoSansKR-400";
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
 }
