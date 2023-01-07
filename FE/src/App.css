@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+/* font */
+@font-face {
+  font-family: "NotoSansKR-400";
+  src: url("./fonts/NotoSansKR-Regular.otf");
+}
+
+@font-face {
+  font-family: "NotoSansKR-700";
+  src: url("./fonts/NotoSansKR-Bold.otf");
+}
