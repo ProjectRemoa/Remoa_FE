@@ -1,166 +1,208 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios';
-import styles from './Login.module.css';
-import { Button } from 'antd';
-import kakao_login from '../../images/kakako_login.png'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import styles from "./Login.module.css";
+import kakao_login from "../../images/kakako_login.png";
+import { useNavigate } from "react-router-dom";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 
 function LoginContainer() {
+  const KAKAO_AUTH_URL = "https://developers.kakao.com/tool/resource/login";
 
-  const KAKAO_AUTH_URL="https://developers.kakao.com/tool/resource/login";
-  const [inputId, setInputId] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
   const [inputPw, setInputPw] = useState("");
-  
-  const handleInputId = (e) => {
-    setInputId(e.target.value);
+
+  const [inputEmailError, setInputEmailError] = useState("");
+
+  const navigate = useNavigate();
+
+  const onChangeEmail = (e) => {
+    const emailRegex =
+      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    if (!e.target.value || emailRegex.test(e.target.value))
+      setInputEmailError(false); // 정상
+    else setInputEmailError(true);
+    setInputEmail(e.target.value);
   };
 
-  const handleInputPw = (e) => {
+  const onChangePw = (e) => {
     setInputPw(e.target.value);
   };
 
-  const onClickLogin =() =>{
-    console.log("click login");
-    console.log("ID : ",inputId);
-    console.log("PW : ", inputPw);
+  const validation = () => {
+    if (inputEmailError) {
+      alert("이메일 형식이 맞지 않습니다.");
+      return false;
+    }
+    // 백엔드에서 검사
+    /*if (inputPw.length < 4 || inputPw.length > 16) {
+      alert("비밀번호는 4자 이상 16자 이하입니다.");
+      return false;
+    }*/
 
-    axios.post("/login",{
-      id: inputId,
-      password: inputPw,
-    })
-    .then((result)=>{
-      console.log(result);
-      console.log("result.data.id : ", result.data.id);
-      console.log("result.data.password : ",result.data.password);
+    return true;
+  };
 
-      if (result.data.id === undefined || result.data.id===null) {
-        alert("입력하신 비밀번호가 일치하지 않습니다.");
-        
-      } 
-      else if(result.data.id === inputId) {
-        console.log("======================", "로그인 성공");
-        sessionStorage.setItem("id", inputId); // sessionStorage에 id를 user_id라는 key 값으로 저장
-        sessionStorage.setItem("name", result.data.name); // sessionStorage에 id를 user_id라는 key 값으로 저장
-        alert("환영합니다. "+ result.data.name+"님");
-      }
-      // 작업 완료 되면 페이지 이동(새로고침)
-      document.location.href = "/";
-    })
-    .catch();
-  }
-  
-  const onClickFind = () => {
-    // ID, PW 찾기 페이지로 이동
-  }
+  const onClickLogin = () => {
+    if (validation()) {
+      const LoginForm = {
+        email: inputEmail,
+        password: inputPw,
+      };
+      const config = { "Conteny-Type": "application/json" };
+      axios
+        .post("/login", LoginForm, config)
+        .then((result) => {
+          console.log(result);
+          if (result.status === 200 && result.data !== "login fail") {
+            localStorage.setItem("username", result.data);
+            alert("로그인 완료");
+            navigate("/");
+          } else {
+            // 회원 정보 불일치
+            alert("정보가 일치하지 않습니다.");
+          }
+          // 작업 완료 되면 페이지 이동(새로고침)
+        })
+        .catch((error) => {
+          alert(error.response.data.detail);
+        });
+    }
+  };
+
+  const onClickID = () => {
+    // ID 찾기 페이지로 이동
+  };
+  const onClickPW = () => {
+    // PW 찾기 페이지로 이동
+  };
 
   const onClickRegister = () => {
     // 회원가입 페이지로 이동
-  }
-  
-  return (
-    <div style={{
-      borderStyle: 'solid',
-      borderWidth: 'thin',
-      borderColor: 'grey',
-      borderRadius: '25px',
-      padding: '15px'
-    }}>
-      <h4>Re모나</h4>
-      <h2>로그인을 통해 더 많은 기능을 이용해보세요!</h2>
-      
-      {/* ID */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '3px'
-      }}>
-        <div style={{
-          width: '30%',
-        }}>
-          ID
-        </div>
-        <input className={styles.input}
-          type="id"
-          placeholder="Enter ID"
-          name="input_id"
-          value={inputId}
-          onChange={handleInputId}
-        />
-      </div>
+  };
 
-      {/* PASSWORD */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingLeft: '3px', paddingRight: '3px', paddingTop: '3px'
-      }}>
-        <div style={{
-          width: '30%',
-        }}>
-          PASSWORD
-        </div>
-        <input className={styles.input}
+  return (
+    <div
+      style={{
+        borderStyle: "solid",
+        borderWidth: "thin",
+        borderColor: "grey",
+        borderRadius: "25px",
+        fontFamily: "NotoSansKR-400",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0,  0.25)",
+        width: "590px",
+        /*height: "410px",*/
+        padding: "40px 0px 40px 0px",
+      }}
+    >
+      <span style={{ fontSize: "25px" }}>
+        <span style={{ fontFamily: "NotoSansKR-700", fontSize: "25px" }}>
+          로그인
+        </span>
+        을 통해
+        <br />더 많은 기능을 이용해보세요!
+      </span>
+      <br />
+      {/* ID */}
+
+      <form
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "10px",
+        }}
+      >
+        <input
+          className={styles.input}
+          type="id"
+          placeholder="이메일을 입력해주세요"
+          name="input_id"
+          value={inputEmail}
+          onChange={onChangeEmail}
+        />
+
+        {/* PASSWORD */}
+        <input
+          className={styles.input}
           type="password"
-          placeholder="Enter Password"
+          placeholder="비밀번호를 입력해주세요"
           name="input_pw"
           value={inputPw}
-          onChange={handleInputPw}
-        />             
-      </div>
- 
-      {/* 로그인 버튼 */ }
-      <div style={{
-        paddingTop: '5px',
-        paddingBottom: '10px',
-      }}>
-        <Button
-          title="로그인하기"
-          onClick={onClickLogin}
-          >
+          onChange={onChangePw}
+          style={{
+            textAlign: "center",
+          }}
+        />
+      </form>
+
+      {/* 로그인 버튼 */}
+      <div
+        style={{
+          paddingTop: "5px",
+          paddingBottom: "10px",
+        }}
+      >
+        <button className={styles.button} onClick={onClickLogin}>
           로그인
-        </Button>
+        </button>
       </div>
 
       {/* 카카오로 로그인 버튼*/}
-      <div style={{
-        paddingTop: '5px',
-      }}>
-        <a href={KAKAO_AUTH_URL}>
-          <img src={kakao_login} alt="kakaologin"/>
-        </a>
-      </div>
-
-      <div style={{
-        margin: '20px',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80%',
-
-      }}>
-        <div style={{
-          cursor: 'pointer',
-          width: '45%', float: 'left',
-          paddingLeft: '10px',
-          fontWeight: '500',
-        }}
-        onClick={onClickFind}>
-          ID / PW 찾기
-        </div>
-        <div style={{
-          cursor: 'pointer',
-          float: 'right',
-          paddingRight: '10px',
-          fontWeight: '500',
-        }}
-        onClick={onClickRegister}>
+      <a href={KAKAO_AUTH_URL}>
+        <img src={kakao_login} alt="kakaologin" />
+      </a>
+      {/* 회원가입, 비밀번호 찾기 */}
+      <div style={{ paddingTop: "3px" }}>
+        <span style={{ fontFamily: "NotoSansKR-300", fontSize: "10px" }}>
+          아직 회원이 아니신가요?&nbsp;
+        </span>
+        <span
+          style={{
+            fontFamily: "NotoSansKR-700",
+            fontSize: "10px",
+            color: "#F27A7A",
+            textDecoration: "underline",
+            textUnderlinePosition: "under",
+            cursor: "pointer",
+          }}
+          onClick={onClickRegister}
+        >
           회원가입
-        </div>        
+        </span>
+        <br />
+        <span style={{ fontFamily: "NotoSansKR-300", fontSize: "10px" }}>
+          아이디나 비밀번호가 기억나지 않나요? &nbsp; |
+          <span
+            style={{
+              textDecoration: "underline",
+              textUnderlinePosition: "under",
+              cursor: "pointer",
+              padding: "0px 5px 0px 5px",
+            }}
+            onClick={onClickID}
+          >
+            아이디 찾기
+          </span>
+          |
+          <span
+            style={{
+              textDecoration: "underline",
+              textUnderlinePosition: "under",
+              cursor: "pointer",
+              padding: "0px 5px 0px 5px",
+            }}
+            onClick={onClickPW}
+          >
+            비밀번호 찾기
+          </span>
+        </span>
       </div>
-
     </div>
-  )
+  );
 }
 
-export default LoginContainer
+export default LoginContainer;

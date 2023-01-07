@@ -47,3 +47,8 @@
   font-family: "NotoSansKR-700";
   src: url("./fonts/NotoSansKR-Bold.otf");
 }
+
+@font-face {
+  font-family: "NotoSansKR-300";
+  src: url("./fonts/NotoSansKR-Light.otf");
+}
