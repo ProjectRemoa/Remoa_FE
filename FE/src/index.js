@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './page/LoginPage';
 import MainPage from './page/MainPage';
 import ToDoPage from './page/ToDoManagement'
+import MyPage from './page/MyPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
@@ -26,6 +27,7 @@ root.render(
           <Route path="/" element={ <MainPage /> } />
           <Route path="/login" element={ <LoginPage />} />
           <Route path="/todo/*" element={ <ToDoPage />} />
+          <Route path="/mypage" element={ <MyPage />} />
       </Routes>
       </Style.Wrapper>
     </BrowserRouter>

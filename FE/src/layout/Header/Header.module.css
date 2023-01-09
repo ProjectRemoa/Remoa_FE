@@ -3,9 +3,9 @@
   position: fixed;
   /*left: 0;*/
   top: 0;
-  width: 100%;
+  width: 100vw;
   height: 80px;
-  background-color: #FFF48C;
+  background-color: #FADA5E;
 }
 
 .contents {
