@@ -1,0 +1,88 @@
+.input {
+  width: 60%;
+  height: 43px;
+  font-size: 20px;
+  border: 1px  solid #000000;
+  outline: none;
+  margin: 10px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  border-radius: 10px;
+}
+
+input::-webkit-input-placeholder {
+  color: #B0B0B0;
+  font-size: 15px; 
+}
+input:-ms-input-placeholder {
+  color: #B0B0B0;font-size: 15px;
+}
+textarea::-webkit-input-placeholder {
+  color: #B0B0B0;font-size: 15px;
+}
+textarea:-ms-input-placeholder {
+  color: #B0B0B0;font-size: 15px;
+}
+
+button{
+  width: 300px;
+  height: 45px;
+
+  background: #FFF48C;
+  border-radius: 10px;
+  border:#FFF48C;
+  font-family: "NotoSansKR-400";
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* SECTION - BIRTH */
+select {
+  width: 20%;
+  height: 40px;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #B0B0B0;
+  color: #383838;
+  background-color: #ffffff;
+  margin-left: 10px;
+}
+
+.form_radio_btn {
+  width: 40%;
+  height : 40px;
+    border: 1px solid #EAE7E7;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.form_radio_btn input[type=radio] {
+  display: none;
+}
+
+.form_radio_btn label {
+  display: block;
+    border-radius: 10px;
+     margin: 0 auto;
+    text-align: center;
+    height: -webkit-fill-available;
+    line-height: 45px;
+}
+ 
+/* Checked */
+.form_radio_btn input[type=radio]:checked + label {
+  background: #FADA5E;
+  color: #fff;
+}
+ 
+ 
+/* Disabled */
+.form_radio_btn input[type=radio] + label {
+  background: #F9FAFC;
+  color: #666;
+}
