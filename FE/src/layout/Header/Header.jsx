@@ -13,7 +13,6 @@ const Style = {
     top: 0;
     justify-content: space-between;
     background-color: #FFF48C;
-    z-index: 2;
   `,
   Logo: styled.div`
     width: 224px;
@@ -94,38 +93,39 @@ const Style = {
       margin-left:10px;
   `,
   HoverlineUnder1: styled.div` 
-    width:74px;
+    width:75px;
     border:2px solid #FFFFFF;
     position:absolute;
     top:33px;
     left:3px;
-  `
+  `,
+  HoverlineUnder2: styled.div` 
+    width:100px;
+    border:2px solid #FFFFFF;
+    position:absolute;
+    top:33px;
+    left:114px;
+  `,
+  HoverlineUnder3: styled.div` 
+    width:95px;
+    border:2px solid #FFFFFF;
+    position:absolute;
+    top:33px;
+    left:249px;
+  `,
 };
 
-const Header = ({ home, about, feature }) => {
-  const [windowHeight, setWindowHeight] = useState();
+const Header = () => {
   const Navigate=useNavigate();
 
   const refOnClick = () => {
-    if (home !== undefined && home.current !== null)
-      home.current.scrollIntoView({
-        block: "start",
-        behavior: "smooth",
-      });
+    Navigate('/')
   };
   const taskOnClick = () => {
-    if (about !== undefined && about.current !== null)
-      about.current.scrollIntoView({
-        block: "start",
-        behavior: "smooth",
-      });
+    Navigate('/manage/list')
   };
   const myOnClick = () => {
-    if (feature !== undefined && feature.current !== null)
-      feature.current.scrollIntoView({
-        block: "start",
-        behavior: "smooth",
-      });
+    Navigate('/mypage/profile')
   };
 
   const noticeOnClick = () => {
@@ -137,10 +137,9 @@ const Header = ({ home, about, feature }) => {
   }
 
   const bellOnClick = () => {
-
+    
   }
   //
-  console.log(windowHeight);
   return (
     <header className={styles.header}>
       <div className={styles.contents}>
@@ -152,7 +151,10 @@ const Header = ({ home, about, feature }) => {
             <Style.NavItem onClick={refOnClick}>레퍼런스</Style.NavItem>
             <Style.NavItem onClick={taskOnClick}>작업물 관리</Style.NavItem>
             <Style.NavItem onClick={myOnClick}>마이페이지</Style.NavItem>
-            {(window.location.pathname === '/login')?<Style.HoverlineUnder1 />:"안녕"}
+            {(window.location.pathname.includes('/ref') || window.location.pathname=='/')
+            ?<Style.HoverlineUnder1 />:""}
+            {(window.location.pathname.includes('/manage'))?<Style.HoverlineUnder2 />:""}
+            {(window.location.pathname.includes('/mypage'))?<Style.HoverlineUnder3 />:""}
           </Style.NavItemWrapper>
 
           <Style.ButtonWrapper>
