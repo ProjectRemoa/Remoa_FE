@@ -151,7 +151,7 @@ function SignUpContainer() {
         <ul
           style={{
             fontFamily: "NotoSansKR-500",
-            fontSize: "23px",
+            fontSize: "1.2rem",
             textAlign: "left",
           }}
         >
@@ -168,124 +168,165 @@ function SignUpContainer() {
           borderRadius: "25px",
           fontFamily: "NotoSansKR-400",
           boxShadow: "0px 4px 4px rgba(0, 0, 0,  0.25)",
-          /* width: "60%",*/
+          width: "100%",
           /*height: "410px",*/
           padding: "40px 0px 40px 0px",
         }}
       >
-        <form
-          style={{
-            fontFamily: "NotoSansKR-400",
-            fontSize: "20px",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "10px",
-          }}
-        >
-          <label>이메일</label>
-          <input
-            required
-            type="email"
-            className={styles.input}
-            placeholder="이메일을 입력해주세요"
-            onChange={onChangeEmail}
-            value={uemail}
-          />
-          <br />
-          <label>비밀번호</label>
-          <input
-            required
-            className={styles.input}
-            type="password"
-            placeholder="8-20자리 / 영문자, 숫자 혼합"
-            onChange={onChangePw}
-            value={upw}
-          />
-          <br />
-          <label>비밀번호 확인</label>
-          <input
-            required
-            type="password"
-            className={styles.input}
-            placeholder="비밀번호를 다시 입력해주세요"
-            onChange={onChangeConfirmupw}
-            value={confirmupw}
-          />
-          <br />
-          <label>이름</label>
-          <input
-            required
-            type="text"
-            className={styles.input}
-            placeholder="이름을 입력해주세요"
-            onChange={onChangeName}
-            value={uname}
-          />
-          <br />
-          <div style={{ margin: "10px" }}>
-            <label>생년월일</label>
-            <select
-              value={form.year}
-              onChange={(e) => {
-                setForm({ ...form, year: e.target.value });
-              }}
-            >
-              {years.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </select>{" "}
-            년
-            <select
-              value={form.month}
-              onChange={(e) => {
-                setForm({ ...form, month: e.target.value });
-              }}
-            >
-              {month.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </select>{" "}
-            월
-            <select
-              value={form.day}
-              onChange={(e) => {
-                setForm({ ...form, day: e.target.value });
-              }}
-            >
-              {days.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-            일
-          </div>
-
-          <label>성별</label>
-          <div class={styles.form_radio_btn}>
-            <input id="radio-1" type="radio" name="sex" value="male" checked />
-            <label for="radio-1">남성</label>
-          </div>
-          <div class={styles.form_radio_btn}>
-            <input id="radio-2" type="radio" name="sex" value="female" />
-            <label for="radio-2">여성</label>
-          </div>
-
-          <br />
-          <label>연락처</label>
-          <input
-            required
-            type="text"
-            className={styles.input}
-            placeholder="전화번호를 입력해주세요"
-            onChange={onChangeTel}
-            value={utel}
-          />
-        </form>
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                <label>이메일</label>
+              </th>
+              <td className={styles.td} colSpan={2}>
+                <input
+                  required
+                  type="email"
+                  className={styles.input}
+                  placeholder="이메일을 입력해주세요"
+                  onChange={onChangeEmail}
+                  value={uemail}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>비밀번호</label>
+              </th>
+              <td className={styles.td} colSpan={2}>
+                <input
+                  required
+                  className={styles.input}
+                  type="password"
+                  placeholder="8-20자리 / 영문자, 숫자 혼합"
+                  onChange={onChangePw}
+                  value={upw}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>비밀번호 확인</label>
+              </th>
+              <td className={styles.td} colSpan={2}>
+                <input
+                  required
+                  type="password"
+                  className={styles.input}
+                  placeholder="비밀번호를 다시 입력해주세요"
+                  onChange={onChangeConfirmupw}
+                  value={confirmupw}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>이름</label>
+              </th>
+              <td className={styles.td} colSpan={2}>
+                <input
+                  required
+                  type="text"
+                  className={styles.input}
+                  placeholder="이름을 입력해주세요"
+                  onChange={onChangeName}
+                  value={uname}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>생년월일</label>
+              </th>
+              <td className={styles.td} colSpan={2}>
+                <select
+                  value={form.year}
+                  onChange={(e) => {
+                    setForm({ ...form, year: e.target.value });
+                  }}
+                >
+                  {years.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>{" "}
+                년
+                <select
+                  value={form.month}
+                  onChange={(e) => {
+                    setForm({ ...form, month: e.target.value });
+                  }}
+                >
+                  {month.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>{" "}
+                월
+                <select
+                  value={form.day}
+                  onChange={(e) => {
+                    setForm({ ...form, day: e.target.value });
+                  }}
+                >
+                  {days.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+                일
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>성별</label>
+              </th>
+              <td>
+                <div style={{ padding: "0px 10px 0px 10px" }}>
+                  <div className={styles.form_radio_btn}>
+                    <input
+                      id="radio-1"
+                      type="radio"
+                      name="sex"
+                      value="male"
+                      checked
+                    />
+                    <label for="radio-1">남성</label>
+                  </div>
+                  <div className={styles.form_radio_btn}>
+                    <input
+                      id="radio-2"
+                      type="radio"
+                      name="sex"
+                      value="female"
+                      className={styles.form_radio_btn}
+                    />
+                    <label for="radio-2">여성</label>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>연락처</label>
+              </th>
+              <td className={styles.td} colSpan={2}>
+                <input
+                  required
+                  type="text"
+                  className={styles.input}
+                  placeholder="전화번호를 입력해주세요"
+                  onChange={onChangeTel}
+                  value={utel}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

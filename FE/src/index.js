@@ -6,10 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './page/LoginPage';
-import MainPage from './page/MainPage';
-import ToDoPage from './page/ToDoManagement'
-import MyPage from './page/MyPage';
-import SignUpPage from './page/SignUpPage';
 import UnknownPage from './page/UnknownPage';
 
 import RefIdeaPage from './page/reference/RefIdeaPage'
@@ -27,6 +23,7 @@ import PageFollowing from './page/mypage/PageFollowing'
 import PageScrap from './page/mypage/PageScrap';
 import PageMyFeedback from './page/mypage/PageMyFeedback';
 import PageFAQ from './page/mypage/PageFAQ';
+import SignUpPage from './page/SignUpPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
@@ -43,9 +40,25 @@ root.render(
     <Style.Wrapper>
       <Routes>
           <Route path="/login" element={ <LoginPage />} />
-          <Route path="/todo/*" element={ <ToDoPage />} />
-          <Route path="/mypage" element={ <MyPage />} />
-          <Route path="/signup" element={<SignUpPage />}/>
+          <Route path='/signup' element={<SignUpPage/>}/>
+          
+          <Route path='/' element={ <RefIdeaPage />} />
+          <Route path='/ref/marketing' element={ <RefMarketingPage />} />
+          <Route path='/ref/video' element={ <RefVideoPage />} />
+          <Route path='/ref/design' element={ <RefDesignPage />} />
+          <Route path='/ref/etc' element={ <RefEtcPage />} />
+
+          <Route path='/manage/list' element={ <ManageList />} />
+          <Route path='/manage/share' element={ <ManageShare />} />
+          <Route path='/manage/feedback' element={ <ManageFeedback />} />
+
+          <Route path='/mypage/profile' element={ <PageProfile />} />
+          <Route path='/mypage/following' element={ <PageFollowing />} />
+          <Route path='/mypage/scrap' element={ <PageScrap />} />
+          <Route path='/mypage/myfeedback' element={ <PageMyFeedback />} />
+          <Route path='/mypage/faq' element={ <PageFAQ />} />
+
+          <Route path='*' element={<UnknownPage />} />
       </Routes>
       </Style.Wrapper>
     </BrowserRouter>
