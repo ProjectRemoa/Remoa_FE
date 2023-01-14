@@ -1,0 +1,21 @@
+.footer{
+  background-color: #FFF48C;
+  height: 50px;
+  width: 100%;
+  bottom: 0;
+  display : block;
+}
+
+.contents{
+  display: flex;
+  max-width: 1100px;
+  height: 100%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.title{
+  font-weight: 600;
+  font-size: 20px;
+}
