@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./SingUp.module.css";
 
 function SignUpContainer() {
@@ -13,6 +13,38 @@ function SignUpContainer() {
   const [uuniv, setUuniv] = useState("");
   const [utel, setUtel] = useState(""); // 필수 아님
   const [uconsent, setUconsent] = useState(false); // 약관 동의
+
+  /* 약관 동의 체크박스 */
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const [checkedItems, setCheckedItems] = useState([]);
+
+  const allAgreeHandler = (checked) => {
+    setIsAllChecked(!isAllChecked);
+    if (checked) {
+      setCheckedItems([...checkedItems, "provision", "privacy"]);
+    } else if (
+      (!checked && checkedItems.includes("provision")) ||
+      (!checked && checkedItems.includes("privacy"))
+    ) {
+      setCheckedItems([]);
+    }
+  };
+
+  const agreeHandler = (checked, value) => {
+    if (checked) {
+      setCheckedItems([...checkedItems, value]);
+    } else if (!checked && checkedItems.includes(value)) {
+      setCheckedItems(checkedItems.filter((el) => el !== value));
+    }
+  };
+
+  useEffect(() => {
+    if (checkedItems.length >= 2) {
+      setIsAllChecked(true);
+    } else {
+      setIsAllChecked(false);
+    }
+  }, [checkedItems]);
 
   /* 에러 판별 변수 */
   const [uemailError, setUemailError] = useState(false);
@@ -179,7 +211,7 @@ function SignUpContainer() {
               <th>
                 <label>이메일</label>
               </th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 <input
                   required
                   type="email"
@@ -194,7 +226,7 @@ function SignUpContainer() {
               <th>
                 <label>비밀번호</label>
               </th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 <input
                   required
                   className={styles.input}
@@ -209,7 +241,7 @@ function SignUpContainer() {
               <th>
                 <label>비밀번호 확인</label>
               </th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 <input
                   required
                   type="password"
@@ -224,7 +256,7 @@ function SignUpContainer() {
               <th>
                 <label>이름</label>
               </th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 <input
                   required
                   type="text"
@@ -239,46 +271,69 @@ function SignUpContainer() {
               <th>
                 <label>생년월일</label>
               </th>
-              <td className={styles.td} colSpan={2}>
-                <select
-                  value={form.year}
-                  onChange={(e) => {
-                    setForm({ ...form, year: e.target.value });
-                  }}
-                >
-                  {years.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>{" "}
-                년
-                <select
-                  value={form.month}
-                  onChange={(e) => {
-                    setForm({ ...form, month: e.target.value });
-                  }}
-                >
-                  {month.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>{" "}
-                월
-                <select
-                  value={form.day}
-                  onChange={(e) => {
-                    setForm({ ...form, day: e.target.value });
-                  }}
-                >
-                  {days.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-                일
+              <td className={styles.td} /*colSpan={2}*/>
+                <div>
+                  <div
+                    style={{
+                      width: "33%",
+                      float: "left",
+                    }}
+                  >
+                    <select
+                      value={form.year}
+                      onChange={(e) => {
+                        setForm({ ...form, year: e.target.value });
+                      }}
+                    >
+                      {years.map((item) => (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>{" "}
+                    년
+                  </div>
+                  <div
+                    style={{
+                      width: "33%",
+                      float: "left",
+                    }}
+                  >
+                    <select
+                      value={form.month}
+                      onChange={(e) => {
+                        setForm({ ...form, month: e.target.value });
+                      }}
+                    >
+                      {month.map((item) => (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>{" "}
+                    월
+                  </div>
+                  <div
+                    style={{
+                      width: "33%",
+                      float: "left",
+                    }}
+                  >
+                    <select
+                      value={form.day}
+                      onChange={(e) => {
+                        setForm({ ...form, day: e.target.value });
+                      }}
+                    >
+                      {days.map((item) => (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                    일
+                  </div>
+                </div>
               </td>
             </tr>
             <tr>
@@ -286,7 +341,11 @@ function SignUpContainer() {
                 <label>성별</label>
               </th>
               <td>
-                <div style={{ padding: "0px 10px 0px 10px" }}>
+                <div
+                  style={{
+                    padding: "0px 10px 0px 10px",
+                  }}
+                >
                   <div className={styles.form_radio_btn}>
                     <input
                       id="radio-1"
@@ -314,7 +373,7 @@ function SignUpContainer() {
               <th>
                 <label>연락처</label>
               </th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 <input
                   required
                   type="text"
@@ -328,6 +387,44 @@ function SignUpContainer() {
           </tbody>
         </table>
       </div>
+
+      {/* 전체 동의 */}
+
+      <div style={{ marginTop: "30px" }}>
+        <div className={styles.terms}>아래 내용에 전체 동의합니다</div>
+        <div className={styles.terms}>
+          <span
+            style={{
+              color: "#B0B0B0",
+            }}
+          >
+            [필수]
+          </span>{" "}
+          이용 약관
+        </div>
+        <div className={styles.terms}>
+          <span
+            style={{
+              color: "#B0B0B0",
+            }}
+          >
+            [필수]
+          </span>{" "}
+          개인 정보 수집 및 처리 방침
+        </div>
+        <div className={styles.terms}>
+          <span
+            style={{
+              color: "#B0B0B0",
+            }}
+          >
+            [선택]
+          </span>{" "}
+          정보 및 이벤트성 이메일 수신 동의
+        </div>
+      </div>
+
+      <button>가입 완료</button>
     </div>
   );
 }
