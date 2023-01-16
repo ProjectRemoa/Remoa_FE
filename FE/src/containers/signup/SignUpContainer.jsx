@@ -374,10 +374,13 @@ function SignUpContainer() {
               <td>
                 <div
                   style={{
-                    padding: "0px 10px 0px 10px",
+                    padding: "10px 5px",
                   }}
                 >
-                  <div className={styles.form_radio_btn}>
+                  <div
+                    className={styles.form_radio_btn}
+                    style={{ marginRight: "10px" }}
+                  >
                     <input
                       id="radio-1"
                       type="radio"
@@ -387,7 +390,10 @@ function SignUpContainer() {
                     />
                     <label for="radio-1">남성</label>
                   </div>
-                  <div className={styles.form_radio_btn}>
+                  <div
+                    className={styles.form_radio_btn}
+                    style={{ marginLeft: "10px" }}
+                  >
                     <input
                       id="radio-2"
                       type="radio"
