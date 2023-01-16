@@ -1,6 +1,30 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import styles from "./SingUp.module.css";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { RadioButtonUncheckedRounded } from "@mui/icons-material";
+import { CheckCircleOutlineRounded } from "@mui/icons-material";
+
+const theme = createTheme({
+  status: {
+    danger: "#e53e3e",
+  },
+  palette: {
+    primary: {
+      main: "#FADA5E", // 노란색으로 커스텀
+      darker: "#053e85",
+    },
+    neutral: {
+      main: "#FADA5E",
+      contrastText: "#fff",
+    },
+  },
+});
 
 function SignUpContainer() {
   /* 변수 */
@@ -9,10 +33,10 @@ function SignUpContainer() {
   const [confirmupw, setConfirmupw] = useState("");
   const [uname, setUname] = useState("");
   const [ubirth, setUbirth] = useState("");
-  const [usex, setUsex] = useState(false); // false : 여자, true : 남자
-  const [uuniv, setUuniv] = useState("");
+  const [usex, setUsex] = useState("");
   const [utel, setUtel] = useState(""); // 필수 아님
-  const [uconsent, setUconsent] = useState(false); // 약관 동의
+  const [uconsent, setUconsent] = useState(false); // false : 여자, true : 남자
+  const [uuniv, setUuniv] = useState(false); // 약관 동의
 
   /* 약관 동의 체크박스 */
   const [isAllChecked, setIsAllChecked] = useState(false);
@@ -160,8 +184,15 @@ function SignUpContainer() {
     }
   };
 
+  const [isChecked, setIsChecked] = useState(false);
+
+  const onClickCheck = () => {
+    setIsChecked(!isChecked);
+    console.log(!isChecked);
+  };
+
   return (
-    <div style={{ width: "60%" }}>
+    <div style={{ width: "60%", margin: "100px 0px 20px 0px" }}>
       {/* 회원가입 안내 */}
       <h1
         style={{
@@ -388,41 +419,122 @@ function SignUpContainer() {
         </table>
       </div>
 
-      {/* 전체 동의 */}
+      {/* 동의 */}
+      <ThemeProvider theme={theme}>
+        <FormControl component="fieldset" style={{ width: "100%" }}>
+          <FormGroup aria-label="position" row>
+            {/* 전체 동의 */}
+            <div
+              className={styles.agree}
+              style={{
+                marginTop: "30px",
+                border: "1px solid #B0B0B0",
+                borderRadius: "30px",
+                boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+              }}
+            >
+              <div className={styles.left}>
+                <label htmlFor="1">
+                  <span style={{ cursor: "pointer" }}>
+                    아래 내용에 전체 동의합니다
+                  </span>
+                </label>
+              </div>
+              <div className={styles.right}>
+                <FormControlLabel
+                  value="entire agree"
+                  control={
+                    <Checkbox
+                      color="primary"
+                      icon={<RadioButtonUncheckedRounded />}
+                      checkedIcon={<CheckCircleOutlineRounded />}
+                      id="1"
+                    />
+                  }
+                  labelPlacement="start"
+                />
+              </div>
+            </div>
 
-      <div style={{ marginTop: "30px" }}>
-        <div className={styles.terms}>아래 내용에 전체 동의합니다</div>
-        <div className={styles.terms}>
-          <span
-            style={{
-              color: "#B0B0B0",
-            }}
-          >
-            [필수]
-          </span>{" "}
-          이용 약관
-        </div>
-        <div className={styles.terms}>
-          <span
-            style={{
-              color: "#B0B0B0",
-            }}
-          >
-            [필수]
-          </span>{" "}
-          개인 정보 수집 및 처리 방침
-        </div>
-        <div className={styles.terms}>
-          <span
-            style={{
-              color: "#B0B0B0",
-            }}
-          >
-            [선택]
-          </span>{" "}
-          정보 및 이벤트성 이메일 수신 동의
-        </div>
-      </div>
+            {/*이용 약관*/}
+            <div className={styles.agree}>
+              <div className={styles.left}>
+                <label htmlFor="2">
+                  <span style={{ cursor: "pointer" }}>
+                    <span style={{ color: "#B0B0B0" }}>[필수]</span> 이용 약관
+                  </span>
+                </label>
+              </div>
+              <div className={styles.right}>
+                <FormControlLabel
+                  value="이용 약관"
+                  control={
+                    <Checkbox
+                      color="primary"
+                      icon={<RadioButtonUncheckedRounded />}
+                      checkedIcon={<CheckCircleOutlineRounded />}
+                      id="2"
+                    />
+                  }
+                  labelPlacement="start"
+                />
+              </div>
+            </div>
+
+            {/*개인 정보 수집 및 처리 방침*/}
+            <div className={styles.agree}>
+              <div className={styles.left}>
+                <label htmlFor="3">
+                  <span style={{ cursor: "pointer" }}>
+                    <span style={{ color: "#B0B0B0" }}>[필수]</span> 개인 정보
+                    수집 및 처리 방침
+                  </span>
+                </label>
+              </div>
+              <div className={styles.right}>
+                <FormControlLabel
+                  value="개인 정보 수집"
+                  control={
+                    <Checkbox
+                      color="primary"
+                      icon={<RadioButtonUncheckedRounded />}
+                      checkedIcon={<CheckCircleOutlineRounded />}
+                      id="3"
+                    />
+                  }
+                  labelPlacement="start"
+                />
+              </div>
+            </div>
+
+            {/*정보 및 이벤트성 이메일 수신 동의*/}
+            <div className={styles.agree}>
+              <div className={styles.left}>
+                <label htmlFor="4">
+                  <span style={{ cursor: "pointer" }}>
+                    <span style={{ color: "#B0B0B0" }}>[선택]</span> 정보 및
+                    이벤트성 이메일 수신 동의
+                  </span>
+                </label>
+              </div>
+              <div className={styles.right}>
+                <FormControlLabel
+                  value="수신 동의"
+                  control={
+                    <Checkbox
+                      color="primary"
+                      icon={<RadioButtonUncheckedRounded />}
+                      checkedIcon={<CheckCircleOutlineRounded />}
+                      id="4"
+                    />
+                  }
+                  labelPlacement="start"
+                />
+              </div>
+            </div>
+          </FormGroup>
+        </FormControl>
+      </ThemeProvider>
 
       <button>가입 완료</button>
     </div>
