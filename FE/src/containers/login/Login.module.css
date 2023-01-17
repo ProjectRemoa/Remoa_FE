@@ -1,5 +1,5 @@
 .input {
-  width: 300px;
+  width: 42%;
   height: 43px;
   font-size: 20px;
   border: 1px  solid #000000;
@@ -12,20 +12,20 @@
 
 input::-webkit-input-placeholder {
   color: #B0B0B0;
-  font-size: 15px; 
+  font-size: 0.85rem; 
 }
 input:-ms-input-placeholder {
-  color: #B0B0B0;font-size: 15px;
+  color: #B0B0B0;font-size: 0.85rem; 
 }
 textarea::-webkit-input-placeholder {
-  color: #B0B0B0;font-size: 15px;
+  color: #B0B0B0;font-size: 0.85rem; 
 }
 textarea:-ms-input-placeholder {
-  color: #B0B0B0;font-size: 15px;
+  color: #B0B0B0;font-size: 0.85rem; 
 }
 
 .button{
-  width: 300px;
+  width: 42%;
   height: 45px;
 
   background: #FFF48C;
