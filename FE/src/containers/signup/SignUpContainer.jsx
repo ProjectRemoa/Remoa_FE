@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState, useEffect } from "react";
 import styles from "./SingUp.module.css";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { RadioButtonUncheckedRounded } from "@mui/icons-material";
 import { CheckCircleOutlineRounded } from "@mui/icons-material";
+import styled from "styled-components";
+import axios from "axios";
 
 const theme = createTheme({
   status: {
@@ -26,6 +27,19 @@ const theme = createTheme({
   },
 });
 
+const Button = styled.button`
+  width: 100%;
+  height: 45px;
+
+  background: ${(props) => (props.state ? "#FADA5E" : "#C8D1E0")};
+  border-radius: 10px;
+  border: #fff48c;
+  font-family: "NotoSansKR-400";
+  font-size: 15px;
+  text-align: center;
+  cursor: ${(props) => (props.state ? "pointer" : "default")};
+`;
+
 function SignUpContainer() {
   /* 변수 */
   const [uemail, setUemail] = useState("");
@@ -33,126 +47,179 @@ function SignUpContainer() {
   const [confirmupw, setConfirmupw] = useState("");
   const [uname, setUname] = useState("");
   const [ubirth, setUbirth] = useState("");
-  const [usex, setUsex] = useState("");
-  const [utel, setUtel] = useState(""); // 필수 아님
-  const [uconsent, setUconsent] = useState(false); // false : 여자, true : 남자
-  const [uuniv, setUuniv] = useState(false); // 약관 동의
+  const [usex, setUsex] = useState(true);
+  const [utel, setUtel] = useState("");
+  //const [uconsent, setUconsent] = useState(false);
 
   /* 약관 동의 체크박스 */
-  const [isAllChecked, setIsAllChecked] = useState(false);
-  const [checkedItems, setCheckedItems] = useState([]);
-
-  const allAgreeHandler = (checked) => {
-    setIsAllChecked(!isAllChecked);
-    if (checked) {
-      setCheckedItems([...checkedItems, "provision", "privacy"]);
-    } else if (
-      (!checked && checkedItems.includes("provision")) ||
-      (!checked && checkedItems.includes("privacy"))
-    ) {
-      setCheckedItems([]);
-    }
+  const [checkList, setCheckList] = useState([]);
+  const [buttonColor, setButtonColor] = useState(false);
+  const checkAll = (e) => {
+    e.target.checked
+      ? setCheckList(["terms", "collect", "marketing"])
+      : setCheckList([]);
   };
-
-  const agreeHandler = (checked, value) => {
-    if (checked) {
-      setCheckedItems([...checkedItems, value]);
-    } else if (!checked && checkedItems.includes(value)) {
-      setCheckedItems(checkedItems.filter((el) => el !== value));
-    }
+  const check = (e) => {
+    e.target.checked
+      ? setCheckList([...checkList, e.target.name])
+      : setCheckList(checkList.filter((choice) => choice !== e.target.name));
   };
-
-  useEffect(() => {
-    if (checkedItems.length >= 2) {
-      setIsAllChecked(true);
-    } else {
-      setIsAllChecked(false);
-    }
-  }, [checkedItems]);
 
   /* 에러 판별 변수 */
-  const [uemailError, setUemailError] = useState(false);
-  const [upwError, setUpwError] = useState(false);
-  const [confirmupwError, setConfirmupwError] = useState(false);
+  const [uemailError, setUemailError] = useState(true);
+  const [upwLetterError, setUpwLetterError] = useState(true);
+  const [upwLengthError, setUpwLengthError] = useState(true);
+  const [confirmupwError, setConfirmupwError] = useState(true);
+  const [utelError, setUtelError] = useState(true);
+  const [ubirthError, setUbirthError] = useState(true);
+  const [unameError, setUnameError] = useState(true);
 
+  /* 오류 메세지 상태 저장 */
+  const [emailMessage, setEmailMessage] = useState("");
+  const [pwLetterMessage, setPwLetterMessage] = useState("");
+  const [pwLengthMessage, setPwLengthMessage] = useState("");
+  const [nameMessage, setNameMessage] = useState("");
+  const [confirmpwMessage, setConfirmpwMessage] = useState("");
+  const [telMessage, setTelMessage] = useState("");
+  const [birthMessage, setBirthMessage] = useState("");
+
+  /* 날짜 계산 */
   const [form, setForm] = useState({
     year: "2000",
     month: "01",
     day: "01",
   });
-
-  /* 날짜 계산 */
-  const now = new Date();
-  let years = [];
-  for (let y = now.getFullYear(); y >= 1930; y -= 1) {
-    years.push(y);
-  }
-  let month = [];
-  for (let m = 1; m <= 12; m += 1) {
-    if (m < 10) {
-      // 날짜가 2자리로 나타나야 했기 때문에 1자리 월에 0을 붙혀준다
-      month.push("0" + m.toString());
-    } else {
-      month.push(m.toString());
+  function calcDate() {
+    const now = new Date();
+    let years = [];
+    for (let y = now.getFullYear(); y >= 1930; y -= 1) {
+      years.push(y);
     }
-  }
-  let days = [];
-  let date = new Date(form.year, form.month, 0).getDate();
-  for (let d = 1; d <= date; d += 1) {
-    if (d < 10) {
-      // 날짜가 2자리로 나타나야 했기 때문에 1자리 일에 0을 붙혀준다
-      days.push("0" + d.toString());
-    } else {
-      days.push(d.toString());
+    let month = [];
+    for (let m = 1; m <= 12; m += 1) {
+      if (m < 10) {
+        // 날짜가 2자리로 나타나야 했기 때문에 1자리 월에 0을 붙혀준다
+        month.push("0" + m.toString());
+      } else {
+        month.push(m.toString());
+      }
     }
-  }
+    let days = [];
+    let date = new Date(form.year, form.month, 0).getDate();
+    // 오늘 이후의 날짜는 입력받으면 안되므로 date 수정
+    if (form.year == now.getFullYear() && form.month == now.getMonth() + 1) {
+      date = now.getDate();
+    }
+    for (let d = 1; d <= date; d += 1) {
+      if (d < 10) {
+        // 날짜가 2자리로 나타나야 했기 때문에 1자리 일에 0을 붙혀준다
+        days.push("0" + d.toString());
+      } else {
+        days.push(d.toString());
+      }
+    }
 
-  const onChangeEmail = (e) => {
-    const emailRegex =
-      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (!e.target.value || emailRegex.test(e.target.value))
-      setUemailError(false);
-    else setUemailError(true);
+    return { years, month, days };
+  }
+  var d = calcDate();
+
+  /* 이메일 */
+  const onChangeEmail = useCallback((e) => {
+    console.log("e.target.value : " + e.target.value);
     setUemail(e.target.value);
-  };
+    // uemail로 검사를 하면 비동기라서 반응이 느림. e.target.value로 진행
+    /* 이메일 유효성 검사 */
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    console.log("uemail : " + uemail);
+    if (emailRegex.test(e.target.value)) {
+      setUemailError(false);
+      setEmailMessage("올바른 형식입니다.");
+      console.log(uemailError);
+      console.log(emailMessage);
+    } else {
+      setUemailError(true);
+      setEmailMessage("이메일이 유효하지 않습니다.");
+      console.log(uemailError);
+      console.log(emailMessage);
+    }
+  }, []);
 
   /* 비밀번호 */
-  const onChangePw = (e) => {
-    const passwordRegex = /^[a-zA-z0-9]{8,20}$/;
-    if (!e.target.value || passwordRegex.test(e.target.value)) {
-      setUpwError(false);
-    } else setUpwError(true);
-    setUpwError(e.target.value);
-    if (e.target.value.length < 4 || e.target.value.length > 16) {
-      // 비밀번호가 4자 미만이면서 16자 초과인 경우
-      setUpwError(true); // 오류
-    } else {
-      setUpwError(false);
-    }
-    if (!confirmupw || e.target.value === confirmupw) {
-      setConfirmupwError(false);
-    } else setConfirmupwError(true);
-
+  const onChangePw = useCallback((e) => {
     setUpw(e.target.value);
-  };
+
+    /* 비밀번호 유효성 검사 */
+    const passwordRegex = /^(?=.*?[A-z])(?=.*?[0-9]).{1,}$/;
+    if (passwordRegex.test(e.target.value)) {
+      setUpwLetterError(false);
+    } else {
+      setUpwLetterError(true); // 오류
+      setPwLetterMessage("비밀번호는 대소문자와 숫자를 포함해야 합니다.");
+    }
+    if (e.target.value.length < 8 || e.target.value.length > 20) {
+      setUpwLengthError(true); // 오류
+      setPwLengthMessage("비밀번호는 8자 이상, 20자 이하여야 합니다.");
+    } else {
+      setUpwLengthError(false);
+    }
+  }, []);
 
   /* 확인 비밀번호 */
-  const onChangeConfirmupw = (e) => {
-    if (upw === e.target.value) setConfirmupwError(false);
-    else setConfirmupwError(true);
-    setConfirmupw(e.target.value);
-  };
+  const onChangeConfirmupw = useCallback(
+    (e) => {
+      setConfirmupw(e.target.value);
+
+      /* 확인 비밀번호 일치 검사 */
+      if (upw === e.target.value) {
+        setConfirmupwError(false);
+      } else {
+        setConfirmupwError(true);
+        setConfirmpwMessage("입력하신 비밀번호와 일치하지 않습니다.");
+      }
+    },
+    [upw]
+  );
 
   /* 이름 */
-  const onChangeName = (e) => {
+  const onChangeName = useCallback((e) => {
     setUname(e.target.value);
-  };
+    if (e.target.value.length < 2) {
+      setUnameError(true);
+      setNameMessage("이름을 입력해주세요.");
+    } else {
+      setUnameError(false);
+      setNameMessage("");
+    }
+  }, []);
 
-  const onChangeBirth = (e) => {
-    setUbirth(e.target.value);
-  };
+  /* 생년월일 YYYYMMDD */
+  useEffect(() => {
+    var b = form.year + form.month + form.day;
+    setUbirth(b);
+    if (isChild(b)) {
+      setUbirthError(true);
+      setBirthMessage("만 14세 미만은 가입할 수 없습니다.");
+    } else {
+      setUbirthError(false);
+    }
+  }, [form]);
+  function isChild(birthDate) {
+    var today = new Date();
+    var yyyy = today.getFullYear();
+    var mm =
+      today.getMonth() < 9
+        ? "0" + (today.getMonth() + 1)
+        : today.getMonth() + 1;
+    var dd = today.getDate() < 10 ? "0" + today.getDate() : today.getDate();
 
-  const onChangeSex = (e) => {
+    // true :만 14세 미만
+    return parseInt(yyyy + mm + dd) - parseInt(birthDate) - 140000 < 0;
+  }
+
+  /* 성별 */
+  const onChangeSex = useCallback((e) => {
+    setUsex(true);
     if (e.target.value === "male") {
       // 남자는 true
       setUsex(true);
@@ -160,36 +227,92 @@ function SignUpContainer() {
       // 여자는 false
       setUsex(false);
     }
-    /*
-    console.log(typeof e.target.value);
-    console.log(e.target.value);
-    console.log(typeof usex);
-    console.log(usex);
-    */
-  };
+  }, []);
 
-  const onChangeUniv = (e) => {
-    setUuniv(e.target.value);
-  };
-
-  const onChangeTel = (e) => {
+  /* 연락처 */
+  const onChangeTel = useCallback((e) => {
     setUtel(e.target.value);
-  };
 
-  const onChangeConsent = (e) => {
-    if (e.target.checked) {
-      setUconsent(true);
+    /* 연락처 유효성 검사 */
+    if (isTel(e.target.value)) {
+      setUtelError(false);
     } else {
-      setUconsent(false);
+      setUtelError(true);
+      setTelMessage("전화번호가 유효하지 않습니다.");
     }
-  };
+  }, []);
+  function isTel(tel) {
+    // 010XXXXYYY, 010XXXYYYY
+    if (/^[0-9]{3}[0-9]{3,4}[0-9]{4}/.test(tel)) {
+      return true;
+    }
+    return false;
+  }
 
-  const [isChecked, setIsChecked] = useState(false);
+  useEffect(() => {
+    if (checkList.includes("terms") && checkList.includes("collect")) {
+      // 하나라도 true면 button은 false
+      // 모두 false여야 button이 true
+      if (
+        uemailError ||
+        upwLengthError ||
+        upwLetterError ||
+        ubirthError ||
+        utelError ||
+        unameError
+      ) {
+        setButtonColor(false);
+      } else {
+        setButtonColor(true);
+      }
+    } else {
+      setButtonColor(false);
+    }
+  }, [
+    checkList,
+    uemailError,
+    upwLengthError,
+    upwLetterError,
+    ubirthError,
+    utelError,
+    unameError,
+  ]);
 
-  const onClickCheck = () => {
-    setIsChecked(!isChecked);
-    console.log(!isChecked);
+  /*useEffect(() => {
+    setErrors(validate());
+    console.log(errors);
+  }, [uemail, upw, confirmupw, utel, ubirth]);*/
+
+  const onClickRegister = () => {
+    console.log("흠냐");
+    alert("성공");
   };
+  /* const onClickRegister = useCallback(
+    async (e) => {
+      alert("성공");
+      /*e.preventDefault();
+      try{
+        await axios.post(/*link*, {
+          email : uemail,
+          password: upw,
+          name :uname,
+          sex:usex,
+          birth:ubirth,
+          phone_number:utel,
+        })
+        .then((res)=>{
+          console.log(res);
+          if(res.status===200){
+            // 성공
+          }
+        })
+      }
+      catch(err){
+        console.log(err);
+      }
+    },
+    [uemail, upw, uname, usex, ubirth, utel]
+  );*/
 
   return (
     <div style={{ width: "60%", margin: "100px 0px 20px 0px" }}>
@@ -238,6 +361,7 @@ function SignUpContainer() {
       >
         <table>
           <tbody>
+            {/* 이메일 */}
             <tr>
               <th>
                 <label>이메일</label>
@@ -251,8 +375,19 @@ function SignUpContainer() {
                   onChange={onChangeEmail}
                   value={uemail}
                 />
+                {uemail.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    {uemailError ? emailMessage : ""}
+                  </span>
+                )}
               </td>
             </tr>
+            {/* 비밀번호 */}
             <tr>
               <th>
                 <label>비밀번호</label>
@@ -266,8 +401,22 @@ function SignUpContainer() {
                   onChange={onChangePw}
                   value={upw}
                 />
+                {upw.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    {upwLengthError ? pwLengthMessage : ""}
+                    {upwLengthError ? <br /> : ""}
+
+                    {upwLetterError ? pwLetterMessage : ""}
+                  </span>
+                )}
               </td>
             </tr>
+            {/* 비밀번호 확인 */}
             <tr>
               <th>
                 <label>비밀번호 확인</label>
@@ -281,8 +430,19 @@ function SignUpContainer() {
                   onChange={onChangeConfirmupw}
                   value={confirmupw}
                 />
+                {confirmupw.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    {confirmupwError ? confirmpwMessage : ""}
+                  </span>
+                )}
               </td>
             </tr>
+            {/* 이름 */}
             <tr>
               <th>
                 <label>이름</label>
@@ -296,13 +456,24 @@ function SignUpContainer() {
                   onChange={onChangeName}
                   value={uname}
                 />
+                {uname.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    {unameError ? nameMessage : ""}
+                  </span>
+                )}
               </td>
             </tr>
+            {/* 생년월일 */}
             <tr>
               <th>
                 <label>생년월일</label>
               </th>
-              <td className={styles.td} /*colSpan={2}*/>
+              <td className={styles.td}>
                 <div>
                   <div
                     style={{
@@ -310,13 +481,14 @@ function SignUpContainer() {
                       float: "left",
                     }}
                   >
+                    {/* 년 */}
                     <select
                       value={form.year}
                       onChange={(e) => {
                         setForm({ ...form, year: e.target.value });
                       }}
                     >
-                      {years.map((item) => (
+                      {d.years.map((item) => (
                         <option value={item} key={item}>
                           {item}
                         </option>
@@ -330,13 +502,14 @@ function SignUpContainer() {
                       float: "left",
                     }}
                   >
+                    {/* 월 */}
                     <select
                       value={form.month}
                       onChange={(e) => {
                         setForm({ ...form, month: e.target.value });
                       }}
                     >
-                      {month.map((item) => (
+                      {d.month.map((item) => (
                         <option value={item} key={item}>
                           {item}
                         </option>
@@ -344,29 +517,42 @@ function SignUpContainer() {
                     </select>{" "}
                     월
                   </div>
+
                   <div
                     style={{
                       width: "33%",
                       float: "left",
                     }}
                   >
+                    {/* 일 */}
                     <select
                       value={form.day}
                       onChange={(e) => {
                         setForm({ ...form, day: e.target.value });
                       }}
                     >
-                      {days.map((item) => (
+                      {d.days.map((item) => (
                         <option value={item} key={item}>
                           {item}
                         </option>
                       ))}
-                    </select>
+                    </select>{" "}
                     일
                   </div>
                 </div>
+                {ubirth.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    {ubirthError ? birthMessage : ""}
+                  </span>
+                )}
               </td>
             </tr>
+            {/* 성별 */}
             <tr>
               <th>
                 <label>성별</label>
@@ -379,7 +565,7 @@ function SignUpContainer() {
                 >
                   <div
                     className={styles.form_radio_btn}
-                    style={{ marginRight: "10px" }}
+                    style={{ marginRight: "5px", marginLeft: "5px" }}
                   >
                     <input
                       id="radio-1"
@@ -387,8 +573,9 @@ function SignUpContainer() {
                       name="sex"
                       value="male"
                       checked
+                      onChange={onChangeSex}
                     />
-                    <label for="radio-1">남성</label>
+                    <label htmlFor="radio-1">남성</label>
                   </div>
                   <div
                     className={styles.form_radio_btn}
@@ -400,12 +587,14 @@ function SignUpContainer() {
                       name="sex"
                       value="female"
                       className={styles.form_radio_btn}
+                      onChange={onChangeSex}
                     />
-                    <label for="radio-2">여성</label>
+                    <label htmlFor="radio-2">여성</label>
                   </div>
                 </div>
               </td>
             </tr>
+            {/* 연락처 */}
             <tr>
               <th>
                 <label>연락처</label>
@@ -419,6 +608,16 @@ function SignUpContainer() {
                   onChange={onChangeTel}
                   value={utel}
                 />
+                {utel.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    {utelError ? telMessage : ""}
+                  </span>
+                )}
               </td>
             </tr>
           </tbody>
@@ -448,13 +647,16 @@ function SignUpContainer() {
               </div>
               <div className={styles.right}>
                 <FormControlLabel
-                  value="entire agree"
                   control={
                     <Checkbox
                       color="primary"
                       icon={<RadioButtonUncheckedRounded />}
                       checkedIcon={<CheckCircleOutlineRounded />}
                       id="1"
+                      style={{ transform: "scale(1.3)" }}
+                      name="all"
+                      onChange={checkAll}
+                      checked={checkList.length === 3 ? true : false}
                     />
                   }
                   labelPlacement="start"
@@ -473,13 +675,16 @@ function SignUpContainer() {
               </div>
               <div className={styles.right}>
                 <FormControlLabel
-                  value="이용 약관"
                   control={
                     <Checkbox
                       color="primary"
                       icon={<RadioButtonUncheckedRounded />}
                       checkedIcon={<CheckCircleOutlineRounded />}
                       id="2"
+                      style={{ transform: "scale(1.3)" }}
+                      name="terms"
+                      onChange={check}
+                      checked={checkList.includes("terms") ? true : false}
                     />
                   }
                   labelPlacement="start"
@@ -506,6 +711,10 @@ function SignUpContainer() {
                       icon={<RadioButtonUncheckedRounded />}
                       checkedIcon={<CheckCircleOutlineRounded />}
                       id="3"
+                      style={{ transform: "scale(1.3)" }}
+                      name="collect"
+                      onChange={check}
+                      checked={checkList.includes("collect") ? true : false}
                     />
                   }
                   labelPlacement="start"
@@ -532,6 +741,10 @@ function SignUpContainer() {
                       icon={<RadioButtonUncheckedRounded />}
                       checkedIcon={<CheckCircleOutlineRounded />}
                       id="4"
+                      style={{ transform: "scale(1.3)" }}
+                      name="marketing"
+                      onChange={check}
+                      checked={checkList.includes("marketing") ? true : false}
                     />
                   }
                   labelPlacement="start"
@@ -542,7 +755,13 @@ function SignUpContainer() {
         </FormControl>
       </ThemeProvider>
 
-      <button>가입 완료</button>
+      <Button
+        disabled={!buttonColor}
+        state={buttonColor}
+        onClick={onClickRegister}
+      >
+        가입 완료
+      </Button>
     </div>
   );
 }
