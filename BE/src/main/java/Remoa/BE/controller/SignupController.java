@@ -34,10 +34,8 @@ public class SignupController {
         member.setPhoneNumber(form.getPhoneNumber());
         member.setTermConsent(form.getTermConsent());
 
-        Long joinedId;
-
         try{
-            joinedId = memberService.join(member);
+            memberService.join(member);
         }
         catch (IllegalStateException e){
             return e.getMessage(); // 에러 메세지 프론트에 반환
