@@ -18,6 +18,7 @@ public class SignupService {
     public Long join(Member member) {
         this.validateDuplicateMember(member);
         member.hashPassword(this.bCryptPasswordEncoder);
+        member.setRole("USER");
         this.memberRepository.save(member);
         return member.getMemberId();
     }
