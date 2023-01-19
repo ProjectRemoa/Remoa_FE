@@ -53,4 +53,4 @@ public class LoginService {
         session.setAttribute(HttpSessionSecurityContextRepository.
                 SPRING_SECURITY_CONTEXT_KEY, sc);
     }
-}// ->LoginController에서 해당 로직을 통해 세션 생성하며 로그인해야 Spring Security를 제대로 사용할 수 있음!
+}
