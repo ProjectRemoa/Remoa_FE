@@ -31,6 +31,8 @@ public class Member implements UserDetails {
 
     private String name;
 
+    private String nickname;
+
     private String birth;
 
     private Boolean sex;

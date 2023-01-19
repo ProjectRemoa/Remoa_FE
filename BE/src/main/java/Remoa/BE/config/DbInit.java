@@ -16,7 +16,7 @@ public class DbInit {
     private final CategoryService categoryService;
 
     @PostConstruct
-    public void postConstruct() {
+    public void createAdminUser() {
         Member adminMember = new Member();
         adminMember.setEmail("spparta@gmail.com");
         adminMember.setPassword("admin");
