@@ -249,7 +249,8 @@ function SignUpContainer() {
   }, []);
   function isTel(tel) {
     // 010XXXXYYY, 010XXXYYYY
-    if (/^[0-9]{3}[0-9]{3,4}[0-9]{4}/.test(tel)) {
+    const telRegex = /^[0-9]{3}[0-9]{3,4}[0-9]{4}$/;
+    if (telRegex.test(tel)) {
       return true;
     }
     return false;
@@ -362,9 +363,8 @@ function SignUpContainer() {
       <div
         style={{
           border: "1px solid #D0D0D0",
-          borderRadius: "25px",
+          borderRadius: "30px",
           fontFamily: "NotoSansKR-400",
-          boxShadow: "0px 4px 4px rgba(0, 0, 0,  0.25)",
           width: "100%",
           /*height: "410px",*/
           padding: "40px 0px 40px 0px",
@@ -583,7 +583,6 @@ function SignUpContainer() {
                       type="radio"
                       name="sex"
                       value="male"
-                      checked
                       onChange={onChangeSex}
                     />
                     <label htmlFor="radio-1">남성</label>
@@ -618,6 +617,7 @@ function SignUpContainer() {
                   placeholder="전화번호를 입력해주세요"
                   onChange={onChangeTel}
                   value={utel}
+                  maxLength={11}
                 />
                 {utel.length > 0 && (
                   <span
@@ -687,9 +687,8 @@ function SignUpContainer() {
               className={styles.agree}
               style={{
                 marginTop: "30px",
-                border: "1px solid #B0B0B0",
+                border: "1px solid #D0D0D0",
                 borderRadius: "30px",
-                boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
               }}
             >
               <div className={styles.left}>
@@ -808,13 +807,14 @@ function SignUpContainer() {
           </FormGroup>
         </FormControl>
       </ThemeProvider>
-
       <Button
         disabled={!buttonColor}
         state={buttonColor}
         onClick={onClickRegister}
         style={{
           border: "1px solid #D0D0D0",
+          marginTop: "20px",
+          borderRadius: "30px",
         }}
       >
         가입 완료
