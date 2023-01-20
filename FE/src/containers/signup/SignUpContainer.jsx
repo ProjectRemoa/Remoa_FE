@@ -29,7 +29,7 @@ const theme = createTheme({
 
 const Button = styled.button`
   width: 100%;
-  height: 45px;
+  //height: 45px;
 
   background: ${(props) => (props.state ? "#FADA5E" : "#C8D1E0")};
   border-radius: 10px;
@@ -38,6 +38,11 @@ const Button = styled.button`
   font-size: 15px;
   text-align: center;
   cursor: ${(props) => (props.state ? "pointer" : "default")};
+  box-shadow: none;
+
+  justify-content: center;
+  align-items: center;
+  display: flex;
 `;
 
 function SignUpContainer() {
@@ -49,7 +54,8 @@ function SignUpContainer() {
   const [ubirth, setUbirth] = useState("");
   const [usex, setUsex] = useState(true);
   const [utel, setUtel] = useState("");
-  //const [uconsent, setUconsent] = useState(false);
+  const [uconsent, setUconsent] = useState(false); // 선택 동의란
+  const [unickname, setUnickname] = useState("");
 
   /* 약관 동의 체크박스 */
   const [checkList, setCheckList] = useState([]);
@@ -249,6 +255,11 @@ function SignUpContainer() {
     return false;
   }
 
+  /* 닉네임 */
+  const onChangeNickname = (e) => {
+    setUnickname(e.target.value);
+  };
+
   useEffect(() => {
     if (checkList.includes("terms") && checkList.includes("collect")) {
       // 하나라도 true면 button은 false
@@ -278,41 +289,41 @@ function SignUpContainer() {
     unameError,
   ]);
 
-  /*useEffect(() => {
-    setErrors(validate());
-    console.log(errors);
-  }, [uemail, upw, confirmupw, utel, ubirth]);*/
-
-  const onClickRegister = () => {
-    console.log("흠냐");
-    alert("성공");
-  };
-  /* const onClickRegister = useCallback(
+  const onClickRegister = useCallback(
     async (e) => {
-      alert("성공");
-      /*e.preventDefault();
-      try{
-        await axios.post(/*link*, {
-          email : uemail,
-          password: upw,
-          name :uname,
-          sex:usex,
-          birth:ubirth,
-          phone_number:utel,
-        })
-        .then((res)=>{
-          console.log(res);
-          if(res.status===200){
-            // 성공
-          }
-        })
+      if (checkList.includes("marketing")) {
+        setUconsent(true);
       }
-      catch(err){
+      alert("성공");
+      e.preventDefault();
+      var link = "http://localhost:8080/signup";
+      try {
+        await axios
+          .post(link, {
+            email: uemail,
+            password: upw,
+            name: uname,
+            sex: usex,
+            birth: ubirth,
+            phoneNumber: utel,
+            termConsent: uconsent,
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+              // 성공
+              alert("성공");
+            } else {
+              alert("통신은 됐는데 실패");
+            }
+          });
+      } catch (err) {
+        alert("실패");
         console.log(err);
       }
     },
-    [uemail, upw, uname, usex, ubirth, utel]
-  );*/
+    [uemail, upw, uname, usex, ubirth, utel, uconsent]
+  );
 
   return (
     <div style={{ width: "60%", margin: "100px 0px 20px 0px" }}>
@@ -620,6 +631,49 @@ function SignUpContainer() {
                 )}
               </td>
             </tr>
+            {/* 닉네임 */}
+            <tr>
+              <th>
+                <label>닉네임</label>
+              </th>
+              <td className={styles.td}>
+                <div
+                  style={{
+                    margin: "0",
+                    marginRight: "10px",
+                    float: "left",
+                    width: "70%",
+                  }}
+                >
+                  <input
+                    required
+                    type="text"
+                    className={styles.input}
+                    placeholder="레모아에서 사용할 닉네임을 정해주세요"
+                    onChange={onChangeNickname}
+                    value={unickname}
+                  />
+                </div>
+                <div
+                  style={{
+                    marginLeft: "10px",
+                    float: "left",
+                    width: "27%",
+                  }}
+                >
+                  <Button
+                    style={{
+                      background: "#FADA5E",
+                      color: "#464646",
+                      fontWeight: "700",
+                      border: "1px solid #B0B0B0",
+                    }}
+                  >
+                    중복 확인
+                  </Button>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -759,6 +813,9 @@ function SignUpContainer() {
         disabled={!buttonColor}
         state={buttonColor}
         onClick={onClickRegister}
+        style={{
+          border: "1px solid #D0D0D0",
+        }}
       >
         가입 완료
       </Button>
