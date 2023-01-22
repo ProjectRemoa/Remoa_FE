@@ -4,7 +4,6 @@ import Remoa.BE.domain.Category;
 import Remoa.BE.domain.Member;
 import Remoa.BE.domain.MemberCategory;
 import Remoa.BE.repository.CategoryRepository;
-import Remoa.BE.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final MemberRepository memberRepository;
 
     public void persistCategory(Category... categories) {
 

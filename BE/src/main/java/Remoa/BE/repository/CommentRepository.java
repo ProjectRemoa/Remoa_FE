@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -23,14 +24,18 @@ public class CommentRepository {
         return em.find(Comment.class, commentId);
     }
 
-    public Optional<Comment> findByPost(Post post) {
+    /**
+     * 포스트 별 댓글을 찾아오기 위한 메서드
+     * @param post
+     * @return Optional<Comment>
+     */
+    public List<Comment> findByPost(Post post) {
         return em.createQuery("select c from Comment c where c.post = :post", Comment.class)
                 .setParameter("post", post)
-                .getResultStream()
-                .findAny();
+                .getResultList();
     }
 
-    public void commentLikeAction(CommentLike commentLike) {
+    public void saveCommentLike(CommentLike commentLike) {
         em.persist(commentLike);
     }
 
@@ -47,14 +52,14 @@ public class CommentRepository {
                 .findAny();
     }
 
-    public Integer countCommentLike(Comment comment) {
+    public Integer findCommentLike(Comment comment) {
         return em.createQuery("select cl from CommentLike cl where cl.comment = :comment", CommentLike.class)
                 .setParameter("comment", comment)
                 .getResultList()
                 .size();
     }
 
-    public void commentBookmarkAction(CommentBookmark commentBookmark) {
+    public void saveCommentBookmark(CommentBookmark commentBookmark) {
         em.persist(commentBookmark);
     }
 
@@ -72,7 +77,7 @@ public class CommentRepository {
     }
 
     /* //필요없을 거 같아서 주석처리...
-    public Integer countCommentBookmark(Comment comment) {
+    public Integer findCommentBookmark(Comment comment) {
         return em.createQuery("select cb from CommentBookmark cb where cb.comment = :comment", CommentBookmark.class)
                 .setParameter("comment", comment)
                 .getResultList()
