@@ -74,11 +74,12 @@ function LoginContainer() {
     }
   };
 
-  const onClickID = () => {
-    // ID 찾기 페이지로 이동
+  const onClickEM = () => {
+    navigate("/emailfind")
   };
+
   const onClickPW = () => {
-    // PW 찾기 페이지로 이동
+    navigate("/passwordfind")
   };
 
   const onClickRegister = () => {
@@ -99,6 +100,7 @@ function LoginContainer() {
         padding: "40px 0px 40px 0px",
       }}
     >
+
       <span style={{ fontSize: "25px" }}>
         <span style={{ fontFamily: "NotoSansKR-700", fontSize: "25px" }}>
           로그인
@@ -175,7 +177,7 @@ function LoginContainer() {
         </span>
         <br />
         <span style={{ fontFamily: "NotoSansKR-300", fontSize: "10px" }}>
-          아이디나 비밀번호가 기억나지 않나요? &nbsp; |
+          이메일, 비밀번호가 기억나지 않나요? &nbsp; |
           <span
             style={{
               textDecoration: "underline",
@@ -183,9 +185,9 @@ function LoginContainer() {
               cursor: "pointer",
               padding: "0px 5px 0px 5px",
             }}
-            onClick={onClickID}
+            onClick={onClickEM}
           >
-            아이디 찾기
+            이메일 찾기
           </span>
           |
           <span
