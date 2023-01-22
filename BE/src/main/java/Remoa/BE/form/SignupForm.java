@@ -14,7 +14,7 @@ public class SignupForm {
     @NotBlank(message = "이메일은 필수값입니다.")
     private String email;
 
-    @Size(min = 4, max = 16, message = "패스워드는 4~16자까지 가능합니다.")
+    @Size(min = 8, max = 20, message = "패스워드는 4~16자까지 가능합니다.")
     private String password;
 
     @NotBlank(message = "이름은 필수값입니다.")

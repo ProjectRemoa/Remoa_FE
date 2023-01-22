@@ -17,9 +17,22 @@ public class Follow {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_member_id")
-    private Member member;
+    private Member fromMember;
 
     @Column(name = "to_member_id")
     private Long toMemberId;
+
+    public void setMember(Member member) {
+        this.fromMember = member;
+        member.getFollows().add(this);
+    }
+
+    public static Follow followSomeone(Member toMember, Member fromMember) {
+        Follow follow = new Follow();
+        follow.setFromMember(fromMember);
+        follow.setToMemberId(toMember.getMemberId());
+
+        return follow;
+    }
 
 }

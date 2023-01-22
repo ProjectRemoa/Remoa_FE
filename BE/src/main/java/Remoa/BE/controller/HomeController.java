@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 public class HomeController {
 
     @GetMapping("/")
@@ -22,7 +22,7 @@ public class HomeController {
             return "hello, stranger";
         }
 
-        Member loginMember = (Member)session.getAttribute("loginMember");
+        Member loginMember = (Member) session.getAttribute("loginMember");
 
         return "hello, " + loginMember.getName();
     }

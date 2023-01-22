@@ -31,6 +31,7 @@ public class Member implements UserDetails {
 
     private String name;
 
+    //23.1.19 추가
     private String nickname;
 
     private String birth;
@@ -49,7 +50,13 @@ public class Member implements UserDetails {
     private Boolean termConsent;
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL})
-    private List<MemberCategory> categories = new ArrayList();
+    private List<MemberCategory> memberCategories = new ArrayList();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL})
+    private List<CommentBookmark> commentBookmarks = new ArrayList();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL})
+    private List<CommentLike> commentLikes = new ArrayList();
 
     @OneToMany(mappedBy = "member")
     private List<Follow> follows = new ArrayList();
@@ -63,6 +70,18 @@ public class Member implements UserDetails {
 
     public Boolean checkPassword(String plainPassword, PasswordEncoder passwordEncoder) {
         return passwordEncoder.matches(plainPassword, this.password);
+    }
+
+    public void addMemberCategory(MemberCategory memberCategory) {
+        memberCategories.add(memberCategory);
+    }
+
+    public void addCommentBookmark(MemberCategory memberCategory) {
+        memberCategories.add(memberCategory);
+    }
+
+    public void addCommentLike(MemberCategory memberCategory) {
+        memberCategories.add(memberCategory);
     }
 
     @Override
@@ -94,4 +113,5 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
 }

@@ -2,12 +2,16 @@ package Remoa.BE.config;
 
 import Remoa.BE.domain.Category;
 import Remoa.BE.domain.Member;
+import Remoa.BE.domain.MemberCategory;
+import Remoa.BE.repository.MemberRepository;
 import Remoa.BE.service.CategoryService;
 import Remoa.BE.service.SignupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor

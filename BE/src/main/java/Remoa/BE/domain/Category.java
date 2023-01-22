@@ -1,5 +1,6 @@
 package Remoa.BE.domain;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -7,16 +8,21 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor
+@Getter
 public class Category {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "category_id")
-    private Long id;
-
-    private String name;
 
     public Category(String name) {
         this.name = name;
     }
+
+    @Id
+    @GeneratedValue
+    @Column(name = "category_id")
+    private Long categoryId;
+
+    @OneToOne(mappedBy = "category", fetch = FetchType.LAZY)
+    private Post post;
+
+    private String name;
+
 }

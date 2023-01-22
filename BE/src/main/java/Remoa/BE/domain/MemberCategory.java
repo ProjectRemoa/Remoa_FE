@@ -16,7 +16,7 @@ public class MemberCategory {
     @Id
     @GeneratedValue
     @Column(name = "member_category_id")
-    private Long id;
+    private Long memberCategoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -25,5 +25,13 @@ public class MemberCategory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public static MemberCategory createMemberCategory(Member member, Category category) {
+        MemberCategory memberCategory = new MemberCategory();
+        memberCategory.setMember(member);
+        memberCategory.setCategory(category);
+
+        return memberCategory;
+    }
 
 }
