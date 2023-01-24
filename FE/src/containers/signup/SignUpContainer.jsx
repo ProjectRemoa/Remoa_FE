@@ -365,7 +365,7 @@ function SignUpContainer() {
           border: "1px solid #D0D0D0",
           borderRadius: "30px",
           fontFamily: "NotoSansKR-400",
-          width: "100%",
+          width: "1000px",
           /*height: "410px",*/
           padding: "40px 0px 40px 0px",
         }}
