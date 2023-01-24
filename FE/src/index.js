@@ -24,6 +24,9 @@ import PageScrap from './page/mypage/PageScrap';
 import PageMyFeedback from './page/mypage/PageMyFeedback';
 import PageFAQ from './page/mypage/PageFAQ';
 
+import EmailFind from './page/findinfo/EmailFind';
+import PasswordFind from './page/findinfo/PasswordFind';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
   Wrapper: styled.div`
@@ -39,6 +42,8 @@ root.render(
     <Style.Wrapper>
       <Routes>
           <Route path="/login" element={ <LoginPage />} />
+          <Route path="/emailfind" element={<EmailFind />} />
+          <Route path="/passwordfind" element={<PasswordFind />} />
 
           <Route path='/' element={ <RefIdeaPage />} />
           <Route path='/ref/marketing' element={ <RefMarketingPage />} />

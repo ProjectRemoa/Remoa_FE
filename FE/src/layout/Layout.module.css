@@ -13,10 +13,9 @@
 .main{
   min-height: 1024px;
   width: 100%;
-  margin-top: 80px;
   /*height: 100%; /* 이렇게 해야 footer가 하단 고정 */
   background-color: white;
-
+  overflow: auto; /* 2023-01-24 scroll 기능 구현  */
   display: flex;
   justify-content: center;
   align-items: center;
