@@ -10,6 +10,7 @@ import { RadioButtonUncheckedRounded } from "@mui/icons-material";
 import { CheckCircleOutlineRounded } from "@mui/icons-material";
 import styled from "styled-components";
 import axios from "axios";
+import { async } from "q";
 
 const theme = createTheme({
   status: {
@@ -79,6 +80,7 @@ function SignUpContainer() {
   const [utelError, setUtelError] = useState(true);
   const [ubirthError, setUbirthError] = useState(true);
   const [unameError, setUnameError] = useState(true);
+  const [unicknameError, setUnicknameError] = useState(true);
 
   /* 오류 메세지 상태 저장 */
   const [emailMessage, setEmailMessage] = useState("");
@@ -88,6 +90,7 @@ function SignUpContainer() {
   const [confirmpwMessage, setConfirmpwMessage] = useState("");
   const [telMessage, setTelMessage] = useState("");
   const [birthMessage, setBirthMessage] = useState("");
+  const [nicknameMessage, setNicknameMessage] = useState("");
 
   /* 날짜 계산 */
   const [form, setForm] = useState({
@@ -257,9 +260,22 @@ function SignUpContainer() {
   }
 
   /* 닉네임 */
-  const onChangeNickname = (e) => {
+  const onChangeNickname = useCallback(async (e) => {
     setUnickname(e.target.value);
-  };
+    var link = "http://localhost:8080/signup";
+    try {
+      await axios
+        .get(link, {
+          nickname: e.target.value,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            alert("통신 성공");
+          }
+        });
+    } catch {}
+  });
 
   useEffect(() => {
     if (checkList.includes("terms") && checkList.includes("collect")) {
@@ -326,8 +342,17 @@ function SignUpContainer() {
     [uemail, upw, uname, usex, ubirth, utel, uconsent]
   );
 
+  const onClickDuplicate = () => {};
+
   return (
-    <div style={{ width: "60%", margin: "100px 0px 20px 0px" }}>
+    <div
+      style={{
+        width: "1000px",
+        margin: "100px 50px 20px 50px",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       {/* 회원가입 안내 */}
       <h1
         style={{
@@ -365,7 +390,7 @@ function SignUpContainer() {
           border: "1px solid #D0D0D0",
           borderRadius: "30px",
           fontFamily: "NotoSansKR-400",
-          width: "1000px",
+          width: "100%",
           /*height: "410px",*/
           padding: "40px 0px 40px 0px",
         }}
@@ -657,8 +682,9 @@ function SignUpContainer() {
                 <div
                   style={{
                     marginLeft: "10px",
-                    float: "left",
-                    width: "27%",
+                    marginTop: "9px",
+                    float: "right",
+                    width: "25%",
                   }}
                 >
                   <Button
@@ -667,7 +693,9 @@ function SignUpContainer() {
                       color: "#464646",
                       fontWeight: "700",
                       border: "1px solid #B0B0B0",
+                      fontSize: "0.9rem",
                     }}
+                    onClick={onClickDuplicate}
                   >
                     중복 확인
                   </Button>
@@ -815,6 +843,7 @@ function SignUpContainer() {
           border: "1px solid #D0D0D0",
           marginTop: "20px",
           borderRadius: "30px",
+          width: "100%",
         }}
       >
         가입 완료
