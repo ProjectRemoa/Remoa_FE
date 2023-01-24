@@ -23,7 +23,6 @@ import PageFollowing from './page/mypage/PageFollowing'
 import PageScrap from './page/mypage/PageScrap';
 import PageMyFeedback from './page/mypage/PageMyFeedback';
 import PageFAQ from './page/mypage/PageFAQ';
-import SignUpPage from './page/SignUpPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
@@ -40,8 +39,7 @@ root.render(
     <Style.Wrapper>
       <Routes>
           <Route path="/login" element={ <LoginPage />} />
-          <Route path='/signup' element={<SignUpPage/>}/>
-          
+
           <Route path='/' element={ <RefIdeaPage />} />
           <Route path='/ref/marketing' element={ <RefMarketingPage />} />
           <Route path='/ref/video' element={ <RefVideoPage />} />

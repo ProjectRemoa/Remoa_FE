@@ -72,7 +72,6 @@ const Style = {
     border: solid 0.5px white;
     left:28px;
     top:7px;
-    visibility: hidden;
   `, //visibility: hidden;으로 현재 알림창의 표시 가림
   StyledButton: styled.button` 
       width: 10rem;
@@ -82,7 +81,7 @@ const Style = {
       font-size: 15px;
       border: solid 2px white;
       cursor: pointer;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.1em;
       font-weight: 550;
       display: flex;
       align-items : center;
@@ -139,7 +138,17 @@ const Header = () => {
   const bellOnClick = () => {
     
   }
-  //
+
+  const shareOnClick = () => {
+    
+  }
+
+  const signupOnClick = () => {
+    
+ }
+
+  const loginYN=false;
+  //구체적인 로그인 여부 작업 전이라 임시적으로 만든 변수로 boolean 값에 따라 다른 헤더 출력
   return (
     <header className={styles.header}>
       <div className={styles.contents}>
@@ -158,13 +167,24 @@ const Header = () => {
           </Style.NavItemWrapper>
 
           <Style.ButtonWrapper>
-            <Style.BellButton onClick={noticeOnClick}>
-              <NotificationsNoneIcon  style={{color:"B0B0B0",fontSize:"35px"}} onClick={bellOnClick} />
-              <Style.BellNotice />
-            </Style.BellButton>
-            <Style.StyledButton onClick={loginOnClick}>
-              로그인
-            </Style.StyledButton>
+            {(loginYN)? 
+            <>
+              <Style.BellButton onClick={noticeOnClick}>
+                <NotificationsNoneIcon  style={{color:"B0B0B0",fontSize:"35px"}} onClick={bellOnClick} />
+                <Style.BellNotice />
+              </Style.BellButton>
+              <Style.StyledButton onClick={shareOnClick}>
+                작업물 공유하기
+              </Style.StyledButton>
+            </>:
+            <>
+              <Style.StyledButton onClick={loginOnClick}>
+                로그인
+              </Style.StyledButton>
+              <Style.StyledButton onClick={signupOnClick}>
+                회원가입
+              </Style.StyledButton>
+            </>}  
           </Style.ButtonWrapper>
 
         </Style.NavWrapper>
