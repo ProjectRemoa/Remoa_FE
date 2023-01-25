@@ -3,12 +3,10 @@ import axios from "axios";
 import styles from "./Login.module.css";
 import kakao_login_large from "../../images/kakao_login_large.png";
 import kakao_login_small from "../../images/kakao_login_small.png";
-
+import { KAKAO_AUTH_URL } from "./kakaodata";
 import { useNavigate } from "react-router-dom";
 
 function LoginContainer() {
-  const KAKAO_AUTH_URL = "https://developers.kakao.com/tool/resource/login";
-
   const [inputEmail, setInputEmail] = useState("");
   const [inputPw, setInputPw] = useState("");
 
@@ -81,6 +79,19 @@ function LoginContainer() {
     return true;
   };
 
+  const kakaoLogin = () => {
+    const code = new URL(window.location.href).searchParams.get("code");
+
+    localStorage.setItem("code", code);
+
+    const getToken = () => {
+      axios({
+        method: "GET",
+        url: "http://",
+      });
+    };
+  };
+
   const onClickLogin = () => {
     if (validation()) {
       // 유효성 검사를 통과했다면
@@ -91,20 +102,25 @@ function LoginContainer() {
       };
       const config = { "Conteny-Type": "application/json" };
       axios
-        .post("/login", LoginForm, config)
+        .post("http://localhost:8080/login", LoginForm, config)
         .then((result) => {
           console.log(result);
-          if (result.status === 200 && result.data !== "login fail") {
-            localStorage.setItem("username", result.data);
-            alert("로그인 완료");
-            navigate("/");
+          if (result.status === 200) {
+            if (result.data === "login success") {
+              //localStorage.setItem("username", result.data);
+              alert("로그인 완료");
+              navigate("/");
+            } else if (result.data === "login fail") {
+              // 회원 정보 불일치
+              alert("정보가 일치하지 않습니다.");
+            }
           } else {
-            // 회원 정보 불일치
-            alert("정보가 일치하지 않습니다.");
+            // status가 200이 아닌 경우
           }
           // 작업 완료 되면 페이지 이동(새로고침)
         })
         .catch((error) => {
+          console.log("다시 시도하세요");
           alert(error.response.data.detail);
         });
     }
@@ -131,8 +147,7 @@ function LoginContainer() {
         fontFamily: "NotoSansKR-400",
         boxShadow: "0px 4px 4px rgba(0, 0, 0,  0.25)",
         width: "42%",
-        marginTop: "250px",
-        padding: "40px 0px 40px 0px",
+        padding: "40px 10px",
       }}
     >
       <span style={{ fontSize: "25px" }}>
@@ -144,7 +159,6 @@ function LoginContainer() {
       </span>
       <br />
 
-      {/* ID */}
       <form
         style={{
           alignItems: "center",
@@ -152,6 +166,7 @@ function LoginContainer() {
           padding: "10px",
         }}
       >
+        {/* ID */}
         <input
           className={styles.input}
           type="id"
@@ -159,6 +174,9 @@ function LoginContainer() {
           name="input_id"
           value={inputEmail}
           onChange={onChangeEmail}
+          style={
+            windowSize.width >= 840 ? { width: "300px" } : { width: "150px" }
+          }
         />
         <br />
         {/* PASSWORD */}
@@ -169,6 +187,9 @@ function LoginContainer() {
           name="input_pw"
           value={inputPw}
           onChange={onChangePw}
+          style={
+            windowSize.width >= 840 ? { width: "300px" } : { width: "150px" }
+          }
         />
       </form>
 
@@ -179,19 +200,45 @@ function LoginContainer() {
           paddingBottom: "10px",
         }}
       >
-        <button className={styles.button} onClick={onClickLogin}>
-          로그인
-        </button>
+        {windowSize.width >= 840 ? (
+          <button
+            className={styles.button}
+            onClick={onClickLogin}
+            style={{
+              width: "300px",
+            }}
+          >
+            로그인
+          </button>
+        ) : (
+          <button
+            className={styles.button}
+            onClick={onClickLogin}
+            style={{
+              width: "90px",
+            }}
+          >
+            로그인
+          </button>
+        )}
       </div>
 
       {/* 카카오로 로그인 버튼*/}
       {windowSize.width >= 840 ? (
         <a href={KAKAO_AUTH_URL}>
-          <img src={kakao_login_large} alt="kakaologin" />
+          <img
+            src={kakao_login_large}
+            alt="kakaologin"
+            style={{ borderRadius: "10px" }}
+          />
         </a>
       ) : (
         <a href={KAKAO_AUTH_URL}>
-          <img src={kakao_login_small} alt="kakaologin" />
+          <img
+            src={kakao_login_small}
+            alt="kakaologin"
+            style={{ borderRadius: "10px" }}
+          />
         </a>
       )}
 
