@@ -47,7 +47,7 @@ public class LoginController {
 
         securityLoginWithoutLoginForm(request, loginMember);
 
-        return "login success";
+        return loginMember.getNickname();
     }
 
     private void securityLoginWithoutLoginForm(HttpServletRequest request, Member member) {
