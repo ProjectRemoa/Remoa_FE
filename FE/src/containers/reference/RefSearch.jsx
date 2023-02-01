@@ -58,6 +58,7 @@ function RefSearch() {
       position: absolute;
       height: 39px;
       top:42px;
+      left: 110px;
     `,
     SearchDeco:styled.p`
       font-size: large;
@@ -78,4 +79,5 @@ function RefSearch() {
     </Style.SearchDiv>
   )
 }
+//   ...
 export default RefSearch;

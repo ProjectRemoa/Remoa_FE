@@ -53,6 +53,13 @@ const Style = {
     flex-direction:row;
     position:absolute;
     right:0%;
+
+  @media ${props => props.theme.desktop} {
+    background-color: ${(props) => props.theme.mainColor};
+  }
+  @media ${props => props.theme.mobile} {
+    background-color: ${(props) => props.theme.subColor};
+  }
   `,
   BellButton: styled.button`
     border: solid 2px white;
@@ -72,7 +79,8 @@ const Style = {
     border: solid 0.5px white;
     left:28px;
     top:7px;
-  `, //visibility: hidden;으로 현재 알림창의 표시 가림
+
+  `,
   StyledButton: styled.button` 
       width: 10rem;
       height : 3rem;
@@ -147,7 +155,7 @@ const Header = () => {
     
  }
 
-  const loginYN=false;
+  const loginYN=true;
   //구체적인 로그인 여부 작업 전이라 임시적으로 만든 변수로 boolean 값에 따라 다른 헤더 출력
   return (
     <header className={styles.header}>
