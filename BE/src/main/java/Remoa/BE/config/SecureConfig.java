@@ -25,7 +25,7 @@ public class SecureConfig {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/logout").permitAll()
-                .antMatchers("/signup/*").permitAll()
+                .antMatchers("/signup/**").permitAll()
                 .antMatchers("/mypage").authenticated()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("ADMIN", "USER")

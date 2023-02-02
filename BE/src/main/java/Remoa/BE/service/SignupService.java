@@ -2,6 +2,7 @@ package Remoa.BE.service;
 
 import Remoa.BE.domain.Member;
 import Remoa.BE.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @Slf4j
+@RequiredArgsConstructor
 public class SignupService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
@@ -29,10 +31,6 @@ public class SignupService {
         log.info("member={}", member.getEmail());
         List<Member> findMembers = this.memberRepository.findByEmail(member.getEmail());
         if (!findMembers.isEmpty()) {
-            log.info("findMember={}", findMembers.get(0).getEmail());
-            log.info("findMember={}", findMembers.get(0).getName());
-            log.info("findMember={}", findMembers.get(0).getSex());
-
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
@@ -41,8 +39,7 @@ public class SignupService {
         return this.memberRepository.findOne(memberId);
     }
 
-    public SignupService(final MemberRepository memberRepository, final PasswordEncoder bCryptPasswordEncoder) {
-        this.memberRepository = memberRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    public Boolean isAdminExist() {
+        return !memberRepository.findByEmail("spparta@gmail.com").isEmpty();
     }
 }
