@@ -5,7 +5,6 @@ import kakao_login from "../../images/kakako_login.png";
 import { KAKAO_AUTH_URL } from "./kakaodata";
 import axios from "axios";
 import { useEffect } from "react";
-import KakaoLogin from "./KakaoLogin";
 
 const Style = {
   Container: styled.div`

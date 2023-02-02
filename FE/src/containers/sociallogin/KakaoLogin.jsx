@@ -1,38 +1,34 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { KAKAO_AUTH_URL } from "./kakaodata";
+import { CLIENT_ID, KAKAO_AUTH_URL, REDIRECT_URL } from "./kakaodata";
 import axios from "axios";
 
 function KakaoLogin() {
-  // 인가 코드 받기
-  const code = new URL(window.location.href).searchParams.get("code");
-  // localStoarge에 인가 코드 저장
-  sessionStorage.setItem("code", code);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getToken();
-    console.log(sessionStorage.getItem("code"));
-  });
-
-  const getToken = () => {
-    axios({
-      method: "GET",
-      url: `http://localhost:3000/sociallogin?code=${code}`,
-    })
-      .then((result) => {
-        // result : 인가 코드 주고 토큰 받아옴(JWT)
-        console.log(sessionStorage.getItem("code"));
-        console.log(result);
-        //localStorage.setItem("token", result.data.accessToken);
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("로그인에 실패하였습니다.");
-        navigate("/sociallogin");
-      });
+  const sendToken = () => {
+    // back에 인가 코드 보내기
   };
+  useEffect(() => {
+    let params = new URL(document.location.toString()).searchParams;
+    let code = params.get("code");
+    let grant_type = "authorization_code";
+
+    axios
+      .post(
+        `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&code=${code}`,
+        {
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        sessionStorage.setItem("kakaotoken", res.data);
+        sendToken();
+      });
+  });
   return <div></div>;
 }
 
