@@ -20,6 +20,14 @@ function ManageContainer() {
     padding-left: 20px;
     padding-right: 20px;
     justify-content: space-around;
+    @media ${props => props.theme.desktop} {
+      width: 650px;
+    }
+    @media ${props => props.theme.mobile} {
+      width: 450px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
     `,
     Sort:styled.div`
       font-family: 'Noto Sans KR';
@@ -30,6 +38,10 @@ function ManageContainer() {
       text-align: center;
       color: #464646;
       cursor: pointer;
+      @media ${props => props.theme.mobile} {
+        font-size: 15px;
+        font-weight: 900;
+      }
     `,
     PageStyle:styled.div`
       color:#FADA5E;

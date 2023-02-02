@@ -1,9 +1,9 @@
 let ideacontest = [
   {
     id: 1,
-    contest_name: "DB공모전",
+    contest_name: "h",
     contest_image: "test1",
-    registrant: "호갱1",
+    registrant: "rsefaqtd",
     registrant_image: "test2",
     resgist_date: new Date("2023-1-31"),
     hits: 5,
@@ -12,9 +12,9 @@ let ideacontest = [
   },
   {
     id: 2,
-    contest_name: "아이디어 공모전",
+    contest_name: "d",
     contest_image: "test2",
-    registrant: "호갱2",
+    registrant: "ㄱㄴㄷㄹㅁㅂㅅㅇ",
     registrant_image: "test1",
     resgist_date: new Date("2023-1-30"),
     hits: 1,
@@ -23,9 +23,9 @@ let ideacontest = [
   },
   {
     id: 3,
-    contest_name: "DB공모전",
+    contest_name: "d",
     contest_image: "test3",
-    registrant: "호갱3",
+    registrant: "서로가 서로를 사랑하고",
     registrant_image: "test7",
     resgist_date: new Date("2023-1-29"),
     hits: 2,
@@ -34,7 +34,7 @@ let ideacontest = [
   },
   {
     id: 4,
-    contest_name: "DB공모전",
+    contest_name: "o",
     contest_image: "test4",
     registrant: "호갱4",
     registrant_image: "test6",
@@ -45,7 +45,7 @@ let ideacontest = [
   },
   {
     id: 5,
-    contest_name: "DB공모전",
+    contest_name: "p",
     contest_image: "test5",
     registrant: "호갱1",
     registrant_image: "test3",
@@ -56,7 +56,7 @@ let ideacontest = [
   },
   {
     id: 6,
-    contest_name: "DB공모전",
+    contest_name: "l",
     contest_image: "test6",
     registrant: "호갱1",
     registrant_image: "test8",
@@ -67,7 +67,7 @@ let ideacontest = [
   },
   {
     id: 7,
-    contest_name: "DB공모전",
+    contest_name: "j",
     contest_image: "test7",
     registrant: "호갱1",
     registrant_image: "test4",
@@ -78,7 +78,7 @@ let ideacontest = [
   },
   {
     id: 8,
-    contest_name: "DB공모전",
+    contest_name: "b",
     contest_image: "test8",
     registrant: "호갱1",
     registrant_image: "test8",
@@ -89,7 +89,7 @@ let ideacontest = [
   },
   {
     id: 9,
-    contest_name: "DB공모전",
+    contest_name: "m",
     contest_image: "test8",
     registrant: "호갱1",
     registrant_image: "test5",
@@ -100,7 +100,7 @@ let ideacontest = [
   },
   {
     id: 10,
-    contest_name: "DB공모전",
+    contest_name: "a",
     contest_image: "test1",
     registrant: "호갱1",
     registrant_image: "test7",
@@ -111,7 +111,7 @@ let ideacontest = [
   },
   {
     id: 11,
-    contest_name: "DB공모전",
+    contest_name: "c",
     contest_image: "test3",
     registrant: "호갱1",
     registrant_image: "test2",
@@ -122,7 +122,7 @@ let ideacontest = [
   },
   {
     id: 12,
-    contest_name: "DB공모전",
+    contest_name: "v",
     contest_image: "test6",
     registrant: "호갱1",
     registrant_image: "test6",

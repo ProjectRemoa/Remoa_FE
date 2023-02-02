@@ -53,13 +53,6 @@ const Style = {
     flex-direction:row;
     position:absolute;
     right:0%;
-
-  @media ${props => props.theme.desktop} {
-    background-color: ${(props) => props.theme.mainColor};
-  }
-  @media ${props => props.theme.mobile} {
-    background-color: ${(props) => props.theme.subColor};
-  }
   `,
   BellButton: styled.button`
     border: solid 2px white;

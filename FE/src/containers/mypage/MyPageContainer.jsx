@@ -20,6 +20,15 @@ function MyPageContainer() {
     padding-left: 20px;
     padding-right: 20px;
     justify-content: space-around;
+    @media ${props => props.theme.desktop} {
+      width: 700px;
+    }
+    @media ${props => props.theme.mobile} {
+      width: 430px;
+      padding-left: 15px;
+      padding-right: 15px;
+      height: 79px;
+    }
     `,
     Sort:styled.div`
       font-family: 'Noto Sans KR';
@@ -30,6 +39,14 @@ function MyPageContainer() {
       text-align: center;
       color: #464646;
       cursor: pointer;
+      @media ${props => props.theme.desktop} {
+
+      }
+      @media ${props => props.theme.mobile} {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 15px;
+      }
     `,
     PageStyle:styled.div`
       color:#FADA5E;
@@ -72,7 +89,7 @@ function MyPageContainer() {
         {(window.location.pathname=='/mypage/myfeedback')?<Style.PageStyle>내가 올린 피드백 관리</Style.PageStyle>:"내가 올린 피드백 관리"}
       </Style.Sort>
       <Style.Sort onClick={faqOnClick}>
-      {(window.location.pathname=='/mypage/faq')?<Style.PageStyle>공지사항/FAQ</Style.PageStyle>:"공지사항/FAQ"}
+      {(window.location.pathname=='/mypage/faq')?<Style.PageStyle>공지사항 / FAQ</Style.PageStyle>:"공지사항 / FAQ"}
       </Style.Sort>
     </Style.UnderHeader>
     </>
