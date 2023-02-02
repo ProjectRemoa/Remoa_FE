@@ -5,6 +5,7 @@ import kakao_login from "../../images/kakako_login.png";
 import { KAKAO_AUTH_URL } from "./kakaodata";
 import axios from "axios";
 import { useEffect } from "react";
+import KakaoLogin from "./KakaoLogin";
 
 const Style = {
   Container: styled.div`
@@ -35,7 +36,11 @@ function SocialLoginContainer() {
 
   const navigate = useNavigate();
 
-  const getSession = () => {
+  useEffect(() => {
+    console.log(code);
+  }, [code]);
+
+  /*const getSession = () => {
     const config = { "Conteny-Type": "application/json" };
     axios
       .post("/signup/kakao", code, config)
@@ -47,14 +52,11 @@ function SocialLoginContainer() {
       })
       .catch((err) => {
         console.log(err);
-        window.alert("로그인에 실패하였습니다.");
+        alert("로그인에 실패하였습니다.");
         navigate("/sociallogin");
       });
-  };
+  };*/
 
-  useEffect = () => {
-    getSession();
-  };
   return (
     <div
       style={{
