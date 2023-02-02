@@ -27,6 +27,7 @@ import PageFAQ from './page/mypage/PageFAQ';
 
 import EmailFind from './page/findinfo/EmailFind';
 import PasswordFind from './page/findinfo/PasswordFind';
+import KakaoLogin from './containers/sociallogin/KakaoLogin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
@@ -44,6 +45,7 @@ root.render(
       <Routes>
           <Route path="/login" element={ <LoginPage />} />
           <Route path='/sociallogin' element={<SocialLoginPage/>}/>
+          <Route path="/oauth/callback/kakao" element={<KakaoLogin/>}/>
           <Route path="/emailfind" element={<EmailFind />} />
           <Route path="/passwordfind" element={<PasswordFind />} />
 
