@@ -30,14 +30,12 @@ const Style = {
   `,
 };
 
+const { Kakao } = window;
+
 function SocialLoginContainer() {
   const code = new URL(window.location.href).searchParams.get("code");
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(code);
-  }, [code]);
 
   /*const getSession = () => {
     const config = { "Conteny-Type": "application/json" };
@@ -56,6 +54,24 @@ function SocialLoginContainer() {
       });
   };*/
 
+  /*const kakaoLoginHandler = () => {
+    Kakao.Auth.login({
+      success: function (authObj) {
+        fetch(`${KAKAO_AUTH_URL}`, {
+          method: "GET",
+          body: JSON.stringfy({
+            access_token: authObj.access_token,
+          }),
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+    });
+  };*/
   return (
     <div
       style={{

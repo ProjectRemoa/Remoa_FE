@@ -8,7 +8,25 @@ function KakaoLogin() {
 
   const sendToken = () => {
     // back에 인가 코드 보내기
+    const config = { "Conteny-Type": "application/json" };
+    const TokenForm = { code: sessionStorage.getItem("kakaotoken") };
+    console.log(TokenForm);
+    axios
+      .get(`/login/kakao?code=${sessionStorage.getItem("kakaotoken")}`)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          console.log(res);
+        }
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("로그인 실패");
+        navigate("/sociallogin");
+      });
   };
+
   useEffect(() => {
     let params = new URL(document.location.toString()).searchParams;
     let code = params.get("code");
@@ -25,7 +43,8 @@ function KakaoLogin() {
       )
       .then((res) => {
         console.log(res);
-        sessionStorage.setItem("kakaotoken", res.data);
+        console.log(typeof res.data.access_token);
+        sessionStorage.setItem("kakaotoken", res.data.access_token);
         sendToken();
       });
   });
