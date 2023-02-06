@@ -31,6 +31,14 @@ const theme = {
   @media ${props => props.theme.mobile} {
     width: ${(props) => props.theme.m_secondSize};
   }
+
+
+    @media ${props => props.theme.desktop} {
+
+    }
+    @media ${props => props.theme.mobile} {
+
+    }
   
 */
 export default theme;

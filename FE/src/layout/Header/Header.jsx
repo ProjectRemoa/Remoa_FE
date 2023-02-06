@@ -27,6 +27,12 @@ const Style = {
     font-size: 20px;
     cursor: pointer;
     margin-right:0px;
+    @media ${props => props.theme.desktop} {
+
+    }
+    @media ${props => props.theme.mobile} {
+
+    }
   `,
   NavWrapper: styled.div`
     width: 1550px;
@@ -40,6 +46,12 @@ const Style = {
   NavItemWrapper: styled.div`
     position:relative;
     left:0%;
+    @media ${props => props.theme.desktop} {
+
+    }
+    @media ${props => props.theme.mobile} {
+      display: none;
+    }
   `,
   NavItem: styled.span`
     color: black;
@@ -53,6 +65,11 @@ const Style = {
     flex-direction:row;
     position:absolute;
     right:0%;
+    @media ${props => props.theme.desktop} {
+      
+    }
+    @media ${props => props.theme.mobile} {
+    }
   `,
   BellButton: styled.button`
     border: solid 2px white;
@@ -148,7 +165,7 @@ const Header = () => {
     
  }
 
-  const loginYN=true;
+  const loginYN=false;
   //구체적인 로그인 여부 작업 전이라 임시적으로 만든 변수로 boolean 값에 따라 다른 헤더 출력
   return (
     <header className={styles.header}>

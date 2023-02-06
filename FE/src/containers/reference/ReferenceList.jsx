@@ -18,7 +18,6 @@ const useStyles = makeStyles({
 })
 const Style = {
   ContestList:styled.div`
-    background-color: #a6e0c3;
     padding-top: 45px;
   `,
   ContestItem:styled.div`
@@ -116,18 +115,38 @@ const Style = {
 const RefList = () => {
   const classes = useStyles();
   let ideas = getIdeaContests();
-
   let [data, setData] = useState(ideas);
-  const onClickCase = () => {
-    let data1 = [...data]
-    data1.sort(function(a, b){
-      if(a.contest_name.toLowerCase() > b.contest_name.toLowerCase())
-              return 1;
-      else if(a.contest_name.toLowerCase() < b.contest_name.toLowerCase())
-              return -1;
-      else
-              return 0;
-           });
+  let data1 = [...data]
+
+  const onClickDate = () => {
+    data1.sort((a,b) => {
+      if(a.resgist_date < b.resgist_date) return 1;
+      else if (a.resgist_date > b.resgist_date) return -1;
+      else return 0;})
+    setData(data1);
+  }
+
+  const onClickHits = () => {
+    data1.sort((a,b) => {
+      if(a.hits < b.hits) return 1;
+      else if (a.hits > b.hits) return -1;
+      else return 0;})
+    setData(data1);
+  }
+
+  const onClickThumbs = () => {
+    data1.sort((a,b) => {
+      if(a.thumbs < b.thumbs) return 1;
+      else if (a.thumbs > b.thumbs) return -1;
+      else return 0;})
+    setData(data1);
+  }
+
+  const onClickScrap = () => {
+    data1.sort((a,b) => {
+      if(a.scrap < b.scrap) return 1;
+      else if (a.scrap > b.scrap) return -1;
+      else return 0;})
     setData(data1);
   }
 
@@ -153,8 +172,6 @@ const RefList = () => {
       </Style.ProfileInfo>
     </Style.ContestItem>
     ))}
-    <button onClick={onClickCase}>가나다순(임시)</button>
-
   </Style.ContestList>
   )
 }

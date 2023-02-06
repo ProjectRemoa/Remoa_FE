@@ -47,8 +47,6 @@ const Style = {
 function ReferenceContainer() {
   const Navigate=useNavigate();
 
-
-
   const ideaOnClick = () => {
     Navigate('/')
   };

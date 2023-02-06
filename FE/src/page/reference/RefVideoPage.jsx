@@ -1,12 +1,13 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import ReferenceContainer from "../../containers/reference/ReferenceContainer";
+import RefListWrapper from "../../containers/reference/RefListWrapper";
 
 function RefVideoPage() {
   return (
     <Layout>
       <ReferenceContainer />
-      영상 페이지
+      <RefListWrapper />
     </Layout>
   )
 }

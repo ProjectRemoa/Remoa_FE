@@ -1,6 +1,6 @@
 .layout{
  /* padding-top: 80px;*/
-  height: 1200px;
+  height: auto;
   display: flex;
   flex-direction: column;
   text-align: center;
