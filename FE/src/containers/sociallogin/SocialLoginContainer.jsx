@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import kakao_login from "../../images/kakako_login.png";
+import kakao_login from "../../images/kakao_login_large.png";
 import { KAKAO_AUTH_URL } from "./kakaodata";
 import axios from "axios";
 import { useEffect } from "react";
