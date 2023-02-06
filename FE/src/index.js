@@ -5,7 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LoginPage from './page/LoginPage';
+import LoginPage from './page/login/LoginPage';
+import SocialLoginPage from './page/sociallogin/SocialLoginPage';
 import UnknownPage from './page/UnknownPage';
 
 import RefIdeaPage from './page/reference/RefIdeaPage'
@@ -26,6 +27,7 @@ import PageFAQ from './page/mypage/PageFAQ';
 
 import EmailFind from './page/findinfo/EmailFind';
 import PasswordFind from './page/findinfo/PasswordFind';
+import KakaoLogin from './containers/sociallogin/KakaoLogin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
@@ -42,6 +44,8 @@ root.render(
     <Style.Wrapper>
       <Routes>
           <Route path="/login" element={ <LoginPage />} />
+          <Route path='/sociallogin' element={<SocialLoginPage/>}/>
+          <Route path="/oauth/callback/kakao" element={<KakaoLogin/>}/>
           <Route path="/emailfind" element={<EmailFind />} />
           <Route path="/passwordfind" element={<PasswordFind />} />
 

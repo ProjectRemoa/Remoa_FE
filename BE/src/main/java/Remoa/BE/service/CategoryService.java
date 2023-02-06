@@ -45,4 +45,8 @@ public class CategoryService {
     public List<Category> findMemberCategory(Member member) {
         return categoryRepository.findOnesCategories(member);
     }
+
+    public List<Category> findAllCategories() {
+        return categoryRepository.findAllCategories();
+    }
 }
