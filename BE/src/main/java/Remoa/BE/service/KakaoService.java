@@ -22,7 +22,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KakaoService {
 
-    //카카오 로그인시 접속해야 할 링크 : https://kauth.kakao.com/oauth/authorize?client_id=139febf9e13da4d124d1c1faafcf3f86&redirect_uri=http://localhost:8080/signup/kakao&response_type=code
+    //카카오 로그인시 접속해야 할 링크 : https://kauth.kakao.com/oauth/authorize?client_id=139febf9e13da4d124d1c1faafcf3f86&redirect_uri=http://localhost:8080/login/kakao&response_type=code
 
     private final MemberRepository memberRepository;
 
@@ -41,7 +41,7 @@ public class KakaoService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=139febf9e13da4d124d1c1faafcf3f86");
-            sb.append("&redirect_uri=http://localhost:8080/signup/kakao");
+            sb.append("&redirect_uri=http://localhost:8080/login/kakao");
             sb.append("&code=" + code);
             sb.append("&client_secret=5IueqXws75WoH1e3gCSI2aNxQgOGMdBG");
 

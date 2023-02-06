@@ -22,11 +22,15 @@ public class SecureConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                //api 명세 확정 후 재확인 핋요
+                .antMatchers("/**").permitAll()
+                /*.antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/logout").permitAll()
+                .antMatchers("/upload").permitAll()
+                .antMatchers("/download").permitAll()
                 .antMatchers("/signup/**").permitAll()
-                .antMatchers("/mypage").authenticated()
+                .antMatchers("/mypage").authenticated()*/
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()

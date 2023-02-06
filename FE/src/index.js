@@ -24,6 +24,7 @@ import PageFollowing from './page/mypage/PageFollowing'
 import PageScrap from './page/mypage/PageScrap';
 import PageMyFeedback from './page/mypage/PageMyFeedback';
 import PageFAQ from './page/mypage/PageFAQ';
+import SignUpPage from './page/SignUpPage';
 
 import EmailFind from './page/findinfo/EmailFind';
 import PasswordFind from './page/findinfo/PasswordFind';
@@ -44,10 +45,7 @@ root.render(
     <Style.Wrapper>
       <Routes>
           <Route path="/login" element={ <LoginPage />} />
-          <Route path='/sociallogin' element={<SocialLoginPage/>}/>
-          <Route path="/oauth/callback/kakao" element={<KakaoLogin/>}/>
-          <Route path="/emailfind" element={<EmailFind />} />
-          <Route path="/passwordfind" element={<PasswordFind />} />
+          <Route path="/signup" element={<SignUpPage />}/>
 
           <Route path='/' element={ <RefIdeaPage />} />
           <Route path='/ref/marketing' element={ <RefMarketingPage />} />
