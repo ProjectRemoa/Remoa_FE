@@ -49,6 +49,9 @@ public class Member implements UserDetails {
     @Column(name = "term_consent")
     private Boolean termConsent;
 
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
+
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL})
     private List<MemberCategory> memberCategories = new ArrayList();
 
@@ -58,7 +61,7 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL})
     private List<CommentLike> commentLikes = new ArrayList();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "fromMember")
     private List<Follow> follows = new ArrayList();
 
     private String role;

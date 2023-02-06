@@ -5,7 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LoginPage from './page/LoginPage';
+import LoginPage from './page/login/LoginPage';
+import SocialLoginPage from './page/sociallogin/SocialLoginPage';
 import UnknownPage from './page/UnknownPage';
 
 import RefIdeaPage from './page/reference/RefIdeaPage'
@@ -24,6 +25,10 @@ import PageScrap from './page/mypage/PageScrap';
 import PageMyFeedback from './page/mypage/PageMyFeedback';
 import PageFAQ from './page/mypage/PageFAQ';
 import SignUpPage from './page/SignUpPage';
+
+import EmailFind from './page/findinfo/EmailFind';
+import PasswordFind from './page/findinfo/PasswordFind';
+import KakaoLogin from './containers/sociallogin/KakaoLogin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {

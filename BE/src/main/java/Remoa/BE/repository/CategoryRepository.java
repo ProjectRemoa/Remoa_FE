@@ -28,7 +28,8 @@ public class CategoryRepository {
     }
 
     public Category findByCategoryName(String categoryName) {
-        Optional<Category> category = em.createQuery("select c from Category c where c.name = :categoryName", Category.class)
+        Optional<Category> category = em.createQuery("select c from Category c " +
+                        "where c.name = :categoryName", Category.class)
                 .setParameter("categoryName", categoryName)
                 .getResultStream()
                 .findAny();
@@ -41,7 +42,8 @@ public class CategoryRepository {
     }
 
     public List<Category> findOnesCategories(Member member) {
-        List<MemberCategory> memberCategories = em.createQuery("select mc from MemberCategory mc where mc.member = :member", MemberCategory.class)
+        List<MemberCategory> memberCategories = em.createQuery("select mc from MemberCategory mc " +
+                        "where mc.member = :member", MemberCategory.class)
                 .setParameter("member", member)
                 .getResultList();
 
