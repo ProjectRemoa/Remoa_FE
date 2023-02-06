@@ -27,7 +27,7 @@ public class CommentRepository {
     /**
      * 포스트 별 댓글을 찾아오기 위한 메서드
      * @param post
-     * @return Optional<Comment>
+     * @return List<Comment>
      */
     public List<Comment> findByPost(Post post) {
         return em.createQuery("select c from Comment c where c.post = :post", Comment.class)

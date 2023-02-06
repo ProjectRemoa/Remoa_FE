@@ -41,8 +41,13 @@ public class KakaoController {
         String access_token = ks.getToken(code);
         Map<String, Object> userInfo = ks.getUserInfo(access_token);
 
+        log.info("userInfo = {}", userInfo.values());
+
         Long kakaoId = Long.parseLong((String) userInfo.get("id"));
         Member kakaoMember = ks.distinguishKakaoId(kakaoId);
+
+        log.info("kakaoId = {}", kakaoId);
+
         if (kakaoMember == null) {
             //kakaoId가 db에 없으므로 kakaoMember가 null이므로 회원가입하지 않은 회원. 따라서 회원가입이 필요하므로 회원가입하는 uri로 redirect 시켜주어야 함.
             response.sendRedirect("/signup/kakao"); //현재 api명세서가 미완성이라 임의로 카카오 회원가입 페이지를 정해서 써두었습니다.

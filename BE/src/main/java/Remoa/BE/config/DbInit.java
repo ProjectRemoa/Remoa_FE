@@ -8,6 +8,7 @@ import Remoa.BE.service.CategoryService;
 import Remoa.BE.service.SignupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -42,7 +43,7 @@ public class DbInit {
     }
 
     @PostConstruct
-    public void makeCategories() {
+    public void initCategories() {
         if (!categoryService.findAllCategories().isEmpty()) {
             //do nothing
             log.info("==========Categories is already set==========");
@@ -54,6 +55,11 @@ public class DbInit {
             Category etc = new Category("etc");
             this.categoryService.persistCategory(new Category[]{idea, marketing, design, video, etc});
         }
+    }
+
+    @PostConstruct
+    public void addCategories() {
+        /* 카페고리를 더 추가하고 싶을 때 사용할 예정. */
     }
 
 }
