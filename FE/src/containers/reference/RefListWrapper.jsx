@@ -29,8 +29,9 @@ const Style = {
       font-size: 15px;
     }
   `,
-  Coloring:styled.p`
+  Coloring:styled.div`
     color:#FADA5E;
+    top: -20px;
   `,
 }
 export default function RefListWrapper() {

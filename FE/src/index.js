@@ -28,7 +28,7 @@ import SignUpPage from './page/SignUpPage';
 
 import EmailFind from './page/findinfo/EmailFind';
 import PasswordFind from './page/findinfo/PasswordFind';
-import KakaoLogin from './containers/sociallogin/KakaoLogin';
+// import KakaoLogin from './containers/sociallogin/KakaoLogin';
 
 import theme from './layout/theme';
 

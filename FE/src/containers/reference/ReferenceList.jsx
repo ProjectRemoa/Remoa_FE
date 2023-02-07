@@ -145,7 +145,7 @@ const Style = {
     position: absolute;
     width: 86vw;
     border: 1px solid #B0B0B0;
-    top:19px;
+    top:29px;
     margin-bottom: 10px;
   `,
 }
