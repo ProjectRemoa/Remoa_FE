@@ -1,4 +1,4 @@
-import React from 'react'
+import {React, useState} from 'react'
 import styled from "styled-components";
 import SearchIcon from '@mui/icons-material/Search';
 import {makeStyles} from "@material-ui/core/styles";
@@ -67,14 +67,18 @@ const Style = {
 }
 function RefSearch() {
   const classes = useStyles();
+  const [search, setSearch] = useState("");
 
+  const onChange = (e) => {
+    setSearch(e.target.value.toLowerCase())
+  }
   return (
     <Style.SearchDiv>
       <Style.Title>
         공모전 이름이나 종류를 검색해보세요
       </Style.Title>
       <Style.Bundle>
-        <Style.SearchBox />
+        <Style.SearchBox type="text" value={search} onChange={onChange} />
         <Style.ClickButton>
           <SearchIcon className={classes.home}/>
         </Style.ClickButton>

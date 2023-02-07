@@ -3,8 +3,21 @@ import styles from './Header.module.css';
 import styled from "styled-components";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { useNavigate } from "react-router-dom";
-
+import img from '../../images/로고대체.jpg'
 const Style = {
+  Header:styled.div`
+    position: fixed;
+    width: 1920px;
+    height: 80px;
+    background-color: #FADA5E;
+    z-index: 3;
+    @media ${props => props.theme.desktop} {
+      width: 1023px;
+    }
+    @media ${props => props.theme.mobile} {
+      width: 767px;
+    }
+  `,
   Wrapper: styled.div`
     width: 100vw;
     height: 80px;
@@ -15,7 +28,7 @@ const Style = {
     background-color: #FFF48C;
   `,
   Logo: styled.div`
-    width: 224px;
+    width: 135px;
     height: 80px;
     background-color: #D3A8FF;
     display: flex;
@@ -168,10 +181,10 @@ const Header = () => {
   const loginYN=false;
   //구체적인 로그인 여부 작업 전이라 임시적으로 만든 변수로 boolean 값에 따라 다른 헤더 출력
   return (
-    <header className={styles.header}>
+    <Style.Header>
       <div className={styles.contents}>
         <Style.Logo>
-          레모아 로고
+          <img src={img} alt="로고대체"/>
         </Style.Logo>
         <Style.NavWrapper>
           <Style.NavItemWrapper>
@@ -209,7 +222,7 @@ const Header = () => {
       </div>
 
       
-    </header>
+    </Style.Header>
   );
 };
 
