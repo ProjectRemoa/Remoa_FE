@@ -16,6 +16,10 @@ public class UploadFile {
     @Column(name = "file_id")
     private Long uploadFileId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
     @Column(name = "original_file_name")
     private String originalFileName;
 

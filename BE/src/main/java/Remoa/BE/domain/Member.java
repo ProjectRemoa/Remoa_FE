@@ -27,6 +27,10 @@ public class Member implements UserDetails {
 
     private String email;
 
+    /**
+     * 23.02.04 카카오 로그인 단독 개발로 인해 삭제 예정.
+     */
+    @Deprecated
     private String password;
 
     private String name;
@@ -48,6 +52,9 @@ public class Member implements UserDetails {
 
     @Column(name = "term_consent")
     private Boolean termConsent;
+
+    @Column(name = "profile_image")
+    private String profileImage;
 
     @OneToMany(mappedBy = "member")
     private List<Post> posts = new ArrayList<>();

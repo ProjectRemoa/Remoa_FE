@@ -46,7 +46,7 @@ public class DbInit {
     public void initCategories() {
         if (!categoryService.findAllCategories().isEmpty()) {
             //do nothing
-            log.info("==========Categories is already set==========");
+            log.info("==========Categories are already set==========");
         } else {
             Category idea = new Category("idea");
             Category marketing = new Category("marketing");
