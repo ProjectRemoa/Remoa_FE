@@ -30,6 +30,10 @@ import EmailFind from './page/findinfo/EmailFind';
 import PasswordFind from './page/findinfo/PasswordFind';
 import KakaoLogin from './containers/sociallogin/KakaoLogin';
 
+import theme from './layout/theme';
+
+import { ThemeProvider } from 'styled-components';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
   Wrapper: styled.div`
@@ -40,7 +44,7 @@ const Style = {
   `,
 };
 root.render(
-  <React.StrictMode>
+  <ThemeProvider theme={theme}>
     <BrowserRouter>
     <Style.Wrapper>
       <Routes>
@@ -48,6 +52,7 @@ root.render(
           <Route path="/signup" element={<SignUpPage />}/>
 
           <Route path='/' element={ <RefIdeaPage />} />
+            
           <Route path='/ref/marketing' element={ <RefMarketingPage />} />
           <Route path='/ref/video' element={ <RefVideoPage />} />
           <Route path='/ref/design' element={ <RefDesignPage />} />
@@ -68,7 +73,7 @@ root.render(
       </Style.Wrapper>
     </BrowserRouter>
     <App />
-  </React.StrictMode>
+  </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

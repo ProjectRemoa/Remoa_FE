@@ -35,6 +35,17 @@ public class SignupService {
         }
     }
 
+    public Boolean isNicknameDuplicate(Member member) {
+        log.info("member={}", member.getNickname());
+        List<Member> findMembers = this.memberRepository.findByNickname(member.getNickname());
+        if (!findMembers.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     public Member findOne(Long memberId) {
         return this.memberRepository.findOne(memberId);
     }
