@@ -33,9 +33,10 @@ const Button = styled.button`
   //height: 45px;
 
   background: ${(props) => (props.state ? "#FADA5E" : "#C8D1E0")};
+  color: ${(props) => (props.buttonColor ? "#464646" : "white")};
   border-radius: 10px;
   border: #fff48c;
-  font-family: "NotoSansKR-400";
+  font-family: "NotoSansKR-700";
   font-size: 15px;
   text-align: center;
   cursor: ${(props) => (props.state ? "pointer" : "default")};
