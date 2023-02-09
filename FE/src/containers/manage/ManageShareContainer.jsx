@@ -10,11 +10,13 @@ const Style = {
     border-radius: 30px;
     display: flex;
     align-items: center;
-    margin: 20px;
+    margin: 0 auto;
     min-width: 480px;
+    width: 85%;
+    padding: 0 20%;
   `,
   Button: styled.button`
-    width: 80%;
+    width: 60%;
     height: 60px;
     background: ${(props) => (props.state ? "#FADA5E" : "#C8D1E0")};
     color: ${(props) => (props.state ? "#010101" : "white")};
@@ -50,9 +52,9 @@ function ManageShareContainer() {
     setComp(e.target.value);
   };
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <Style.Conatiner>
-        <table>
+        <table className={styles.table}>
           <tbody>
             {/* 작품명 */}
             <tr>
@@ -101,7 +103,13 @@ function ManageShareContainer() {
               <th className={styles.th}>
                 <label>카테고리</label>
               </th>
-              <td className={styles.td}>
+              <td
+                /*className={styles.td}*/
+                style={{
+                  borderCollapse: "collapse",
+                  borderSpacing: 0,
+                }}
+              >
                 <tr>
                   <td>
                     <div className={styles.form_radio_btn}>
