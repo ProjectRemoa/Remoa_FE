@@ -62,7 +62,7 @@ public class KakaoController {
     @PostMapping("/signup/kakao")
     public void signupKakaoMember(KakaoSignupForm form) {
 
-        Member member = new Member();
+        /*Member member = new Member();
         member.setEmail(form.getEmail());
         member.setKakaoId(form.getKakaoId());
         member.setName(form.getName());
@@ -70,6 +70,14 @@ public class KakaoController {
         member.setSex(form.getSex());
         member.setPhoneNumber(form.getPhoneNumber());
         member.setTermConsent(form.getTermConsent());
+
+        signupService.join(member);*/
+
+        Member member = new Member();
+        member.setKakaoId(form.getKakaoId());
+        member.setEmail(form.getEmail());
+        member.setNickname(form.getNickname());
+        member.setProfileImage(form.getProfileImage()); //사진 파일을 다운 받아서 저장해야할까..?
 
         signupService.join(member);
     }
