@@ -31,6 +31,12 @@ dependencies {
 
 	//json simple
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+	//파이어베이스
+	implementation 'com.google.firebase:firebase-admin:9.1.1'
+
+	// S3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {

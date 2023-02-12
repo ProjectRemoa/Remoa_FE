@@ -35,3 +35,19 @@ logging:
     org.hibernate.type: trace
 
 uploadFolder: upload
+
+app: # 파이어베이스
+  firebase-configuration-file: ./serviceAccountKey.json
+  firebase-bucket: springboottest-110c1.appspot.com
+
+cloud: # s3
+  aws:
+    credentials:
+      access-key: AKIASR3E6MYIH7CHQWO4 # IAM 계정의 accessKey
+      secret-key: l9d50/4tOGrU2ZI2iToGdYEpdksPPMmHdEsVDKeZ  # IAM 계정의 secretKey
+    region:
+      static: ap-northeast-2  # 버킷의 리전
+    s3:
+      bucket: gwangmin-project-bucket   #  버킷 이름
+    stack:
+      auto: false

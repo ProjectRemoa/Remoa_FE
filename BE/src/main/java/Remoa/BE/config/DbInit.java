@@ -1,19 +1,14 @@
 package Remoa.BE.config;
 
-import Remoa.BE.domain.Category;
-import Remoa.BE.domain.Member;
-import Remoa.BE.domain.MemberCategory;
-import Remoa.BE.repository.MemberRepository;
-import Remoa.BE.service.CategoryService;
-import Remoa.BE.service.SignupService;
+import Remoa.BE.Post.Domain.Category;
+import Remoa.BE.Member.Domain.Member;
+import Remoa.BE.Post.Service.CategoryService;
+import Remoa.BE.Member.Service.SignupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Component
