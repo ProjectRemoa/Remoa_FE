@@ -1,7 +1,8 @@
 .input {
-  width: 100%;
+  float: left;
+  width: 60%;
   height: 43px;
-  font-size: 1rem;
+  font-size: 1.5em;
   border: 1px solid #b0b0b0;
   outline: none;
   background: #ffffff;
@@ -27,12 +28,10 @@ textarea:-ms-input-placeholder {
 }
 
 .form_radio_btn {
-  width: 170px;
+  width: 100%;
   border: 1px solid #b0b0b0;
-  height: 43px;
   border-radius: 10px;
   display: inline-block;
-  margin: 5px 5px;
 }
 
 .form_radio_btn input[type="radio"] {
@@ -43,8 +42,7 @@ textarea:-ms-input-placeholder {
   display: block;
   cursor: pointer;
   border-radius: 10px;
-  font-size: 15px;
-  margin: 0 auto;
+  font-size: 0.8rem;
   text-align: center;
   height: -webkit-fill-available;
   line-height: 45px;
@@ -67,13 +65,17 @@ textarea:-ms-input-placeholder {
 .table {
   border-collapse: separate;
   border-spacing: 20px;
+  margin: 0 auto;
+  font-size: 1em;
 }
 .th {
-  min-width: 150px;
+  width: 30%;
+  /*min-width: 150px;*/
   text-align: right;
 }
 
 .td {
-  min-width: 200px;
-  max-width: 400px;
+  width: 70%;
+  /*min-width: 200px;
+  max-width: 400px;*/
 }
