@@ -1,11 +1,10 @@
 package Remoa.BE.category;
 
-import Remoa.BE.domain.Category;
-import Remoa.BE.domain.Member;
-import Remoa.BE.domain.MemberCategory;
-import Remoa.BE.repository.MemberRepository;
-import Remoa.BE.service.CategoryService;
-import Remoa.BE.service.SignupService;
+import Remoa.BE.post.domain.Category;
+import Remoa.BE.member.domain.Member;
+import Remoa.BE.member.repository.MemberRepository;
+import Remoa.BE.post.service.CategoryService;
+import Remoa.BE.member.service.SignupService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
