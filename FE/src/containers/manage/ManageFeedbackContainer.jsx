@@ -7,7 +7,7 @@ function ManageFeedbackContainer(){
     const FeedBackPage = () =>{
         return(
             <>
-
+                {/**/}
             </>
         )
     }
@@ -16,7 +16,7 @@ function ManageFeedbackContainer(){
             <h4 style={{textAlign:"left"}}>작품 별 코멘트 목록</h4>
             {
                 작품.map((data, i)=>{
-
+                    
                 })
             }
         </div>
