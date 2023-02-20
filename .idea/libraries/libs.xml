@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BE/build/libs/BE-ver_230203_3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BE/build/libs/BE-ver_230125_2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BE/build/libs/BE-ver_230208.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
