@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import kakao_login from "../../images/kakao_login_large.png";
 import { KAKAO_AUTH_URL } from "./kakaodata";
 import axios from "axios";
 import { useEffect } from "react";
+import Modal from "./Modal";
 
 const Style = {
   Container: styled.div`
@@ -36,6 +37,13 @@ function SocialLoginContainer() {
   const code = new URL(window.location.href).searchParams.get("code");
 
   const navigate = useNavigate();
+
+  /* 약관 동의 모달 생성 */
+  const [modalOpen, setModalOpen] = useState(true);
+
+  const showModal = () => {
+    setModalOpen(true);
+  };
 
   /*const getSession = () => {
     const config = { "Conteny-Type": "application/json" };
@@ -78,6 +86,7 @@ function SocialLoginContainer() {
         width: "100%",
       }}
     >
+      {modalOpen && <Modal setModalOpen={setModalOpen} />}
       <div
         style={{
           lineHeight: "40px",
