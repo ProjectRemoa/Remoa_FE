@@ -33,6 +33,7 @@ import PasswordFind from './page/findinfo/PasswordFind';
 import theme from './layout/theme';
 
 import { ThemeProvider } from 'styled-components';
+import RefModal from './containers/modal/RefModal';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {

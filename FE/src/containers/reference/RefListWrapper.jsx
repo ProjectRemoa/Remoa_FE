@@ -49,7 +49,7 @@ export default function RefListWrapper() {
       <Style.Coloring>{kind}&nbsp;</Style.Coloring>
       공모전의 레퍼런스를 찾아보세요
     </Style.Intro>
-    {(window.location.pathname=='/')?<RefList />:""}
+    <RefList kind={kind} />
   </Style.Wrapper>
   )
 }
