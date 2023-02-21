@@ -1,4 +1,4 @@
-.container {
+.box {
   width: 460px;
   //padding: 10px;
 
@@ -10,13 +10,23 @@
   font-family: NotoSansKR-400;
 
   // 최상단 위치
-  z-index: 999;
+  z-index: 100;
+
+  // 뒷배경 어둡게
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 9999px;
 
   /* 중앙 배치 */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  /* 모달창 닫히는 것 방지 */
+}
+
+.container {
+  max-height: 530px;
+  overflow-y: scroll;
 }
 
 .agree {
@@ -70,4 +80,14 @@
 
   background: #d9d9d9;
   border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 5px; /* 스크롤바의 너비 */
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b0b0b0;
+  border-radius: 30px;
 }
