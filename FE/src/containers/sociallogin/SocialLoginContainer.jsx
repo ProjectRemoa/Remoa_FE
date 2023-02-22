@@ -41,7 +41,13 @@ function SocialLoginContainer() {
   /* 약관 동의 모달 생성 */
   const [modalOpen, setModalOpen] = useState(true);
 
-  const showModal = () => {
+  useEffect(() => {
+    if (code !== null) {
+      setModalOpen(true);
+    }
+  });
+
+  const showModal = (e) => {
     setModalOpen(true);
   };
 
@@ -81,43 +87,46 @@ function SocialLoginContainer() {
     });
   };*/
   return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
-      {modalOpen && <Modal setModalOpen={setModalOpen} />}
+    <>
+      <>{modalOpen && <Modal modalOpen={modalOpen} />}</>
       <div
         style={{
-          lineHeight: "40px",
-          fontSize: "1.5rem",
-          fontFamily: "NotoSansKR-700",
-          marginBottom: "40px",
+          width: "100%",
+          pointerEvents: modalOpen ? "none" : "auto",
         }}
       >
-        간단한 로그인으로 <br /> 공모전 관련 자료를 자유롭게 찾아보세요
-      </div>
-
-      <Style.Container>
-        📚 공모전 수상작을 포함한 참가 작품들을 자유롭게 열람
-      </Style.Container>
-      <Style.Container>
-        💡참가작 공유를 통한 다양한 피드백 및 코멘트 수령
-      </Style.Container>
-
-      <Style.Wrapper>
-        <span
+        <div
           style={{
-            fontSize: "0.8rem",
+            lineHeight: "40px",
+            fontSize: "1.5rem",
+            fontFamily: "NotoSansKR-700",
+            marginBottom: "40px",
           }}
         >
-          카카오 계정으로 3초만에 가입하기
-        </span>
-        <a href={KAKAO_AUTH_URL}>
-          <img src={kakao_login} alt="kakaologin" />
-        </a>
-      </Style.Wrapper>
-    </div>
+          간단한 로그인으로 <br /> 공모전 관련 자료를 자유롭게 찾아보세요
+        </div>
+
+        <Style.Container>
+          📚 공모전 수상작을 포함한 참가 작품들을 자유롭게 열람
+        </Style.Container>
+        <Style.Container>
+          💡참가작 공유를 통한 다양한 피드백 및 코멘트 수령
+        </Style.Container>
+
+        <Style.Wrapper>
+          <span
+            style={{
+              fontSize: "0.8rem",
+            }}
+          >
+            카카오 계정으로 3초만에 가입하기
+          </span>
+          <a href={KAKAO_AUTH_URL}>
+            <img src={kakao_login} alt="kakaologin" />
+          </a>
+        </Style.Wrapper>
+      </div>
+    </>
   );
 }
 

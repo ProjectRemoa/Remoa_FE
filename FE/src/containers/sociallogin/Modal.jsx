@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { RadioButtonUncheckedRounded } from "@mui/icons-material";
 import { RadioButtonCheckedRounded } from "@mui/icons-material";
 import { CheckCircleOutlineRounded } from "@mui/icons-material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import "./Modal.scss";
 import styled from "styled-components";
 import Agree from "./Agree";
@@ -42,10 +42,15 @@ const Button = styled.button`
   border: 1px solid ${(props) => (props.state ? "#FADA5E" : "#D9D9D9")};
 `;
 
-function Modal({ setModalOpen }) {
+function Modal({ modalOpen }) {
+  const inputEl = useRef(null);
+  useEffect(() => {
+    inputEl.current.focus();
+  });
   /* 약관 동의 체크박스 */
   const [checkList, setCheckList] = useState([]);
   const [buttonColor, setButtonColor] = useState(false);
+
   const [detail1, setDetail1] = useState(false);
   const [detail2, setDetail2] = useState(false);
   const [detail3, setDetail3] = useState(false);
@@ -73,7 +78,7 @@ function Modal({ setModalOpen }) {
     }
   });
   const closeModal = () => {
-    setModalOpen(false);
+    //setModalOpen(false);
   };
 
   const onClickDetail1 = () => {
@@ -86,7 +91,7 @@ function Modal({ setModalOpen }) {
     setDetail3(!detail3);
   };
   return (
-    <div className="box">
+    <div className="box" ref={inputEl}>
       <div className="container">
         <h1
           style={{

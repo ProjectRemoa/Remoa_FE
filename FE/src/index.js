@@ -48,7 +48,7 @@ root.render(
     <BrowserRouter>
       <Style.Wrapper>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<SocialLoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/sociallogin" element={<SocialLoginPage />} />
 
