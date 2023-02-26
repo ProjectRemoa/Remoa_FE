@@ -5,19 +5,32 @@ import axios from "axios";
 
 function KakaoLogin() {
   const navigate = useNavigate();
+  const code = new URL(window.location.href).searchParams.get("code");
+  sessionStorage.setItem("kakao", code);
 
   const sendToken = () => {
     // back에 인가 코드 보내기
-    const config = { "Conteny-Type": "application/json" };
-    const TokenForm = { code: sessionStorage.getItem("kakaotoken") };
-    console.log(TokenForm);
+    console.log(sessionStorage.getItem("kakao"));
+    console.log("=============================");
+    // url이 자동으로 인코딩되지 않아 encodeURI 함수 사용
+    // BE 측에서 CORS 설정하면 withCredentials 설정 안해도 되는 듯
     axios
-      .get(`/login/kakao?code=${sessionStorage.getItem("kakaotoken")}`)
+      .get(
+        `/login/kakao?code=` + encodeURI(code) //, {
+        //  withCredentials: true,
+        //}
+      )
       .then((res) => {
         console.log(res);
+        // 성공
         if (res.status === 200) {
-          console.log(res);
+          // 객체로 만들려고 했으나.. 처리가 불편한 관계로 따로 설정했음
+          sessionStorage.setItem("email", res.data.data.email);
+          sessionStorage.setItem("id", res.data.data.id);
+          sessionStorage.setItem("image", res.data.data.image);
+          sessionStorage.setItem("nickname", res.data.data.nickname);
         }
+        //alert("로그인 성공");
         navigate("/");
       })
       .catch((err) => {
@@ -27,27 +40,10 @@ function KakaoLogin() {
       });
   };
 
+  /* 카카오에서 인가코드 받아와서 백엔드에 넘겨주기 */
   useEffect(() => {
-    let params = new URL(document.location.toString()).searchParams;
-    let code = params.get("code");
-    let grant_type = "authorization_code";
-
-    axios
-      .post(
-        `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&code=${code}`,
-        {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        console.log(typeof res.data.access_token);
-        sessionStorage.setItem("kakaotoken", res.data.access_token);
-        sendToken();
-      });
-  });
+    sendToken();
+  }, []);
   return <div></div>;
 }
 

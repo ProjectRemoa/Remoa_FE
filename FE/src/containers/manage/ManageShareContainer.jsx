@@ -1,9 +1,10 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import styles from "./ManageShareContainer.module.css";
+import "./ManageShareContainer.scss";
 
 const Style = {
-  Conatiner: styled.div`
+  Container: styled.div`
     box-sizing: border-box;
     background: #ffffff;
     border: 1px solid #d0d0d0;
@@ -104,6 +105,7 @@ function ManageShareContainer() {
       alert("파일 이름은 최대 20자입니다");
     }
     setUploads(UploadList); // 덮어 씌우기
+    console.log(UploadList);
     //console.log("총 받은 파일 : " + UploadList.length + "개");
     /*for (let i = 0; i < UploadList.length; i++) {
       console.log(UploadList[i]);
@@ -133,38 +135,66 @@ function ManageShareContainer() {
 
   /* 등록하기 */
   const onClickRegister = () => {
+    const formdata = new FormData();
+    formdata.append("title", name);
+    formdata.append("contestName", comp);
+    formdata.append("category", category);
+    formdata.append("contestAward", compRes);
+    formdata.append("uploadFiles", uploads);
+
+    axios
+      .post("https://localhost:8080/work/share", formdata, {
+        headers: { "Content-Type": `multipart/form-data` },
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          alert("성공");
+        }
+      })
+      .catch((err) => {
+        alert("통신 오류");
+        console.log(err);
+      });
+
     alert("보내거라");
   };
 
   return (
-    <div style={{ width: "100%" }}>
-      <Style.Conatiner>
-        <table className={styles.table}>
+    <div
+      style={{
+        width: "100%",
+        marginTop: "100px",
+        fontFamily: "NotoSansKR-400",
+      }}
+    >
+      <div className="ManageShareContainer">
+        <table className="table">
           <tbody>
             {/* 작품명 */}
             <tr>
-              <th className={styles.th}>
+              <th className="th">
                 <label>작품명</label>
               </th>
-              <td className={styles.td}>
+              <td className="td">
                 <input
                   required
                   type="email"
-                  className={styles.input}
-                  placeholder="작품명을 입력해주세요."
+                  className="input"
+                  placeholder="작품명을 입력해주세요"
                   onChange={onChangeName}
                 />
               </td>
             </tr>
             {/* 참가 공모전 */}
             <tr>
-              <th className={styles.th}>
+              <th className="th">
                 <label>참가 공모전</label>
               </th>
-              <td className={styles.td}>
+              <td className="td">
                 <input
                   required
-                  className={styles.input}
+                  className="input"
                   type="text"
                   placeholder="공모전을 검색하거나 등록해보세요"
                   onChange={onChangeComp}
@@ -173,14 +203,14 @@ function ManageShareContainer() {
             </tr>
             {/* 수상 결과 */}
             <tr>
-              <th className={styles.th}>
+              <th className="th">
                 <label>수상 결과</label>
               </th>
-              <td className={styles.td}>
+              <td className="td">
                 <input
                   required
                   type="text"
-                  className={styles.input}
+                  className="input"
                   placeholder="수상 결과를 선택해주세요"
                   onChange={onChangeRes}
                 />
@@ -188,15 +218,12 @@ function ManageShareContainer() {
             </tr>
             {/* 카테고리 */}
             <tr>
-              <th className={styles.th} style={{ verticalAlign: "top" }}>
+              <th className="th" style={{ verticalAlign: "top" }}>
                 <label>카테고리</label>
               </th>
-              <td className={styles.td}>
-                <tr>
-                  <div
-                    className={styles.form_radio_btn}
-                    style={{ float: "left" }}
-                  >
+              <td className="td">
+                <div style={{ width: "65%" }}>
+                  <div className="form_radio_btn" style={{ float: "left" }}>
                     <input
                       id="radio-1"
                       type="radio"
@@ -206,10 +233,7 @@ function ManageShareContainer() {
                     />
                     <label htmlFor="radio-1">기획/아이디어</label>
                   </div>
-                  <div
-                    className={styles.form_radio_btn}
-                    style={{ float: "left" }}
-                  >
+                  <div className="form_radio_btn" style={{ float: "left" }}>
                     <input
                       id="radio-2"
                       type="radio"
@@ -219,10 +243,7 @@ function ManageShareContainer() {
                     />
                     <label htmlFor="radio-2">광고/마케팅</label>
                   </div>
-                  <div
-                    className={styles.form_radio_btn}
-                    style={{ width: "30%", float: "left" }}
-                  >
+                  <div className="form_radio_btn" style={{ float: "left" }}>
                     <input
                       id="radio-3"
                       type="radio"
@@ -232,12 +253,9 @@ function ManageShareContainer() {
                     />
                     <label htmlFor="radio-3">영상</label>
                   </div>
-                </tr>
-                <tr>
-                  <div
-                    className={styles.form_radio_btn}
-                    style={{ width: "30%", float: "left" }}
-                  >
+                </div>
+                <div style={{ width: "65%" }}>
+                  <div className="form_radio_btn" style={{ float: "left" }}>
                     <input
                       id="radio-4"
                       type="radio"
@@ -247,10 +265,7 @@ function ManageShareContainer() {
                     />
                     <label htmlFor="radio-4">디자인/사진</label>
                   </div>
-                  <div
-                    className={styles.form_radio_btn}
-                    style={{ width: "30%", float: "left" }}
-                  >
+                  <div className="form_radio_btn" style={{ float: "left" }}>
                     <input
                       id="radio-5"
                       type="radio"
@@ -260,15 +275,15 @@ function ManageShareContainer() {
                     />
                     <label htmlFor="radio-5">기타 아이디어</label>
                   </div>
-                </tr>
+                </div>
               </td>
             </tr>
             {/* 첨부파일 */}
             <tr>
-              <th className={styles.th} style={{ verticalAlign: "top" }}>
+              <th className="th" style={{ verticalAlign: "top" }}>
                 <label>첨부파일</label>
               </th>
-              <td className={styles.td}>
+              <td className="td">
                 <div
                   style={{
                     width: "60%",
@@ -295,7 +310,7 @@ function ManageShareContainer() {
                   ) : (
                     <div>
                       {uploads.map((upload) => (
-                        <span>
+                        <span key={upload.name}>
                           {upload.name}&nbsp;
                           <span
                             onClick={(e) => {
@@ -323,7 +338,7 @@ function ManageShareContainer() {
             </tr>
           </tbody>
         </table>
-      </Style.Conatiner>
+      </div>
       <Style.Button
         disabled={!buttonColor}
         state={buttonColor}
