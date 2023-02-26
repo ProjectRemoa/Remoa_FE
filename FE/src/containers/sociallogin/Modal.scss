@@ -1,3 +1,17 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 111;
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: default;
+}
+
 .box {
   width: 460px;
   //padding: 10px;
@@ -11,9 +25,6 @@
 
   // 최상단 위치
   z-index: 999;
-
-  // 뒷배경 어둡게
-  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 9999px;
 
   /* 중앙 배치 */
   position: absolute;

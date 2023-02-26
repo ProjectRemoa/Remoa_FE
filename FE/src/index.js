@@ -51,7 +51,7 @@ root.render(
           <Route path="/login" element={<SocialLoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/sociallogin" element={<SocialLoginPage />} />
-
+          <Route path="/login/kakao" element={<KakaoLogin />} />
           <Route path="/" element={<RefIdeaPage />} />
 
           <Route path="/ref/marketing" element={<RefMarketingPage />} />
