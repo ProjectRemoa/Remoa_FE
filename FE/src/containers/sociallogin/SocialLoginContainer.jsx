@@ -42,7 +42,7 @@ function SocialLoginContainer() {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    if (code !== null) {
+    if (sessionStorage.getItem("id") !== null) {
       setModalOpen(true);
     }
   });
