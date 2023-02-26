@@ -11,7 +11,7 @@ export const MS = {
     justify-content: center;
     align-items: center;
     z-index: 11;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.1);
     cursor: default;
   `,
   MobalBox:styled.div`
@@ -20,7 +20,8 @@ export const MS = {
     width: 86vw;
     height: auto;
     top: 106px;
-    padding: 15px;
+    justify-content: center;
+    padding: 15px 15px 0px 15px;
     border-radius: 1vw / 1vw;
   `,
   MobalContents:styled.div`
@@ -134,5 +135,31 @@ export const MS = {
     color: #000000;
     display: inline-block;
     cursor: pointer;
+  `,
+  CommentWrapper:styled.div`
+    background-color:#F5F5F5;
+    width: 100%;
+    padding: 0px 15px 50px 15px;
+    height: auto;
+    border-radius: 0px 0px 10px 10px;
+    position: relative;
+    left:-15px
+  `,
+  CommentWriteWrapper:styled.div`
+    margin: 0px 10px 25px 10px;
+    justify-content: center;
+    height: auto;
+  `,
+  WriteInput:styled.textarea`
+    border-radius: 10px;
+    width: 100%;
+    min-height: 90px;
+    font-family: 'Inter';
+    font-size: 15px;
+    line-height: 25px;
+    border:none;
+    ::placeholder {
+      color:black
+    }
   `
 }

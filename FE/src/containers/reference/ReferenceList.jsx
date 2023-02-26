@@ -1,13 +1,13 @@
 import {React, useEffect, useState} from 'react'
 import {makeStyles} from "@material-ui/core/styles";
-import { getIdeaContests, ideacontest } from '../../temporary/idea_data';
+import { getIdeaContests, getUserInfo } from '../../temporary/idea_data';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import ScreenShareOutlinedIcon from '@mui/icons-material/ScreenShareOutlined';
 import { Style } from '../../layout/ReferenceListStyle'
 import RefModal from '../modal/RefModal';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import RefModalFollow from '../modal/RefModalFollow';
+import StarIcon from '@mui/icons-material/Star';
 
 const useStyles = makeStyles({
   home:{
@@ -26,20 +26,26 @@ const useStyles = makeStyles({
     marginLeft:"20px",
     fontWeight:"700",
   },
+  star: {
+    color:"#FADA5E",
+
+  }
 })
 
 const RefList = (props) => {
   const classes = useStyles();
-  const Navigate = useNavigate()
   let ideas = getIdeaContests();
   let [data, setData] = useState(ideas);
-  let data1 = [...data]
-  //console.log(props.kind)
+  
+  let users = getUserInfo()
+  let [user, setUser] = useState(users)
+
   data=data.filter((d) =>
     d.detail_category == props.kind
   )
+
   const onClickDate = () => {
-    data1.sort((a,b) => {
+    data.sort((a,b) => {
       if(a.resgist_date < b.resgist_date) return 1;
       else if (a.resgist_date > b.resgist_date) return -1;
       else {
@@ -48,15 +54,30 @@ const RefList = (props) => {
         else return 0;
       }
     })
-    setData(data1);
+    setData(data);
+    // let i = 0
+    // let n = []
+
+    // while (i < data.length) {
+    //   let j = 0
+    //   while (j < user.length) {
+    //     if (data[i].id==user[j].id) {
+    //       n.push(user[j])
+    //     }
+    //     j++
+    //   }
+    //   i++  
+    // }
+    // console.log(user)
     document.getElementById("b1").style.backgroundColor="#FADA5E"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="white"
     document.getElementById("b4").style.backgroundColor="white"
   }
+
   
   const onClickHits = () => {
-    data1.sort((a,b) => {
+    data.sort((a,b) => {
       if(a.hits < b.hits) return 1;
       else if (a.hits > b.hits) return -1;
       else {
@@ -66,7 +87,8 @@ const RefList = (props) => {
       }
       
     })
-    setData(data1);
+    setData(data);
+
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="#FADA5E"
     document.getElementById("b3").style.backgroundColor="white"
@@ -74,7 +96,7 @@ const RefList = (props) => {
   }
   
   const onClickThumbs = () => {
-    data1.sort((a,b) => {
+    data.sort((a,b) => {
       if(a.thumbs < b.thumbs) return 1;
       else if (a.thumbs > b.thumbs) return -1;
       else {
@@ -83,7 +105,8 @@ const RefList = (props) => {
         else return 0;
       }
     })
-    setData(data1);
+    setData(data);
+
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="#FADA5E"
@@ -91,7 +114,7 @@ const RefList = (props) => {
   }
   
   const onClickScrap = () => {
-    data1.sort((a,b) => {
+    data.sort((a,b) => {
       if(a.scrap < b.scrap) return 1;
       else if (a.scrap > b.scrap) return -1;
       else {
@@ -100,7 +123,8 @@ const RefList = (props) => {
         else return 0;
       }
     })
-    setData(data1);
+    setData(data);
+
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="white"
@@ -137,7 +161,8 @@ const RefList = (props) => {
       }
     }
   }
-  
+  let Lo = window.location.href
+
   return(
   <Style.ContestList>
     <Style.Line />
@@ -153,10 +178,14 @@ const RefList = (props) => {
 
     {data.map((idea, index) => (
     <Style.ContestItem key={idea.id}>
-
+      <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.id}` :
+      Lo.includes("video") ? `/ref/video/${idea.id}` :
+      Lo.includes("design") ? `/ref/design/${idea.id}` :
+      Lo.includes("etc") ? `/ref/etc/${idea.id}` :`/${idea.id}`}>
       <Style.ContestImgCrop onClick={() => onModalHandler2(idea.id)}>
         <Style.ContestImg src = {require('../../images/' + idea.contest_image + '.jpg')} alt = '1' />
       </Style.ContestImgCrop>
+      </Link>
       <RefModal id2={idea.id} modalVisibleId2={modalVisibleId2} setModalVisibleId2={setModalVisibleId2} idea={idea} />
 
       <Style.ProfileInfo>
@@ -174,7 +203,7 @@ const RefList = (props) => {
           &nbsp;{idea.hits}&nbsp;
           &nbsp;<FavoriteOutlinedIcon className={classes.home2} />
           &nbsp;{idea.thumbs}&nbsp;
-          &nbsp;<ScreenShareOutlinedIcon className={classes.home} />
+          &nbsp;<StarIcon className={classes.star} />
           &nbsp;{idea.scrap}
         </Style.ProfileInfoDetail>
         

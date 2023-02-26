@@ -2,15 +2,9 @@ import { MS } from '../../layout/ModalStyle'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { makeStyles } from "@material-ui/core/styles";
 import { getDate } from '../../functions/getDate';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import RefModalComment from './RefModalComment';
 
-const modal = {
-  detail_title:"지각 방지 서비스 <단디>를 소개합니다",
-  detail_regist:"단국대학교 SW중심대학 경소톤",
-  detail_result:"출품작",
-  detail_category:"기획/아이디어",
-  detail_date:"2023-01-02",
-  
-}
 const useStyles = makeStyles({
   arrow:{
     fontSize:'25px',
@@ -31,9 +25,27 @@ const useStyles = makeStyles({
 
 export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea}) {
   const classes = useStyles();
+  const Navigate = useNavigate()
+  const location = useLocation()
+  const params = useParams()
+  let Lo = window.location.href
+
   const onCloseHandler2 = () => {
   	setModalVisibleId2(false)
+    if (Lo.includes("marketing")) {
+      Navigate("/ref/marketing")
+    } else if (Lo.includes("video")) {
+      Navigate("/ref/video")
+    } else if (Lo.includes("design")) {
+      Navigate("/ref/design")
+    } else if (Lo.includes("etc")) {
+      Navigate("/ref/etc")
+    } else {
+      Navigate("/")
+    }
   }
+  
+
   return (
     <MS.ModalWrapper className={modalVisibleId2 == id2 ? classes.show : classes.dis}>
     <MS.MobalBox>
@@ -54,7 +66,10 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
         </MS.MobalHeader>
         <MS.Line />
         <p>{id2}</p>
+      
+        <RefModalComment />
     </MS.MobalBox>
+    
   </MS.ModalWrapper>
   )
 }

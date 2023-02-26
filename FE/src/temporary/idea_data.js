@@ -1,6 +1,19 @@
+const id1 = 1
+const id2 = 2
+const id3 = 3
+const id4 = 4
+const id5 = 5
+const id6 = 6
+const id7 = 7
+const id8 = 8
+const id9 = 9
+const id10 = 10
+const id11 = 11
+const id12 = 12
+
 export let ideacontest = [
   {
-    id: 1,
+    id: id1,
     contest_name: "지각 방지 서비스 <단디>를 소개합니다",
     contest_image: "test1",
     registrant: "g1",
@@ -14,7 +27,7 @@ export let ideacontest = [
     detail_category:"기획/아이디어",
   },
   {
-    id: 2,
+    id: id2,
     contest_name: "방지 서비스 <단디>를 소개합니다",
     contest_image: "test2",
     registrant: "g2",
@@ -28,7 +41,7 @@ export let ideacontest = [
     detail_category:"기획/아이디어",
   },
   {
-    id: 3,
+    id: id3,
     contest_name: "서비스 <단디>를 소개합니다",
     contest_image: "test3",
     registrant: "g3",
@@ -42,7 +55,7 @@ export let ideacontest = [
     detail_category:"기획/아이디어",
   },
   {
-    id: 4,
+    id: id4,
     contest_name: "단디를 소개합니다",
     contest_image: "test4",
     registrant: "g4",
@@ -56,7 +69,7 @@ export let ideacontest = [
     detail_category:"기획/아이디어",
   },
   {
-    id: 5,
+    id: id5,
     contest_name: "소개합니다",
     contest_image: "test5",
     registrant: "g5",
@@ -67,10 +80,10 @@ export let ideacontest = [
     scrap:2,
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
-    detail_category:"기획/아이디어",
+    detail_category:"디자인",
   },
   {
-    id: 6,
+    id: id6,
     contest_name: "지각 방지",
     contest_image: "test6",
     registrant: "g6",
@@ -81,10 +94,10 @@ export let ideacontest = [
     scrap:4,
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
-    detail_category:"기획/아이디어",
+    detail_category:"영상",
   },
   {
-    id: 7,
+    id: id7,
     contest_name: "ㄴㄹㅇ",
     contest_image: "test7",
     registrant: "g7",
@@ -98,7 +111,7 @@ export let ideacontest = [
     detail_category:"기획/아이디어",
   },
   {
-    id: 8,
+    id: id8,
     contest_name: "b",
     contest_image: "test8",
     registrant: "g8",
@@ -112,7 +125,7 @@ export let ideacontest = [
     detail_category:"기타 아이디어",
   },
   {
-    id: 9,
+    id: id9,
     contest_name: "m",
     contest_image: "test8",
     registrant: "g9",
@@ -126,7 +139,7 @@ export let ideacontest = [
     detail_category:"디자인",
   },
   {
-    id: 10,
+    id: id10,
     contest_name: "a",
     contest_image: "test1",
     registrant: "g10",
@@ -140,7 +153,7 @@ export let ideacontest = [
     detail_category:"영상",
   },
   {
-    id: 11,
+    id: id11,
     contest_name: "c",
     contest_image: "test3",
     registrant: "g11",
@@ -154,7 +167,7 @@ export let ideacontest = [
     detail_category:"광고/마케팅",
   },
   {
-    id: 12,
+    id: id12,
     contest_name: "v",
     contest_image: "test6",
     registrant: "g12",
@@ -168,7 +181,96 @@ export let ideacontest = [
     detail_category:"광고/마케팅",
   },
 ];
+export let userInfo = [
+  {
+    id: id1,
+    registrant: "g1",
+    registrant_image: "test2",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id2,
+    registrant: "g2",
+    registrant_image: "test1",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id3,
+    registrant: "g3",
+    registrant_image: "test7",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id4,
+    registrant: "g4",
+    registrant_image: "test6",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id5,
+    registrant: "g5",
+    registrant_image: "test3",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id6,
+    registrant: "g6",
+    registrant_image: "test8",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id7,
+    registrant: "g7",
+    registrant_image: "test4",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id8,
+    registrant: "g8",
+    registrant_image: "test8",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id9,
+    registrant: "g9",
+    registrant_image: "test5",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id10,
+    registrant: "g10",
+    registrant_image: "test7",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id11,
+    registrant: "g11",
+    registrant_image: "test2",
+    following:30,
+    follower:10,
+  },
+  {
+    id: id12,
+    registrant: "g12",
+    registrant_image: "test6",
+    following:30,
+    follower:10,
+  },
+]
 
 export function getIdeaContests() {
   return ideacontest;
+}
+export function getUserInfo() {
+  return userInfo;
 }
