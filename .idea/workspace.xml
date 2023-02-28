@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ded94001-7909-48ea-a8e0-2042e56f4173" name="변경" comment="dev pull 확인과 FE폴더만 가져오기 , node-sass 설치">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/gradle_wrapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/libs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FE/src/images/imgAnotherProfile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FE/src/images/imgCommentPageTest.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FE/src/images/imgMyProfile.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="ded94001-7909-48ea-a8e0-2042e56f4173" name="변경" comment="ui설계..">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FE/src/containers/manage/ManageFeedbackContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/FE/src/containers/manage/ManageFeedbackContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FE/src/containers/manage/ManageFeedbackContainer.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/FE/src/containers/manage/ManageFeedbackContainer.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +16,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/menage/feedback" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
   </component>
@@ -65,6 +57,7 @@
       <workItem from="1676382752983" duration="4958000" />
       <workItem from="1676552663103" duration="1572000" />
       <workItem from="1676788708715" duration="11732000" />
+      <workItem from="1677154196436" duration="6963000" />
     </task>
     <task id="LOCAL-00001" summary="임시 커밋 1">
       <created>1676625895059</created>
@@ -91,7 +84,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature/manage/feedback" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

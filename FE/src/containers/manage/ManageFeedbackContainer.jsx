@@ -35,7 +35,7 @@ function ManageFeedbackContainer(){
                         <Link to={"/"}>답글</Link>
                     </span>
                 </div>
-                <div className={styles.feedBackExplan} style={{top:`${((i+1) * topValue)+8}%`}}>안녕하세요.뭐라뭐라 일단 설명인데 뭐 모르겟스빈다</div>
+                <div className={styles.feedBackExplan} style={{top:`${((i+1) * topValue)+8}%`}}>안녕하세요. 설명입니다</div>
                 <div className={styles.imgAnotherProfile} style={{top:`${((i+1) * topValue)+12}%`}}/>
                 <div className={styles.workTitle} style={{left:"36%",top:`${((i+1) * topValue)+12}%`}}>
                     이름입니다.
@@ -49,7 +49,7 @@ function ManageFeedbackContainer(){
                 </div>
                 <div className={styles.allowTop} style={{top:`${((i+1) * topValue)+13}%`}}/>
                 <div className={styles.allowBottom} style={{top:`${((i+1) * topValue)+14}%`}}/>
-                <div className={styles.feedBackExplan} style={{left:"36%",top:`${((i+1) * topValue)+15}%`}}>안녕하세요.뭐라뭐라 일단 설명인데 뭐 모르겟스빈다</div>
+                <div className={styles.feedBackExplan} style={{left:"36%",top:`${((i+1) * topValue)+15}%`}}>안녕하세요. 설명입니다</div>
                 <div className={styles.seeMore} style={{left:"38%",top:`${((i+1) * topValue)+19}%`}}>
                     더보기
                 </div>
