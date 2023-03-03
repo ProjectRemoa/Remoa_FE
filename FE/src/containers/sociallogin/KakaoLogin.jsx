@@ -30,6 +30,12 @@ function KakaoLogin() {
           sessionStorage.setItem("image", res.data.data.image);
           sessionStorage.setItem("nickname", res.data.data.nickname);
         }
+        // 회원가입하는 회원이면 modal창을 켜야함
+        if (res.data.detail === "회원가입하는 회원입니다") {
+          sessionStorage.setItem("new", true);
+        } else {
+          sessionStorage.setItem("new", false);
+        }
         //alert("로그인 성공");
         navigate("/");
       })
