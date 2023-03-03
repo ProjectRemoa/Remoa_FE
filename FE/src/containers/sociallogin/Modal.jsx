@@ -11,6 +11,7 @@ import "./Modal.scss";
 import styled from "styled-components";
 import Agree from "./Agree";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const theme = createTheme({
   status: {
@@ -90,7 +91,32 @@ function Modal({ modalOpen }) {
   };
 
   const onClickStart = () => {
-    const KakaoSignupForm = { KakaoId: sessionStorage.getItem("") };
+    var termConsent = false;
+    if (checkList.includes("marketing")) {
+      termConsent = true;
+    }
+
+    const KakaoSignupForm = {
+      kakaoId: sessionStorage.getItem("id"),
+      email: sessionStorage.getItem("email"),
+      nickname: sessionStorage.getItem("nickname"),
+      profileImage: sessionStorage.getItem("image"),
+      termConsent: termConsent,
+    };
+
+    axios
+      .post(`/signup/kakao`, KakaoSignupForm)
+      .then((res) => {
+        console.log(res);
+        // userInfo 보냈으면 sessionStorage에 있는 것들 id빼고 다 지우기
+        alert("환영합니다, " + sessionStorage.getItem("nickname") + "님!"); // 한글 깨짐 문제 존재
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("nickname");
+        sessionStorage.removeItem("image");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     navigate("/");
   };
 
