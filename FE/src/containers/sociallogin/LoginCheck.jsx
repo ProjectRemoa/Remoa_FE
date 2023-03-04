@@ -61,11 +61,15 @@ function LoginCheck() {
       .post("http://localhost:8080/user/logout")
       .then((res) => {
         console.log(res);
+        // 여기서 JSESSIONID가 삭제되어야 되는데 안되고 있다.
+        // 머선 오류냐
       })
       .catch((err) => {
         console.log(err);
       });
     //cookies.remove("JSESSIONID", { path: "/" });
+    sessionStorage.removeItem("id");
+    sessionStorage.removeItem("new");
     setIsLogin(false);
     navigate("/");
   };
