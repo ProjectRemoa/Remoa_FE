@@ -3,7 +3,6 @@ import profileImage from "../../images/profile_img.png";
 import styled from "styled-components";
 import axios from "axios";
 
-
 const Style={
     Wrapper:styled.div`
         margin-top: 200px;
