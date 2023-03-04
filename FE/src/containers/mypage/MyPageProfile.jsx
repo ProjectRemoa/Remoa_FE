@@ -1,15 +1,10 @@
-import NotificationsNone from '@mui/icons-material/NotificationsNone';
-import { borderColor, borderRadius, color, fontWeight } from '@mui/system';
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import profileImage from "../../images/profile_img.png";
 import styled from "styled-components";
+import axios from "axios";
 
-function MyPageProfile() {
 
-  const name = "호갱"; //임시 변수
-  const email = "maninhat@kakao.com"; //임시 변수
-
-  const Style={
+const Style={
     Wrapper:styled.div`
         margin-top: 200px;
         margin-bottom: 112px;
@@ -87,6 +82,14 @@ function MyPageProfile() {
             border: 3px solid #FADA5E;
         }
     `,
+    University:styled.div`
+        width: 264px;
+        height: 42px;
+        color: #1F1F1F;
+        border: 1px solid #B0B0B0;
+        border-radius: 10px;
+        font-family: 'Inter';
+    `,
     ItemButton:styled.button`
         width: 142px;
         height: 42px;
@@ -122,14 +125,63 @@ function MyPageProfile() {
         };
     `
     
+}
+
+function MyPageProfile() {
+  const email = "maninhat@kakao.com"; //임시 변수
+
+  const [nickname, setNickname] = useState("호갱");
+  const [phonenumber, setPhonenumber] = useState("01012345678");
+  const [university, setUniversity] = useState("한국대학교");
+  const [onelineintroduction, setOnelineintroduction] = useState("안녕하세요 만나서 반갑습니다! 좋은 자료 많이 공유할게요!");
+
+  const nicknameOverlapCheck = (nickname) => {
+    axios
+    .get(`http://localhost:8080/nickname?nickname=${nickname}`)
+    .then((res) => {
+    if (res.status === 200) {
+        console.log(res);
+    }
+    })
+    .catch((err) => {
+        console.log(err);
+    });
   }
+
+  const changeProfile = (nickname, phonenumber, university, onelineintroduction) => {
+    axios
+    .put('http://localhost:8080/user', {
+        nickname : nickname,
+        phonenumber : phonenumber,
+        university : university,
+        onelineintroduction : onelineintroduction
+    })
+    .then((res) => {
+        if (res.status === 200) {
+            console.log(res);
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+  }
+
+  axios.get('http://localhost:8080/user')
+    .then((res) => {
+        if (res.status === 200) {
+            console.log(res);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
   return(
     <>
         <Style.Wrapper>
             <Style.ProfileImage src={profileImage}></Style.ProfileImage>
             <Style.ProfileIntro>
-                <span style={{color: "#000000"}}>{name} </span> 
+                <span style={{color: "#000000"}}>{nickname}</span> 
                 님<br />오늘은 어떤 공모전에 참여하시나요?
             </Style.ProfileIntro>
 
@@ -157,25 +209,35 @@ function MyPageProfile() {
                 
                 <Style.ItemWrapper>
                     <Style.Question>닉네임</Style.Question>
-                    <Style.Answer placeholder='호갱'></Style.Answer>
-                    <Style.ItemButton>중복 확인</Style.ItemButton>
+                    <Style.Answer 
+                        placeholder={nickname}
+                        value={nickname}
+                        onChange={e => setNickname(e.target.value)}
+                    ></Style.Answer>
+                    <Style.ItemButton
+                        onClick={nicknameOverlapCheck(nickname)}
+                    >중복 확인</Style.ItemButton>
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper>
                     <Style.Question>휴대전화</Style.Question>
-                    <Style.Answer placeholder="01012345678"></Style.Answer>
+                    <Style.Answer 
+                        placeholder={phonenumber}
+                        onClick={e => setPhonenumber(e.target.value)}
+                    ></Style.Answer>
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper>
                     <Style.Question>재학 중 대학</Style.Question>
-                    <Style.Answer placeholder="한국대학교"></Style.Answer>
+                    <Style.University>{university}</Style.University>
                     <Style.ItemButton>검색하기</Style.ItemButton>
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{display: "flex"}}>
                     <Style.Question style={{flex:1}}>한줄 소개</Style.Question>
                     <Style.Answer 
-                        placeholder="안녕하세요 만나서 반갑습니다! 좋은 자료 많이 공유할게요!"
+                        placeholder={onelineintroduction}
+                        onClick={e => setOnelineintroduction(e.target.value)}
                         style={{
                             width: "700px",
                             height: "90px",
@@ -185,7 +247,9 @@ function MyPageProfile() {
                 </Style.ItemWrapper>
             </Style.ProfileWrapper>
 
-            <Style.ModifyButton>수정 완료</Style.ModifyButton>
+            <Style.ModifyButton
+                onClick={changeProfile(nickname, phonenumber, university, onelineintroduction)}
+            >수정 완료</Style.ModifyButton>
 
         </Style.Wrapper>
     </>
