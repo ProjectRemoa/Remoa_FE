@@ -29,17 +29,13 @@ function KakaoLogin() {
           sessionStorage.setItem("image", res.data.data.image);
           sessionStorage.setItem("nickname", res.data.data.nickname);
 
-          sessionStorage.getItem("email");
-          sessionStorage.getItem("id");
-          sessionStorage.getItem("image");
-          sessionStorage.getItem("nickname");
-
           // 회원가입하는 회원이면 modal창을 켜야함
           sessionStorage.setItem("new", true);
-          console.log(sessionStorage.getItem("new"));
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
+          sessionStorage.setItem("id", res.data.data.id);
+          alert("환영합니다! " + res.data.data.nickname + "님!");
           navigate("/");
         }
       })

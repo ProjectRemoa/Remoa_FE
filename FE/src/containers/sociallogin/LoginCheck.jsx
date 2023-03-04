@@ -32,7 +32,7 @@ function LoginCheck() {
 
   const [isLogin, setIsLogin] = useState(false);
 
-  const cookies = new Cookies();
+  /*const cookies = new Cookies();
   const authCheck = () => {
     // 페이지에 들어올 때 쿠키로 사용자 체크
     // httpOnly가 true로 설정되어있어서 접근하지 못했음
@@ -43,10 +43,17 @@ function LoginCheck() {
     } else {
       setIsLogin(false);
     }
-  };
+  };*/
+
+  // cookie로 진행하면 보안 문제에 매우 취약
+  // localStorage나 sessionStorage를 권장
 
   useEffect(() => {
-    authCheck();
+    if (sessionStorage.getItem("id") !== null) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
   }, []);
 
   const logoutOnClick = () => {
@@ -58,7 +65,7 @@ function LoginCheck() {
       .catch((err) => {
         console.log(err);
       });
-    cookies.remove("JSESSIONID", { path: "/" });
+    //cookies.remove("JSESSIONID", { path: "/" });
     setIsLogin(false);
     navigate("/");
   };
