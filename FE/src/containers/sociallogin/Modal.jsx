@@ -12,6 +12,7 @@ import styled from "styled-components";
 import Agree from "./Agree";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useCookies, Cookies } from "react-cookie";
 
 const theme = createTheme({
   status: {
