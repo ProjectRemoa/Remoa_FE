@@ -58,6 +58,7 @@ const Style = {
     position: absolute;
     height: 39px;
     top:42px;
+
   `,
   SearchDeco:styled.p`
     font-size: large;
