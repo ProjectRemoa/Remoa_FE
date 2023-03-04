@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+
 import styles from "./Header.module.css";
 import styled from "styled-components";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useNavigate } from "react-router-dom";
 import img from "../../images/로고대체.jpg";
 import axios from "axios";
+import { useState, useEffect } from "react";
 const Style = {
   Header: styled.div`
     position: fixed;

@@ -32,7 +32,8 @@ import KakaoLogin from "./containers/sociallogin/KakaoLogin";
 
 import theme from "./layout/theme";
 
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from 'styled-components';
+import RefModal from './containers/modal/RefModal';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const Style = {
@@ -54,10 +55,22 @@ root.render(
           <Route path="/login/kakao" element={<KakaoLogin />} />
           <Route path="/" element={<RefIdeaPage />} />
 
-          <Route path="/ref/marketing" element={<RefMarketingPage />} />
-          <Route path="/ref/video" element={<RefVideoPage />} />
-          <Route path="/ref/design" element={<RefDesignPage />} />
-          <Route path="/ref/etc" element={<RefEtcPage />} />
+          <Route path='/' element={ <RefIdeaPage />}>
+            <Route path=':id' element={<RefModal />} />
+          </Route>
+            
+          <Route path='/ref/marketing' element={ <RefMarketingPage />}>
+            <Route path=':id' element={<RefModal />} />
+          </Route>
+          <Route path='/ref/video' element={ <RefVideoPage />}>
+            <Route path=':id' element={<RefModal />} />
+          </Route>
+          <Route path='/ref/design' element={ <RefDesignPage />}>
+            <Route path=':id' element={<RefModal />} />
+          </Route>
+          <Route path='/ref/etc' element={ <RefEtcPage />}>
+            <Route path=':id' element={<RefModal />} />
+          </Route>
 
           <Route path="/manage/list" element={<ManageList />} />
           <Route path="/manage/share" element={<ManageShare />} />
