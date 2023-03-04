@@ -1,12 +1,13 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import ReferenceContainer from "../../containers/reference/ReferenceContainer";
+import RefListWrapper from "../../containers/reference/RefListWrapper";
 
 function RefMarketingPage() {
   return (
     <Layout>
       <ReferenceContainer />
-      광고/마케팅 페이지
+      <RefListWrapper />
     </Layout>
   )
 }

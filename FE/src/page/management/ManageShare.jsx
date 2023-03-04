@@ -1,12 +1,13 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import ManageContainer from "../../containers/manage/ManageContainer";
+import ManageShareContainer from "../../containers/manage/ManageShareContainer";
 function ManageShare() {
   return (
     <Layout>
       <ManageContainer />
-      내 작업물 공유
+      <ManageShareContainer />
     </Layout>
-  )
+  );
 }
 export default ManageShare;

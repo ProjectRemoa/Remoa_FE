@@ -1,0 +1,53 @@
+
+spring:
+
+  datasource:
+    url: jdbc:mysql://3.39.191.77:3306/remoa?useSSL=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ex2
+    password: 1234
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    defer-datasource-initialization: true
+
+  init:
+    sql:
+      mode: always
+
+#파일 업/다운로드 관련- 230126 추가
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 200MB
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+uploadFolder: upload
+
+app: # 파이어베이스
+  firebase-configuration-file: ./serviceAccountKey.json
+  firebase-bucket: springboottest-110c1.appspot.com
+
+cloud: # s3
+  aws:
+    credentials:
+      access-key: AKIASR3E6MYIH7CHQWO4 # IAM 계정의 accessKey
+      secret-key: l9d50/4tOGrU2ZI2iToGdYEpdksPPMmHdEsVDKeZ  # IAM 계정의 secretKey
+    region:
+      static: ap-northeast-2  # 버킷의 리전
+    s3:
+      bucket: gwangmin-project-bucket   #  버킷 이름
+    stack:
+      auto: false

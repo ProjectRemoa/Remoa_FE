@@ -5,7 +5,7 @@ function PageFAQ() {
   return (
     <Layout>
       <MyPageContainer />
-      공지사항/FAQ
+      공지사항 / FAQ
     </Layout>
   )
 }

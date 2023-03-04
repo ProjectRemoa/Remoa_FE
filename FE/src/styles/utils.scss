@@ -1,0 +1,20 @@
+$desktop: 2560px;
+$big_laptop: 1440px;
+$small_laptop: 1024px;
+
+@mixin desktop {
+  @media (min-width: #{($big_laptop)+1px}) {
+    @content;
+  }
+}
+@mixin big_laptop {
+  @media (min-width: #{($small_laptop)+1px}) and (max-width: #{($big_laptop)}) {
+    @content;
+  }
+}
+
+@mixin small_laptop {
+  @media (max-width: #{($small_laptop)}) {
+    @content;
+  }
+}
