@@ -34,6 +34,7 @@ import theme from "./layout/theme";
 
 import { ThemeProvider } from 'styled-components';
 import RefModal from './containers/modal/RefModal';
+import RefSearchPage from "./page/reference/RefSearchPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const Style = {
@@ -71,6 +72,7 @@ root.render(
           <Route path='/ref/etc' element={ <RefEtcPage />}>
             <Route path=':id' element={<RefModal />} />
           </Route>
+          <Route path='/ref/search/:search' element={ <RefSearchPage /> } />
 
           <Route path="/manage/list" element={<ManageList />} />
           <Route path="/manage/share" element={<ManageShare />} />

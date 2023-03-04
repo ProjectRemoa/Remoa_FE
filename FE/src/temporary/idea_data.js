@@ -14,7 +14,7 @@ const id12 = 12
 export let ideacontest = [
   {
     id: id1,
-    contest_name: "지각 방지 서비스 <단디>를 소개합니다",
+    contest_name: "지각? 방지 서비스 <단디>를 소개합니다",
     contest_image: "test1",
     registrant: "g1",
     registrant_image: "test2",
