@@ -157,7 +157,7 @@ function ManageShareContainer() {
       formdata.append("uploadFiles", file)
     );
     //formdata.append("uploadFiles", uploads); // 이거 오류남 왜징
-
+    axios.defaults.withCredentials = true;
     axios({
       method: "post",
       url: "http://localhost:8080/reference",
