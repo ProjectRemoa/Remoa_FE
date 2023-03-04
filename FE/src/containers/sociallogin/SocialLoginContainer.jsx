@@ -66,41 +66,6 @@ function SocialLoginContainer() {
     setModalOpen(true);
   };
 
-  /*const getSession = () => {
-    const config = { "Conteny-Type": "application/json" };
-    axios
-      .post("/signup/kakao", code, config)
-      .then((result) => {
-        console.log(result);
-        if (result.status === 200 && result.data !== "login fail") {
-        }
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("로그인에 실패하였습니다.");
-        navigate("/sociallogin");
-      });
-  };*/
-
-  /*const kakaoLoginHandler = () => {
-    Kakao.Auth.login({
-      success: function (authObj) {
-        fetch(`${KAKAO_AUTH_URL}`, {
-          method: "GET",
-          body: JSON.stringfy({
-            access_token: authObj.access_token,
-          }),
-        })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-    });
-  };*/
   return (
     <>
       <>{modalOpen && <Modal />}</>

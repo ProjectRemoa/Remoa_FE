@@ -15,11 +15,7 @@ function KakaoLogin() {
     // url이 자동으로 인코딩되지 않아 encodeURI 함수 사용
     // BE 측에서 CORS 설정하면 withCredentials 설정 안해도 되는 듯
     axios
-      .get(
-        `/login/kakao?code=` + encodeURI(code) //, {
-        //  withCredentials: true,
-        //}
-      )
+      .get(`/login/kakao?code=` + encodeURI(code))
       .then((res) => {
         console.log(res);
         // 성공
@@ -37,7 +33,7 @@ function KakaoLogin() {
           sessionStorage.setItem("new", false);
         }
         //alert("로그인 성공");
-        navigate("/");
+        navigate("/sociallogin");
       })
       .catch((err) => {
         console.log(err);
