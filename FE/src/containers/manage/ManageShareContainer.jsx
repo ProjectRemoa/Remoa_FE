@@ -136,16 +136,34 @@ function ManageShareContainer() {
   /* 등록하기 */
   const onClickRegister = () => {
     const formdata = new FormData();
-    formdata.append("title", name);
-    formdata.append("contestName", comp);
-    formdata.append("category", category);
-    formdata.append("contestAward", compRes);
-    formdata.append("uploadFiles", uploads);
 
-    axios
-      .post("https://localhost:8080/work/share", formdata, {
-        headers: { "Content-Type": `multipart/form-data` },
-      })
+    // json 파일은 따로 Blob에 담음
+    const UploadPostForm = {
+      title: name,
+      contestName: comp,
+      category: "idea",
+      contestAward: compRes,
+    };
+    console.log(UploadPostForm);
+
+    const uploadPostForm = new Blob([JSON.stringify(UploadPostForm)], {
+      type: "application/json",
+    });
+
+    // 이외의 정보는 uploadPostForm에 넣는다
+    formdata.append("uploadPostForm", uploadPostForm);
+    // file은 따로 넣고
+    Object.values(uploads).forEach((file) =>
+      formdata.append("uploadFiles", file)
+    );
+    //formdata.append("uploadFiles", uploads); // 이거 오류남 왜징
+
+    axios({
+      method: "post",
+      url: "http://localhost:8080/reference",
+      data: formdata,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
@@ -156,8 +174,6 @@ function ManageShareContainer() {
         alert("통신 오류");
         console.log(err);
       });
-
-    alert("보내거라");
   };
 
   return (
@@ -228,7 +244,7 @@ function ManageShareContainer() {
                       id="radio-1"
                       type="radio"
                       name="category"
-                      value="ref"
+                      value="idea"
                       onChange={onChangeCategory}
                     />
                     <label htmlFor="radio-1">기획/아이디어</label>
@@ -238,7 +254,7 @@ function ManageShareContainer() {
                       id="radio-2"
                       type="radio"
                       name="category"
-                      value="adv"
+                      value="marketing"
                       onChange={onChangeCategory}
                     />
                     <label htmlFor="radio-2">광고/마케팅</label>
@@ -248,7 +264,7 @@ function ManageShareContainer() {
                       id="radio-3"
                       type="radio"
                       name="category"
-                      value="vd"
+                      value="design"
                       onChange={onChangeCategory}
                     />
                     <label htmlFor="radio-3">영상</label>
@@ -260,7 +276,7 @@ function ManageShareContainer() {
                       id="radio-4"
                       type="radio"
                       name="category"
-                      value="dgn"
+                      value="video"
                       onChange={onChangeCategory}
                     />
                     <label htmlFor="radio-4">디자인/사진</label>
