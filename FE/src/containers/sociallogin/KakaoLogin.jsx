@@ -35,13 +35,11 @@ function KakaoLogin() {
           // 회원가입하는 회원이면 modal창을 켜야함
           sessionStorage.setItem("new", true);
           console.log(sessionStorage.getItem("new"));
+          navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
           navigate("/");
         }
-
-        //alert("로그인 성공");
-        navigate("/sociallogin");
       })
       .catch((err) => {
         console.log(err);
