@@ -5,6 +5,7 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useNavigate } from "react-router-dom";
 import img from "../../images/로고대체.jpg";
 import axios from "axios";
+import LoginCheck from "../../containers/sociallogin/LoginCheck";
 const Style = {
   Header: styled.div`
     position: fixed;
@@ -226,7 +227,8 @@ const Header = () => {
           </Style.NavItemWrapper>
 
           <Style.ButtonWrapper>
-            {loginYN ? (
+            <LoginCheck />
+            {/*{loginYN ? (
               <>
                 <Style.BellButton onClick={noticeOnClick}>
                   <NotificationsNoneIcon
@@ -241,20 +243,9 @@ const Header = () => {
               </>
             ) : (
               <>
-                {isLogin ? (
-                  <Style.StyledButton onClick={logoutOnClick}>
-                    로그아웃
-                  </Style.StyledButton>
-                ) : (
-                  <Style.StyledButton onClick={loginOnClick}>
-                    로그인
-                  </Style.StyledButton>
-                )}
-                {/*<Style.StyledButton onClick={signupOnClick}>
-                  회원가입
-                </Style.StyledButton>*/}
+                <LoginCheck />
               </>
-            )}
+            )}*/}
           </Style.ButtonWrapper>
         </Style.NavWrapper>
       </div>

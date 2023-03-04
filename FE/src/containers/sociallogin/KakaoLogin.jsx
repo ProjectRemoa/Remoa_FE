@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CLIENT_ID, KAKAO_AUTH_URL, REDIRECT_URL } from "./kakaodata";
 import axios from "axios";
+import { useCookies, Cookies } from "react-cookie";
 
 function KakaoLogin() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function KakaoLogin() {
       .get(`/login/kakao?code=` + encodeURI(code))
       .then((res) => {
         console.log(res);
+
         // 성공
         if (res.status === 201) {
           // 201 : 회원가입
