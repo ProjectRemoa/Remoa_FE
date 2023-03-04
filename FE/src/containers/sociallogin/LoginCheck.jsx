@@ -27,16 +27,16 @@ const Style = {
   `,
 };
 
-function LoginCheck(props) {
+function LoginCheck() {
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(false);
 
   const cookies = new Cookies();
-  //const [cookies, setCookies, removeCookie] = useCookies(["JSESSIONID"]);
   const authCheck = () => {
     // 페이지에 들어올 때 쿠키로 사용자 체크
     // httpOnly가 true로 설정되어있어서 접근하지 못했음
+    // cookie가 존재하면 logout 버튼, 존재하지 않으면 login 버튼
     const cookie = cookies.get("JSESSIONID");
     if (cookie !== undefined) {
       setIsLogin(true);
