@@ -39,13 +39,6 @@ function SocialLoginContainer() {
   const navigate = useNavigate();
 
   /* 약관 동의 모달 생성 */
-  const [modalOpen, setModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (sessionStorage.getItem("new") === true) {
-      setModalOpen(true);
-    }
-  });
 
   /* useEffect(() => {
     axios
@@ -62,17 +55,17 @@ function SocialLoginContainer() {
       });
   }, []);*/
 
-  const showModal = (e) => {
-    setModalOpen(true);
-  };
+  /*const showModal = (e) => {
+    modalOpen = true;
+  };*/
 
   return (
     <>
-      <>{modalOpen && <Modal />}</>
+      <>{sessionStorage.getItem("new") && <Modal />}</>
       <div
         style={{
           width: "100%",
-          pointerEvents: modalOpen ? "none" : "auto",
+          pointerEvents: sessionStorage.getItem("new") ? "none" : "auto",
         }}
       >
         <div

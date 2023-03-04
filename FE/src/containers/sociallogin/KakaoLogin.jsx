@@ -19,19 +19,27 @@ function KakaoLogin() {
       .then((res) => {
         console.log(res);
         // 성공
-        if (res.status === 200) {
+        if (res.status === 201) {
+          // 201 : 회원가입
           // 객체로 만들려고 했으나.. 처리가 불편한 관계로 따로 설정했음
           sessionStorage.setItem("email", res.data.data.email);
           sessionStorage.setItem("id", res.data.data.id);
           sessionStorage.setItem("image", res.data.data.image);
           sessionStorage.setItem("nickname", res.data.data.nickname);
-        }
-        // 회원가입하는 회원이면 modal창을 켜야함
-        if (res.data.detail === "회원가입하는 회원입니다") {
+
+          sessionStorage.getItem("email");
+          sessionStorage.getItem("id");
+          sessionStorage.getItem("image");
+          sessionStorage.getItem("nickname");
+
+          // 회원가입하는 회원이면 modal창을 켜야함
           sessionStorage.setItem("new", true);
-        } else {
-          sessionStorage.setItem("new", false);
+          console.log(sessionStorage.getItem("new"));
+        } else if (res.status === 200) {
+          // 200 : 로그인
+          navigate("/");
         }
+
         //alert("로그인 성공");
         navigate("/sociallogin");
       })

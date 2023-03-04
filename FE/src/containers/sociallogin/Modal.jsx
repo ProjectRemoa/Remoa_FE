@@ -104,6 +104,7 @@ function Modal({ modalOpen }) {
       termConsent: termConsent,
     };
 
+    console.log(KakaoSignupForm);
     axios
       .post(`/signup/kakao`, KakaoSignupForm)
       .then((res) => {
