@@ -35,7 +35,7 @@ const { Kakao } = window;
 
 function SocialLoginContainer() {
   const code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
+  //console.log(code);
   const navigate = useNavigate();
 
   /* 약관 동의 모달 생성 */
