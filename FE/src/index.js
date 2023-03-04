@@ -34,7 +34,9 @@ import theme from "./layout/theme";
 
 import { ThemeProvider } from "styled-components";
 import { CookiesProvider } from "react-cookie";
+import axios from "axios";
 
+axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const Style = {
   Wrapper: styled.div`
