@@ -58,11 +58,15 @@ function LoginCheck() {
 
   const logoutOnClick = () => {
     axios
-      .post("http://localhost:8080/user/logout")
+      .post("http://localhost:8080/user/logout", {}, { withCredentials: true })
       .then((res) => {
         console.log(res);
+        alert("로그아웃 되었습니다.");
+        window.location.replace("/"); // 새로고침
+        navigate("/");
         // 여기서 JSESSIONID가 삭제되어야 되는데 안되고 있다.
-        // 머선 오류냐
+        // 원래 삭제는 안되고, 대신 JSESSIONID는 무효화된다
+        // 로그인 여부에 따른 페이지 보이기/감추기 기능도 구현해야 할 것 같다.
       })
       .catch((err) => {
         console.log(err);
