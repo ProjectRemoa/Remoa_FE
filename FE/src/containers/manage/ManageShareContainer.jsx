@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { Cookies } from "react-cookie";
 import styled from "styled-components";
 import "./ManageShareContainer.scss";
 
@@ -158,11 +159,14 @@ function ManageShareContainer() {
     );
     //formdata.append("uploadFiles", uploads); // 이거 오류남 왜징
 
+    //const cookie = new Cookies();
     axios({
       method: "post",
       url: "http://localhost:8080/reference",
       data: formdata,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then((response) => {
         console.log(response);
