@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import profileImage from "../../images/profile_img.png";
 import styled from "styled-components";
 import axios from "axios";
-
+import {Cookies} from "react-cookie"
 
 const Style={
     Wrapper:styled.div`
@@ -22,11 +22,13 @@ const Style={
     `,
     ProfileImageButton:styled.label`
         width: 177px;
-        height: 36px;
+        height: 46px;
+        display: block;
+        margin: 0 auto;
         background-color: #FADA5E;
         color: #FFFFFF;
         border-radius: 30px;
-        line-height: 36px;
+        line-height: 46px;
         font-size: 13px;
         font-weight: bold;
         font-family: 'Inter';
@@ -155,24 +157,31 @@ function MyPageProfile() {
         phonenumber : phonenumber,
         university : university,
         onelineintroduction : onelineintroduction
-    })
+    },
+    { withCredentials: true })
     .then((res) => {
         if (res.status === 200) {
             console.log(res);
         }
     })
     .catch((err) => {
+        console.log("PUT : 사용자 정보를 변경하던 중 에러")
         console.error(err);
     });
   }
 
-  axios.get('http://localhost:8080/user')
+  axios.get('http://localhost:8080/user', { withCredentials: true })
     .then((res) => {
         if (res.status === 200) {
             console.log(res);
+            setNickname(res.data.nickname);
+            setPhonenumber(res.data.phoneNumber);
+            setUniversity(res.data.university);
+            setOnelineintroduction(res.data.oneLineIntroduction)
         }
     })
     .catch((err) => {
+        console.log("GET : 사용자 정보를 가져오는 중 에러")
         console.log(err);
     });
 
@@ -215,6 +224,7 @@ function MyPageProfile() {
                         onChange={e => setNickname(e.target.value)}
                     ></Style.Answer>
                     <Style.ItemButton
+                        type='button'
                         onClick={nicknameOverlapCheck(nickname)}
                     >중복 확인</Style.ItemButton>
                 </Style.ItemWrapper>
@@ -230,7 +240,9 @@ function MyPageProfile() {
                 <Style.ItemWrapper>
                     <Style.Question>재학 중 대학</Style.Question>
                     <Style.University>{university}</Style.University>
-                    <Style.ItemButton>검색하기</Style.ItemButton>
+                    <Style.ItemButton
+                        type='button'
+                    >검색하기</Style.ItemButton>
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{display: "flex"}}>
