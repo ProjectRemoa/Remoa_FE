@@ -24,10 +24,11 @@ function KakaoLogin() {
         if (res.status === 201) {
           // 201 : 회원가입
           // 객체로 만들려고 했으나.. 처리가 불편한 관계로 따로 설정했음
-          sessionStorage.setItem("email", res.data.data.email);
+          /*sessionStorage.setItem("email", res.data.data.email);
           sessionStorage.setItem("id", res.data.data.id);
           sessionStorage.setItem("image", res.data.data.image);
-          sessionStorage.setItem("nickname", res.data.data.nickname);
+          sessionStorage.setItem("nickname", res.data.data.nickname);*/
+          // userinfo를 받아서 다시 넘기지 않고 쿠키를 넘기는 형식으로 진행
 
           // 회원가입하는 회원이면 modal창을 켜야함
           sessionStorage.setItem("new", true);
