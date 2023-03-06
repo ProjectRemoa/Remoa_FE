@@ -107,7 +107,11 @@ function Modal({ modalOpen }) {
 
     // termConsent와 JSESSIONID 쿠키만 보내기로 결정
     axios
-      .post(`/signup/kakao`, termConsent, { withCredentials: true })
+      .post(
+        `/signup/kakao`,
+        { termConsent: termConsent },
+        { withCredentials: true }
+      )
       .then((res) => {
         console.log(res);
         sessionStorage.setItem("nickname", res.data.data.nickname);
