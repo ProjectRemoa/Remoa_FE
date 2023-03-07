@@ -7,7 +7,7 @@ module.exports = function (app) {
             target: "http://localhost:8080",
             changeOrigin: true,
             pathRewrite: {
-                '^/BE': '' // URL ^/api -> 공백 변경
+                '^/BE': '' // URL ^/BE -> 공백 변경
             }
         })
     )
