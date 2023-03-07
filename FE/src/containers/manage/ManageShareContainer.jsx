@@ -159,11 +159,9 @@ function ManageShareContainer() {
     //formdata.append("uploadFiles", uploads); // 이거 오류남 왜징
 
     console.log(formdata)
-    axios({
-      method: "post",
-      url: "/api/reference",
-      data: formdata,
-      headers: { "Content-Type": "multipart/form-data" },
+    axios.post("http://localhost:8080/reference",formdata,{
+      headers: {"Content-Type": "multipart/form-data"},
+      withCredentials : true
     })
       .then((response) => {
         console.log(response);
