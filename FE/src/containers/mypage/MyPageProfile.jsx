@@ -130,35 +130,35 @@ const Style={
 }
 
 function MyPageProfile() {
-  const email = "maninhat@kakao.com"; //임시 변수
-
+  const [email, setEmail] = useState("maninhat@kakao.com")
   const [nickname, setNickname] = useState("호갱");
   const [phonenumber, setPhonenumber] = useState("01012345678");
   const [university, setUniversity] = useState("한국대학교");
   const [onelineintroduction, setOnelineintroduction] = useState("안녕하세요 만나서 반갑습니다! 좋은 자료 많이 공유할게요!");
+  const [idcheck, setIdcheck] = useState("");
 
-  const nicknameOverlapCheck = (nickname) => {
+
+  function nicknameOverlapCheck(nickname) {
     axios
     .get(`http://localhost:8080/nickname?nickname=${nickname}`)
     .then((res) => {
     if (res.status === 200) {
         console.log(res);
+        setIdcheck(res.data.data)
     }
     })
     .catch((err) => {
         console.log(err);
-    });
+    });  
   }
 
-  const changeProfile = (nickname, phonenumber, university, onelineintroduction) => {
-    axios
-    .put('http://localhost:8080/user', {
+  function changeProfile(nickname, phonenumber, university, onelineintroduction) {
+    axios.put('http://localhost:8080/user', {
         nickname : nickname,
-        phonenumber : phonenumber,
+        phoneNumber : phonenumber,
         university : university,
-        onelineintroduction : onelineintroduction
-    },
-    { withCredentials: true })
+        oneLineIntroduction : onelineintroduction
+    }, { withCredentials: true })
     .then((res) => {
         if (res.status === 200) {
             console.log(res);
@@ -174,10 +174,11 @@ function MyPageProfile() {
     .then((res) => {
         if (res.status === 200) {
             console.log(res);
-            setNickname(res.data.nickname);
-            setPhonenumber(res.data.phoneNumber);
-            setUniversity(res.data.university);
-            setOnelineintroduction(res.data.oneLineIntroduction)
+            setEmail(res.data.data.email);
+            setNickname(res.data.data.nickname);
+            setPhonenumber(res.data.data.phoneNumber);
+            setUniversity(res.data.data.university);
+            setOnelineintroduction(res.data.data.oneLineIntroduction)
         }
     })
     .catch((err) => {
@@ -220,7 +221,6 @@ function MyPageProfile() {
                     <Style.Question>닉네임</Style.Question>
                     <Style.Answer 
                         placeholder={nickname}
-                        value={nickname}
                         onChange={e => setNickname(e.target.value)}
                     ></Style.Answer>
                     <Style.ItemButton
@@ -228,7 +228,7 @@ function MyPageProfile() {
                         onClick={nicknameOverlapCheck(nickname)}
                     >중복 확인</Style.ItemButton>
                 </Style.ItemWrapper>
-                
+                <div>{idcheck}</div>
                 <Style.ItemWrapper>
                     <Style.Question>휴대전화</Style.Question>
                     <Style.Answer 
