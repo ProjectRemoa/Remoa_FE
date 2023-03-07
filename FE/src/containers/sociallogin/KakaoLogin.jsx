@@ -15,23 +15,31 @@ function KakaoLogin() {
     // url이 자동으로 인코딩되지 않아 encodeURI 함수 사용
     // BE 측에서 CORS 설정하면 withCredentials 설정 안해도 되는 듯
     axios
-      .get(
-        `/login/kakao?code=` + encodeURI(code) //, {
-        //  withCredentials: true,
-        //}
-      )
+      .get(`/login/kakao?code=` + encodeURI(code))
       .then((res) => {
         console.log(res);
         // 성공
-        if (res.status === 200) {
+        if (res.status === 201) {
+          // 201 : 회원가입
           // 객체로 만들려고 했으나.. 처리가 불편한 관계로 따로 설정했음
           sessionStorage.setItem("email", res.data.data.email);
           sessionStorage.setItem("id", res.data.data.id);
           sessionStorage.setItem("image", res.data.data.image);
           sessionStorage.setItem("nickname", res.data.data.nickname);
+
+          sessionStorage.getItem("email");
+          sessionStorage.getItem("id");
+          sessionStorage.getItem("image");
+          sessionStorage.getItem("nickname");
+
+          // 회원가입하는 회원이면 modal창을 켜야함
+          sessionStorage.setItem("new", true);
+          console.log(sessionStorage.getItem("new"));
+          navigate("/sociallogin");
+        } else if (res.status === 200) {
+          // 200 : 로그인
+          navigate("/");
         }
-        //alert("로그인 성공");
-        navigate("/");
       })
       .catch((err) => {
         console.log(err);
