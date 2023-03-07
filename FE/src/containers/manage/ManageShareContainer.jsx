@@ -150,7 +150,7 @@ function ManageShareContainer() {
       type: "application/json",
     });
 
-    // 이외의 정보는 uploadPostForm에 넣는다
+    // 이외의 정보는 data에 넣는다
     formdata.append("data", uploadPostForm);
     // file은 따로 넣고
     Object.values(uploads).forEach((file) =>
