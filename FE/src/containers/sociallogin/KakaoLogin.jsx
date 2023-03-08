@@ -25,7 +25,7 @@ function KakaoLogin() {
           // 201 : 회원가입
           // 객체로 만들려고 했으나.. 처리가 불편한 관계로 따로 설정했음
           sessionStorage.setItem("email", res.data.data.email);
-          sessionStorage.setItem("id", res.data.data.id);
+          sessionStorage.setItem("id", res.data.data.kakaoId);
           sessionStorage.setItem("image", res.data.data.image);
           sessionStorage.setItem("nickname", res.data.data.nickname);
 
@@ -34,7 +34,7 @@ function KakaoLogin() {
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
-          sessionStorage.setItem("id", res.data.data.id);
+          sessionStorage.setItem("id", res.data.data.kakaoId);
           alert("환영합니다! " + res.data.data.nickname + "님!");
           navigate("/");
         }
