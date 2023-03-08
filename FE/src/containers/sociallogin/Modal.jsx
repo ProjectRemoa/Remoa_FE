@@ -97,30 +97,27 @@ function Modal({ modalOpen }) {
       termConsent = true;
     }
 
-    /*const KakaoSignupForm = {
+    const KakaoSignupForm = {
       kakaoId: sessionStorage.getItem("id"),
       email: sessionStorage.getItem("email"),
       nickname: sessionStorage.getItem("nickname"),
       profileImage: sessionStorage.getItem("image"),
       termConsent: termConsent,
-    };*/
+    };
 
     // termConsent와 JSESSIONID 쿠키만 보내기로 결정
     axios
       .post(
         `/signup/kakao`,
-        { termConsent: termConsent },
-        { withCredentials: true }
+        KakaoSignupForm
       )
       .then((res) => {
         console.log(res);
-        sessionStorage.setItem("nickname", res.data.data.nickname);
-        sessionStorage.setItem("id", res.data.data.memberId);
         // userInfo 보냈으면 sessionStorage에 있는 것들 id빼고 다 지우기
         alert("환영합니다, " + sessionStorage.getItem("nickname") + "님!"); // 한글 깨짐 문제 존재
-        /*sessionStorage.removeItem("email");
+        sessionStorage.removeItem("email");
         sessionStorage.removeItem("nickname");
-        sessionStorage.removeItem("image");*/
+        sessionStorage.removeItem("image");
       })
       .catch((err) => {
         console.log(err);
