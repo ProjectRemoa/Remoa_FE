@@ -11,14 +11,14 @@ import ScreenShareOutlinedIcon from "@mui/icons-material/ScreenShareOutlined";
 import ManageList from "./ManageList";
 
 function ManageListContainer() {
-  const [mywork, setMywork] = useState();
+  const [mywork, setMywork] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://loacalhost:8080/work/list")
+      .get("http://loacalhost:8080/user/reference")
       .then((res) => {
         console.log(res);
-        setMywork(res);
+        setMywork(res.data.data.myReferenceList);
       })
       .catch((err) => {
         console.log(err);

@@ -32,14 +32,9 @@ import KakaoLogin from "./containers/sociallogin/KakaoLogin";
 
 import theme from "./layout/theme";
 
-<<<<<<< HEAD
-import { ThemeProvider } from 'styled-components';
-import RefModal from './containers/modal/RefModal';
-=======
 import { ThemeProvider } from "styled-components";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
->>>>>>> 02041fa78ec686460da883fd75c91dced749067b
 
 axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -63,29 +58,10 @@ root.render(
             <Route path="/login/kakao" element={<KakaoLogin />} />
             <Route path="/" element={<RefIdeaPage />} />
 
-<<<<<<< HEAD
-          <Route path='/' element={ <RefIdeaPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-            
-          <Route path='/ref/marketing' element={ <RefMarketingPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-          <Route path='/ref/video' element={ <RefVideoPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-          <Route path='/ref/design' element={ <RefDesignPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-          <Route path='/ref/etc' element={ <RefEtcPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-=======
             <Route path="/ref/marketing" element={<RefMarketingPage />} />
             <Route path="/ref/video" element={<RefVideoPage />} />
             <Route path="/ref/design" element={<RefDesignPage />} />
             <Route path="/ref/etc" element={<RefEtcPage />} />
->>>>>>> 02041fa78ec686460da883fd75c91dced749067b
 
             <Route path="/manage/list" element={<ManageList />} />
             <Route path="/manage/share" element={<ManageShare />} />

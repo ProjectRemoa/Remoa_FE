@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 function ManageList(props) {
   const classes = useStyles();
-  var data = props;
+  let data = props;
 
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
