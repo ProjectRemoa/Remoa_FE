@@ -8,8 +8,14 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import { useState } from 'react';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { pdfjs, Document, Page } from 'react-pdf';
+import ReactPlayer from 'react-player/lazy';
+import DetailedFeedback from './DetailedFeedback/DetailedFeedback';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+
 const useStyles = makeStyles({
   arrow:{
     fontSize:'25px',
@@ -98,11 +104,16 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
   const [pageScale, setPageScale] = useState(1); // 페이지 스케일
 
   function onDocumentLoadSuccess({numPages}) {
-    console.log(`numPages ${numPages}`);
+    // console.log(`numPages ${numPages}`);
     setNumPages(numPages);
   }
-
+  
+  const [modalVisibleId3, setModalVisibleId3] = useState(false)
+  const onModalHandler3 = id => {
+     setModalVisibleId3(id)
+  }
   const media = idea.attached_file
+
   return (
     <MS.ModalWrapper className={modalVisibleId2 == id2 ? classes.show : classes.dis}>
     <MS.MobalBox>
@@ -127,33 +138,37 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
                 <StarIcon className={classes.star} />{idea.scrap}
               </MS.HeaderDetail2>
             </MS.HeaderUserInfo>
-            <MS.DetailFeedbackButton>
+            <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)} >
               상세피드백 보기
             </MS.DetailFeedbackButton>
+            <DetailedFeedback id3={id2} modalVisibleId3={modalVisibleId3} setModalVisibleId3={setModalVisibleId3} idea={idea} />
           </MS.HeaderDiv2>
         </MS.MobalHeader>
         <MS.Line />
 
         <MS.MobalContents>
-          {media && media.map((i)=> 
+          {media && media.map((i,index)=> 
             i.one ? (i.one.split('.',-1)[i.one.split('.',-1).length-1]==="jpg" ? 
-            <MS.ContentImg src={require('../../images/'+i.one)} />
+            <MS.ContentImg src={require('../../images/'+i.one)} key={index} />
             : "") : "")}
 
-          {media && media.map((i)=> 
+          {media && media.map((i,index)=> 
             i.two ? (i.two.split('.',-1)[i.two.split('.',-1).length-1]==="jpg" ? 
-            <MS.ContentImg src={require('../../images/'+i.two)} />
+            <MS.ContentImg src={require('../../images/'+i.two)} key={index} />
             : ""): "")}
 
-          {media && media.map((i)=> 
+          {media && media.map((i,index)=> 
             i.three ? (i.three.split('.',-1)[i.three.split('.',-1).length-1]==="jpg" ? 
-            <MS.ContentImg src={require('../../images/'+i.three)} />
+            <MS.ContentImg src={require('../../images/'+i.three)} key={index} />
             : ""): "")}
 
-          {media && media.map((i)=> 
+          {media && media.map((i,index)=> 
             i.four ? (i.four.split('.',-1)[i.four.split('.',-1).length-1]==="jpg" ? 
-            <MS.ContentImg src={require('../../images/'+i.four)} />
+            <MS.ContentImg src={require('../../images/'+i.four)} key={index} />
             : ""): "")}
+          {modalVisibleId2 ? 
+              <ReactPlayer className='react-player'url={require('../../images/임시이미지.mp4')}
+              width='100%' height='auto' playing={false} controls={true} light={false} controlsList="nodownload"/> : "" }
 
             <div style={{fontWeight:"700"}}>Remoa pdf viewer</div>
             <MS.PdfMannage style={{}}>

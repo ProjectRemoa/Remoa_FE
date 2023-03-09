@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react'
+import { React, useState } from 'react'
 import { getIdeaContests } from '../../temporary/idea_data'
 import styled from 'styled-components';
 
@@ -9,7 +9,6 @@ const Style = {
     width: 86vw;
     height: 456px;
     top:350px;
-    /* background-color: #EBFBFF; */
   `,
   Intro:styled.div`
     position: absolute;
@@ -21,10 +20,6 @@ const Style = {
     font-size: 21px;
     line-height: 30px;
     display: flex;
-    @media ${props => props.theme.desktop} {
-    }
-    @media ${props => props.theme.mobile} {
-    }
   `,
   Coloring:styled.div`
     color:#FADA5E;
@@ -41,7 +36,7 @@ function RefSearchResult(props) {
   if (window.location.pathname==="/ref/marketing"){
     whatSearch = ""
   }
-  console.log(props.keyword,"은",searched)
+  // console.log(props.keyword,"은",searched)
   return(
     <Style.Wrapper>
       {window.location.pathname.includes('ref/search') ?     <Style.Intro>
