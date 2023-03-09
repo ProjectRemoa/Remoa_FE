@@ -163,6 +163,7 @@ function ManageShareContainer() {
     axios({
       method: "post",
       url: "http://localhost:8080/reference",
+      withCredentials: true,
       data: formdata,
       headers: {
         "Content-Type": "multipart/form-data",

@@ -23,10 +23,7 @@
     "react-dom": "^18.2.0",
     "react-kakao-login": "^2.1.1",
     "react-pdf": "^6.2.2",
-<<<<<<< HEAD
-    "react-player": "^2.11.2",
-=======
->>>>>>> 0040145245d8a3cf2330774c1062947c07af4158
+    "react-player": "^2.12.0",
     "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.6",
