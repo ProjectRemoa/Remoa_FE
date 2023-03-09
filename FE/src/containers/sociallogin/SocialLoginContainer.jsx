@@ -35,79 +35,20 @@ const { Kakao } = window;
 
 function SocialLoginContainer() {
   const code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
+  //console.log(code);
   const navigate = useNavigate();
 
-  /* 약관 동의 모달 생성 */
-  const [modalOpen, setModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (sessionStorage.getItem("new") === true) {
-      setModalOpen(true);
-    }
-  });
-
-  /* useEffect(() => {
-    axios
-      .get(`http://localhost:8080/login/kakao`)
-      .then((res) => {
-        console.log(res);
-        // 처음 가입한 회원이라면
-        // modalOpen=true;
-        // 이미 회원이라면
-        // modalOpen=false; navigate("/")
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);*/
-
-  const showModal = (e) => {
-    setModalOpen(true);
-  };
-
-  /*const getSession = () => {
-    const config = { "Conteny-Type": "application/json" };
-    axios
-      .post("/signup/kakao", code, config)
-      .then((result) => {
-        console.log(result);
-        if (result.status === 200 && result.data !== "login fail") {
-        }
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("로그인에 실패하였습니다.");
-        navigate("/sociallogin");
-      });
+  /*const showModal = (e) => {
+    modalOpen = true;
   };*/
 
-  /*const kakaoLoginHandler = () => {
-    Kakao.Auth.login({
-      success: function (authObj) {
-        fetch(`${KAKAO_AUTH_URL}`, {
-          method: "GET",
-          body: JSON.stringfy({
-            access_token: authObj.access_token,
-          }),
-        })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-    });
-  };*/
   return (
     <>
-      <>{modalOpen && <Modal />}</>
+      <>{sessionStorage.getItem("new") && <Modal />}</>
       <div
         style={{
           width: "100%",
-          pointerEvents: modalOpen ? "none" : "auto",
+          pointerEvents: sessionStorage.getItem("new") ? "none" : "auto",
         }}
       >
         <div

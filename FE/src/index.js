@@ -32,9 +32,16 @@ import KakaoLogin from "./containers/sociallogin/KakaoLogin";
 
 import theme from "./layout/theme";
 
+<<<<<<< HEAD
 import { ThemeProvider } from 'styled-components';
 import RefModal from './containers/modal/RefModal';
+=======
+import { ThemeProvider } from "styled-components";
+import { CookiesProvider } from "react-cookie";
+import axios from "axios";
+>>>>>>> 02041fa78ec686460da883fd75c91dced749067b
 
+axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const Style = {
   Wrapper: styled.div`
@@ -46,15 +53,17 @@ const Style = {
 };
 root.render(
   <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Style.Wrapper>
-        <Routes>
-          <Route path="/login" element={<SocialLoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/sociallogin" element={<SocialLoginPage />} />
-          <Route path="/login/kakao" element={<KakaoLogin />} />
-          <Route path="/" element={<RefIdeaPage />} />
+    <CookiesProvider>
+      <BrowserRouter>
+        <Style.Wrapper>
+          <Routes>
+            <Route path="/login" element={<SocialLoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/sociallogin" element={<SocialLoginPage />} />
+            <Route path="/login/kakao" element={<KakaoLogin />} />
+            <Route path="/" element={<RefIdeaPage />} />
 
+<<<<<<< HEAD
           <Route path='/' element={ <RefIdeaPage />}>
             <Route path=':id' element={<RefModal />} />
           </Route>
@@ -71,22 +80,29 @@ root.render(
           <Route path='/ref/etc' element={ <RefEtcPage />}>
             <Route path=':id' element={<RefModal />} />
           </Route>
+=======
+            <Route path="/ref/marketing" element={<RefMarketingPage />} />
+            <Route path="/ref/video" element={<RefVideoPage />} />
+            <Route path="/ref/design" element={<RefDesignPage />} />
+            <Route path="/ref/etc" element={<RefEtcPage />} />
+>>>>>>> 02041fa78ec686460da883fd75c91dced749067b
 
-          <Route path="/manage/list" element={<ManageList />} />
-          <Route path="/manage/share" element={<ManageShare />} />
-          <Route path="/manage/feedback" element={<ManageFeedback />} />
+            <Route path="/manage/list" element={<ManageList />} />
+            <Route path="/manage/share" element={<ManageShare />} />
+            <Route path="/manage/feedback" element={<ManageFeedback />} />
 
-          <Route path="/mypage/profile" element={<PageProfile />} />
-          <Route path="/mypage/following" element={<PageFollowing />} />
-          <Route path="/mypage/scrap" element={<PageScrap />} />
-          <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
-          <Route path="/mypage/faq" element={<PageFAQ />} />
+            <Route path="/mypage/profile" element={<PageProfile />} />
+            <Route path="/mypage/following" element={<PageFollowing />} />
+            <Route path="/mypage/scrap" element={<PageScrap />} />
+            <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
+            <Route path="/mypage/faq" element={<PageFAQ />} />
 
-          <Route path="*" element={<UnknownPage />} />
-        </Routes>
-      </Style.Wrapper>
-    </BrowserRouter>
-    <App />
+            <Route path="*" element={<UnknownPage />} />
+          </Routes>
+        </Style.Wrapper>
+      </BrowserRouter>
+      <App />
+    </CookiesProvider>
   </ThemeProvider>
 );
 

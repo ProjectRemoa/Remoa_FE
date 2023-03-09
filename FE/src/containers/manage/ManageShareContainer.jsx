@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { Cookies } from "react-cookie";
 import styled from "styled-components";
 import "./ManageShareContainer.scss";
 
@@ -158,11 +159,16 @@ function ManageShareContainer() {
     );
     //formdata.append("uploadFiles", uploads); // 이거 오류남 왜징
     axios.defaults.withCredentials = true;
+
+    //const cookie = new Cookies();
     axios({
       method: "post",
       url: "http://localhost:8080/reference",
+      withCredentials: true,
       data: formdata,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then((response) => {
         console.log(response);
@@ -174,19 +180,6 @@ function ManageShareContainer() {
         alert("통신 오류");
         console.log(err);
       });
-    /* .post("http://localhost:8080/reference", formdata, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          alert("성공");
-        }
-      })
-      .catch((err) => {
-        alert("통신 오류");
-        console.log(err);
-      });*/
   };
 
   return (
