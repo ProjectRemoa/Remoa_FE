@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import useWindowSize from "../containers/modal/pdfView/useWindowSize";
 
 export const MS = {
   ModalWrapper:styled.div`
@@ -233,15 +234,42 @@ export const MS = {
     height: 100%;
   `,
   PdfMannage:styled.div`
-    box-shadow: 0 0 0 3px black inset;
-    width: 100%;
-    overflow: hidden;
-    height: auto;
+
+    width: 99%;
+    overflow-x: auto;
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding-top: 4px;
     padding-bottom: 4px;
-  `
+    background-color:white;
+    padding: 5% 0% 5% 0%;
+    margin-left:0.5%;
+  `,
+  PdfWrapper:styled.div`
+    width: 100%;
+    height: auto;
+    background: #FADA5E;
+  `,
+  PdfSet:styled.div`
+    height: 50px;
+    line-height: 50px;
+    font-weight: 700;
+    font-size: 20px;
+    color: white;
+    display: flex;
+    margin-left: 40px;
+  `,
+  PdfPageInput:styled.input`
+    width: 80px;
+    height: 30px;
+    margin-top: 7.5px;
+    margin-left:10px;
+    align-items: center;
+  `,
+  PdfDoc:styled.div`
+
+  `,
+
 }

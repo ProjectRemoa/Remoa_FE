@@ -11,6 +11,7 @@ import { useState } from 'react';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { pdfjs, Document, Page } from 'react-pdf';
+import useWindowSize from './pdfView/useWindowSize';
 import ReactPlayer from 'react-player/lazy';
 import DetailedFeedback from './DetailedFeedback/DetailedFeedback';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -99,20 +100,25 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
     setSubscribeBoolean(!subscribeBoolean)
   }
 
-  const [numPages, setNumPages] = useState(null); // 총 페이지수
-  const [pageNumber, setPageNumber] = useState(1); // 현재 페이지
-  const [pageScale, setPageScale] = useState(1); // 페이지 스케일
-
-  function onDocumentLoadSuccess({numPages}) {
-    // console.log(`numPages ${numPages}`);
-    setNumPages(numPages);
-  }
-  
   const [modalVisibleId3, setModalVisibleId3] = useState(false)
   const onModalHandler3 = id => {
      setModalVisibleId3(id)
   }
   const media = idea.attached_file
+
+  const windowSize = useWindowSize();
+  const [numPages, setNumPages] = useState(null); 
+  const [pageNumber, setPageNumber] = useState(1); 
+  const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
+
+  function onDocumentLoadSuccess({numPages}) {
+    setNumPages(numPages);
+  }
+  let rate = windowSize.height/windowSize.width
+  let show = 1
+  const changePageNum = (e) => {
+    show = Number(e.target.value)
+  }
 
   return (
     <MS.ModalWrapper className={modalVisibleId2 == id2 ? classes.show : classes.dis}>
@@ -147,7 +153,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
         <MS.Line />
 
         <MS.MobalContents>
-          {media && media.map((i,index)=> 
+          {/* {media && media.map((i,index)=> 
             i.one ? (i.one.split('.',-1)[i.one.split('.',-1).length-1]==="jpg" ? 
             <MS.ContentImg src={require('../../images/'+i.one)} key={index} />
             : "") : "")}
@@ -168,20 +174,39 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
             : ""): "")}
           {modalVisibleId2 ? 
               <ReactPlayer className='react-player'url={require('../../images/임시이미지.mp4')}
-              width='100%' height='auto' playing={false} controls={true} light={false} controlsList="nodownload"/> : "" }
-
-            <div style={{fontWeight:"700"}}>Remoa pdf viewer</div>
-            <MS.PdfMannage style={{}}>
-              <Document file={require('../../images/test.pdf')} onLoadSuccess={onDocumentLoadSuccess}>
-                    <Page  scale={pageScale} pageNumber={pageNumber}/>
-              </Document>
-            </MS.PdfMannage>
+              width='100%' height='auto' playing={false} controls={true} light={false} controlsList="nodownload"/> : "" } */}
+           
+            <MS.PdfWrapper>
+ 
+              <MS.PdfSet>
+                페이지 이동 <MS.PdfPageInput onChange={changePageNum}/>
+                <div style={{right:"70px", position:"absolute"}}>
+                  페이지 배율 
+                  <select name="rate" id="rate" style={{width:"80px", height:"30px",float:"right"}}>
+                    <option value="50">50%</option>
+                    <option value="75">75%</option>
+                    <option value="100">100%</option>
+                    <option value="150">150%</option>
+                    <option value="200">200%</option>
+                  </select>
+                </div>
+              </MS.PdfSet>
+              <MS.PdfMannage onContextMenu={e => e.preventDefault()}>
+                  <Document file={require('../../images/test.pdf')} onLoadSuccess={onDocumentLoadSuccess}>
+                    <Page width={windowSize.width} height={windowSize.height} scale={pageScale} pageNumber={pageNumber} />
+                  </Document>
+              </MS.PdfMannage>
+            
             <div>
                 <p>
                     Page {pageNumber} of {numPages}
                 </p>
 
                 <p>페이지 이동 버튼</p>
+                <button onClick={() => {
+                    setPageNumber(show)
+                }}> 지정이동
+                </button>
                 <button onClick={() => {
                     setPageNumber(numPages === pageNumber ? pageNumber : pageNumber + 1)
                 }}> +
@@ -191,7 +216,19 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
                 }}> -
                 </button>
 
+                <p>페이지 스케일</p>
+                <button onClick={() => {
+                    setPageScale(pageScale === 2 ? 2 : pageScale + 0.5)
+                }}> +
+                </button>
+                <button onClick={() => {
+                    setPageScale((pageScale - 0.5) < 0.5 ? 0.5 : pageScale - 0.5)
+                }}> -
+                </button>
             </div>
+          </MS.PdfWrapper>
+
+
         </MS.MobalContents>
 
   
