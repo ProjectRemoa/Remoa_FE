@@ -2,7 +2,7 @@ import { MS } from '../../layout/ModalStyle'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { makeStyles } from "@material-ui/core/styles";
 import { getDate } from '../../functions/getDate';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RefModalComment from './RefModalComment';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
@@ -107,18 +107,20 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
   const media = idea.attached_file
 
   const windowSize = useWindowSize();
-  const [numPages, setNumPages] = useState(null); 
-  const [pageNumber, setPageNumber] = useState(1); 
+  const [numPages, setNumPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
   const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
 
-  function onDocumentLoadSuccess({numPages}) {
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
+    setPageNumber(1);
   }
   let rate = windowSize.height/windowSize.width
   let show = 1
   const changePageNum = (e) => {
     show = Number(e.target.value)
   }
+
 
   return (
     <MS.ModalWrapper className={modalVisibleId2 == id2 ? classes.show : classes.dis}>
@@ -153,7 +155,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
         <MS.Line />
 
         <MS.MobalContents>
-          {/* {media && media.map((i,index)=> 
+          {media && media.map((i,index)=> 
             i.one ? (i.one.split('.',-1)[i.one.split('.',-1).length-1]==="jpg" ? 
             <MS.ContentImg src={require('../../images/'+i.one)} key={index} />
             : "") : "")}
@@ -173,10 +175,10 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
             <MS.ContentImg src={require('../../images/'+i.four)} key={index} />
             : ""): "")}
           {modalVisibleId2 ? 
-              <ReactPlayer className='react-player'url={require('../../images/임시이미지.mp4')}
-              width='100%' height='auto' playing={false} controls={true} light={false} controlsList="nodownload"/> : "" } */}
-           
-            <MS.PdfWrapper>
+              <video width='100%' height='auto' controlsList="nodownload" controls>
+                <source src={require("../../images/임시이미지.mp4")} type="video/mp4"/>
+              </video> : "" }
+            {/* <MS.PdfWrapper >
  
               <MS.PdfSet>
                 페이지 이동 <MS.PdfPageInput onChange={changePageNum}/>
@@ -191,29 +193,28 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
                   </select>
                 </div>
               </MS.PdfSet>
-              <MS.PdfMannage onContextMenu={e => e.preventDefault()}>
+              <MS.PdfMannage onContextMenu={e => e.preventDefault()} style={{maxHeight:windowSize.height}}>
                   <Document file={require('../../images/test.pdf')} onLoadSuccess={onDocumentLoadSuccess}>
-                    <Page width={windowSize.width} height={windowSize.height} scale={pageScale} pageNumber={pageNumber} />
+                  {Array.from(new Array(numPages), (_, index) => (<div key={index+1}>
+    <Page
+      width={windowSize.width}
+      height={windowSize.height}
+      scale={pageScale} pageNumber={index+1}
+      renderAnnotationLayer={false} 
+    />
+    {(index+1)==pageNumber? "": index+1}
+    </div>
+  ))}
                   </Document>
               </MS.PdfMannage>
             
             <div>
-                <p>
-                    Page {pageNumber} of {numPages}
-                </p>
-
+            Page {pageNumber} of {numPages}
                 <p>페이지 이동 버튼</p>
+
                 <button onClick={() => {
                     setPageNumber(show)
                 }}> 지정이동
-                </button>
-                <button onClick={() => {
-                    setPageNumber(numPages === pageNumber ? pageNumber : pageNumber + 1)
-                }}> +
-                </button>
-                <button onClick={() => {
-                    setPageNumber(pageNumber === 1 ? pageNumber : pageNumber - 1)
-                }}> -
                 </button>
 
                 <p>페이지 스케일</p>
@@ -226,7 +227,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
                 }}> -
                 </button>
             </div>
-          </MS.PdfWrapper>
+          </MS.PdfWrapper> */}
 
 
         </MS.MobalContents>

@@ -234,13 +234,14 @@ export const MS = {
     height: 100%;
   `,
   PdfMannage:styled.div`
-
+    overflow-y: scroll;
     width: 99%;
     overflow-x: auto;
+
     position: relative;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     padding-top: 4px;
     padding-bottom: 4px;
     background-color:white;
@@ -249,7 +250,6 @@ export const MS = {
   `,
   PdfWrapper:styled.div`
     width: 100%;
-    height: auto;
     background: #FADA5E;
   `,
   PdfSet:styled.div`
@@ -268,8 +268,4 @@ export const MS = {
     margin-left:10px;
     align-items: center;
   `,
-  PdfDoc:styled.div`
-
-  `,
-
 }

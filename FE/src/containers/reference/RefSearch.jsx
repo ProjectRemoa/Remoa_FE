@@ -8,7 +8,7 @@ import RefSearchResult from './RefSearchResult';
 const useStyles = makeStyles({
   home:{
       color: "white",
-      fontSize:'35px',
+      fontSize:'40px',
   }
 })
 const Style = {
@@ -48,8 +48,10 @@ const Style = {
     background: #FADA5E;
     border-radius: 25px;
     border: #FADA5E;
-    display: block;
+    display: flex;
     cursor:pointer;
+    justify-content: center;
+    align-items: center;
   `,
   Bundle:styled.form`
     display: flex;
@@ -58,7 +60,6 @@ const Style = {
     position: absolute;
     height: 39px;
     top:42px;
-
   `,
   SearchDeco:styled.p`
     font-size: large;
@@ -68,7 +69,7 @@ const Style = {
 function RefSearch() {
   const classes = useStyles();
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   const onChange = (e) => {
     setSearch(e.target.value.toLowerCase())
@@ -78,13 +79,13 @@ function RefSearch() {
 
   const searchInput = () => {
     const searchKeyword = document.querySelector('#v').value
+    console.log(searchKeyword)
     setKeyword(searchKeyword);
     navigate(`/ref/search/${searchKeyword}`)
   };
-  const onKeyPress = (e) => {
-    if(e.key="Enter"){
-      e.preventDefault()
-      searchInput()
+  const activeEnter = (e) => {
+    if(e.key === "Enter") {
+      searchInput(e)
     }
   }
   return (
@@ -94,12 +95,12 @@ function RefSearch() {
       </Style.Title>
       <Style.Bundle>
         <Style.SearchBox type="text" value={search} onChange={onChange} id="v" 
-        autocomplete="false" onKeyPress={onKeyPress} onSubmit={() => {return false;}} />
+        autocomplete="false" onKeyDown={(e) => activeEnter(e)} />
         <Style.ClickButton onClick={searchInput} >
           <SearchIcon className={classes.home}/>
         </Style.ClickButton>
       </Style.Bundle>
-      <RefSearchResult keyword={keyword} search={search} />
+      <RefSearchResult search={search} />
     </Style.SearchDiv>
   )
 }

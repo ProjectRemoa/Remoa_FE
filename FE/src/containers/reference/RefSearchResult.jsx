@@ -29,14 +29,17 @@ const Style = {
 function RefSearchResult(props) {
   let ideas = getIdeaContests();
   let [data, setData] = useState(ideas);
-  const searched = data.filter((item) =>
-    item.contest_name.toLowerCase().includes(props.keyword)
-  );
+
   let whatSearch = decodeURI(window.location.pathname)
+  const searched = data.filter((item) =>
+    item.contest_name.toLowerCase().includes(whatSearch.substring(12))
+  );
+
   if (window.location.pathname==="/ref/marketing"){
     whatSearch = ""
   }
-  // console.log(props.keyword,"은",searched)
+  //console.log(whatSearch.substring(12),"은",searched)
+
   return(
     <Style.Wrapper>
       {window.location.pathname.includes('ref/search') ?     <Style.Intro>
