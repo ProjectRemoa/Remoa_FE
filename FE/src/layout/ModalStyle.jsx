@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import useWindowSize from "../containers/modal/pdfView/useWindowSize";
 
 export const MS = {
   ModalWrapper:styled.div`
@@ -13,6 +14,7 @@ export const MS = {
     z-index: 11;
     background-color: rgba(0, 0, 0, 0.1);
     cursor: default;
+    overflow-y: scroll;
   `,
   MobalBox:styled.div`
     position: absolute;
@@ -47,7 +49,6 @@ export const MS = {
   `,
   HeaderDiv2:styled.div`
     height: auto;
-    background-color:red;
     width:30%
   `,
   DetailTitle:styled.div`
@@ -161,5 +162,110 @@ export const MS = {
     ::placeholder {
       color:black
     }
-  `
+  `,
+  ProfileSize:styled.img`
+    width: 35px; 
+    height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+  `,
+  HeaderUserInfo:styled.div`
+    top:35%;
+    width:100%;
+    position: relative;
+    height: auto;
+    display: flex;
+  `,
+  HeaderUserName:styled.span`
+  font-size: 15px;
+  line-height: 35px;
+  position: absolute;
+  margin-left: 40px;
+  `,
+  HeaderDetail2:styled.div`
+    display: inline-block;
+    font-size: 15px;
+    height: 35px;
+    margin-left: 40px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    left:25%;
+    width: 50%;
+    justify-content: space-between;
+  `,
+  DetailFeedbackButton:styled.button`
+    left: 10%;
+    position: relative;
+    width: 70%;
+    top: 40%;
+    height: 40px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+    box-shadow: none;
+    border: none;
+  `,
+  ModalContents:styled.div`
+    width: 100%;
+    height: auto;
+    position: relative;
+    background-color: pink;
+  `,
+  TraceBoxWrapper:styled.div`
+    display: flex;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+  `,
+  TraceBox:styled.div`
+    border: 2px solid #FADA5E;
+    border-radius: 10px;
+    width: 123px;
+    height: 53px;
+    background: #FFFFFF;
+    margin-bottom: 31px;
+    cursor: pointer;
+    line-height: 50px;
+  `,
+  ContentImg:styled.img`
+    width: 100%;
+    height: 100%;
+  `,
+  PdfMannage:styled.div`
+    overflow-y: scroll;
+    width: 99%;
+    overflow-x: auto;
+
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color:white;
+    padding: 5% 0% 5% 0%;
+    margin-left:0.5%;
+  `,
+  PdfWrapper:styled.div`
+    width: 100%;
+    background: #FADA5E;
+  `,
+  PdfSet:styled.div`
+    height: 50px;
+    line-height: 50px;
+    font-weight: 700;
+    font-size: 20px;
+    color: white;
+    display: flex;
+    margin-left: 40px;
+  `,
+  PdfPageInput:styled.input`
+    width: 80px;
+    height: 30px;
+    margin-top: 7.5px;
+    margin-left:10px;
+    align-items: center;
+  `,
 }

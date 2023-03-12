@@ -28,7 +28,6 @@ const useStyles = makeStyles({
   },
   star: {
     color:"#FADA5E",
-
   }
 })
 
