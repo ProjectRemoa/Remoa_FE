@@ -143,7 +143,7 @@ function ManageShareContainer() {
       title: name,
       contestName: comp,
       category: "idea",
-      contestAward: compRes,
+      contestAwardType: compRes,
     };
     console.log(UploadPostForm);
 
@@ -161,6 +161,7 @@ function ManageShareContainer() {
     axios.defaults.withCredentials = true;
 
     console.log(formdata)
+
     axios.post("/api/reference",formdata,{
       headers: {"Content-Type": "multipart/form-data"},
       withCredentials : true
