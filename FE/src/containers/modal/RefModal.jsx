@@ -111,7 +111,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
   const [pageNumber, setPageNumber] = useState(1);
   const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+  function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
     setPageNumber(1);
   }
