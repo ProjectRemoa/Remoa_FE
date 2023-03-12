@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { Cookies } from "react-cookie";
 import styled from "styled-components";
 import "./ManageShareContainer.scss";
 
@@ -157,6 +158,7 @@ function ManageShareContainer() {
       formdata.append("file", file)
     );
     //formdata.append("uploadFiles", uploads); // 이거 오류남 왜징
+    axios.defaults.withCredentials = true;
 
     console.log(formdata)
     axios.post("/BE/reference",formdata,{

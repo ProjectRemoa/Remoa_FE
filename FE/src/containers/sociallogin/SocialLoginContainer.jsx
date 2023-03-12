@@ -35,25 +35,8 @@ const { Kakao } = window;
 
 function SocialLoginContainer() {
   const code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
+  //console.log(code);
   const navigate = useNavigate();
-
-  /* 약관 동의 모달 생성 */
-
-  /* useEffect(() => {
-    axios
-      .get(`http://localhost:8080/login/kakao`)
-      .then((res) => {
-        console.log(res);
-        // 처음 가입한 회원이라면
-        // modalOpen=true;
-        // 이미 회원이라면
-        // modalOpen=false; navigate("/")
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);*/
 
   /*const showModal = (e) => {
     modalOpen = true;

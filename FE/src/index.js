@@ -15,7 +15,7 @@ import RefVideoPage from "./page/reference/RefVideoPage";
 import RefDesignPage from "./page/reference/RefDesignPage";
 import RefEtcPage from "./page/reference/RefEtcPage";
 
-import ManageList from "./page/management/ManageList.";
+import ManageList from "./page/management/ManageList";
 import ManageShare from "./page/management/ManageShare";
 import ManageFeedback from "./page/management/ManageFeedback";
 
@@ -34,7 +34,9 @@ import theme from "./layout/theme";
 
 import { ThemeProvider } from "styled-components";
 import { CookiesProvider } from "react-cookie";
+import axios from "axios";
 
+axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const Style = {
   Wrapper: styled.div`
