@@ -14,7 +14,7 @@ const id12 = 12
 export let ideacontest = [
   {
     id: id1,
-    contest_name: "지각 방지 서비스 <단디>를 소개합니다",
+    contest_name: "지각? 방지 서비스 <단디>를 소개합니다",
     contest_image: "test1",
     registrant: "g1",
     registrant_image: "test2",
@@ -25,7 +25,16 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기획/아이디어",
-  },
+    attached_file: [
+      {
+        one:"testModal1.jpg",
+        two:"testModal2.jpg",
+        three: null,
+        four:null,
+      }
+    ]
+    
+  }, //사진
   {
     id: id2,
     contest_name: "방지 서비스 <단디>를 소개합니다",
@@ -39,7 +48,8 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기획/아이디어",
-  },
+    attached_file:null
+  }, //동영상
   {
     id: id3,
     contest_name: "서비스 <단디>를 소개합니다",
@@ -53,7 +63,8 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기획/아이디어",
-  },
+    attached_file:null
+  }, //pdf
   {
     id: id4,
     contest_name: "단디를 소개합니다",
@@ -67,7 +78,8 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기획/아이디어",
-  },
+    attached_file:null
+  }, 
   {
     id: id5,
     contest_name: "소개합니다",
@@ -81,7 +93,8 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"디자인",
-  },
+    attached_file:null
+  }, 
   {
     id: id6,
     contest_name: "지각 방지",
@@ -95,6 +108,7 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"영상",
+    attached_file:null
   },
   {
     id: id7,
@@ -109,6 +123,7 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기획/아이디어",
+    attached_file:null
   },
   {
     id: id8,
@@ -123,6 +138,7 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기타 아이디어",
+    attached_file:null
   },
   {
     id: id9,
@@ -137,6 +153,7 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"디자인",
+    attached_file:null
   },
   {
     id: id10,
@@ -151,6 +168,7 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"영상",
+    attached_file:null
   },
   {
     id: id11,
@@ -165,6 +183,7 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"광고/마케팅",
+    attached_file:null
   },
   {
     id: id12,
@@ -179,6 +198,7 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"광고/마케팅",
+    attached_file:null
   },
 ];
 export let userInfo = [

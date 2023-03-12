@@ -58,7 +58,7 @@ function LoginCheck() {
 
   const logoutOnClick = () => {
     axios
-      .post("http://localhost:8080/user/logout", {}, { withCredentials: true })
+      .post("/BE/user/logout", {}, { withCredentials: true })
       .then((res) => {
         console.log(res);
         alert("로그아웃 되었습니다.");
