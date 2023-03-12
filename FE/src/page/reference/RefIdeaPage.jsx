@@ -8,7 +8,7 @@ function RefIdeaPage() {
   return (
     <Layout>
       <ReferenceContainer />
-      <RefListWrapper />
+      {/* <RefListWrapper /> */}
     </Layout>
   )
 }
