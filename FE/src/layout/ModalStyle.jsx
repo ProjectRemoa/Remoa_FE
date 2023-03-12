@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import useWindowSize from "../containers/modal/pdfView/useWindowSize";
 
 export const MS = {
   ModalWrapper:styled.div`
@@ -44,12 +43,12 @@ export const MS = {
   `,
   HeaderDiv1:styled.div`
     height: auto;
-    width:70%;
+    width:65%;
     text-align: left;
   `,
   HeaderDiv2:styled.div`
     height: auto;
-    width:30%
+    width:35%
   `,
   DetailTitle:styled.div`
     font-weight: 700;
@@ -158,6 +157,7 @@ export const MS = {
     font-family: 'Inter';
     font-size: 15px;
     line-height: 25px;
+    resize: none;
     border:none;
     ::placeholder {
       color:black
@@ -195,9 +195,9 @@ export const MS = {
     justify-content: space-between;
   `,
   DetailFeedbackButton:styled.button`
-    left: 10%;
+    left: 0%;
     position: relative;
-    width: 70%;
+    width: 45%;
     top: 40%;
     height: 40px;
     font-weight: 700;
@@ -206,6 +206,8 @@ export const MS = {
     text-align: center;
     box-shadow: none;
     border: none;
+    margin-right: 10px;
+    display: inline;
   `,
   ModalContents:styled.div`
     width: 100%;

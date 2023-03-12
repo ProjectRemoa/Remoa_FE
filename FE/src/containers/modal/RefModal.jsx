@@ -12,7 +12,6 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { pdfjs, Document, Page } from 'react-pdf';
 import useWindowSize from './pdfView/useWindowSize';
-import ReactPlayer from 'react-player/lazy';
 import DetailedFeedback from './DetailedFeedback/DetailedFeedback';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -146,6 +145,9 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
                 <StarIcon className={classes.star} />{idea.scrap}
               </MS.HeaderDetail2>
             </MS.HeaderUserInfo>
+            <MS.DetailFeedbackButton>
+              코멘트 바로가기
+            </MS.DetailFeedbackButton>
             <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)} >
               상세피드백 보기
             </MS.DetailFeedbackButton>
@@ -155,29 +157,19 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
         <MS.Line />
 
         <MS.MobalContents>
-          {media && media.map((i,index)=> 
-            i.one ? (i.one.split('.',-1)[i.one.split('.',-1).length-1]==="jpg" ? 
-            <MS.ContentImg src={require('../../images/'+i.one)} key={index} />
-            : "") : "")}
+          {media && media.map(function(a){
+            return (
+              <MS.ContentImg src={require('../../images/'+a)} key={a} />
+            )
+          })}
 
-          {media && media.map((i,index)=> 
-            i.two ? (i.two.split('.',-1)[i.two.split('.',-1).length-1]==="jpg" ? 
-            <MS.ContentImg src={require('../../images/'+i.two)} key={index} />
-            : ""): "")}
-
-          {media && media.map((i,index)=> 
-            i.three ? (i.three.split('.',-1)[i.three.split('.',-1).length-1]==="jpg" ? 
-            <MS.ContentImg src={require('../../images/'+i.three)} key={index} />
-            : ""): "")}
-
-          {media && media.map((i,index)=> 
-            i.four ? (i.four.split('.',-1)[i.four.split('.',-1).length-1]==="jpg" ? 
-            <MS.ContentImg src={require('../../images/'+i.four)} key={index} />
-            : ""): "")}
           {modalVisibleId2 ? 
-              <video width='100%' height='auto' controlsList="nodownload" controls>
-                <source src={require("../../images/임시이미지.mp4")} type="video/mp4"/>
-              </video> : "" }
+            <video width='100%' height='auto' controlsList="nodownload" controls>
+              <source src={require("../../images/임시이미지.mp4")} type="video/mp4"/>
+            </video>
+          : "" }
+
+
             {/* <MS.PdfWrapper >
  
               <MS.PdfSet>
