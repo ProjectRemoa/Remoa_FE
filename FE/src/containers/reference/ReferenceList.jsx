@@ -8,6 +8,7 @@ import RefModal from '../modal/RefModal';
 import { Link } from 'react-router-dom';
 import RefModalFollow from '../modal/RefModalFollow';
 import StarIcon from '@mui/icons-material/Star';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   home:{
@@ -34,14 +35,27 @@ const useStyles = makeStyles({
 const RefList = (props) => {
   const classes = useStyles();
   let ideas = getIdeaContests();
+  /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
   let [data, setData] = useState(ideas);
   
   let users = getUserInfo()
+  /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
   let [user, setUser] = useState(users)
 
   data=data.filter((d) =>
     d.detail_category == props.kind
   )
+
+  useEffect(()=>{
+    axios.get(`/BE/references?name=${props.name}`)
+    .then((res)=>{
+        console.log(res.data.data)
+        setData(res.data.data)
+    })
+    .catch((res)=>{
+        console.log("error")
+    })
+  },[props.name])
 
   const onClickDate = () => {
     data.sort((a,b) => {

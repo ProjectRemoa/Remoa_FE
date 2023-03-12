@@ -34,7 +34,7 @@ const Style = {
     top: -20px;
   `,
 }
-export default function RefListWrapper() {
+export default function RefListWrapper(props) {
 
 
   let kind ="기획/아이디어"
@@ -43,13 +43,15 @@ export default function RefListWrapper() {
   else if (window.location.pathname=='/ref/video') {kind = "영상"}
   else if (window.location.pathname=='/ref/design') {kind = "디자인"}
 
+  console.log(props.search)
+  
   return (
     <Style.Wrapper>
-    <Style.Intro>
-      <Style.Coloring>{kind}&nbsp;</Style.Coloring>
-      공모전의 레퍼런스를 찾아보세요
-    </Style.Intro>
-    <RefList kind={kind} />
-  </Style.Wrapper>
+      <Style.Intro>
+        <Style.Coloring>{kind}&nbsp;</Style.Coloring>
+        공모전의 레퍼런스를 찾아보세요
+      </Style.Intro>
+      <RefList kind={kind} name={props.search}/>
+    </Style.Wrapper>
   )
 }
