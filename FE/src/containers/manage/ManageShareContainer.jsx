@@ -37,10 +37,17 @@ const Style = {
   `,
 };
 
+/* byte 수 세는 알고리즘 */
+function getByteLength(s, b, i, c) {
+  for (b = i = 0; (c = s.charCodeAt(i++)); b += c >> 11 ? 3 : c >> 7 ? 2 : 1);
+  return b;
+}
+
 function ManageShareContainer() {
   const [name, setName] = useState("");
   const [comp, setComp] = useState("");
   const [compRes, setCompRes] = useState("");
+  const [thumbnail, setThumbnail] = useState(null);
   const [category, setCategory] = useState("");
   const [uploads, setUploads] = useState([]);
 
@@ -66,51 +73,112 @@ function ManageShareContainer() {
     setCategory(e.target.value);
   };
 
+  /* 표지사진 */
+  const fileThumbnail = useRef(null);
+  const onClickUpload_ = (e) => {
+    fileThumbnail.current.click(); // input과 div 연결
+  };
+
+  const handleFileChange_ = (e) => {
+    console.log(e.target.files);
+    if (getByteLength(e.target.files[0].name) > 150) {
+      alert("파일의 제목은 150자 미만입니다.");
+    } else {
+      setThumbnail(e.target.files[0]);
+      console.log(e.target.files[0]);
+    }
+  };
+
+  const onClickDelete_ = () => {
+    //alert("삭제");
+    setThumbnail(null);
+  };
+
   /* 첨부파일 */
   const fileInput = useRef(null);
   const onClickUpload = (e) => {
     fileInput.current.click(); // input과 div 연결
   };
 
+  const [fileSize, setFileSize] = useState(0);
   const handleFileChange = (e) => {
     const UploadList = [...uploads]; // 현재 uploads 복사
-    //console.log("현재 받은 파일 : " + e.target.files.length + "개");
+    console.log(UploadList);
 
-    let isAnyBig = false;
+    let isPdfOrMp4, isAnyBig, isDuplicate, isSizeError;
+    let allisPdfOrMp4 = false,
+      allisAnyBig = false,
+      allisDuplicate = false,
+      allisSizeError = false;
     for (let i = 0; i < e.target.files.length; i++) {
-      //console.log(e.target.files[i]);
-      // 파일 이름 길이 검사
-      let isBig = false;
-      if (e.target.files[i].name.length > 20) {
-        isBig = true;
-        isAnyBig = true;
+      console.log(i + 1 + ". " + e.target.files[i].name);
+
+      // 1. 파일 확장자 검사
+      isPdfOrMp4 = false;
+      const exten = e.target.files[i].name.split(".");
+
+      // 이미 file이 있는데 pdf 또는 mp4를 불러온다면
+      if (
+        (exten[1] === "pdf" || exten[1] === "mp4") &&
+        (uploads.length > 0 || e.target.files.length > 1)
+      ) {
+        isPdfOrMp4 = true;
+        allisPdfOrMp4 = true;
       }
-      if (!isBig) {
-        let isDuplicate = false;
-        for (let j = 0; j < UploadList.length; j++) {
-          if (UploadList[j].name === e.target.files[i].name) {
-            // 파일 중복이므로 담지 않는다
-            alert("파일 중복");
-            isDuplicate = true;
-            break;
+      // 이미 pdf가 있는데 또 pdf나 mp4를 불러온다면
+      for (let i = 0; i < uploads.length; i++) {
+        let exten = uploads[i].name.split(".");
+        if (exten[1] === "pdf" || exten[1] === "mp4") {
+          isPdfOrMp4 = true;
+          allisPdfOrMp4 = true;
+        }
+      }
+
+      if (!isPdfOrMp4) {
+        // 2. 파일 이름 길이 검사
+        isAnyBig = false;
+        if (getByteLength(e.target.files[i].name) > 150) {
+          console.log(getByteLength(e.target.files[i].name));
+          isAnyBig = true;
+          allisAnyBig = true;
+        }
+        if (!isAnyBig) {
+          // 3. 파일 중복 검사
+          isDuplicate = false;
+          for (let j = 0; j < UploadList.length; j++) {
+            if (UploadList[j].name === e.target.files[i].name) {
+              // 파일 중복이므로 담지 않는다
+              isDuplicate = true;
+              allisDuplicate = true;
+              break;
+            }
+          }
+
+          // 4. 파일 용량 검사
+          isSizeError = false;
+          if (fileSize + e.target.files[i].size > 1048576 * 50) {
+            isSizeError = true;
+            allisSizeError = true;
+          } else {
+            setFileSize(fileSize + e.target.files[i].size);
+          }
+          if (!isPdfOrMp4 && !isDuplicate && !isPdfOrMp4 && !isSizeError) {
+            // 중복에 걸리지 않고 확장자도 잘 지켜졌다면
+            UploadList.push(e.target.files[i]);
           }
         }
-        if (!isDuplicate) {
-          // 중복에 걸리지 않았다면
-          // 파일 용량 검사
-          UploadList.push(e.target.files[i]);
-        }
       }
     }
-    if (isAnyBig) {
-      alert("파일 이름은 최대 20자입니다");
+    if (allisPdfOrMp4) {
+      alert("pdf 또는 mp4는 단독으로 1개만 올릴 수 있습니다.");
+    } else if (allisAnyBig) {
+      alert("파일 이름은 최대 75자입니다.");
+    } else if (allisDuplicate) {
+      alert("중복된 파일이 있습니다.");
+    } else if (allisSizeError) {
+      alert("최대 50MB까지 첨부할 수 있습니다.");
     }
     setUploads(UploadList); // 덮어 씌우기
-    console.log(UploadList);
-    //console.log("총 받은 파일 : " + UploadList.length + "개");
-    /*for (let i = 0; i < UploadList.length; i++) {
-      console.log(UploadList[i]);
-    }*/
   };
 
   const onClickDelete = (name) => {
@@ -126,13 +194,14 @@ function ManageShareContainer() {
       comp.length > 0 &&
       compRes.length > 0 &&
       category.length > 0 &&
+      thumbnail !== null &&
       uploads.length > 0
     ) {
       setButtonColor(true);
     } else {
       setButtonColor(false);
     }
-  }, [name, comp, compRes, category, uploads]);
+  }, [name, comp, compRes, category, uploads, thumbnail]);
 
   /* 등록하기 */
   const onClickRegister = () => {
@@ -142,30 +211,34 @@ function ManageShareContainer() {
     const UploadPostForm = {
       title: name,
       contestName: comp,
-      category: "idea",
+      category: category,
       contestAwardType: compRes,
     };
     console.log(UploadPostForm);
+    console.log(thumbnail);
+    console.log(uploads);
 
     const uploadPostForm = new Blob([JSON.stringify(UploadPostForm)], {
       type: "application/json",
     });
 
-    // 이외의 정보는 data에 넣는다
+    // json data는 data에 넣는다
     formdata.append("data", uploadPostForm);
+
+    // 표지 사진도 파일이다
+    formdata.append("thumbnail", thumbnail);
+
     // file은 따로 넣고
-    Object.values(uploads).forEach((file) =>
-      formdata.append("file", file)
-    );
-    //formdata.append("uploadFiles", uploads); // 이거 오류남 왜징
+    Object.values(uploads).forEach((file) => formdata.append("file", file));
+
     axios.defaults.withCredentials = true;
 
-    console.log(formdata)
-
-    axios.post("/api/reference",formdata,{
-      headers: {"Content-Type": "multipart/form-data"},
-      withCredentials : true
-    })
+    console.log(formdata);
+    axios
+      .post("/BE/reference", formdata, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      })
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
@@ -296,6 +369,49 @@ function ManageShareContainer() {
                 </div>
               </td>
             </tr>
+            {/* 표지사진 */}
+            <tr>
+              <th className="th">
+                <label>표지사진</label>
+              </th>
+              <td className="td">
+                <div
+                  className="input"
+                  style={{
+                    color: "#B0B0B0",
+                    fontSize: "70%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
+                  onClick={onClickUpload_}
+                >
+                  {thumbnail === null ? (
+                    <span>목록에 노출될 표시 사진을 업로드해주세요</span>
+                  ) : (
+                    <div>
+                      <span>{thumbnail.name}&nbsp;</span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation(); // 겹쳐진 영역 중복 클릭 방지
+                          onClickDelete_();
+                        }}
+                      >
+                        🗙
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <input
+                  type="file"
+                  ref={fileThumbnail}
+                  onChange={handleFileChange_}
+                  style={{ display: "none" }}
+                  accept=".jpeg, .png"
+                />
+              </td>
+            </tr>
             {/* 첨부파일 */}
             <tr>
               <th className="th" style={{ verticalAlign: "top" }}>
@@ -320,10 +436,10 @@ function ManageShareContainer() {
                 >
                   {uploads.length === 0 ? (
                     <span>
-                      PDF/PPT/JPEG/PNG/MP4/WAV 파일만 뷰어에 업로드 가능합니다.
+                      PDF/JPEG/PNG/MP4 파일만 업로드 가능하며, PDF, MP4 파일을
+                      1개 이상 올릴 시 다른 파일을 추가로 업로드할 수 없습니다.
                       <br />
-                      2개 이상 파일의 업로드는 가능하나, 다른 공모전의 자료를 한
-                      뷰어에 동시에 올릴 시 삭제 대상이 될 수 있습니다.
+                      이미지 파일의 경우 복수 업로드 가능하지만
                     </span>
                   ) : (
                     <div>
