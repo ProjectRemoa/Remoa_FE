@@ -34,8 +34,8 @@ import theme from "./layout/theme";
 
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
-import { ThemeProvider } from 'styled-components';
-import RefModal from './containers/modal/RefModal';
+import { ThemeProvider } from "styled-components";
+import RefModal from "./containers/modal/RefModal";
 import RefSearchPage from "./page/reference/RefSearchPage";
 
 axios.defaults.withCredentials = true;
@@ -60,23 +60,27 @@ root.render(
             <Route path="/login/kakao" element={<KakaoLogin />} />
             <Route path="/" element={<RefIdeaPage />} />
 
-          <Route path='/' element={ <RefIdeaPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-            
-          <Route path='/ref/marketing' element={ <RefMarketingPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-          <Route path='/ref/video' element={ <RefVideoPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-          <Route path='/ref/design' element={ <RefDesignPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-          <Route path='/ref/etc' element={ <RefEtcPage />}>
-            <Route path=':id' element={<RefModal />} />
-          </Route>
-          <Route path='/ref/search/:search' element={ <RefSearchPage /> } />
+            <Route path="/" element={<RefIdeaPage />}>
+              <Route path=":id" element={<RefModal />} />
+            </Route>
+
+            <Route path="/ref/idea" element={<RefIdeaPage />}>
+              <Route path=":id" element={<RefModal />} />
+            </Route>
+
+            <Route path="/ref/marketing" element={<RefMarketingPage />}>
+              <Route path=":id" element={<RefModal />} />
+            </Route>
+            <Route path="/ref/video" element={<RefVideoPage />}>
+              <Route path=":id" element={<RefModal />} />
+            </Route>
+            <Route path="/ref/design" element={<RefDesignPage />}>
+              <Route path=":id" element={<RefModal />} />
+            </Route>
+            <Route path="/ref/etc" element={<RefEtcPage />}>
+              <Route path=":id" element={<RefModal />} />
+            </Route>
+            <Route path="/ref/search/:search" element={<RefSearchPage />} />
 
             <Route path="/manage/list" element={<ManageList />} />
             <Route path="/manage/share" element={<ManageShare />} />
