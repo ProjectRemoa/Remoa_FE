@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import defaultImage from "../../images/profile_img.png"
 import { useRef } from 'react';
+import { useEffect } from 'react';
 
 const Style={
     Wrapper:styled.div`
@@ -135,16 +136,32 @@ const Style={
 function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
-    const [email, setEmail] = useState("maninhat@kakao.com")
-    const [nickname, setNickname] = useState("호갱");
-    const [phonenumber, setPhonenumber] = useState("01012345678");
-    const [university, setUniversity] = useState("한국대학교");
-    const [onelineintroduction, setOnelineintroduction] = useState("안녕하세요 만나서 반갑습니다! 좋은 자료 많이 공유할게요!");
     const [idcheck, setIdcheck] = useState("");
-    const inputNickname = useRef("");
-    const inputPhonenumber = useRef("");
-    const inputUniversity = useRef("");
-    const inputOnelineintroduce = useRef("");
+
+    const [input, setInput] = useState({
+        email: 'maninhat@kakao.com',
+        nickname: '호갱',
+        phoneNumber: '01012345678',
+        university: '한국대학교',
+        oneLineIntroduction: '안녕하세요 만나서 반갑습니다! 좋은 자료 많이 공유할게요!'
+    });
+
+    const { email, nickname, phoneNumber, university, oneLineIntroduction } = input;
+
+    const onChangeInput = (e) => {
+        const {name, value} = e.target;
+        setInput({
+            ...input,
+            [name]:value
+        });
+    };
+
+    const onChangeImg = (e) => {
+        setProfileImage({
+            ...profileImage,
+            profileImage: e.target.value
+        })
+    }
 
     const nicknameOverlapCheck = (nickname) => {
         axios
@@ -160,6 +177,23 @@ function MyPageProfile() {
     
     };
 
+    const changeProfileImg = () => {
+        axios.put(`localhost:8080/user/img`, {
+
+        }, {})
+        .then((res) => {
+            if (res.status === 200) {
+                console.log(res);
+                console.log("프로필 사진 put 완료")
+                navigate("/");
+            }
+        })
+        .catch((err) => {
+            console.log("PUT : 프로필 사진을 변경하던 중 에러")
+            console.error(err);
+        });
+    };
+
     const getProfileImg = () => {
         axios
         .get(`http://localhost:8080/user/img`)
@@ -173,19 +207,16 @@ function MyPageProfile() {
         });
     };
 
-    const changeProfile = (nickname, phonenumber, university, onelineintroduction) => {
+    const changeProfile = (nickname, phoneNumber, university, oneLineIntroduction) => {
         axios.put(`http://localhost:8080/user`, {
             nickname : nickname,
-            phoneNumber : phonenumber,
+            phoneNumber : phoneNumber,
             university : university,
-            oneLineIntroduction : onelineintroduction
+            oneLineIntroduction : oneLineIntroduction
         }, { withCredentials: true })
         .then((res) => {
             if (res.status === 200) {
-                console.log(res);
-                console.log(nickname, phonenumber, university, onelineintroduction);
-                console.log("put 완료")
-                //navigate("/");
+                navigate("/");
             }
         })
         .catch((err) => {
@@ -198,13 +229,7 @@ function MyPageProfile() {
         axios.get('http://localhost:8080/user', { withCredentials: true })
         .then((res) => {
             if (res.status === 200) {
-                setEmail(res.data.data.email);
-                setNickname(res.data.data.nickname);
-                setUniversity(res.data.data.university);
-                setPhonenumber(res.data.data.phoneNumber);
-                setOnelineintroduction(res.data.data.oneLineIntroduction);
-                console.log("get 완료");
-                console.log(res);
+                setInput(res.data.data);
             }
         })
         .catch((err) => {
@@ -214,8 +239,11 @@ function MyPageProfile() {
     };
 
 
-    getProfile();
-    getProfileImg();
+    useEffect(() => {
+        getProfile();
+        getProfileImg();
+    }, []);
+    
 
     return(
     <>
@@ -226,7 +254,9 @@ function MyPageProfile() {
                 님<br />오늘은 어떤 공모전에 참여하시나요?
             </Style.ProfileIntro>
 
-            <Style.ProfileImageButton>
+            <Style.ProfileImageButton
+                onClick={onChangeImg}
+            >
                 프로필 사진 변경
             </Style.ProfileImageButton>
             <input
@@ -252,8 +282,9 @@ function MyPageProfile() {
                     <Style.Question>닉네임</Style.Question>
                     <Style.Answer 
                         placeholder={nickname}
-                        onChange={(e) => setNickname(e.target.value)}//e => inputNickname.current = setInterval(
-                            //() => setNickname(e.target.value))}
+                        name="nickname"
+                        value={nickname}
+                        onChange={onChangeInput}
                     ></Style.Answer>
                     <Style.ItemButton
                         type='button'
@@ -264,8 +295,10 @@ function MyPageProfile() {
                 <Style.ItemWrapper>
                     <Style.Question>휴대전화</Style.Question>
                     <Style.Answer 
-                        placeholder={phonenumber}
-                        onClick={e => setPhonenumber(e.target.value)}
+                        placeholder={phoneNumber}
+                        name="phoneNumber"
+                        value={phoneNumber}
+                        onChange={onChangeInput}
                     ></Style.Answer>
                 </Style.ItemWrapper>
                 
@@ -280,8 +313,10 @@ function MyPageProfile() {
                 <Style.ItemWrapper style={{display: "flex"}}>
                     <Style.Question style={{flex:1}}>한줄 소개</Style.Question>
                     <Style.Answer 
-                        placeholder={onelineintroduction}
-                        onClick={e => setOnelineintroduction(e.target.value)}
+                        placeholder={oneLineIntroduction}
+                        name="oneLineIntroduction"
+                        value={oneLineIntroduction}
+                        onChange={onChangeInput}
                         style={{
                             width: "700px",
                             height: "90px",
@@ -292,7 +327,7 @@ function MyPageProfile() {
             </Style.ProfileWrapper>
 
             <Style.ModifyButton
-                onClick={() => changeProfile(nickname, phonenumber, university, onelineintroduction)}
+                onClick={() => changeProfile(nickname, phoneNumber, university, oneLineIntroduction)}
             >수정 완료</Style.ModifyButton>
 
         </Style.Wrapper>
