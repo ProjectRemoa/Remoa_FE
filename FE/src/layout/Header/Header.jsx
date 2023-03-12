@@ -4,12 +4,9 @@ import styled from "styled-components";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useNavigate } from "react-router-dom";
 import img from "../../images/로고대체.jpg";
-import axios from "axios";
-<<<<<<< HEAD
-import { useState, useEffect } from "react";
-=======
 import LoginCheck from "../../containers/sociallogin/LoginCheck";
->>>>>>> 02041fa78ec686460da883fd75c91dced749067b
+import axios from "axios";
+import { useState, useEffect } from "react";
 const Style = {
   Header: styled.div`
     position: fixed;
