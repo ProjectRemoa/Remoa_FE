@@ -411,7 +411,7 @@ function ManageShareContainer() {
                   ref={fileThumbnail}
                   onChange={handleFileChange_}
                   style={{ display: "none" }}
-                  accept=".jpeg, .png"
+                  accept=".jpeg, .png, .jpg"
                 />
               </td>
             </tr>
@@ -468,7 +468,7 @@ function ManageShareContainer() {
                   ref={fileInput}
                   onChange={handleFileChange}
                   style={{ display: "none" }}
-                  accept=".pdf, .ppt, .jpeg, .png, .mp4, .wav"
+                  accept=".pdf, .jpg, .jpeg, .png, .mp4, .wav"
                   multiple="multiple"
                 />
               </td>
