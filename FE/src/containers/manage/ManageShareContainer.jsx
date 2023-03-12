@@ -161,7 +161,7 @@ function ManageShareContainer() {
     axios.defaults.withCredentials = true;
 
     console.log(formdata)
-    axios.post("/BE/reference",formdata,{
+    axios.post("/api/reference",formdata,{
       headers: {"Content-Type": "multipart/form-data"},
       withCredentials : true
     })
