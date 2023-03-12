@@ -151,22 +151,19 @@ function ManageShareContainer() {
       type: "application/json",
     });
 
-    // 이외의 정보는 uploadPostForm에 넣는다
-    formdata.append("uploadPostForm", uploadPostForm);
+    // 이외의 정보는 data에 넣는다
+    formdata.append("data", uploadPostForm);
     // file은 따로 넣고
     Object.values(uploads).forEach((file) =>
-      formdata.append("uploadFiles", file)
+      formdata.append("file", file)
     );
     //formdata.append("uploadFiles", uploads); // 이거 오류남 왜징
+    axios.defaults.withCredentials = true;
 
-    //const cookie = new Cookies();
-    axios({
-      method: "post",
-      url: "http://localhost:8080/reference",
-      data: formdata,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    console.log(formdata)
+    axios.post("/BE/reference",formdata,{
+      headers: {"Content-Type": "multipart/form-data"},
+      withCredentials : true
     })
       .then((response) => {
         console.log(response);

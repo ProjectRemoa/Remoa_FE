@@ -34,7 +34,7 @@ function KakaoLogin() {
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
-          sessionStorage.setItem("id", res.data.data.id);
+          sessionStorage.setItem("id", res.data.data.kakaoIds);
           alert("환영합니다! " + res.data.data.nickname + "님!");
           navigate("/");
         }

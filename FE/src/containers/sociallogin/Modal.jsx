@@ -105,9 +105,12 @@ function Modal({ modalOpen }) {
       termConsent: termConsent,
     };
 
-    console.log(KakaoSignupForm);
+    // termConsent와 JSESSIONID 쿠키만 보내기로 결정
     axios
-      .post(`/signup/kakao`, KakaoSignupForm)
+      .post(
+        `/signup/kakao`,
+        KakaoSignupForm
+      )
       .then((res) => {
         console.log(res);
         // userInfo 보냈으면 sessionStorage에 있는 것들 id빼고 다 지우기
