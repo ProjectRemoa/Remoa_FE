@@ -73,21 +73,19 @@ function RefSearch() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
 
-  useEffect(()=>{
-    console.log(search)
-  },[])
-
   const onChange = (e) => {
     setSearch(e.target.value.toLowerCase())
   }
 
   const [keyword, setKeyword] = useState("")
+  const [sendSearch, setSendSearch] = useState("")
 
   const searchInput = () => {
     const searchKeyword = document.querySelector('#v').value
     console.log(searchKeyword)
     setKeyword(searchKeyword);
     // navigate(`/ref/search/${searchKeyword}`)
+    setSendSearch(search)
   };
   const activeEnter = (e) => {
     if(e.key === "Enter") {
@@ -106,7 +104,7 @@ function RefSearch() {
           <SearchIcon className={classes.home}/>
         </Style.ClickButton>
       </Style.Bundle>
-      <RefListWrapper search={search}/>
+      <RefListWrapper search={sendSearch}/>
     </Style.SearchDiv>
   )
 }

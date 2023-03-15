@@ -43,7 +43,6 @@ export default function RefListWrapper(props) {
   else if (window.location.pathname=='/ref/video') {kind = "영상"}
   else if (window.location.pathname=='/ref/design') {kind = "디자인"}
 
-  console.log(props.search)
   
   return (
     <Style.Wrapper>
