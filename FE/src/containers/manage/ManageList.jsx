@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Style } from "../../layout/ReferenceListStyle";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import RefModal from "../modal/RefModal";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import RefModalFollow from "../modal/RefModalFollow";
 
 import StarIcon from "@mui/icons-material/Star";
 const useStyles = makeStyles({
@@ -32,8 +31,11 @@ const useStyles = makeStyles({
 });
 
 function ManageList(props) {
+  // 받아온 data 가공 필요
   const classes = useStyles();
-  let data = props;
+  const navigate = useNavigate();
+  let data = props.data;
+  console.log(data);
 
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
@@ -63,66 +65,63 @@ function ManageList(props) {
 
   return (
     <Style.ContestList>
-      {data.map((idea, index) => (
-        <Style.ContestItem key={idea.id}>
-          <Link
-            to={
-              Lo.includes("marketing")
-                ? `/ref/marketing/${idea.id}`
-                : Lo.includes("video")
-                ? `/ref/video/${idea.id}`
-                : Lo.includes("design")
-                ? `/ref/design/${idea.id}`
-                : Lo.includes("etc")
-                ? `/ref/etc/${idea.id}`
-                : `/${idea.id}`
-            }
-          >
-            <Style.ContestImgCrop onClick={() => onModalHandler2(idea.id)}>
-              <Style.ContestImg
-                src={require("../../images/" + idea.contest_image + ".jpg")}
-                alt="1"
-              />
-            </Style.ContestImgCrop>
-          </Link>
-          <RefModal
-            id2={idea.id}
-            modalVisibleId2={modalVisibleId2}
-            setModalVisibleId2={setModalVisibleId2}
-            idea={idea}
-          />
+      {data.map((mywork, index) => (
+        <Style.ContestItem key={mywork.postId}>
+          {/*<Link to={navigate(`/ref/${mywork.categoryName}/${mywork.postId}`)}>*/}
+          <Style.ContestImgCrop onClick={() => onModalHandler2(mywork.postId)}>
+            {/*표지사진*/}
+            <Style.ContestImg
+              onClick={() =>
+                navigate(`/ref/${mywork.categoryName}/${mywork.postId}`)
+              }
+              src={mywork.storeFileUrls[0]} // 나중에 바꿔야됨. 아직 프사 기능 추가 안됨
+              alt={mywork.postId}
+            />
+          </Style.ContestImgCrop>
+          {/*</Link>*/}
+
+          {modalVisibleId2 && (
+            <RefModal
+              id2={mywork.postId}
+              modalVisibleId2={modalVisibleId2}
+              setModalVisibleId2={setModalVisibleId2}
+              idea={mywork.postId}
+            />
+          )}
 
           <Style.ProfileInfo>
+            {/*유저 프로필 사진*/}
             <Style.ProfileSize
-              src={require("../../images/" + idea.registrant_image + ".jpg")}
-              alt="2"
+              src={require("../../images/test1.jpg")}
+              alt={mywork.nickname}
               onMouseEnter={() => {
-                onModalHandler(idea.id);
+                onModalHandler(mywork.postId);
                 modalLocation(index + 1);
               }}
               onClick={() => {
-                onModalHandler(idea.id);
+                onModalHandler(mywork.postId);
                 modalLocation(index + 1);
               }}
             />
-
+            {/*
             <RefModalFollow
-              id={idea.id}
+              id={mywork.postId}
               modalVisibleId={modalVisibleId}
               setModalVisibleId={setModalVisibleId}
               location={modalLocation(index + 1)}
-              idea={idea}
-            />
+              idea={mywork}
+            />*/}
 
-            <Style.ProfileFont>{idea.registrant}</Style.ProfileFont>
+            <Style.ProfileFont>{mywork.nickname}</Style.ProfileFont>
             <Style.ProfileInfoDetail>
+              {/* 유저 hits, thumbs, scrap */}
               &nbsp;
               <RemoveRedEyeOutlinedIcon className={classes.home} />
-              &nbsp;{idea.hits}&nbsp; &nbsp;
+              &nbsp;{mywork.views}&nbsp; &nbsp;
               <FavoriteOutlinedIcon className={classes.home2} />
-              &nbsp;{idea.thumbs}&nbsp; &nbsp;
+              &nbsp;{mywork.likeCount}&nbsp; &nbsp;
               <StarIcon className={classes.star} />
-              &nbsp;{idea.scrap}
+              &nbsp;{mywork.scrapCount}
             </Style.ProfileInfoDetail>
           </Style.ProfileInfo>
         </Style.ContestItem>
