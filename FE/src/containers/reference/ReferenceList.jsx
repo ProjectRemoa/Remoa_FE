@@ -37,6 +37,7 @@ const RefList = (props) => {
   let ideas = getIdeaContests();
   /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
   let [data, setData] = useState(ideas);
+  let [name, setName] = useState('');
   
   let users = getUserInfo()
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
@@ -55,6 +56,8 @@ const RefList = (props) => {
     .catch((res)=>{
         console.log("error")
     })
+    
+    setName(props.name)
   },[props.name])
 
   const onClickDate = () => {
