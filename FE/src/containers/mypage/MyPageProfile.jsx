@@ -138,6 +138,8 @@ function MyPageProfile() {
     const [profileImage, setProfileImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
 
+    const imgInput = useRef();
+
     const [input, setInput] = useState({
         email: 'maninhat@kakao.com',
         nickname: '호갱',
@@ -157,11 +159,29 @@ function MyPageProfile() {
     };
 
     const onChangeImg = (e) => {
+        imgInput.current.click();
+
         setProfileImage({
             ...profileImage,
             profileImage: e.target.value
         })
-    }
+
+        const formData = new FormData();
+        formData.append('file', e.target.files[0]);
+
+        axios.put(`localhost:8080/user/img`, formData)
+        .then((res) => {
+            if (res.status === 200) {
+                console.log(res);
+                console.log("프로필 사진 put 완료")
+                navigate("/");
+            }
+        })
+        .catch((err) => {
+            console.log("PUT : 프로필 사진을 변경하던 중 에러")
+            console.error(err);
+        });
+    };
 
     const nicknameOverlapCheck = (nickname) => {
         axios
@@ -175,23 +195,6 @@ function MyPageProfile() {
             console.log(err);
         });  
     
-    };
-
-    const changeProfileImg = () => {
-        axios.put(`localhost:8080/user/img`, {
-
-        }, {})
-        .then((res) => {
-            if (res.status === 200) {
-                console.log(res);
-                console.log("프로필 사진 put 완료")
-                navigate("/");
-            }
-        })
-        .catch((err) => {
-            console.log("PUT : 프로필 사진을 변경하던 중 에러")
-            console.error(err);
-        });
     };
 
     const getProfileImg = () => {
@@ -254,18 +257,22 @@ function MyPageProfile() {
                 님<br />오늘은 어떤 공모전에 참여하시나요?
             </Style.ProfileIntro>
 
-            <Style.ProfileImageButton
-                onClick={onChangeImg}
-            >
-                프로필 사진 변경
-            </Style.ProfileImageButton>
-            <input
-                type="file"
-                id="ProfileImg"
-                accept="image/*"
-                style={{display: "none"}}
-            />
-
+            <div>
+                <Style.ProfileImageButton
+                    onClick={onChangeImg}
+                >
+                    프로필 사진 변경
+                </Style.ProfileImageButton>
+                <input
+                    type="file"
+                    ref={imgInput}
+                    id="ProfileImg"
+                    name='file'
+                    accept="image/*"
+                    style={{display: "none"}}
+                />
+            </div>
+            
             <Style.HorizonLine/>
             
             <Style.DirectionTxt>
