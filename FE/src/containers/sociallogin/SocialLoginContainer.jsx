@@ -44,7 +44,7 @@ function SocialLoginContainer() {
 
   return (
     <>
-      <>{sessionStorage.getItem("new") && <Modal />}</>
+      <>{localStorage.getItem("new") && <Modal />}</>
       <div
         style={{
           width: "100%",
