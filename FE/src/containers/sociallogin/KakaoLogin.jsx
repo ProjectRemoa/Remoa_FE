@@ -34,8 +34,11 @@ function KakaoLogin() {
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
-          localStorage.setItem("id", res.data.data.id);
-          alert("환영합니다! " + res.data.data.nickname + "님!");
+          // data: "김효빈"
+          // detail: "정상 처리~"
+          // message: "올바른 요청"
+          localStorage.setItem("nickname", res.data.data);
+          alert("환영합니다! " + localStorage.getItem("nickname") + "님!");
           navigate("/");
         }
       })
