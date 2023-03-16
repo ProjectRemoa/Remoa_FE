@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { CLIENT_ID, KAKAO_AUTH_URL, REDIRECT_URL } from "./kakaodata";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useCookies, Cookies } from "react-cookie";
 
 function KakaoLogin() {
   const navigate = useNavigate();
@@ -47,6 +45,7 @@ function KakaoLogin() {
         alert("로그인 실패");
         navigate("/sociallogin");
       });
+    sessionStorage.removeItem("kakao");
   };
 
   /* 카카오에서 인가코드 받아와서 백엔드에 넘겨주기 */
