@@ -79,7 +79,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
     }
   }
 
-  const [like, setLike] = useState(idea.thumbs);
+  const [like, setLike] = useState(idea.likeCount);
   const [likeBoolean, setLikeBoolean] = useState(false)
   const handleLike = (e) => {
     if (likeBoolean === false) {
@@ -89,7 +89,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
     }
     setLikeBoolean(!likeBoolean)
   }
-  const [subscribe, setSubscribe] = useState(idea.scrap)
+  const [subscribe, setSubscribe] = useState(idea.scrapCount)
   const [subscribeBoolean, setSubscribeBoolean] = useState(false)
   const handleSubscribe = (e) => {
     if (subscribeBoolean === false) {
@@ -104,7 +104,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
   const onModalHandler3 = id => {
      setModalVisibleId3(id)
   }
-  const media = idea.attached_file
+  const media = idea.thumbnail
 
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
@@ -131,19 +131,19 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
           <MS.HeaderDiv1>
             <MS.DetailTitle>{idea.contest_name}</MS.DetailTitle>
             <MS.DetailTitleInfo>
-              {idea.detail_regist}&nbsp;<span style={{color:"#FADA5E"}}>{idea.detail_result}</span>&nbsp;|
-              &nbsp;{getDate(idea.resgist_date)}&nbsp;|&nbsp;{idea.detail_category}
+              {idea.title}&nbsp;<span style={{color:"#FADA5E"}}>{idea.title}</span>&nbsp;|
+              &nbsp;{getDate(idea.postingTime)}&nbsp;|&nbsp;{idea.categoryName}
             </MS.DetailTitleInfo>
           </MS.HeaderDiv1>
 
           <MS.HeaderDiv2>
             <MS.HeaderUserInfo>
-              <MS.ProfileSize src={require('../../images/' + idea.registrant_image + '.jpg')} />
-              <MS.HeaderUserName>{idea.registrant}</MS.HeaderUserName>
+              <MS.ProfileSize src={idea.thumbnail} />
+              <MS.HeaderUserName>{idea.postMember.nickname}</MS.HeaderUserName>
               <MS.HeaderDetail2>
-                <RemoveRedEyeOutlinedIcon />{idea.hits}
-                <FavoriteOutlinedIcon className={classes.love} />{idea.thumbs}
-                <StarIcon className={classes.star} />{idea.scrap}
+                <RemoveRedEyeOutlinedIcon />{idea.likeCount}
+                <FavoriteOutlinedIcon className={classes.love} />{idea.views}
+                <StarIcon className={classes.star} />{idea.scrapCount}
               </MS.HeaderDetail2>
             </MS.HeaderUserInfo>
             <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)} >
@@ -155,7 +155,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
         <MS.Line />
 
         <MS.MobalContents>
-          {media && media.map((i,index)=> 
+          {/* {media && media.map((i,index)=> 
             i.one ? (i.one.split('.',-1)[i.one.split('.',-1).length-1]==="jpg" ? 
             <MS.ContentImg src={require('../../images/'+i.one)} key={index} />
             : "") : "")}
@@ -177,7 +177,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
           {modalVisibleId2 ? 
               <video width='100%' height='auto' controlsList="nodownload" controls>
                 <source src={require("../../images/임시이미지.mp4")} type="video/mp4"/>
-              </video> : "" }
+              </video> : "" } */}
             {/* <MS.PdfWrapper >
  
               <MS.PdfSet>
@@ -234,12 +234,12 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
 
   
         <MS.TraceBoxWrapper>
-          <MS.TraceBox onClick={() => handleLike(idea.thumbs)}>
+          <MS.TraceBox onClick={() => handleLike(idea.likeCount)}>
             <FavoriteOutlinedIcon className={likeBoolean?classes.afterClick1:classes.beforeClick} />
             {like}
           </MS.TraceBox>
           <div style={{width:"26px"}}></div>
-          <MS.TraceBox onClick={() => handleSubscribe(idea.scrap)}>
+          <MS.TraceBox onClick={() => handleSubscribe(idea.scrapCount)}>
             <StarIcon className={subscribeBoolean?classes.afterClick2:classes.beforeClick} />
             {subscribe}
           </MS.TraceBox>

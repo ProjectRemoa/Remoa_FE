@@ -7,8 +7,8 @@ const Style = {
     box-sizing: border-box;
     position: absolute;
     width: 86vw;
-    height: 456px;
-    top:350px;
+    height: 300px;
+    top:150px;
     /* background-color: #EBFBFF; */
   `,
   Intro:styled.div`

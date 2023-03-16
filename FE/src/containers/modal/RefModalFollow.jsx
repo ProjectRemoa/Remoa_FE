@@ -27,8 +27,8 @@ export default function RefModalFollow({id, location, modalVisibleId, setModalVi
     location={location}>
       <CloseIcon onClick={onCloseHandler} className={classes.close}>닫기</CloseIcon>
       <MS.ModalProfile>
-        <MS.ModalProfilePhoto src = {require('../../images/' + idea.registrant_image + '.jpg')} />
-        <MS.ModalProfileName>{idea.registrant}</MS.ModalProfileName>
+        <MS.ModalProfilePhoto src = {idea.postMember.profileImage} />
+        <MS.ModalProfileName>{idea.postMember.nickname}</MS.ModalProfileName>
       </MS.ModalProfile>
 
       <MS.FollowingFollower>

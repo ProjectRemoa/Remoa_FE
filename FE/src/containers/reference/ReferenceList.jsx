@@ -36,22 +36,19 @@ const RefList = (props) => {
   const classes = useStyles();
   let ideas = getIdeaContests();
   /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
-  let [data, setData] = useState(ideas);
+  let [data, setData] = useState([]);
   let [name, setName] = useState('');
   
   let users = getUserInfo()
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
   let [user, setUser] = useState(users)
 
-  data=data.filter((d) =>
-    d.detail_category == props.kind
-  )
 
   useEffect(()=>{
-    axios.get(`/BE/references?name=${props.name}`)
+    axios.get(`/BE/reference?name=${props.name}`)
     .then((res)=>{
-        console.log(res.data.data)
         setData(res.data.data)
+        console.log(res.data.data)
     })
     .catch((res)=>{
         console.log("error")
@@ -60,6 +57,11 @@ const RefList = (props) => {
     setName(props.name)
   },[props.name])
 
+  useEffect(()=>{
+    data=data.filter((d) =>
+    d.detail_category == props.kind
+  )
+  },[data])
   const onClickDate = () => {
     data.sort((a,b) => {
       if(a.resgist_date < b.resgist_date) return 1;
@@ -193,34 +195,34 @@ const RefList = (props) => {
     <Style.Line />
 
     {data.map((idea, index) => (
-    <Style.ContestItem key={idea.id}>
-      <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.id}` :
-      Lo.includes("video") ? `/ref/video/${idea.id}` :
-      Lo.includes("design") ? `/ref/design/${idea.id}` :
-      Lo.includes("etc") ? `/ref/etc/${idea.id}` :`/${idea.id}`}>
-      <Style.ContestImgCrop onClick={() => onModalHandler2(idea.id)}>
-        <Style.ContestImg src = {require('../../images/' + idea.contest_image + '.jpg')} alt = '1' />
+    <Style.ContestItem key={idea.postId}>
+      <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.postId}` :
+      Lo.includes("video") ? `/ref/video/${idea.postId}` :
+      Lo.includes("design") ? `/ref/design/${idea.postId}` :
+      Lo.includes("etc") ? `/ref/etc/${idea.postId}` :`/${idea.postId}`}>
+      <Style.ContestImgCrop onClick={() => onModalHandler2(idea.postId)}>
+        <Style.ContestImg src = {idea.thumbnail} alt = '1' />
       </Style.ContestImgCrop>
       </Link>
-      <RefModal id2={idea.id} modalVisibleId2={modalVisibleId2} setModalVisibleId2={setModalVisibleId2} idea={idea} />
+      <RefModal id2={idea.postId} modalVisibleId2={modalVisibleId2} setModalVisibleId2={setModalVisibleId2} idea={idea} />
 
       <Style.ProfileInfo>
 
-        <Style.ProfileSize src = {require('../../images/' + idea.registrant_image + '.jpg')} alt="2"
-        onMouseEnter={() => {onModalHandler(idea.id); modalLocation(index+1)}}
-        onClick={() => {onModalHandler(idea.id); modalLocation(index+1)}}/>
+        <Style.ProfileSize src = {idea.postMember.profileImage} alt="2"
+        onMouseEnter={() => {onModalHandler(idea.postId); modalLocation(index+1)}}
+        onClick={() => {onModalHandler(idea.postId); modalLocation(index+1)}}/>
 
-        <RefModalFollow id={idea.id} modalVisibleId={modalVisibleId} setModalVisibleId={setModalVisibleId} 
+        <RefModalFollow id={idea.postId} modalVisibleId={modalVisibleId} setModalVisibleId={setModalVisibleId} 
         location={modalLocation(index+1)} idea={idea} />
 
         <Style.ProfileFont>{idea.registrant}</Style.ProfileFont>
         <Style.ProfileInfoDetail>
           &nbsp;<RemoveRedEyeOutlinedIcon className={classes.home} />
-          &nbsp;{idea.hits}&nbsp;
+          &nbsp;{idea.likeCount}&nbsp;
           &nbsp;<FavoriteOutlinedIcon className={classes.home2} />
-          &nbsp;{idea.thumbs}&nbsp;
+          &nbsp;{idea.views}&nbsp;
           &nbsp;<StarIcon className={classes.star} />
-          &nbsp;{idea.scrap}
+          &nbsp;{idea.scrapCount}
         </Style.ProfileInfoDetail>
         
       </Style.ProfileInfo>
