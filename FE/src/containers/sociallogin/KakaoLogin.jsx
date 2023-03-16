@@ -11,7 +11,7 @@ function KakaoLogin() {
 
   const sendToken = () => {
     // back에 인가 코드 보내기
-    console.log(sessionStorage.getItem("kakao"));
+    console.log("인가코드 : " + sessionStorage.getItem("kakao"));
     console.log("=============================");
     // url이 자동으로 인코딩되지 않아 encodeURI 함수 사용
     // BE 측에서 CORS 설정하면 withCredentials 설정 안해도 되는 듯
@@ -24,17 +24,17 @@ function KakaoLogin() {
         if (res.status === 201) {
           // 201 : 회원가입
           // 객체로 만들려고 했으나.. 처리가 불편한 관계로 따로 설정했음
-          sessionStorage.setItem("email", res.data.data.email);
-          sessionStorage.setItem("id", res.data.data.id);
-          sessionStorage.setItem("image", res.data.data.image);
-          sessionStorage.setItem("nickname", res.data.data.nickname);
+          localStorage.setItem("email", res.data.data.email);
+          localStorage.setItem("id", res.data.data.id);
+          localStorage.setItem("image", res.data.data.image);
+          localStorage.setItem("nickname", res.data.data.nickname);
 
           // 회원가입하는 회원이면 modal창을 켜야함
-          sessionStorage.setItem("new", true);
+          localStorage.setItem("new", true);
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
-          sessionStorage.setItem("id", res.data.data.nickname);
+          localStorage.setItem("id", res.data.data.id);
           alert("환영합니다! " + res.data.data.nickname + "님!");
           navigate("/");
         }
