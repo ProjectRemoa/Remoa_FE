@@ -115,6 +115,7 @@ function Modal({ modalOpen }) {
         localStorage.removeItem("email");
         localStorage.removeItem("nickname");
         localStorage.removeItem("image");
+        localStorage.removeItem("id");
       })
       .catch((err) => {
         console.log(err);

@@ -49,7 +49,7 @@ function LoginCheck() {
   // localStorage나 sessionStorage를 권장
 
   useEffect(() => {
-    if (localStorage.getItem("id") !== null) {
+    if (localStorage.getItem("nickname") !== null) {
       setIsLogin(true);
     } else {
       setIsLogin(false);
@@ -72,7 +72,8 @@ function LoginCheck() {
         console.log(err);
       });
     //cookies.remove("JSESSIONID", { path: "/" });
-    localStorage.removeItem("id");
+    //localStorage.removeItem("id");
+    localStorage.removeItem("nickname");
     localStorage.removeItem("new");
     setIsLogin(false);
     navigate("/");
