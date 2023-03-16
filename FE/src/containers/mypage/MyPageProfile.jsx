@@ -5,6 +5,8 @@ import axios from "axios";
 import defaultImage from "../../images/profile_img.png"
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import PopupDom from './MypageProfilePopupDom';
+import PopupContent from './MyPageProfilePopupContent';
 
 const Style={
     Wrapper:styled.div`
@@ -137,6 +139,8 @@ function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
+    const [logState, setLogState] = useState();
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const imgInput = useRef();
 
@@ -197,6 +201,14 @@ function MyPageProfile() {
     
     };
 
+    const openPopup = () => {
+        setIsOpenPopup(true);
+    };
+
+    const closePopup = () => {
+        setIsOpenPopup(false);
+    };
+
     const getProfileImg = () => {
         axios
         .get(`http://localhost:8080/user/img`)
@@ -243,8 +255,13 @@ function MyPageProfile() {
 
 
     useEffect(() => {
-        getProfile();
-        getProfileImg();
+        /*setLogState(sessionStorage.getItem("id"));
+        if (logState == null) {
+            navigate("/sociallogin")
+        } else {*/
+            getProfile();
+            getProfileImg();
+        //}
     }, []);
     
 
@@ -314,7 +331,14 @@ function MyPageProfile() {
                     <Style.University>{university}</Style.University>
                     <Style.ItemButton
                         type='button'
+                        id='popupDom'
+                        onClick={openPopup}
                     >검색하기</Style.ItemButton>
+                    {isOpenPopup &&
+                        <PopupDom>
+                            <PopupContent onClose={closePopup}/>
+                        </PopupDom>
+                    }
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{display: "flex"}}>
