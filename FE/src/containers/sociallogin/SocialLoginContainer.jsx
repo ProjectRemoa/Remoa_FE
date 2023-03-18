@@ -33,19 +33,19 @@ const Style = {
 function SocialLoginContainer() {
   const navigate = useNavigate();
 
-  /*const isNotLogin = () => {
+  const isNotLogin = () => {
     alert("잘못된 접근입니다.");
     navigate("/");
-  };*/
+  };
   /*const showModal = (e) => {
     modalOpen = true;
   };*/
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (localStorage.getItem("nickname") != null) {
       isNotLogin();
     }
-  }, []);*/
+  }, []);
 
   return (
     <>
@@ -53,6 +53,7 @@ function SocialLoginContainer() {
       <div
         style={{
           width: "100%",
+          margin: "30px auto",
           pointerEvents: sessionStorage.getItem("new") ? "none" : "auto",
         }}
       >

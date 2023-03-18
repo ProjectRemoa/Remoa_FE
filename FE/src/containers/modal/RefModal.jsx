@@ -144,7 +144,7 @@ export default function RefModal({
           <MS.HeaderDiv1>
             <MS.DetailTitle>{idea.title}</MS.DetailTitle>
             <MS.DetailTitleInfo>
-              {idea.detail_regist}&nbsp; {/* 내 작업물 공유에 없음 */}
+              {/*{idea.detail_regist}&nbsp; {/* 내 작업물 공유에 없음 */}
               <span style={{ color: "#FADA5E" }}>{idea.detail_result}</span>
               &nbsp;| &nbsp;{getDate(idea.postingTime)}&nbsp;|&nbsp;
               {idea.categoryName}

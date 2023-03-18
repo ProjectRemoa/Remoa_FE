@@ -16,13 +16,8 @@ function ManageListContainer() {
 
   const navigate = useNavigate();
 
-  const memoizedCategoryName = useMemo(() => categoryName, [categoryName]);
-
   const onChangeCategory = (e) => {
-    //navigate(`/manage/list/${e.target.value}`);
     setCategoryName(e.target.value);
-    //console.log("categoryName in onChange : " + categoryName);
-    getWork();
   };
 
   const getWork = () => {
@@ -53,16 +48,22 @@ function ManageListContainer() {
   };
 
   useEffect(() => {
-    console.log("useEffect");
+    // 화면이 처음 뜰 때 렌더링
     getWork();
   }, []);
 
+  useEffect(() => {
+    // 카테고리를 바꿀 떄마다 렌더링
+    setCategoryName((categoryName) => categoryName);
+    getWork();
+  }, [categoryName]);
+
   return (
     <div className="ManageListContainer">
-      <div align="left" style={{}}>
+      <div align="left" style={{ margin: "30px auto" }}>
         내 작업물 목록
       </div>
-      <div align="center" style={{ margin: "20px 0px" }}>
+      <div align="center" style={{ paddingBottom: "30px" }}>
         <div className="form_radio_btn" style={{ float: "left" }}>
           <input
             id="radio-1"
@@ -98,7 +99,7 @@ function ManageListContainer() {
             id="radio-4"
             type="radio"
             name="category"
-            value="design"
+            value="video"
             onChange={onChangeCategory}
           />
           <label htmlFor="radio-4">영상</label>
@@ -126,8 +127,13 @@ function ManageListContainer() {
       </div>
       <div>
         {!totalOfAllReferences ? (
-          <div style={{ margin: "100px 0px" }}>
-            <span style={{ fontSize: "1.8vw", color: "#464646" }}>
+          <div style={{ marginTop: "50px" }}>
+            <span
+              style={{
+                fontSize: "1.75vw",
+                color: "#464646",
+              }}
+            >
               지금 바로 작업물을 올려보세요!
             </span>
           </div>
