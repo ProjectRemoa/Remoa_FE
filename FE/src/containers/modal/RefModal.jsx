@@ -1,13 +1,13 @@
 import { MS } from '../../layout/ModalStyle'
+import { useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { makeStyles } from "@material-ui/core/styles";
 import { getDate } from '../../functions/getDate';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import RefModalComment from './RefModalComment';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import StarIcon from '@mui/icons-material/Star';
-import { useState } from 'react';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { pdfjs, Document, Page } from 'react-pdf';
@@ -55,7 +55,7 @@ const useStyles = makeStyles({
     float:"left",
     marginLeft:"25px",
     marginTop:"13.5px"
-  }
+  },
 })
 
 export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea}) {
@@ -108,19 +108,19 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
+  const [pageScale, setPageScale] = useState(0.25);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
-    setNumPages(numPages);
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(Number(numPages))
     setPageNumber(1);
   }
-  let rate = windowSize.height/windowSize.width
-  let show = 1
+  const [show,setShow] = useState(1)
   const changePageNum = (e) => {
-    show = Number(e.target.value)
+    setShow(e.target.value)
   }
 
 
+  
   return (
     <MS.ModalWrapper className={modalVisibleId2 == id2 ? classes.show : classes.dis}>
     <MS.MobalBox>
@@ -157,70 +157,58 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
         <MS.Line />
 
         <MS.MobalContents>
+          {/* 사진을 링크로 받으면 이렇게인가? */}
           {media && media.map(function(a){
             return (
-              <MS.ContentImg src={require('../../images/'+a)} key={a} />
+              <MS.ContentImg src={a} key={a} />
             )
           })}
 
+          {/* 영상은 유튜브 링크로 대체된다는데 입력되는 방식은 어떤가? */}
+
+          {/* 
           {modalVisibleId2 ? 
             <video width='100%' height='auto' controlsList="nodownload" controls>
               <source src={require("../../images/임시이미지.mp4")} type="video/mp4"/>
             </video>
-          : "" }
+          : "" } */}
 
-
-            {/* <MS.PdfWrapper >
- 
+            <MS.PdfWrapper >
               <MS.PdfSet>
-                페이지 이동 <MS.PdfPageInput onChange={changePageNum}/>
-                <div style={{right:"70px", position:"absolute"}}>
-                  페이지 배율 
-                  <select name="rate" id="rate" style={{width:"80px", height:"30px",float:"right"}}>
-                    <option value="50">50%</option>
-                    <option value="75">75%</option>
-                    <option value="100">100%</option>
-                    <option value="150">150%</option>
-                    <option value="200">200%</option>
-                  </select>
-                </div>
+                페이지 입력
+                {numPages>1 ? <>
+                  <MS.PdfPageInput onChange={changePageNum} placeholder={`1p부터 ${numPages}p까지`} defaultValue={1} />
+                  <MS.PdfPageButtonWrapper>
+                    <MS.PdfPageButton href={`#${show}`}>이동하기</MS.PdfPageButton>
+                  </MS.PdfPageButtonWrapper>
+                </>
+                : ""}
+                <MS.PdfSizeWrapper>            
+                  <MS.PdfSizeButton onClick={() => {setPageScale(pageScale === 1.5 ? 1.5 : pageScale + 0.25)}}>
+                    <MS.SizeIcon>+</MS.SizeIcon>
+                  </MS.PdfSizeButton>
+                  <MS.PdfSizeButton onClick={() => {setPageScale((pageScale - 0.25) < 0.25 ? 0.25 : pageScale - 0.25)}}>
+                    <MS.SizeIcon>-</MS.SizeIcon>
+                  </MS.PdfSizeButton>
+                </MS.PdfSizeWrapper>
+                <MS.SizeShow>
+                    {pageScale*100+"%"}
+                </MS.SizeShow>
               </MS.PdfSet>
-              <MS.PdfMannage onContextMenu={e => e.preventDefault()} style={{maxHeight:windowSize.height}}>
-                  <Document file={require('../../images/test.pdf')} onLoadSuccess={onDocumentLoadSuccess}>
-                  {Array.from(new Array(numPages), (_, index) => (<div key={index+1}>
-    <Page
-      width={windowSize.width}
-      height={windowSize.height}
-      scale={pageScale} pageNumber={index+1}
-      renderAnnotationLayer={false} 
-    />
-    {(index+1)==pageNumber? "": index+1}
-    </div>
-  ))}
-                  </Document>
+              <MS.PdfMannage onContextMenu={e => e.preventDefault()} style={{maxHeight:windowSize.height/1.5,
+              justifyContent:pageScale<1?"center":"flex-start"}}>
+
+                <Document file={require('../../images/test.pdf')} onLoadSuccess={onDocumentLoadSuccess}>
+                  {Array.from(new Array(numPages), (_, index) => (
+                    <div key={index+1} id={index+1} >
+                      <Page width={windowSize.width} height={windowSize.height}  scale={pageScale} 
+                      pageNumber={index+1} renderAnnotationLayer={false} />
+                    </div>
+                  ))}
+                </Document>
               </MS.PdfMannage>
-            
-            <div>
-            Page {pageNumber} of {numPages}
-                <p>페이지 이동 버튼</p>
-
-                <button onClick={() => {
-                    setPageNumber(show)
-                }}> 지정이동
-                </button>
-
-                <p>페이지 스케일</p>
-                <button onClick={() => {
-                    setPageScale(pageScale === 2 ? 2 : pageScale + 0.5)
-                }}> +
-                </button>
-                <button onClick={() => {
-                    setPageScale((pageScale - 0.5) < 0.5 ? 0.5 : pageScale - 0.5)
-                }}> -
-                </button>
-            </div>
-          </MS.PdfWrapper> */}
-
+              <div style={{height:"50px",width:"auto"}} />
+          </MS.PdfWrapper>
 
         </MS.MobalContents>
 

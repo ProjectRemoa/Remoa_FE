@@ -25,9 +25,9 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기획/아이디어",
-    attached_file: [ "testModal1.jpg", "testModal2.jpg"]
+    attached_file: [ "https://cdn.pixabay.com/photo/2023/01/01/21/33/mountain-7690893_960_720.jpg"]
     
-  }, //사진
+  },
   {
     id: id2,
     contest_name: "방지 서비스 <단디>를 소개합니다",
@@ -41,8 +41,8 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기획/아이디어",
-    attached_file:null
-  }, //동영상
+    attached_file:[]
+  },
   {
     id: id3,
     contest_name: "서비스 <단디>를 소개합니다",

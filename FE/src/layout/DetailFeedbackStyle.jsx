@@ -33,7 +33,7 @@ export const DF = {
     margin: 16px 27px 21px 27px;
   `,
   RegTop:styled.div`
-    width:100%
+    width:100%;
     height:36px;
     display:flex;
     margin-bottom:12px;
@@ -42,7 +42,7 @@ export const DF = {
     line-height:24px;
   `,
   RegBottom:styled.div`
-    width:100%
+    width:100%;
     height:112px;
   `,
   WriteInput:styled.textarea`
