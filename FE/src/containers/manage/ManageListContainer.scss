@@ -9,11 +9,11 @@
   width: 85%;
 
   .form_radio_btn {
-    width: 30%;
+    width: 15.65%;
     border: 1px solid #b0b0b0;
     border-radius: 10px;
     display: inline-block;
-    margin: 0 3px 5px 3px;
+    margin: 0 0.4% 0.5% 0.4%; // 크기에 따라 margin 조절되게 설정
   }
 
   .form_radio_btn input[type="radio"] {
@@ -72,59 +72,5 @@
   textarea:-ms-input-placeholder {
     color: #b0b0b0;
     font-size: 0.8rem;
-  }
-
-  @include desktop {
-    min-width: 1300px;
-    max-width: 1800px;
-    .th {
-      min-width: 455px;
-      max-width: 845px;
-    }
-    .td {
-      min-width: 845px;
-      max-width: 1170px;
-    }
-
-    .form_radio_btn {
-      max-width: 198px;
-      min-width: 165px;
-    }
-  }
-
-  @include big_laptop {
-    min-width: 900px;
-    max-width: 1024px;
-    .th {
-      min-width: 315px;
-      max-width: 358.4px;
-    }
-    .td {
-      min-width: 585px;
-      max-width: 665.6px;
-    }
-    .form_radio_btn {
-      max-width: 112px;
-      min-width: 112px;
-    }
-  }
-
-  @include small_laptop {
-    min-width: 660px;
-    max-width: 768px;
-
-    .th {
-      min-width: 231px;
-      max-width: 268.8px;
-    }
-    .td {
-      min-width: 429px;
-      max-width: 499.2px;
-    }
-
-    .form_radio_btn {
-      max-width: 82px;
-      min-width: 82px;
-    }
   }
 }

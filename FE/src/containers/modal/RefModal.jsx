@@ -64,9 +64,17 @@ export default function RefModal({
   setModalVisibleId2,
   idea,
 }) {
+  /*
+  아직 안 정해진 것
+  1. 첨부파일
+  2. 상세 결과
+  3. 상세 설명 (내 작업물 공유 페이지에 GUI가 존재하지 않긴 함)
+  4. 
+  */
   const classes = useStyles();
   const Navigate = useNavigate();
   let Lo = window.location.href;
+  console.log(idea);
 
   const onCloseHandler2 = () => {
     setModalVisibleId2(false);
@@ -83,7 +91,7 @@ export default function RefModal({
     }
   };
 
-  const [like, setLike] = useState(idea.thumbs);
+  const [like, setLike] = useState(idea.likeCount);
   const [likeBoolean, setLikeBoolean] = useState(false);
   const handleLike = (e) => {
     if (likeBoolean === false) {
@@ -93,7 +101,7 @@ export default function RefModal({
     }
     setLikeBoolean(!likeBoolean);
   };
-  const [subscribe, setSubscribe] = useState(idea.scrap);
+  const [subscribe, setSubscribe] = useState(idea.scrapCount);
   const [subscribeBoolean, setSubscribeBoolean] = useState(false);
   const handleSubscribe = (e) => {
     if (subscribeBoolean === false) {
@@ -125,38 +133,35 @@ export default function RefModal({
     show = Number(e.target.value);
   };
 
-  return <div>모달창이지롱</div>;
-  {
-    /*<MS.ModalWrapper
-      className={modalVisibleId2 == id2 ? classes.show : classes.dis}
+  return (
+    <MS.ModalWrapper
+      className={modalVisibleId2 === id2 ? classes.show : classes.dis}
     >
       <MS.MobalBox>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         <br />
         <MS.MobalHeader>
           <MS.HeaderDiv1>
-            <MS.DetailTitle>{idea.contest_name}</MS.DetailTitle>
+            <MS.DetailTitle>{idea.title}</MS.DetailTitle>
             <MS.DetailTitleInfo>
-              {idea.detail_regist}&nbsp;
+              {idea.detail_regist}&nbsp; {/* 내 작업물 공유에 없음 */}
               <span style={{ color: "#FADA5E" }}>{idea.detail_result}</span>
-              &nbsp;| &nbsp;{getDate(idea.resgist_date)}&nbsp;|&nbsp;
-              {idea.detail_category}
+              &nbsp;| &nbsp;{getDate(idea.postingTime)}&nbsp;|&nbsp;
+              {idea.categoryName}
             </MS.DetailTitleInfo>
           </MS.HeaderDiv1>
 
           <MS.HeaderDiv2>
             <MS.HeaderUserInfo>
-              <MS.ProfileSize
-                src={require("../../images/" + idea.registrant_image + ".jpg")}
-              />
-              <MS.HeaderUserName>{idea.registrant}</MS.HeaderUserName>
+              <MS.ProfileSize src={idea.postMember.profileImage} />
+              <MS.HeaderUserName>{idea.postMember.nickname}</MS.HeaderUserName>
               <MS.HeaderDetail2>
                 <RemoveRedEyeOutlinedIcon />
-                {idea.hits}
+                {idea.views}
                 <FavoriteOutlinedIcon className={classes.love} />
-                {idea.thumbs}
+                {idea.likeCount}
                 <StarIcon className={classes.star} />
-                {idea.scrap}
+                {idea.scrapCount}
               </MS.HeaderDetail2>
             </MS.HeaderUserInfo>
             <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
@@ -255,60 +260,81 @@ export default function RefModal({
           ) : (
             ""
           )}
-          {/* <MS.PdfWrapper >
- 
-              <MS.PdfSet>
-                페이지 이동 <MS.PdfPageInput onChange={changePageNum}/>
-                <div style={{right:"70px", position:"absolute"}}>
-                  페이지 배율 
-                  <select name="rate" id="rate" style={{width:"80px", height:"30px",float:"right"}}>
-                    <option value="50">50%</option>
-                    <option value="75">75%</option>
-                    <option value="100">100%</option>
-                    <option value="150">150%</option>
-                    <option value="200">200%</option>
-                  </select>
-                </div>
-              </MS.PdfSet>
-              <MS.PdfMannage onContextMenu={e => e.preventDefault()} style={{maxHeight:windowSize.height}}>
-                  <Document file={require('../../images/test.pdf')} onLoadSuccess={onDocumentLoadSuccess}>
-                  {Array.from(new Array(numPages), (_, index) => (<div key={index+1}>
-    <Page
-      width={windowSize.width}
-      height={windowSize.height}
-      scale={pageScale} pageNumber={index+1}
-      renderAnnotationLayer={false} 
-    />
-    {(index+1)==pageNumber? "": index+1}
-    </div>
-  ))}
-                  </Document>
-              </MS.PdfMannage>
-            
+          <MS.PdfWrapper>
+            <MS.PdfSet>
+              페이지 이동 <MS.PdfPageInput onChange={changePageNum} />
+              <div style={{ right: "70px", position: "absolute" }}>
+                페이지 배율
+                <select
+                  name="rate"
+                  id="rate"
+                  style={{ width: "80px", height: "30px", float: "right" }}
+                >
+                  <option value="50">50%</option>
+                  <option value="75">75%</option>
+                  <option value="100">100%</option>
+                  <option value="150">150%</option>
+                  <option value="200">200%</option>
+                </select>
+              </div>
+            </MS.PdfSet>
+            <MS.PdfMannage
+              onContextMenu={(e) => e.preventDefault()}
+              style={{ maxHeight: windowSize.height }}
+            >
+              <Document
+                file={require("../../images/test.pdf")}
+                onLoadSuccess={onDocumentLoadSuccess}
+              >
+                {Array.from(new Array(numPages), (_, index) => (
+                  <div key={index + 1}>
+                    <Page
+                      width={windowSize.width}
+                      height={windowSize.height}
+                      scale={pageScale}
+                      pageNumber={index + 1}
+                      renderAnnotationLayer={false}
+                    />
+                    {index + 1 == pageNumber ? "" : index + 1}
+                  </div>
+                ))}
+              </Document>
+            </MS.PdfMannage>
+
             <div>
-            Page {pageNumber} of {numPages}
-                <p>페이지 이동 버튼</p>
-
-                <button onClick={() => {
-                    setPageNumber(show)
-                }}> 지정이동
-                </button>
-
-                <p>페이지 스케일</p>
-                <button onClick={() => {
-                    setPageScale(pageScale === 2 ? 2 : pageScale + 0.5)
-                }}> +
-                </button>
-                <button onClick={() => {
-                    setPageScale((pageScale - 0.5) < 0.5 ? 0.5 : pageScale - 0.5)
-                }}> -
-                </button>
+              Page {pageNumber} of {numPages}
+              <p>페이지 이동 버튼</p>
+              <button
+                onClick={() => {
+                  setPageNumber(show);
+                }}
+              >
+                {" "}
+                지정이동
+              </button>
+              <p>페이지 스케일</p>
+              <button
+                onClick={() => {
+                  setPageScale(pageScale === 2 ? 2 : pageScale + 0.5);
+                }}
+              >
+                {" "}
+                +
+              </button>
+              <button
+                onClick={() => {
+                  setPageScale(pageScale - 0.5 < 0.5 ? 0.5 : pageScale - 0.5);
+                }}
+              >
+                {" "}
+                -
+              </button>
             </div>
-          </MS.PdfWrapper> }
+          </MS.PdfWrapper>
         </MS.MobalContents>
 
         <MS.TraceBoxWrapper>
-          <MS.TraceBox onClick={() => handleLike(idea.thumbs)}>
+          <MS.TraceBox onClick={() => handleLike(idea.likeCount)}>
             <FavoriteOutlinedIcon
               className={
                 likeBoolean ? classes.afterClick1 : classes.beforeClick
@@ -317,7 +343,7 @@ export default function RefModal({
             {like}
           </MS.TraceBox>
           <div style={{ width: "26px" }}></div>
-          <MS.TraceBox onClick={() => handleSubscribe(idea.scrap)}>
+          <MS.TraceBox onClick={() => handleSubscribe(idea.scrapCount)}>
             <StarIcon
               className={
                 subscribeBoolean ? classes.afterClick2 : classes.beforeClick
@@ -329,6 +355,6 @@ export default function RefModal({
 
         <RefModalComment />
       </MS.MobalBox>
-            </MS.ModalWrapper>*/
-  }
+    </MS.ModalWrapper>
+  );
 }

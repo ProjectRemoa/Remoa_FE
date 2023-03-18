@@ -76,27 +76,23 @@ function ManageList(props) {
     <Style.ContestList>
       {data.map((mywork, index) => (
         <Style.ContestItem key={mywork.postId}>
-          <Link to={navigate(`/ref/${mywork.categoryName}/${mywork.postId}`)}>
-            <Style.ContestImgCrop
-              onClick={() => onModalHandler2(mywork.postId)}
-            >
-              {/*표지사진*/}
-              <Style.ContestImg
-                onClick={() =>
-                  navigate(`/ref/${mywork.categoryName}/${mywork.postId}`)
-                }
-                src={mywork.thumbnail}
-                alt={mywork.postId}
-              />
-            </Style.ContestImgCrop>
-          </Link>
+          <Style.ContestImgCrop onClick={() => onModalHandler2(mywork.postId)}>
+            {/*표지사진*/}
+            <Style.ContestImg
+              onClick={() =>
+                navigate(`/ref/${mywork.categoryName}/${mywork.postId}`)
+              }
+              src={mywork.thumbnail}
+              alt={mywork.postId}
+            />
+          </Style.ContestImgCrop>
 
           {modalVisibleId2 && (
             <RefModal
               id2={mywork.postId}
               modalVisibleId2={modalVisibleId2}
               setModalVisibleId2={setModalVisibleId2}
-              idea={mywork.postId}
+              idea={mywork}
             />
           )}
 
@@ -114,7 +110,7 @@ function ManageList(props) {
                 modalLocation(index + 1);
               }}
             />
-            {/*
+            {/* 개인 작업물을 확인할 때는 팔로우 창이 필요없을 것 같음
             <RefModalFollow
               id={mywork.postId}
               modalVisibleId={modalVisibleId}

@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import ManageList from "./ManageList";
 import "./ManageListContainer.scss";
@@ -10,16 +10,37 @@ function ManageListContainer() {
   const [totalOfPageElements, setTotalOfPageElements] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
+  const [pageNumber, setPageNumber] = useState(1);
+  const [sortOption, setSortOption] = useState("newest");
+  const [categoryName, setCategoryName] = useState("all");
+
   const navigate = useNavigate();
 
+  const memoizedCategoryName = useMemo(() => categoryName, [categoryName]);
+
   const onChangeCategory = (e) => {
-    navigate(`/manage/list/${e.target.value}`);
+    //navigate(`/manage/list/${e.target.value}`);
+    setCategoryName(e.target.value);
+    //console.log("categoryName in onChange : " + categoryName);
+    getWork();
   };
 
-  useEffect(() => {
+  const getWork = () => {
+    console.log("========");
     axios
-      .get("/BE/user/reference")
+      .get(
+        //"/BE/user/reference"
+        `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`
+      )
       .then((res) => {
+        console.log(
+          "options in getWork() : " +
+            pageNumber +
+            "," +
+            sortOption +
+            "," +
+            categoryName
+        );
         console.log(res);
         setMywork([...res.data.data.references]);
         setTotalOfAllReferences(res.data.data.totalOfAllReferences);
@@ -29,33 +50,96 @@ function ManageListContainer() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    console.log("useEffect");
+    getWork();
   }, []);
 
   return (
     <div className="ManageListContainer">
-      <div style={{ float: "left" }}>내 작업물 목록</div>
-      <div>
+      <div align="left" style={{}}>
+        내 작업물 목록
+      </div>
+      <div align="center" style={{ margin: "20px 0px" }}>
         <div className="form_radio_btn" style={{ float: "left" }}>
           <input
             id="radio-1"
             type="radio"
             name="category"
-            value="total"
+            value="all"
             onChange={onChangeCategory}
           />
           <label htmlFor="radio-1">전체</label>
         </div>
+        <div className="form_radio_btn" style={{ float: "left" }}>
+          <input
+            id="radio-2"
+            type="radio"
+            name="category"
+            value="idea"
+            onChange={onChangeCategory}
+          />
+          <label htmlFor="radio-2">기획/아이디어</label>
+        </div>
+        <div className="form_radio_btn" style={{ float: "left" }}>
+          <input
+            id="radio-3"
+            type="radio"
+            name="category"
+            value="marketing"
+            onChange={onChangeCategory}
+          />
+          <label htmlFor="radio-3">광고/마케팅</label>
+        </div>
+        <div className="form_radio_btn" style={{ float: "left" }}>
+          <input
+            id="radio-4"
+            type="radio"
+            name="category"
+            value="design"
+            onChange={onChangeCategory}
+          />
+          <label htmlFor="radio-4">영상</label>
+        </div>
+        <div className="form_radio_btn" style={{ float: "left" }}>
+          <input
+            id="radio-5"
+            type="radio"
+            name="category"
+            value="design"
+            onChange={onChangeCategory}
+          />
+          <label htmlFor="radio-5">디자인/사진</label>
+        </div>
+        <div className="form_radio_btn" style={{ float: "left" }}>
+          <input
+            id="radio-6"
+            type="radio"
+            name="category"
+            value="etc"
+            onChange={onChangeCategory}
+          />
+          <label htmlFor="radio-6">기타 아이디어</label>
+        </div>
       </div>
-      {!totalOfAllReferences ? (
-        <div>지금 바로 작업물을 올려보세요!</div>
-      ) : (
-        <ManageList
-          data={mywork}
-          TAR={totalOfAllReferences}
-          TPE={totalOfPageElements}
-          TP={totalPages}
-        />
-      )}
+      <div>
+        {!totalOfAllReferences ? (
+          <div style={{ margin: "100px 0px" }}>
+            <span style={{ fontSize: "1.8vw", color: "#464646" }}>
+              지금 바로 작업물을 올려보세요!
+            </span>
+          </div>
+        ) : (
+          <ManageList
+            data={mywork}
+            TAR={totalOfAllReferences}
+            TPE={totalOfPageElements}
+            TP={totalPages}
+          />
+        )}
+      </div>
     </div>
   );
 }

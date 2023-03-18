@@ -87,6 +87,8 @@ root.render(
 
             <Route element={<AuthLayout />}>
               <Route path="/manage/list" element={<ManageList />} />
+
+              <Route path="/manage/list/total" element={<ManageList />} />
               <Route path="/manage/share" element={<ManageShare />} />
               <Route path="/manage/feedback" element={<ManageFeedback />} />
 
