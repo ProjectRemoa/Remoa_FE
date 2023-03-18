@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import "./ManageShareContainer.scss";
