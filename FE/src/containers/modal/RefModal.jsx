@@ -2,6 +2,7 @@ import { MS } from '../../layout/ModalStyle'
 import { useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { makeStyles } from "@material-ui/core/styles";
+
 import { getDate } from '../../functions/getDate';
 import { useNavigate } from 'react-router-dom';
 import RefModalComment from './RefModalComment';
@@ -119,7 +120,6 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
     setShow(e.target.value)
   }
 
-
   
   return (
     <MS.ModalWrapper className={modalVisibleId2 == id2 ? classes.show : classes.dis}>
@@ -177,7 +177,7 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
               <MS.PdfSet>
                 페이지 입력
                 {numPages>1 ? <>
-                  <MS.PdfPageInput onChange={changePageNum} placeholder={`1p부터 ${numPages}p까지`} defaultValue={1} />
+                  <MS.PdfPageInput onChange={changePageNum} placeholder={`1P부터 ${numPages}P까지`} defaultValue={1} />
                   <MS.PdfPageButtonWrapper>
                     <MS.PdfPageButton href={`#${show}`}>이동하기</MS.PdfPageButton>
                   </MS.PdfPageButtonWrapper>

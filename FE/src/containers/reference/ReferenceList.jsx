@@ -54,20 +54,7 @@ const RefList = (props) => {
       }
     })
     setData(data);
-    // let i = 0
-    // let n = []
 
-    // while (i < data.length) {
-    //   let j = 0
-    //   while (j < user.length) {
-    //     if (data[i].id==user[j].id) {
-    //       n.push(user[j])
-    //     }
-    //     j++
-    //   }
-    //   i++  
-    // }
-    // console.log(user)
     document.getElementById("b1").style.backgroundColor="#FADA5E"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="white"
