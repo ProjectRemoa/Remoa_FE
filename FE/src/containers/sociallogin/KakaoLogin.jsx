@@ -28,7 +28,7 @@ function KakaoLogin() {
           localStorage.setItem("nickname", res.data.data.nickname);
 
           // 회원가입하는 회원이면 modal창을 켜야함
-          localStorage.setItem("new", true);
+          sessionStorage.setItem("new", true);
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
