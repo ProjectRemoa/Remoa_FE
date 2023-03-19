@@ -21,10 +21,10 @@ function MyPageFeedback(){
 
     useEffect(()=>{
         console.log(page + "page")
-        axios.get(`/BE/user/feedback?page=${page}`)
+        axios.get(`/BE/user/comment?page=${page}`)
         .then((res)=>{
             console.log(res.data)
-            작품변경(res.data.data.post)
+            작품변경(res.data.data.contents)
             setAllPage(Array.from({length: res.data.data.totalPages}))
         })
         .catch((res)=>{
@@ -61,14 +61,14 @@ function MyPageFeedback(){
                             </div>
                         </div>
                         <div style={{width: "100%", height: "50%", display:"flex", marginLeft: "5%", marginBottom: "5%"}}>
-                            <img src={data.commentInfo.comment_1.member.profileImage} style={{marginTop: "2%", maxWidth: "20%", maxHeight: "80%", borderRadius: "40px"}}/>
+                            <img src={data.member.profileImage} style={{marginTop: "2%", maxWidth: "20%", maxHeight: "80%", borderRadius: "40px"}}/>
                             <div style={{width: "80%", height:"100%", marginLeft: "2%", marginTop: "4%", display:"flex", flexDirection: "column", textAlign: "left"}}>
                                 <div style={{textAlign: "left", fontSize: "18px"}}>
-                                    {data.commentInfo.comment_1.member.nickname}
-                                    <span style={{marginLeft: "2%"}}>👍 {data.commentInfo.comment_1.likeCount}</span>
+                                    {data.member.nickname}
+                                    <span style={{marginLeft: "2%"}}>👍 {data.likeCount}</span>
                                 </div>
                                 <div style={{textAlign: "left", fontSize: "16px", marginTop:"1%"}}>
-                                    {data.commentInfo.comment_1.comment}
+                                    {data.content}
                                 </div>
                             </div>
                         </div>
