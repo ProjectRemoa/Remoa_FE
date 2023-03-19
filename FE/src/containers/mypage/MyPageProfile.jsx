@@ -140,13 +140,12 @@ function MyPageProfile() {
     const [profileImage, setProfileImage] = useState(defaultImage);
     const [previewImage, setPreviewImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
-    const [logState, setLogState] = useState(null);
     const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const imgInput = useRef();
 
     const [input, setInput] = useState({
-        email: null,//'maninhat@kakao.com',
+        email: 'maninhat@kakao.com',
         nickname: '호갱',
         phoneNumber: '01012345678',
         university: '한국대학교',
@@ -215,7 +214,7 @@ function MyPageProfile() {
         });
     };
 
-    const changeProfile = (nickname, phoneNumber, university, oneLineIntroduction, profileImage) => {
+    const changeProfile = () => {
         axios.put(`/BE/user`, {
             nickname : nickname,
             phoneNumber : phoneNumber,
@@ -313,7 +312,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={nickname}
                         name="nickname"
-                        value={nickname}
                         onChange={onChangeInput}
                     ></Style.Answer>
                     <Style.ItemButton
@@ -327,7 +325,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={phoneNumber}
                         name="phoneNumber"
-                        value={phoneNumber}
                         onChange={onChangeInput}
                     ></Style.Answer>
                 </Style.ItemWrapper>
@@ -352,7 +349,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={oneLineIntroduction}
                         name="oneLineIntroduction"
-                        value={oneLineIntroduction}
                         onChange={onChangeInput}
                         style={{
                             width: "700px",
@@ -364,7 +360,7 @@ function MyPageProfile() {
             </Style.ProfileWrapper>
 
             <Style.ModifyButton
-                onClick={() => changeProfile(nickname, phoneNumber, university, oneLineIntroduction, profileImage)}
+                onClick={() => changeProfile()}
             >수정 완료</Style.ModifyButton>
 
         </Style.Wrapper>
