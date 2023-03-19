@@ -33,15 +33,37 @@ const Style={
         min-height: 200px;
         max-height:100%;
         min-width: 200px;
-        background-color:yellowgreen;
+        background-color: white;
         white-space:normal;
         word-break:break-word;
         text-align:left;
+        border: 2px solid #CDCDCD;
+        color: black;
         border-radius:10px;
-        padding:30px;
+        padding:40px;
         margin:auto;
         box-sizing:border-box;
         font-size: 16px;
+    `,
+    ContentWrap:styled.div`
+        width: 100%;
+        align-text: left;
+        display: flex;
+        flex-direction: row; 
+    `,
+    Title:styled.div`
+        color: #464646;
+        font-size: 25px;
+        flex: 1;
+    `,
+    DetailContent:styled.div`
+        color: #464646;
+        font-size: 18px;
+    `,
+    SearchBtn:styled.div`
+        background-color: #FADA5E;
+        padding: 20px;
+        border-radius: 25px 0px 0px 25px;
     `,
 }
 
@@ -51,18 +73,36 @@ class PopupContent extends Component {
             <>
                 <Style.FullLayer>
                     <Style.CommonAlert> 
+                        <Style.ContentWrap>
+                            <Style.Title>내 학교 찾기</Style.Title>
+                            <a
+                                onClick={this.props.onClose}>
+                                <FontAwesomeIcon 
+                                    icon={faXmark}
+                                    color="#FADA5E"
+                                    size='2x'
+                                />
+                            </a>   
+                        </Style.ContentWrap>    
+                            <Style.DetailContent>
+                                학교 명을 검색해보세요. 키워드 형으로 입력하면 쉽게 찾을 수 있어요. (ex. 한국, 한국대)
+                            </Style.DetailContent>
+                        
                         <div>
-                            <input
-                                type="text"
-                            >
-                            </input>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            <Style.SearchBtn>
+                                <FontAwesomeIcon 
+                                    icon={faMagnifyingGlass} 
+                                    color="white"
+                                    size='2x'
+                                />
+                            </Style.SearchBtn>
+                            <div>
+                                <input
+                                    type="text"
+                                >
+                                </input>
+                            </div>
                         </div>
-                        <a
-                            onClick={this.props.onClose}>
-                            <FontAwesomeIcon icon={faXmark} />
-                        </a>
-                        <div>This is Popup Body</div>
                         <div>
                             <button 
                                 type="button" 

@@ -138,6 +138,7 @@ const Style={
 function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
+    const [previewImage, setPreviewImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
     const [logState, setLogState] = useState(null);
     const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -169,6 +170,7 @@ function MyPageProfile() {
         return new Promise((resolve) => {
             reader.onload = () => {
                 setProfileImage(reader.result);
+                setPreviewImage(e.target.files[0]);
                 resolve();
             };
         });
@@ -180,7 +182,7 @@ function MyPageProfile() {
 
     const nicknameOverlapCheck = (nickname) => {
         axios
-        .get(`http://localhost:8080/nickname?nickname=${nickname}`)
+        .get(`/BE/nickname?nickname=${nickname}`)
         .then((res) => {
         if (res.status === 200) {
             setIdcheck(res.data.data);
@@ -202,7 +204,7 @@ function MyPageProfile() {
 
     const getProfileImg = () => {
         axios
-        .get(`http://localhost:8080/user/img`)
+        .get(`/BE/user/img`)
         .then((res) => {
         if (res.status === 200) {
             setProfileImage(res.data.data);
@@ -214,7 +216,7 @@ function MyPageProfile() {
     };
 
     const changeProfile = (nickname, phoneNumber, university, oneLineIntroduction, profileImage) => {
-        axios.put(`http://localhost:8080/user`, {
+        axios.put(`/BE/user`, {
             nickname : nickname,
             phoneNumber : phoneNumber,
             university : university,
@@ -231,9 +233,14 @@ function MyPageProfile() {
         });
 
         const formData = new FormData();
-        formData.append('file', profileImage);
+        formData.append('file', previewImage);
 
-        axios.put(`http://localhost:8080/user/img`, formData)
+        axios.put(`/BE/user/img`, formData, {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
         .then(() => {
             console.log("프로필 사진 put 완료")
             navigate("/");
@@ -245,7 +252,7 @@ function MyPageProfile() {
     };
 
     const getProfile = () => {
-        axios.get('http://localhost:8080/user', { withCredentials: true })
+        axios.get('/BE/user', { withCredentials: true })
         .then((res) => {
             if (res.status === 200) {
                 setInput(res.data.data);
@@ -262,19 +269,6 @@ function MyPageProfile() {
         getProfile();
         getProfileImg();
     }, []);
-
-
-    // useEffect(() => {
-    //     setLogState(localStorage.getItem("id"));
-    //     console.log("localStorage.getItem('id') = ", logState);
-    //     if (logState) {
-    //         getProfile();
-    //         getProfileImg();
-    //     } else {
-    //         navigate("/sociallogin");
-    //     }
-    // }, []);
-    
 
     return(
     <>
