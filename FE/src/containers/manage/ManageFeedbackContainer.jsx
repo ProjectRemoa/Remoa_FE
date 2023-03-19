@@ -13,21 +13,20 @@ const style = {
 }
 
 function ManageFeedbackContainer(){
-    const [작품, 작품변경] = useState([1,2,3,4]);
+    const [작품, 작품변경] = useState([]);
     const [page, setPage] = useState(1);
-    const [allPage, setAllPage] = useState([1,2,3,4]);
-    const [category, setCatgory] = useState("etc")
+    const [allPage, setAllPage] = useState([]);
     const topValue = 26;
 
     const Navigete = useNavigate();
 
     useEffect(()=>{
         console.log(page + "page")
-        axios.get(`/BE/user/feedback?page=${page}&category=${category}`)
+        axios.get(`/BE/user/feedback?page=${page}`)
         .then((res)=>{
             console.log(res.data)
-            // 작품변경(res.data.data.post)
-            // setAllPage(Array.from({length: res.data.data.totalPage}))
+            작품변경(res.data.data.post)
+            setAllPage(Array.from({length: res.data.data.totalPages}))
         })
         .catch((res)=>{
             console.log("error")
@@ -93,7 +92,7 @@ function ManageFeedbackContainer(){
                 </div>
                 
                 <div style={{width: "70%", display:"flex", flexDirection: "column", maxHeight:"100%"}}>
-                    <div style={{textAlign:"left", fontSize:"1.4em", width: "100%", height: "15%", margin: "1%"}}> 작품 이름 </div>
+                    <div style={{textAlign:"left", fontSize:"1.4em", width: "100%", height: "15%", margin: "1%"}}> {data.title} </div>
                     <div style={{display:"flex", flexDirection: "column", width: "100%", height: "83%", border: "1px solid #FADA5E", borderRadius: "10px"}}>
                         <div style={{width: "100%", height: "35%", marginLeft: "5%", marginTop: "3%", marginBottom: "2%"}}>
                             <div style={{textAlign:"left", fontSize:"18px"}}>
@@ -104,14 +103,14 @@ function ManageFeedbackContainer(){
                             </div>
                         </div>
                         <div style={{width: "100%", height: "50%", display:"flex", marginLeft: "5%", marginBottom: "5%"}}>
-                            <img src={imgMyProfile} style={{marginTop: "2%", maxWidth: "20%", maxHeight: "80%"}}/>
+                            <img src={data.commentInfo.comment_1.member.profileImage} style={{marginTop: "2%", maxWidth: "20%", maxHeight: "80%", borderRadius: "40px"}}/>
                             <div style={{width: "80%", height:"100%", marginLeft: "2%", marginTop: "4%", display:"flex", flexDirection: "column", textAlign: "left"}}>
                                 <div style={{textAlign: "left", fontSize: "18px"}}>
-                                    레모레모아아
-                                    <span style={{marginLeft: "2%"}}>👍 {0}</span>
+                                    {data.commentInfo.comment_1.member.nickname}
+                                    <span style={{marginLeft: "2%"}}>👍 {data.commentInfo.comment_1.likeCount}</span>
                                 </div>
                                 <div style={{textAlign: "left", fontSize: "16px", marginTop:"1%"}}>
-                                    안녕하세요. 설명입니다. 레모레모레모레모레모레모레모아아아아아아아아아아
+                                    {data.commentInfo.comment_1.comment}
                                 </div>
                             </div>
                         </div>
@@ -139,14 +138,18 @@ function ManageFeedbackContainer(){
             <div style={{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.4em"}}>
                 <span style={{marginRight: "2px"}}
                 onClick = {()=>{
-                    setPage(prev => prev - 1)
+                    if (page > 1){
+                        setPage(prev => prev - 1)
+                    }
                 }}>
                     &lt;
                 </span>
                 {Paging}
                 <span style={{marginLeft: "2px"}}
                 onClick = {()=>{
-                    setPage(prev => prev + 1)
+                    if (page <= allPage){
+                        setPage(prev => prev + 1)
+                    }
                 }}>
                     &gt;
                 </span>
