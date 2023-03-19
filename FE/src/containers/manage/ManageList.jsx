@@ -3,11 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Style } from "../../layout/ReferenceListStyle";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import RefModal from "../modal/RefModal";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-
 import StarIcon from "@mui/icons-material/Star";
+
 const useStyles = makeStyles({
   home: {
     fontSize: "35px",
@@ -31,11 +32,19 @@ const useStyles = makeStyles({
 });
 
 function ManageList(props) {
-  // 받아온 data 가공 필요
   const classes = useStyles();
   const navigate = useNavigate();
+
+  // 받아온 data 가공 필요
   let data = props.data;
   console.log(data);
+  let tar = props.TAR;
+  let tpe = props.TPE;
+  let tp = props.TP;
+
+  let profileImage = data[0].postMember.profileImage;
+  let memberId = data[0].postMember.memberId;
+  let nickname = data[0].postMember.nickname;
 
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
@@ -67,33 +76,31 @@ function ManageList(props) {
     <Style.ContestList>
       {data.map((mywork, index) => (
         <Style.ContestItem key={mywork.postId}>
-          {/*<Link to={navigate(`/ref/${mywork.categoryName}/${mywork.postId}`)}>*/}
           <Style.ContestImgCrop onClick={() => onModalHandler2(mywork.postId)}>
             {/*표지사진*/}
             <Style.ContestImg
               onClick={() =>
                 navigate(`/ref/${mywork.categoryName}/${mywork.postId}`)
               }
-              src={mywork.storeFileUrls[0]} // 나중에 바꿔야됨. 아직 프사 기능 추가 안됨
+              src={mywork.thumbnail}
               alt={mywork.postId}
             />
           </Style.ContestImgCrop>
-          {/*</Link>*/}
 
           {modalVisibleId2 && (
             <RefModal
               id2={mywork.postId}
               modalVisibleId2={modalVisibleId2}
               setModalVisibleId2={setModalVisibleId2}
-              idea={mywork.postId}
+              idea={mywork}
             />
           )}
 
           <Style.ProfileInfo>
             {/*유저 프로필 사진*/}
             <Style.ProfileSize
-              src={require("../../images/test1.jpg")}
-              alt={mywork.nickname}
+              src={profileImage}
+              alt={memberId}
               onMouseEnter={() => {
                 onModalHandler(mywork.postId);
                 modalLocation(index + 1);
@@ -103,7 +110,7 @@ function ManageList(props) {
                 modalLocation(index + 1);
               }}
             />
-            {/*
+            {/* 개인 작업물을 확인할 때는 팔로우 창이 필요없을 것 같음
             <RefModalFollow
               id={mywork.postId}
               modalVisibleId={modalVisibleId}
@@ -112,7 +119,7 @@ function ManageList(props) {
               idea={mywork}
             />*/}
 
-            <Style.ProfileFont>{mywork.nickname}</Style.ProfileFont>
+            <Style.ProfileFont>{nickname}</Style.ProfileFont>
             <Style.ProfileInfoDetail>
               {/* 유저 hits, thumbs, scrap */}
               &nbsp;

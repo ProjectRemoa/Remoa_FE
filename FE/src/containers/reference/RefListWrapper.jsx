@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import RefList from "./ReferenceList";
-import {React, useState} from "react";
+import { React, useState } from "react";
 
 const Style = {
   Wrapper: styled.div`
@@ -11,26 +11,26 @@ const Style = {
     top:150px;
     /* background-color: #EBFBFF; */
   `,
-  Intro:styled.div`
+  Intro: styled.div`
     position: absolute;
     width: 86vw;
     height: 24px;
-    font-family: 'Noto Sans KR';
+    font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 700;
     font-size: 21px;
     line-height: 30px;
     display: flex;
-    @media ${props => props.theme.desktop} {
-      top:-35px;
+    @media ${(props) => props.theme.desktop} {
+      top: -35px;
       justify-content: center;
     }
-    @media ${props => props.theme.mobile} {
+    @media ${(props) => props.theme.mobile} {
       font-size: 15px;
     }
   `,
-  Coloring:styled.div`
-    color:#FADA5E;
+  Coloring: styled.div`
+    color: #fada5e;
     top: -20px;
   `,
 }

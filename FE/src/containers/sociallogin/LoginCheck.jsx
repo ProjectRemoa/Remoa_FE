@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { Cookies } from "react-cookie";
 import axios from "axios";
-import SocialLoginContainer from "./SocialLoginContainer";
-import { getCookie, loadCookie } from "../cookies";
 const Style = {
   StyledButton: styled.button`
     width: 10rem;
@@ -66,7 +62,6 @@ function LoginCheck() {
         navigate("/");
         // 여기서 JSESSIONID가 삭제되어야 되는데 안되고 있다.
         // 원래 삭제는 안되고, 대신 JSESSIONID는 무효화된다
-        // 로그인 여부에 따른 페이지 보이기/감추기 기능도 구현해야 할 것 같다.
       })
       .catch((err) => {
         console.log(err);

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import useWindowSize from "../containers/modal/pdfView/useWindowSize";
 
 export const MS = {
   ModalWrapper:styled.div`
@@ -44,12 +43,12 @@ export const MS = {
   `,
   HeaderDiv1:styled.div`
     height: auto;
-    width:70%;
+    width:65%;
     text-align: left;
   `,
   HeaderDiv2:styled.div`
     height: auto;
-    width:30%
+    width:35%
   `,
   DetailTitle:styled.div`
     font-weight: 700;
@@ -146,10 +145,20 @@ export const MS = {
     position: relative;
     left:-15px
   `,
-  CommentWriteWrapper:styled.div`
+  CommentWriteWrapper:styled.form`
     margin: 0px 10px 25px 10px;
     justify-content: center;
     height: auto;
+  `,
+  CommentButton:styled.button`
+    display: inline;
+    height: 36px;
+    width:90px;
+    position: absolute;
+    border: 0;
+    box-shadow:  none;
+    right: 3%;
+    top:7%;
   `,
   WriteInput:styled.textarea`
     border-radius: 10px;
@@ -158,6 +167,7 @@ export const MS = {
     font-family: 'Inter';
     font-size: 15px;
     line-height: 25px;
+    resize: none;
     border:none;
     ::placeholder {
       color:black
@@ -195,9 +205,9 @@ export const MS = {
     justify-content: space-between;
   `,
   DetailFeedbackButton:styled.button`
-    left: 10%;
+    left: 0%;
     position: relative;
-    width: 70%;
+    width: 45%;
     top: 40%;
     height: 40px;
     font-weight: 700;
@@ -206,6 +216,8 @@ export const MS = {
     text-align: center;
     box-shadow: none;
     border: none;
+    margin-right: 10px;
+    display: inline;
   `,
   ModalContents:styled.div`
     width: 100%;
@@ -260,12 +272,63 @@ export const MS = {
     color: white;
     display: flex;
     margin-left: 40px;
-  `,
-  PdfPageInput:styled.input`
-    width: 80px;
-    height: 30px;
-    margin-top: 7.5px;
-    margin-left:10px;
     align-items: center;
   `,
+  PdfPageInput:styled.input`
+    width: 95px;
+    height: 30px;
+    margin-left:10px;
+    font-size: 20px;
+  `,
+  PdfPageButton:styled.a`
+    text-decoration-line: none;
+    height: 40px;
+    width:80px;
+    color:#FADA5E;
+    font-weight: 700;
+    font-size: 20px;
+    
+  `,
+  PdfPageButtonWrapper:styled.button`
+    border: none;
+    height: 40px;
+    width:100px;
+    background-color:white;
+    margin-left: 10px;
+    box-shadow: none;
+  `,
+  PdfSizeWrapper:styled.div`
+    position: absolute;
+    right: 70px;
+    width: auto;
+  `,
+  PdfSizeButton:styled.button`
+    border:none;
+    margin-right: 10px;
+    box-shadow: none;
+    background-color: white;
+    width: 60px;
+    height: 40px;
+    position: relative;
+    top:17.5px;
+    display: inline-block;
+    justify-content:center;
+  `,
+  SizeIcon:styled.span`
+    color: #FADA5E;
+    font-weight: 700;
+    font-size: 50px;
+    position: relative;
+    top:-20px;
+  `,
+  SizeShow:styled.div`
+    width: 60px;
+    height: 40px;
+    background-color: white;
+    color: black;
+    line-height: 40px;
+    position: absolute;
+    right:230px;
+    border: 3px solid black;
+  `
 }

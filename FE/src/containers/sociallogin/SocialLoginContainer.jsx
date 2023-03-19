@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import kakao_login from "../../images/kakao_login_large.png";
 import { KAKAO_AUTH_URL } from "./kakaodata";
-import axios from "axios";
 import { useEffect } from "react";
 import Modal from "./Modal";
 
@@ -31,23 +30,30 @@ const Style = {
   `,
 };
 
-const { Kakao } = window;
-
 function SocialLoginContainer() {
-  const code = new URL(window.location.href).searchParams.get("code");
-  //console.log(code);
   const navigate = useNavigate();
 
+  const isNotLogin = () => {
+    alert("잘못된 접근입니다.");
+    navigate("/");
+  };
   /*const showModal = (e) => {
     modalOpen = true;
   };*/
 
+  useEffect(() => {
+    if (localStorage.getItem("nickname") != null) {
+      isNotLogin();
+    }
+  }, []);
+
   return (
     <>
-      <>{localStorage.getItem("new") && <Modal />}</>
+      <>{sessionStorage.getItem("new") && <Modal />}</>
       <div
         style={{
           width: "100%",
+          margin: "30px auto",
           pointerEvents: sessionStorage.getItem("new") ? "none" : "auto",
         }}
       >
