@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FirstModal from "../modal/FirstModal";
@@ -47,6 +47,17 @@ const Style = {
 };
 function ReferenceContainer() {
   const Navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    console.log(typeof sessionStorage.getItem("new"));
+    if (sessionStorage.getItem("new") === "true") {
+      // type이 string
+      setModalOpen(true);
+      //console.log("First Modal");
+    } else {
+    }
+  }, []);
 
   const ideaOnClick = () => {
     Navigate("/");
@@ -70,38 +81,42 @@ function ReferenceContainer() {
 
   return (
     <>
-      <>{sessionStorage.getItem("new") === true && <FirstModal />}</>
+      <>
+        {modalOpen && (
+          <FirstModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+        )}
+      </>
       <Style.UnderHeader>
         <Style.Sort onClick={ideaOnClick}>
-          {window.location.pathname == "/" ? (
+          {window.location.pathname === "/" ? (
             <Style.PageStyle>기획/아이디어</Style.PageStyle>
           ) : (
             "기획/아이디어"
           )}
         </Style.Sort>
         <Style.Sort onClick={marketingOnClick}>
-          {window.location.pathname == "/ref/marketing" ? (
+          {window.location.pathname === "/ref/marketing" ? (
             <Style.PageStyle>광고/마케팅</Style.PageStyle>
           ) : (
             "광고/마케팅"
           )}
         </Style.Sort>
         <Style.Sort onClick={videoOnClick}>
-          {window.location.pathname == "/ref/video" ? (
+          {window.location.pathname === "/ref/video" ? (
             <Style.PageStyle>영상</Style.PageStyle>
           ) : (
             "영상"
           )}
         </Style.Sort>
         <Style.Sort onClick={designOnClick}>
-          {window.location.pathname == "/ref/design" ? (
+          {window.location.pathname === "/ref/design" ? (
             <Style.PageStyle>디자인</Style.PageStyle>
           ) : (
             "디자인"
           )}
         </Style.Sort>
         <Style.Sort onClick={etcOnClick}>
-          {window.location.pathname == "/ref/etc" ? (
+          {window.location.pathname === "/ref/etc" ? (
             <Style.PageStyle>기타아이디어</Style.PageStyle>
           ) : (
             "기타아이디어"

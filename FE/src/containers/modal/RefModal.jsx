@@ -1,5 +1,5 @@
 import { MS } from "../../layout/ModalStyle";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
@@ -11,9 +11,10 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import { pdfjs, Document, Page } from "react-pdf";
+import YouTube from "react-youtube";
 import useWindowSize from "./pdfView/useWindowSize";
 import DetailedFeedback from "./DetailedFeedback/DetailedFeedback";
+import { pdfjs, Document, Page } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const useStyles = makeStyles({
@@ -58,10 +59,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RefModal({ id2, idea }) {
+export default function RefModal({
+  id2,
+  idea,
+  modalVisibleId2,
+  setModalVisibleId2,
+}) {
   const classes = useStyles();
   const Navigate = useNavigate();
-  let Lo = window.location.href;
 
   const [top, setTop] = useState({
     title: "",
@@ -78,11 +83,13 @@ export default function RefModal({ id2, idea }) {
     fileType: "",
     likeCount: 0,
     scrapCount: 0,
+    youtubeLink: "", // category가 영상일 때
   });
   const [bottom, setBottom] = useState({
     comments: [],
   });
 
+  const [category, setCategory] = useState("");
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
     axios
@@ -102,34 +109,53 @@ export default function RefModal({ id2, idea }) {
         });
 
         // middle : pdf/사진, 좋아요, 스크랩, filetype
-        let fileLength = res.data.data.fileNames[1].length;
-        let fileDot = res.data.data.fileNames[1].lastIndexOf(".");
+        let fileLength;
+        let fileDot;
+        let fileType = "";
+        if (res.data.data.fileNames.length >= 2) {
+          // 영상 아닌 경우
+          // 영상인 경우 fileType은 ""값
+          fileLength = res.data.data.fileNames[1].length;
+          fileDot = res.data.data.fileNames[1].lastIndexOf(".");
+          fileType = res.data.data.fileNames[1]
+            .substring(fileDot + 1, fileLength)
+            .toLocaleLowerCase();
+        }
+
+        let videoId = res.data.data.youtubeLink.split("=");
+
         setMiddle({
-          fileNames: res.data.data.fileNames,
+          fileNames: res.data.data.fileNames.filter(
+            (item, index) => index !== 0
+          ),
           likeCount: res.data.data.likeCount,
           scrapCount: res.data.data.scrapCount,
-          fileType: res.data.data.fileNames[1]
-            .substring(fileDot + 1, fileLength)
-            .toLocaleLowerCase(),
+          fileType: fileType,
+          youtubeLink: videoId[1], // videoId만 출력해야함
         });
-        console.log(
-          res.data.data.fileNames[1]
-            .substring(fileDot + 1, fileLength)
-            .toLocaleLowerCase()
-        );
 
         // bottom : 댓글
         setBottom({
           comments: res.data.data.comments,
         });
+
+        // 내가 좋아요/스크랩했는지?
+        setLikeBoolean(res.data.data.isLiked);
+        setscrapBoolean(res.data.data.isScraped);
+        setLike(res.data.data.likeCount);
+        setScrap(res.data.data.scrapCount);
+
+        // 카테고리 따라서 뜨는 뷰어 다르게
+        setCategory(res.data.data.category);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+  let Lo = window.location.href;
 
   const onCloseHandler2 = () => {
-    /*if (Lo.includes("marketing")) {
+    if (Lo.includes("marketing")) {
       Navigate("/ref/marketing");
     } else if (Lo.includes("video")) {
       Navigate("/ref/video");
@@ -137,40 +163,42 @@ export default function RefModal({ id2, idea }) {
       Navigate("/ref/design");
     } else if (Lo.includes("etc")) {
       Navigate("/ref/etc");
-    } else {*/
-    Navigate("/");
-    //window.location.reload(); // 새로고침
-    sessionStorage.setItem("refmodal", false);
-    /*}*/
+    } else if (Lo.includes("/manage/list")) {
+      Navigate("/manage/list");
+    } else {
+      Navigate("/");
+    }
+    setModalVisibleId2("");
   };
 
-  const [like, setLike] = useState(idea.likeCount);
+  const [like, setLike] = useState(0);
+  const [scrap, setScrap] = useState(0);
   const [likeBoolean, setLikeBoolean] = useState(false);
+  const [scrapBoolean, setscrapBoolean] = useState(false);
+
   const handleLike = (e) => {
-    if (likeBoolean === false) {
-      //setLike(e + 1);
-      axios
-        .post(`/BE/reference/like/${id2}`)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      setLike(e);
-    }
+    axios
+      .post(`/BE/reference/${id2}/like`)
+      .then((res) => {
+        console.log(res);
+        setLike(res.data.data.likeCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setLikeBoolean(!likeBoolean);
   };
-  const [scrap, setScrap] = useState(idea.scrapCount);
-  const [scrapBoolean, setscrapBoolean] = useState(false);
+
   const handleScrap = (e) => {
-    if (scrapBoolean === false) {
-      //setSubscribe(e + 1);
-      axios.post(`/BE/reference/scrap/${id2}`);
-    } else {
-      setScrap(e);
-    }
+    axios
+      .post(`/BE/reference/${id2}/scrap`)
+      .then((res) => {
+        console.log(res);
+        setScrap(res.data.data.scrapCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setscrapBoolean(!scrapBoolean);
   };
 
@@ -186,6 +214,7 @@ export default function RefModal({ id2, idea }) {
   const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
 
   function onDocumentLoadSuccess({ numPages }) {
+    console.log("pdf 로드 성공");
     setNumPages(Number(numPages));
     setPageNumber(1);
   }
@@ -195,7 +224,8 @@ export default function RefModal({ id2, idea }) {
   };
 
   return (
-    <MS.ModalWrapper>
+    <MS.ModalWrapper /*className={modalVisibleId2 === id2 ? "d_block" : "d_none"}*/
+    >
       <MS.MobalBox>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         <br />
@@ -231,37 +261,41 @@ export default function RefModal({ id2, idea }) {
               id3={id2}
               modalVisibleId3={modalVisibleId3}
               setModalVisibleId3={setModalVisibleId3}
-              idea={idea}
               numPages={numPages}
-              media={media}
+              media={middle.fileNames}
+              link={middle.youtubeLink}
+              feedbacks={idea.feedbacks}
             />
           </MS.HeaderDiv2>
         </MS.MobalHeader>
         <MS.Line />
 
         <MS.MobalContents>
-          {/* 형식이 jpg jpeg png라면 */}
-          {media &&
-          (middle.fileType === "jpg" ||
+          {category === "video" ? (
+            <YouTube
+              videoId={middle.youtubeLink}
+              opts={{
+                width: "100%", //"640px",
+                height: "725px", //"390px",
+
+                playerVars: {
+                  rel: 0,
+                  modestbranding: 1, // youtube 로고 삽입 x
+                },
+              }}
+              onEnd={(e) => e.target.stopVideo(0)}
+            />
+          ) : middle.fileType === "jpg" ||
             middle.fileType === "jpeg" ||
-            middle.fileType === "png")
-            ? media.map(function (a, index) {
-                return <MS.ContentImg src={a} key={a} id={index} />;
-              })
-            : "파일을 불러오지 못했습니다."}
-
-          {/* 동영상 링크가 있다면?
-          {modalVisibleId2 ? 
-            <video width='100%' height='auto' controlsList="nodownload" controls>
-              <source src={어쩌구저쩌구} type="video/mp4"/>
-            </video>
-          : "" } */}
-
-          {middle.fileType === "pdf" ? (
+            middle.fileType === "png" ? (
+            middle.fileNames.map((srcLink, index) => {
+              return <MS.ContentImg src={srcLink} key={srcLink} id={index} />;
+            })
+          ) : (
             <MS.PdfWrapper>
               <MS.PdfSet>
                 페이지 입력
-                {numPages > 1 ? (
+                {numPages > 1 && (
                   <>
                     <MS.PdfPageInput
                       onChange={changePageNum}
@@ -274,8 +308,6 @@ export default function RefModal({ id2, idea }) {
                       </MS.PdfPageButton>
                     </MS.PdfPageButtonWrapper>
                   </>
-                ) : (
-                  ""
                 )}
                 <MS.PdfSizeWrapper>
                   <MS.PdfSizeButton
@@ -305,7 +337,7 @@ export default function RefModal({ id2, idea }) {
                 }}
               >
                 <Document
-                  file={require("../../images/test.pdf")}
+                  file={middle.fileNames[0]}
                   onLoadSuccess={onDocumentLoadSuccess}
                 >
                   {Array.from(new Array(numPages), (_, index) => (
@@ -323,8 +355,6 @@ export default function RefModal({ id2, idea }) {
               </MS.PdfMannage>
               <div style={{ height: "50px", width: "auto" }} />
             </MS.PdfWrapper>
-          ) : (
-            ""
           )}
         </MS.MobalContents>
 
@@ -348,7 +378,11 @@ export default function RefModal({ id2, idea }) {
           </MS.TraceBox>
         </MS.TraceBoxWrapper>
 
-        <RefModalComment postId={id2} comments={middle.comments} />
+        <RefModalComment
+          postId={id2}
+          comments={bottom.comments}
+          setComments={setBottom}
+        />
       </MS.MobalBox>
     </MS.ModalWrapper>
   );

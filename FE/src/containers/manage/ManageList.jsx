@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 function ManageList(props) {
   const classes = useStyles();
   const navigate = useNavigate();
-  
+
   // 받아온 data 가공 필요
   let data = props.data;
   console.log(data);
@@ -53,6 +53,15 @@ function ManageList(props) {
   const [modalVisibleId2, setModalVisibleId2] = useState(false);
   const onModalHandler2 = (id) => {
     setModalVisibleId2(id);
+  };
+  const [postId, setPostId] = useState(0);
+  const [idea, setIdea] = useState({});
+  const [modal, setModal] = useState(false);
+  const onClickModal = (idea, postId) => {
+    setModal(!modal);
+    setIdea(idea);
+    setPostId(postId);
+    setModalVisibleId2(postId);
   };
 
   function modalLocation(i) {
@@ -78,59 +87,66 @@ function ManageList(props) {
           <Style.ContestImgCrop onClick={() => onModalHandler2(mywork.postId)}>
             {/*표지사진*/}
             <Style.ContestImg
-              onClick={() =>
-                navigate(`/ref/${mywork.categoryName}/${mywork.postId}`)
-              }
+              onClick={() => onClickModal(mywork, mywork.postId)}
               src={mywork.thumbnail}
               alt={mywork.postId}
             />
           </Style.ContestImgCrop>
 
-          {modalVisibleId2 && (
-            <RefModal
-              id2={mywork.postId}
-              modalVisibleId2={modalVisibleId2}
-              setModalVisibleId2={setModalVisibleId2}
-              idea={mywork}
-            />
-          )}
-
           <Style.ProfileInfo>
-            {/*유저 프로필 사진*/}
-            <Style.ProfileSize
-              src={profileImage}
-              alt={memberId}
-              onMouseEnter={() => {
-                onModalHandler(mywork.postId);
-                modalLocation(index + 1);
-              }}
-              onClick={() => {
-                onModalHandler(mywork.postId);
-                modalLocation(index + 1);
-              }}
-            />
-            {/* 개인 작업물을 확인할 때는 팔로우 창이 필요없을 것 같음
-            <RefModalFollow
-              id={mywork.postId}
-              modalVisibleId={modalVisibleId}
-              setModalVisibleId={setModalVisibleId}
-              location={modalLocation(index + 1)}
-              idea={mywork}
-            />*/}
             <Style.ProfileFont>{mywork.title}</Style.ProfileFont>
-            <Style.ProfileInfoDetail>
-              {/* 유저 hits, thumbs, scrap */}
-              &nbsp;
-              <RemoveRedEyeOutlinedIcon className={classes.home} />
-              &nbsp;{mywork.views}&nbsp; &nbsp;
-              <FavoriteOutlinedIcon className={classes.home2} />
-              &nbsp;{mywork.likeCount}&nbsp; &nbsp;
-              <StarIcon className={classes.star} />
-              &nbsp;{mywork.scrapCount}
-            </Style.ProfileInfoDetail>
+
+            <table style={{ position: "absolute", top: "30px" }}>
+              <tbody>
+                <tr style={{ width: "3vw" }}>
+                  <td>
+                    <Style.ProfileSize
+                      src={mywork.postMember.profileImage}
+                      alt=" "
+                      onMouseEnter={() => {
+                        onModalHandler(mywork.postId);
+                        modalLocation(index + 1);
+                      }}
+                      onClick={() => {
+                        onModalHandler(mywork.postId);
+                        modalLocation(index + 1);
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <span
+                      style={{ left: "6vw", position: "absolute", top: "1vw" }}
+                    >
+                      {mywork.postMember.nickname}
+                    </span>
+                  </td>
+                </tr>
+                <tr style={{ width: "17vw" }}>
+                  <td></td>
+                  <td style={{ position: "relative", right: "50px" }}>
+                    <Style.ProfileInfoDetail>
+                      <RemoveRedEyeOutlinedIcon className={classes.home} />
+                      &nbsp;{mywork.views}&nbsp; &nbsp;
+                      <FavoriteOutlinedIcon className={classes.home2} />
+                      &nbsp;{mywork.likeCount}&nbsp; &nbsp;
+                      <StarIcon className={classes.star} />
+                      &nbsp;{mywork.scrapCount}
+                    </Style.ProfileInfoDetail>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
+      {modalVisibleId2 && (
+        <RefModal
+          id2={postId}
+          modalVisibleId2={modalVisibleId2}
+          setModalVisibleId2={setModalVisibleId2}
+          idea={idea}
+        />
+      )}
     </div>
   );
 }

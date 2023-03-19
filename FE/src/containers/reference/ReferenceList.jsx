@@ -1,6 +1,5 @@
 import { React, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { getIdeaContests, getUserInfo } from "../../temporary/idea_data";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import { Style } from "../../layout/ReferenceListStyle";
@@ -34,7 +33,6 @@ const useStyles = makeStyles({
 
 const RefList = (props) => {
   const classes = useStyles();
-  let ideas = getIdeaContests();
   /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
   let [data, setData] = useState([]);
   let [name, setName] = useState("");
@@ -42,11 +40,8 @@ const RefList = (props) => {
   let [page, setPage] = useState(1);
   let [category, setCatgory] = useState("etc");
 
-  let users = getUserInfo();
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
-  let [user, setUser] = useState(users);
-
-  sessionStorage.setItem("modal", false);
+  let [user, setUser] = useState('');
 
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
@@ -108,24 +103,28 @@ const RefList = (props) => {
     onClickDate();
   }, []);
 
-  useEffect(() => {
-    if (sessionStorage.getItem("refmodal") === false) {
-      setModal(false);
-    }
-  }, []);
-
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
     setModalVisibleId(id);
   };
 
+  const [modalVisibleId2, setModalVisibleId2] = useState("");
+
   const [modal, setModal] = useState(false);
   const onClickModal = (idea, postId) => {
-    //sessionStorage.setItem("refmodal", true);
     setModal(!modal);
     setIdea(idea);
     setPostId(postId);
+    setModalVisibleId2(postId);
   };
+  const onModalHandler2 = (id) => {
+    setModalVisibleId2(id);
+    console.log(id);
+  };
+
+  useEffect(() => {
+    setModalVisibleId2((modalVisibleId2) => modalVisibleId2);
+  }, [modalVisibleId2]);
 
   const [postId, setPostId] = useState(0);
   const [idea, setIdea] = useState({});
@@ -164,54 +163,84 @@ const RefList = (props) => {
           스크랩순
         </Style.Sort>
       </Style.SortContainer>
-
       <Style.Line />
-
       {data.map((idea, index) => (
         <Style.ContestItem key={idea.postId}>
-          <Style.ContestImgCrop onClick={() => onClickModal(idea, idea.postId)}>
-            <Style.ContestImg src={idea.postThumbnail} alt="" />
+          <Style.ContestImgCrop>
+            <Style.ContestImg
+              src={idea.postThumbnail}
+              alt=""
+              onClick={
+                () =>
+                  onClickModal(
+                    idea,
+                    idea.postId
+                  ) /*onModalHandler2(idea.postId)*/
+              }
+            />
           </Style.ContestImgCrop>
 
           <Style.ProfileInfo>
-            <Style.ProfileSize
-              src={idea.postMember.profileImage}
-              alt=""
-              onMouseEnter={() => {
-                onModalHandler(idea.postId);
-                modalLocation(index + 1);
-              }}
-              onClick={() => {
-                onModalHandler(idea.postId);
-                modalLocation(index + 1);
-              }}
-            />
+            <Style.ProfileFont>{idea.title}</Style.ProfileFont>
 
-            <RefModalFollow
-              id={idea.postId}
-              modalVisibleId={modalVisibleId}
-              setModalVisibleId={setModalVisibleId}
-              location={modalLocation(index + 1)}
-              idea={idea}
-            />
+            <table style={{ position: "absolute", top: "30px" }}>
+              <tbody>
+                <tr style={{ width: "3vw" }}>
+                  <td>
+                    <Style.ProfileSize
+                      src={idea.postMember.profileImage}
+                      alt=" "
+                      onMouseEnter={() => {
+                        onModalHandler(idea.postId);
+                        modalLocation(index + 1);
+                      }}
+                      onClick={() => {
+                        onModalHandler(idea.postId);
+                        modalLocation(index + 1);
+                      }}
+                    />
 
-            <Style.ProfileData>
-              <Style.ProfileFont>{idea.title}</Style.ProfileFont>
-              <Style.ProfileInfoDetail>
-                &nbsp;
-                <RemoveRedEyeOutlinedIcon className={classes.home} />
-                &nbsp;{idea.likeCount}&nbsp; &nbsp;
-                <FavoriteOutlinedIcon className={classes.home2} />
-                &nbsp;{idea.views}&nbsp; &nbsp;
-                <StarIcon className={classes.star} />
-                &nbsp;{idea.scrapCount}
-              </Style.ProfileInfoDetail>
-            </Style.ProfileData>
+                    <RefModalFollow
+                      id={idea.postId}
+                      modalVisibleId={modalVisibleId}
+                      setModalVisibleId={setModalVisibleId}
+                      location={modalLocation(index + 1)}
+                      idea={idea}
+                    />
+                  </td>
+                  <td>
+                    <span
+                      style={{ left: "6vw", position: "absolute", top: "1vw" }}
+                    >
+                      {idea.postMember.nickname}
+                    </span>
+                  </td>
+                </tr>
+                <tr style={{ width: "17vw" }}>
+                  <td></td>
+                  <td style={{ position: "relative", right: "50px" }}>
+                    <Style.ProfileInfoDetail>
+                      <RemoveRedEyeOutlinedIcon className={classes.home} />
+                      &nbsp;{idea.views}&nbsp; &nbsp;
+                      <FavoriteOutlinedIcon className={classes.home2} />
+                      &nbsp;{idea.likeCount}&nbsp; &nbsp;
+                      <StarIcon className={classes.star} />
+                      &nbsp;{idea.scrapCount}
+                    </Style.ProfileInfoDetail>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
-      {sessionStorage.getItem("refmodal") === true && (
-        <RefModal id2={postId} idea={idea} />
+      {modalVisibleId2 !== "" && (
+        <RefModal
+          id2={postId}
+          idea={idea}
+          modalVisibleId2={modalVisibleId2}
+          setModalVisibleId2={setModalVisibleId2}
+        />
       )}
     </Style.ContestList>
   );

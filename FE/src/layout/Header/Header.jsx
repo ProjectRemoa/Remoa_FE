@@ -1,24 +1,17 @@
 import styles from "./Header.module.css";
 import styled from "styled-components";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useNavigate } from "react-router-dom";
-import img from "../../images/로고대체.jpg";
+import img from "../../images/LEMOA_TEXT_MARK.png";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import LoginCheck from "../../containers/sociallogin/LoginCheck";
 const Style = {
   Header: styled.div`
     position: fixed;
-    width: 1920px;
+    width: 100vw;
     height: 80px;
     background-color: #fada5e;
     z-index: 3;
-    @media ${(props) => props.theme.desktop} {
-      width: 1023px;
-    }
-    @media ${(props) => props.theme.mobile} {
-      width: 767px;
-    }
   `,
   Wrapper: styled.div`
     width: 100vw;
@@ -32,7 +25,6 @@ const Style = {
   Logo: styled.div`
     width: 135px;
     height: 80px;
-    background-color: #d3a8ff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,7 +50,7 @@ const Style = {
   `,
   NavItemWrapper: styled.div`
     position: relative;
-    left: 0%;
+    left: 5%;
     @media ${(props) => props.theme.desktop} {
     }
     @media ${(props) => props.theme.mobile} {
@@ -76,11 +68,7 @@ const Style = {
     display: flex;
     flex-direction: row;
     position: absolute;
-    right: 0%;
-    @media ${(props) => props.theme.desktop} {
-    }
-    @media ${(props) => props.theme.mobile} {
-    }
+    right:0;
   `,
   BellButton: styled.button`
     border: solid 2px white;
@@ -199,7 +187,7 @@ const Header = () => {
     <Style.Header>
       <div className={styles.contents}>
         <Style.Logo>
-          <img src={img} alt="로고대체" />
+          <img src={img} alt="로고대체" style={{width:"120px"}} />
         </Style.Logo>
         <Style.NavWrapper>
           <Style.NavItemWrapper>
@@ -225,7 +213,7 @@ const Header = () => {
           </Style.NavItemWrapper>
 
           <Style.ButtonWrapper>
-            <LoginCheck  />
+            <LoginCheck />
             {/*{loginYN ? (
               <>
                 <Style.BellButton onClick={noticeOnClick}>

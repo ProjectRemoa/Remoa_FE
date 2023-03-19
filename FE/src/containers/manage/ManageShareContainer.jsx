@@ -46,7 +46,7 @@ function getByteLength(s, b, i, c) {
 function ManageShareContainer() {
   const [name, setName] = useState("");
   const [comp, setComp] = useState("");
-  const [compRes, setCompRes] = useState("");
+  const [compRes, setCompRes] = useState("수상작");
   const [thumbnail, setThumbnail] = useState(null);
   const [category, setCategory] = useState("");
   const [youtubeLink, setYoutubeLink] = useState("");
@@ -206,7 +206,6 @@ function ManageShareContainer() {
         compRes.length > 0 &&
         category.length > 0 &&
         thumbnail !== null &&
-        uploads.length > 0 &&
         youtubeLink.length > 0
       ) {
         setButtonColor(true);
@@ -325,15 +324,24 @@ function ManageShareContainer() {
               <th className="th">
                 <label>수상 결과</label>
               </th>
-              <td className="td">
-                <input
+
+              {/*<td className="td">*/}
+              <select style={{ float: "left", width: "58.5%" }}>
+                <option key="수상작" value="수상작" onChange={onChangeRes}>
+                  수상작
+                </option>
+                <option key="참가작" value="참가작" onChange={onChangeRes}>
+                  참가작
+                </option>
+              </select>
+              {/*<input
                   required
                   type="text"
                   className="input"
                   placeholder="수상 결과를 선택해주세요"
                   onChange={onChangeRes}
-                />
-              </td>
+    />*/}
+              {/*</td>*/}
             </tr>
             {/* 카테고리 */}
             <tr>
@@ -526,7 +534,7 @@ function ManageShareContainer() {
         disabled={!buttonColor}
         state={buttonColor}
         onClick={onClickRegister}
-        style={{ marginTop: "30px" }}
+        style={{ marginTop: "30px", marginBottom :"30px" }}
       >
         등록하기
       </Style.Button>

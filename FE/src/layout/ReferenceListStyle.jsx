@@ -46,12 +46,11 @@ export const Style = {
 
   `,
   ProfileSize:styled.img`
-    width: 4vw; 
-    height: 4vw;
+    width: 3vw; 
+    height: 3vw;
     object-fit: cover;
     border-radius: 50%;
     float: left;
-    margin-left: 5px;
     margin-top: 5px;
     cursor: pointer;
     @media ${props => props.theme.desktop} {
@@ -66,7 +65,6 @@ export const Style = {
     width: 19.5vw;
     height:6.8vw;
     top: 6px;
-    left: 1vw;
     display: block;
     @media ${props => props.theme.desktop} {
       width: ${(props) => props.theme.d_3rdSizeContestImg};
@@ -80,28 +78,21 @@ export const Style = {
   `,
   ProfileInfoDetail:styled.div`
     font-size: 0.8em;
-    display: inline-block;
-    position: relative;
+    display: inline;
     justify-content: space-around;
-
     margin-top: 15px;
   `,
   ProfileData:styled.div`
-    width: 20vw; 
-    height: 20vw;
-    margin-top: 5px;
+    height: auto;
+    width: auto;
     cursor: pointer;
-    @media ${props => props.theme.desktop} {
-      width: 25vw; height:25vw;
-    }
-    @media ${props => props.theme.mobile} {
-      width: 30vw; height:30vw;
-    }
   `,
   ProfileFont:styled.div`
-    font-size: 1em;
-    position: relative;
-    top: 10px;
+    position: absolute;
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 18px;
+    left:1vw;
     @media ${props => props.theme.desktop} {
       font-size: 18px;
     }
