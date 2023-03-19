@@ -246,6 +246,18 @@ function MyPageProfile() {
         getProfile();
         getProfileImg();
     }, []);
+
+
+    // useEffect(() => {
+    //     setLogState(localStorage.getItem("id"));
+    //     console.log("localStorage.getItem('id') = ", logState);
+    //     if (logState) {
+    //         getProfile();
+    //         getProfileImg();
+    //     } else {
+    //         navigate("/sociallogin");
+    //     }
+    // }, []);
     
 
     return(
