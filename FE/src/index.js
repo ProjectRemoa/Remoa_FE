@@ -40,6 +40,7 @@ import RefSearchPage from "./page/reference/RefSearchPage";
 
 import Auth from "./Auth";
 import AuthLayout from "./layout/AuthLayout";
+import PageWork from "./page/mypage/PageWork";
 
 axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -96,6 +97,7 @@ root.render(
               <Route path="/mypage/following" element={<PageFollowing />} />
               <Route path="/mypage/scrap" element={<PageScrap />} />
               <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
+              <Route path="/mypage/work" element={<PageWork />} />
               <Route path="/mypage/faq" element={<PageFAQ />} />
             </Route>
             <Route path="*" element={<UnknownPage />} />

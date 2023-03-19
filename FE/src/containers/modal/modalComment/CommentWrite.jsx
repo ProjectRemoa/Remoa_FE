@@ -10,11 +10,7 @@ export default function RMCommentWrite() {
     setContents(event.target.value);
   };
 
-  const fetchData = async (postId) => {
-    // const response = await axios.get(`localhost:8080/reference/${postId}/comment`)
-    // setCommentList(response.data)
-  }
-  useEffect(() => {fetchData()},[]);
+  
 
   const onSumbitHandler = async (postId) => {
     // postId.preventDefault()
@@ -22,7 +18,7 @@ export default function RMCommentWrite() {
     // .then((response) => {
     //   if (response.status === 200) alert("성공");
     // })
-    // .catch(() => {alert("통신 오류");});
+    // .catch(() => {alert("통신 오류");})
     // fetchData(postId)
   }
 

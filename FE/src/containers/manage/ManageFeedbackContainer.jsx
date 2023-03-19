@@ -22,6 +22,7 @@ function ManageFeedbackContainer(){
     const Navigete = useNavigate();
 
     useEffect(()=>{
+        console.log(page + "page")
         axios.get(`/BE/user/feedback?page=${page}&category=${category}`)
         .then((res)=>{
             console.log(res.data)
@@ -31,7 +32,7 @@ function ManageFeedbackContainer(){
         .catch((res)=>{
             console.log("error")
         })
-    },[])
+    },[page])
 
     const FeedBackPage = 작품.map((data, i)=>{
         console.log(i);
@@ -124,27 +125,51 @@ function ManageFeedbackContainer(){
     const Paging = allPage.map((data, i)=>{
         
         return (
-            <span style ={{marginLeft: "5px", marginRight: "5px"}}>
+            <span key = {i} style ={{marginLeft: "5px", marginRight: "5px"}}
+            onClick = {()=>{
+                setPage(i+1)
+            }}>
                 {i+1}
             </span>
         )
     })
 
+    const Page = () => {
+        return (
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.4em"}}>
+                <span style={{marginRight: "2px"}}
+                onClick = {()=>{
+                    setPage(prev => prev - 1)
+                }}>
+                    &lt;
+                </span>
+                {Paging}
+                <span style={{marginLeft: "2px"}}
+                onClick = {()=>{
+                    setPage(prev => prev + 1)
+                }}>
+                    &gt;
+                </span>
+            </div>
+        )
+    }
+
+    const NullData = () => {
+        return(
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.4em"}}>
+                공유 자료가 없어요.
+            </div>
+        )
+    }
+
     return(
         <div style={{display:"flex", flexDirection: "column", width: "90%", height: "100%"}}>
             <div style={{margin:"3%",textAlign:"left", fontSize:"24px"}}>작품 별 코멘트 목록</div>
 
-            {FeedBackPage}
+            {allPage.length == 0 ? <NullData/> : FeedBackPage}
+            {allPage.length == 0 ? null : <Page/>}
 
-            <div style={{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.4em"}}>
-                <span style={{marginRight: "2px"}}>
-                    &lt;
-                </span>
-                {Paging}
-                <span style={{marginLeft: "2px"}}>
-                    &gt;
-                </span>
-            </div>
+            
         </div>
     )
 }

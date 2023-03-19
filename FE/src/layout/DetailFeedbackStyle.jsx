@@ -79,6 +79,7 @@ export const DF = {
   `,
   FeedWrapperHeader:styled.div`
     display:flex;
+
   `,
   HeaderButton:styled.button`
     width:80px;
@@ -99,22 +100,22 @@ export const DF = {
   `,
   ButtonWrapper:styled.div`
     position:absolute;
-    right:0px;
+    left:150px;
   `,
   FeedWrapperButton:styled.button`
     margin-top:24px;
     border: none;
     height: 26px;
-    width:102px;
+    width:70px;
     background-color:#FADA5E;
     position: relative;
-    right:170px;
+    right:190px;
     box-shadow: none;
   `,
   WrapperSearch:styled.a`
     text-decoration-line: none;
     height: 26px;
-    width:80px;
+    width:60px;
     color:black;
     font-weight: 700;
     font-size: 15px;
@@ -144,5 +145,9 @@ export const DF = {
     width: 100%;
     position: relative;
     right: 10px;
+  `,
+  CommentDiv:styled.div`
+    position:relative;
+    top:50px;
   `
 }
