@@ -3,16 +3,13 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { RadioButtonUncheckedRounded } from "@mui/icons-material";
-import { RadioButtonCheckedRounded } from "@mui/icons-material";
 import { CheckCircleOutlineRounded } from "@mui/icons-material";
-import React, { useState, useEffect, useReducer, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./Modal.scss";
 import styled from "styled-components";
 import Agree from "./Agree";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useCookies, Cookies } from "react-cookie";
 
 const theme = createTheme({
   status: {

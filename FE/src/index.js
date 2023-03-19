@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import styled from "styled-components";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import LoginPage from "./page/login/LoginPage";
 import SocialLoginPage from "./page/sociallogin/SocialLoginPage";
 import UnknownPage from "./page/UnknownPage";
@@ -37,6 +37,9 @@ import axios from "axios";
 import { ThemeProvider } from "styled-components";
 import RefModal from "./containers/modal/RefModal";
 import RefSearchPage from "./page/reference/RefSearchPage";
+
+import Auth from "./Auth";
+import AuthLayout from "./layout/AuthLayout";
 
 axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -82,16 +85,19 @@ root.render(
             </Route>
             <Route path="/ref/search/:search" element={<RefSearchPage />} />
 
-            <Route path="/manage/list" element={<ManageList />} />
-            <Route path="/manage/share" element={<ManageShare />} />
-            <Route path="/manage/feedback" element={<ManageFeedback />} />
+            <Route element={<AuthLayout />}>
+              <Route path="/manage/list" element={<ManageList />} />
 
-            <Route path="/mypage/profile" element={<PageProfile />} />
-            <Route path="/mypage/following" element={<PageFollowing />} />
-            <Route path="/mypage/scrap" element={<PageScrap />} />
-            <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
-            <Route path="/mypage/faq" element={<PageFAQ />} />
+              <Route path="/manage/list/total" element={<ManageList />} />
+              <Route path="/manage/share" element={<ManageShare />} />
+              <Route path="/manage/feedback" element={<ManageFeedback />} />
 
+              <Route path="/mypage/profile" element={<PageProfile />} />
+              <Route path="/mypage/following" element={<PageFollowing />} />
+              <Route path="/mypage/scrap" element={<PageScrap />} />
+              <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
+              <Route path="/mypage/faq" element={<PageFAQ />} />
+            </Route>
             <Route path="*" element={<UnknownPage />} />
           </Routes>
         </Style.Wrapper>

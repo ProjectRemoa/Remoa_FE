@@ -1,0 +1,92 @@
+@import "../../styles/utils.scss";
+
+.ManageListContainer {
+  box-sizing: border-box;
+  //display: flex;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 30px;
+  width: 85%;
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .form_radio_btn {
+    width: 15.65%; // 이건 6개의 카테고리일 때
+    //width: 19%; // 이건 5개의 카테고리일 때
+    border: 1px solid #b0b0b0;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 0 0.4% 10px 0.4%; // 크기에 따라 margin 조절되게 설정
+  }
+
+  .form_radio_btn input[type="radio"] {
+    display: none;
+  }
+
+  .form_radio_btn label {
+    display: block;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 90%;
+    text-align: center;
+    height: -webkit-fill-available;
+    line-height: 45px;
+  }
+
+  /* Checked */
+  .form_radio_btn input[type="radio"]:checked + label {
+    background: #fada5e;
+    color: #fff;
+    box-shadow: none;
+  }
+
+  /* Disabled */
+  .form_radio_btn input[type="radio"] + label {
+    background: #f9fafc;
+    color: #b0b0b0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .input {
+    font-family: NotoSansKR-400;
+    float: left;
+    width: 60%;
+    height: 43px;
+    font-size: 1em;
+    border: 1px solid #b0b0b0;
+    outline: none;
+    background: #ffffff;
+    text-align: center;
+    border-radius: 10px;
+  }
+
+  input::-webkit-input-placeholder {
+    color: #b0b0b0;
+    font-size: 0.8rem;
+  }
+  input:-ms-input-placeholder {
+    color: #b0b0b0;
+    font-size: 0.8rem;
+  }
+  textarea::-webkit-input-placeholder {
+    color: #b0b0b0;
+    font-size: 0.8rem;
+  }
+  textarea:-ms-input-placeholder {
+    color: #b0b0b0;
+    font-size: 0.8rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .form_radio_btn {
+      width: 100%;
+    }
+  }
+}
