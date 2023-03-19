@@ -61,7 +61,6 @@ const useStyles = makeStyles({
 
 export default function RefModal({
   id2,
-  idea,
   modalVisibleId2,
   setModalVisibleId2,
 }) {
@@ -233,7 +232,7 @@ export default function RefModal({
   const onModalHandler3 = (id) => {
     setModalVisibleId3(id);
   };
-  const media = idea.thumbnail;
+  
 
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);

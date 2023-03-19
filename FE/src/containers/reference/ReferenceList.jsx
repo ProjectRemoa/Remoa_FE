@@ -255,7 +255,6 @@ const RefList = (props) => {
       {modalVisibleId2 !== "" && (
         <RefModal
           id2={postId}
-          idea={idea}
           modalVisibleId2={modalVisibleId2}
           setModalVisibleId2={setModalVisibleId2}
         />

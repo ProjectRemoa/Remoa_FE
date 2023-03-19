@@ -7,15 +7,18 @@ import { width } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { Style } from "../../layout/ReferenceListStyle";
 import React, { useEffect, useState } from "react";
+import RefModal from "../modal/RefModal";
 
 
-
-function MyPageFeedback(){
+function MyPageFeedback(props){
     const [작품, 작품변경] = useState([]);
     const [page, setPage] = useState(1);
     const [allPage, setAllPage] = useState([]);
     const [category,setCategory] = useState("");
     const topValue = 26;
+
+    const [postId, setPostId] = useState(0);
+    const [modalVisibleId, setModalVisibleId] = useState("");
 
     const Navigete = useNavigate();
 
@@ -32,21 +35,27 @@ function MyPageFeedback(){
         })
     },[page])
 
+    const onClickModal = (postId) => {
+        setPostId(postId)
+        setModalVisibleId(postId);
+    };
+
+
     const FeedBackPage = 작품.map((data, i)=>{
         console.log(i);
         return(
             <div key ={i} style={{display:"flex", margin: "2%", top:`${(i+1) * topValue}%`, width: "100%", height:"25%"}}>
                 
                 <div style={{display:"flex", flexDirection: "column", width: "30%", maxHeight:"100%"}}>
-                    <img src={data.thumbnail} style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))", margin: "2%", maxWidth: "100%", maxHeight: "80%"}}/>
-                    <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%"}}
+                    <img src={data.thumbnail} style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))", margin: "2%", maxWidth: "100%", maxHeight: "85%"}}/>
+                    <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "15%"}}
                     onClick = {()=>{
-                        Navigete("/")
+                        onClickModal(data.postId)
                     }}> 작업물 뷰어 보기 </button>
-                    <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%"}}
+                    {/* <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%"}}
                     onClick = {()=>{
-                        Navigete("/")
-                    }}> 상세 피드백  </button>
+                        onClickModal(data.postId)
+                    }}> 상세 피드백  </button> */}
                 </div>
                 
                 <div style={{width: "70%", display:"flex", flexDirection: "column", maxHeight:"100%"}}>
@@ -138,7 +147,13 @@ function MyPageFeedback(){
             {allPage.length == 0 ? <NullData/> : FeedBackPage}
             {allPage.length == 0 ? null : <Page/>}
 
-            
+            {modalVisibleId !== "" && (
+            <RefModal
+                id2={postId}
+                modalVisibleId2={modalVisibleId}
+                setModalVisibleId2={setModalVisibleId}
+            />
+            )}
         </div>
     )
 }
