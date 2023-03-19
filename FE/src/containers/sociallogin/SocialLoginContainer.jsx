@@ -42,6 +42,7 @@ function SocialLoginContainer() {
   };*/
 
   useEffect(() => {
+    // 수정 부분
     if (localStorage.getItem("nickname") != null && sessionStorage.getItem("new") == false) {
       console.log(localStorage.getItem("nickname"));
       isNotLogin();
