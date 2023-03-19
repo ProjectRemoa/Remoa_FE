@@ -5,6 +5,8 @@ import axios from "axios";
 import defaultImage from "../../images/profile_img.png"
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import PopupDom from './MypageProfilePopupDom';
+import PopupContent from './MyPageProfilePopupContent';
 
 const Style={
     Wrapper:styled.div`
@@ -137,11 +139,13 @@ function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
+    const [logState, setLogState] = useState(null);
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const imgInput = useRef();
 
     const [input, setInput] = useState({
-        email: 'maninhat@kakao.com',
+        email: null,//'maninhat@kakao.com',
         nickname: '호갱',
         phoneNumber: '01012345678',
         university: '한국대학교',
@@ -159,28 +163,19 @@ function MyPageProfile() {
     };
 
     const onChangeImg = (e) => {
-        imgInput.current.click();
-
-        setProfileImage({
-            ...profileImage,
-            profileImage: e.target.value
-        })
-
-        const formData = new FormData();
-        formData.append('file', e.target.files[0]);
-
-        axios.put(`localhost:8080/user/img`, formData)
-        .then((res) => {
-            if (res.status === 200) {
-                console.log(res);
-                console.log("프로필 사진 put 완료")
-                navigate("/");
-            }
-        })
-        .catch((err) => {
-            console.log("PUT : 프로필 사진을 변경하던 중 에러")
-            console.error(err);
+        console.log(e);
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        return new Promise((resolve) => {
+            reader.onload = () => {
+                setProfileImage(reader.result);
+                resolve();
+            };
         });
+    };
+
+    const sendProfileImg = () => {
+        imgInput.current.click();
     };
 
     const nicknameOverlapCheck = (nickname) => {
@@ -197,6 +192,14 @@ function MyPageProfile() {
     
     };
 
+    const openPopup = () => {
+        setIsOpenPopup(true);
+    };
+
+    const closePopup = () => {
+        setIsOpenPopup(false);
+    };
+
     const getProfileImg = () => {
         axios
         .get(`http://localhost:8080/user/img`)
@@ -210,7 +213,7 @@ function MyPageProfile() {
         });
     };
 
-    const changeProfile = (nickname, phoneNumber, university, oneLineIntroduction) => {
+    const changeProfile = (nickname, phoneNumber, university, oneLineIntroduction, profileImage) => {
         axios.put(`http://localhost:8080/user`, {
             nickname : nickname,
             phoneNumber : phoneNumber,
@@ -224,6 +227,19 @@ function MyPageProfile() {
         })
         .catch((err) => {
             console.log("PUT : 사용자 정보를 변경하던 중 에러")
+            console.error(err);
+        });
+
+        const formData = new FormData();
+        formData.append('file', profileImage);
+
+        axios.put(`http://localhost:8080/user/img`, formData)
+        .then(() => {
+            console.log("프로필 사진 put 완료")
+            navigate("/");
+        })
+        .catch((err) => {
+            console.log("PUT : 프로필 사진을 변경하던 중 에러")
             console.error(err);
         });
     };
@@ -242,9 +258,21 @@ function MyPageProfile() {
     };
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         getProfile();
         getProfileImg();
+    }, []);*/
+
+
+    useEffect(() => {
+        setLogState(localStorage.getItem("id"));
+        console.log("localStorage.getItem('id') = ", logState);
+        if (logState) {
+            getProfile();
+            getProfileImg();
+        } else {
+            navigate("/sociallogin");
+        }
     }, []);
     
 
@@ -257,9 +285,9 @@ function MyPageProfile() {
                 님<br />오늘은 어떤 공모전에 참여하시나요?
             </Style.ProfileIntro>
 
-            <div>
+            <form>
                 <Style.ProfileImageButton
-                    onClick={onChangeImg}
+                    onClick={sendProfileImg}
                 >
                     프로필 사진 변경
                 </Style.ProfileImageButton>
@@ -270,8 +298,9 @@ function MyPageProfile() {
                     name='file'
                     accept="image/*"
                     style={{display: "none"}}
-                />
-            </div>
+                    onChange={(e) => onChangeImg(e)}
+                ></input>
+            </form>
             
             <Style.HorizonLine/>
             
@@ -314,7 +343,14 @@ function MyPageProfile() {
                     <Style.University>{university}</Style.University>
                     <Style.ItemButton
                         type='button'
+                        id='popupDom'
+                        onClick={openPopup}
                     >검색하기</Style.ItemButton>
+                    {isOpenPopup &&
+                        <PopupDom>
+                            <PopupContent onClose={closePopup}/>
+                        </PopupDom>
+                    }
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{display: "flex"}}>
@@ -334,7 +370,7 @@ function MyPageProfile() {
             </Style.ProfileWrapper>
 
             <Style.ModifyButton
-                onClick={() => changeProfile(nickname, phoneNumber, university, oneLineIntroduction)}
+                onClick={() => changeProfile(nickname, phoneNumber, university, oneLineIntroduction, profileImage)}
             >수정 완료</Style.ModifyButton>
 
         </Style.Wrapper>
