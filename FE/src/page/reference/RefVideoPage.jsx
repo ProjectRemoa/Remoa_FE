@@ -7,7 +7,7 @@ function RefVideoPage() {
   return (
     <Layout>
       <ReferenceContainer />
-      <RefListWrapper />
+      {/* <RefListWrapper /> */}
     </Layout>
   )
 }

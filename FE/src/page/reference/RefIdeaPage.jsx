@@ -9,7 +9,7 @@ function RefIdeaPage() {
     <Layout>
       {/* <FirstModal /> */}
       <ReferenceContainer />
-      <RefListWrapper />
+      {/* <RefListWrapper /> */}
     </Layout>
   )
 }

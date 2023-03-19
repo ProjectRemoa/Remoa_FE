@@ -17,7 +17,6 @@ function KakaoLogin() {
       .get(`/BE/login/kakao?code=` + encodeURI(code))
       .then((res) => {
         console.log(res);
-
         // 성공
         if (res.status === 201) {
           // 201 : 회원가입

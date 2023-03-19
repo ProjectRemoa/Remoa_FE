@@ -7,7 +7,7 @@ function RefEtcPage() {
   return (
     <Layout>
       <ReferenceContainer />
-      <RefListWrapper />
+      {/* <RefListWrapper /> */}
     </Layout>
   )
 }

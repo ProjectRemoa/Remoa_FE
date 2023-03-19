@@ -4,6 +4,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import {makeStyles} from "@material-ui/core/styles";
 import { useNavigate } from 'react-router-dom';
 import RefSearchResult from './RefSearchResult';
+import RefListWrapper from './RefListWrapper';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles({
   home:{
@@ -76,12 +78,14 @@ function RefSearch() {
   }
 
   const [keyword, setKeyword] = useState("")
+  const [sendSearch, setSendSearch] = useState("")
 
   const searchInput = () => {
     const searchKeyword = document.querySelector('#v').value
     console.log(searchKeyword)
     setKeyword(searchKeyword);
-    navigate(`/ref/search/${searchKeyword}`)
+    // navigate(`/ref/search/${searchKeyword}`)
+    setSendSearch(search)
   };
   const activeEnter = (e) => {
     if(e.key === "Enter") {
@@ -100,7 +104,7 @@ function RefSearch() {
           <SearchIcon className={classes.home}/>
         </Style.ClickButton>
       </Style.Bundle>
-      <RefSearchResult search={search} />
+      <RefListWrapper search={sendSearch}/>
     </Style.SearchDiv>
   )
 }
