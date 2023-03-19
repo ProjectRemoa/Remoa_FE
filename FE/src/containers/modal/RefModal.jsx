@@ -151,7 +151,8 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
             <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)} >
               상세피드백 보기
             </MS.DetailFeedbackButton>
-            <DetailedFeedback id3={id2} modalVisibleId3={modalVisibleId3} setModalVisibleId3={setModalVisibleId3} idea={idea} />
+            <DetailedFeedback id3={id2} modalVisibleId3={modalVisibleId3} setModalVisibleId3={setModalVisibleId3}
+             idea={idea} />
           </MS.HeaderDiv2>
         </MS.MobalHeader>
         <MS.Line />
