@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { MS } from "../../layout/ModalStyle";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,6 +15,24 @@ import { pdfjs, Document, Page } from "react-pdf";
 import useWindowSize from "./pdfView/useWindowSize";
 import ReactPlayer from "react-player/lazy";
 import DetailedFeedback from "./DetailedFeedback/DetailedFeedback";
+=======
+import { MS } from '../../layout/ModalStyle'
+import { useState } from 'react';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { makeStyles } from "@material-ui/core/styles";
+
+import { getDate } from '../../functions/getDate';
+import { useNavigate } from 'react-router-dom';
+import RefModalComment from './RefModalComment';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import StarIcon from '@mui/icons-material/Star';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { pdfjs, Document, Page } from 'react-pdf';
+import useWindowSize from './pdfView/useWindowSize';
+import DetailedFeedback from './DetailedFeedback/DetailedFeedback';
+>>>>>>> reference
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const useStyles = makeStyles({
@@ -51,12 +70,21 @@ const useStyles = makeStyles({
     marginTop: "13.5px",
   },
   afterClick2: {
+<<<<<<< HEAD
     color: "#FADA5E",
     float: "left",
     marginLeft: "25px",
     marginTop: "13.5px",
   },
 });
+=======
+    color:"#FADA5E",
+    float:"left",
+    marginLeft:"25px",
+    marginTop:"13.5px"
+  },
+})
+>>>>>>> reference
 
 export default function RefModal({
   id2,
@@ -121,9 +149,10 @@ export default function RefModal({
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
+  const [pageScale, setPageScale] = useState(0.25);
 
   function onDocumentLoadSuccess({ numPages }) {
+<<<<<<< HEAD
     setNumPages(numPages);
     setPageNumber(1);
   }
@@ -133,6 +162,17 @@ export default function RefModal({
     show = Number(e.target.value);
   };
 
+=======
+    setNumPages(Number(numPages))
+    setPageNumber(1);
+  }
+  const [show,setShow] = useState(1)
+  const changePageNum = (e) => {
+    setShow(e.target.value)
+  }
+
+  
+>>>>>>> reference
   return (
     <MS.ModalWrapper
       className={modalVisibleId2 === id2 ? classes.show : classes.dis}
@@ -164,7 +204,14 @@ export default function RefModal({
                 {idea.scrapCount}
               </MS.HeaderDetail2>
             </MS.HeaderUserInfo>
+<<<<<<< HEAD
             <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
+=======
+            <MS.DetailFeedbackButton>
+              코멘트 바로가기
+            </MS.DetailFeedbackButton>
+            <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)} >
+>>>>>>> reference
               상세피드백 보기
             </MS.DetailFeedbackButton>
             <DetailedFeedback
@@ -178,6 +225,7 @@ export default function RefModal({
         <MS.Line />
 
         <MS.MobalContents>
+<<<<<<< HEAD
           {media &&
             media.map((i, index) =>
               i.one ? (
@@ -331,6 +379,61 @@ export default function RefModal({
               </button>
             </div>
           </MS.PdfWrapper>
+=======
+          {/* 사진을 링크로 받으면 이렇게인가? */}
+          {media && media.map(function(a){
+            return (
+              <MS.ContentImg src={a} key={a} />
+            )
+          })}
+
+          {/* 영상은 유튜브 링크로 대체된다는데 입력되는 방식은 어떤가? */}
+
+          {/* 
+          {modalVisibleId2 ? 
+            <video width='100%' height='auto' controlsList="nodownload" controls>
+              <source src={require("../../images/임시이미지.mp4")} type="video/mp4"/>
+            </video>
+          : "" } */}
+
+            <MS.PdfWrapper >
+              <MS.PdfSet>
+                페이지 입력
+                {numPages>1 ? <>
+                  <MS.PdfPageInput onChange={changePageNum} placeholder={`1P부터 ${numPages}P까지`} defaultValue={1} />
+                  <MS.PdfPageButtonWrapper>
+                    <MS.PdfPageButton href={`#${show}`}>이동하기</MS.PdfPageButton>
+                  </MS.PdfPageButtonWrapper>
+                </>
+                : ""}
+                <MS.PdfSizeWrapper>            
+                  <MS.PdfSizeButton onClick={() => {setPageScale(pageScale === 1.5 ? 1.5 : pageScale + 0.25)}}>
+                    <MS.SizeIcon>+</MS.SizeIcon>
+                  </MS.PdfSizeButton>
+                  <MS.PdfSizeButton onClick={() => {setPageScale((pageScale - 0.25) < 0.25 ? 0.25 : pageScale - 0.25)}}>
+                    <MS.SizeIcon>-</MS.SizeIcon>
+                  </MS.PdfSizeButton>
+                </MS.PdfSizeWrapper>
+                <MS.SizeShow>
+                    {pageScale*100+"%"}
+                </MS.SizeShow>
+              </MS.PdfSet>
+              <MS.PdfMannage onContextMenu={e => e.preventDefault()} style={{maxHeight:windowSize.height/1.5,
+              justifyContent:pageScale<1?"center":"flex-start"}}>
+
+                <Document file={require('../../images/test.pdf')} onLoadSuccess={onDocumentLoadSuccess}>
+                  {Array.from(new Array(numPages), (_, index) => (
+                    <div key={index+1} id={index+1} >
+                      <Page width={windowSize.width} height={windowSize.height}  scale={pageScale} 
+                      pageNumber={index+1} renderAnnotationLayer={false} />
+                    </div>
+                  ))}
+                </Document>
+              </MS.PdfMannage>
+              <div style={{height:"50px",width:"auto"}} />
+          </MS.PdfWrapper>
+
+>>>>>>> reference
         </MS.MobalContents>
 
         <MS.TraceBoxWrapper>
