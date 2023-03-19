@@ -48,7 +48,7 @@ const RefList = (props) => {
 
 
   useEffect(()=>{
-    axios.get(`/BE/reference?page=${page}&sort=${sort}&category=${props.kind}`)
+    axios.get(`/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`)
     .then((res)=>{
         setData(res.data.data.references)
         console.log(res.data.data)
