@@ -34,7 +34,7 @@ function SocialLoginContainer() {
   const navigate = useNavigate();
 
   const isNotLogin = () => {
-    alert("잘못된 접근입니다.");
+    alert("이미 로그인 되어.");
     navigate("/");
   };
   /*const showModal = (e) => {
@@ -42,7 +42,9 @@ function SocialLoginContainer() {
   };*/
 
   useEffect(() => {
-    if (localStorage.getItem("nickname") != null) {
+    // 수정 부분
+    if (localStorage.getItem("nickname") != null && sessionStorage.getItem("new") == false) {
+      console.log(localStorage.getItem("nickname"));
       isNotLogin();
     }
   }, []);

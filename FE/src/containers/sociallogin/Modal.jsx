@@ -113,6 +113,8 @@ function Modal({ modalOpen }) {
         localStorage.removeItem("nickname");
         localStorage.removeItem("image");
         localStorage.removeItem("id");
+        // 수정부분
+        sessionStorage.removeItem("new");
       })
       .catch((err) => {
         console.log(err);

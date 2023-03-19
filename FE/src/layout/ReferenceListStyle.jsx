@@ -52,6 +52,7 @@ export const Style = {
     border-radius: 50%;
     float: left;
     margin-left: 5px;
+    margin-top: 5px;
     cursor: pointer;
     @media ${props => props.theme.desktop} {
       width: 5vw; height:5vw;
@@ -61,7 +62,6 @@ export const Style = {
     }
   `,
   ProfileInfo:styled.div`
-    background-color: aqua;
     position: relative;
     width: 19.5vw;
     height:6.8vw;
@@ -79,15 +79,27 @@ export const Style = {
 
   `,
   ProfileInfoDetail:styled.div`
-    font-size: 20px;
+    font-size: 0.8em;
     display: inline-block;
-    justify-content: space-around;
     position: relative;
+    justify-content: space-around;
 
-    margin-left: 40px;
+    margin-top: 15px;
+  `,
+  ProfileData:styled.div`
+    width: 20vw; 
+    height: 20vw;
+    margin-top: 5px;
+    cursor: pointer;
+    @media ${props => props.theme.desktop} {
+      width: 25vw; height:25vw;
+    }
+    @media ${props => props.theme.mobile} {
+      width: 30vw; height:30vw;
+    }
   `,
   ProfileFont:styled.div`
-    font-size: 15px;
+    font-size: 1em;
     position: relative;
     top: 10px;
     @media ${props => props.theme.desktop} {
