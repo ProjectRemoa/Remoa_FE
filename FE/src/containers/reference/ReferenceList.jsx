@@ -61,11 +61,7 @@ const RefList = (props) => {
     setName(props.name)
   },[props.name, sort, props.kind])
 
-  useEffect(()=>{
-    data=data.filter((d) =>
-    d.detail_category == props.kind
-  )
-  },[data])
+
   const onClickDate = () => {
     /*이부분에 axios*/
     setSort('newest')
