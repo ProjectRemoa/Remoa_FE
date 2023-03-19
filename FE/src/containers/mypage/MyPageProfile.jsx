@@ -137,6 +137,7 @@ function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const imgInput = useRef();
 
@@ -210,8 +211,8 @@ function MyPageProfile() {
         });
     };
 
-    const changeProfile = (nickname, phoneNumber, university, oneLineIntroduction) => {
-        axios.put(`http://localhost:8080/user`, {
+    const changeProfile = () => {
+        axios.put(`/BE/user`, {
             nickname : nickname,
             phoneNumber : phoneNumber,
             university : university,
@@ -302,7 +303,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={nickname}
                         name="nickname"
-                        value={nickname}
                         onChange={onChangeInput}
                     ></Style.Answer>
                     <Style.ItemButton
@@ -316,7 +316,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={phoneNumber}
                         name="phoneNumber"
-                        value={phoneNumber}
                         onChange={onChangeInput}
                     ></Style.Answer>
                 </Style.ItemWrapper>
@@ -334,7 +333,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={oneLineIntroduction}
                         name="oneLineIntroduction"
-                        value={oneLineIntroduction}
                         onChange={onChangeInput}
                         style={{
                             width: "700px",
@@ -346,7 +344,7 @@ function MyPageProfile() {
             </Style.ProfileWrapper>
 
             <Style.ModifyButton
-                onClick={() => changeProfile(nickname, phoneNumber, university, oneLineIntroduction)}
+                onClick={() => changeProfile()}
             >수정 완료</Style.ModifyButton>
 
         </Style.Wrapper>
