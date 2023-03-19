@@ -138,6 +138,7 @@ const Style={
 function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
+    const [previewImage, setPreviewImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
     const [logState, setLogState] = useState(null);
     const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -169,6 +170,7 @@ function MyPageProfile() {
         return new Promise((resolve) => {
             reader.onload = () => {
                 setProfileImage(reader.result);
+                setPreviewImage(e.target.files[0]);
                 resolve();
             };
         });
@@ -231,7 +233,7 @@ function MyPageProfile() {
         });
 
         const formData = new FormData();
-        formData.append('file', profileImage);
+        formData.append('file', previewImage);
 
         axios.put(`/BE/user/img`, formData, {
             withCredentials: true,

@@ -60,6 +60,11 @@ const Style={
         color: #464646;
         font-size: 18px;
     `,
+    SearchBtn:styled.div`
+        background-color: #FADA5E;
+        padding: 20px;
+        border-radius: 25px 0px 0px 25px;
+    `,
 }
 
 class PopupContent extends Component {
@@ -84,9 +89,13 @@ class PopupContent extends Component {
                             </Style.DetailContent>
                         
                         <div>
-                            <div>
-                                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            </div>
+                            <Style.SearchBtn>
+                                <FontAwesomeIcon 
+                                    icon={faMagnifyingGlass} 
+                                    color="white"
+                                    size='2x'
+                                />
+                            </Style.SearchBtn>
                             <div>
                                 <input
                                     type="text"
