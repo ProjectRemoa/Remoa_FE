@@ -4,7 +4,7 @@ import styled from "styled-components";
 import img from "../../images/LOGO_SYMBOLMARK.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Following from "../../containers/mypage/Follow/Following";
+
 const Style = {
   FooterEmail: styled.p`
     font-weight: 500;
