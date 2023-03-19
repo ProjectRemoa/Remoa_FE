@@ -62,13 +62,6 @@ function ManageFeedbackContainer(){
             <div className={styles.commentList}>작품 별 코멘트 목록</div>
 
             {FeedBackPage}
-            {/*<div style={{display: "flex", flexDirection: "column"}}>*/}
-            {/*    {*/}
-            {/*        작품.map((data, i)=>{*/}
-            {/*            return <FeedBackPage num={i}/>*/}
-            {/*        })*/}
-            {/*    }*/}
-            {/*</div>*/}
         </>
     )
 }
