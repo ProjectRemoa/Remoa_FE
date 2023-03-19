@@ -8,6 +8,7 @@ import RefModal from '../modal/RefModal';
 import { Link } from 'react-router-dom';
 import RefModalFollow from '../modal/RefModalFollow';
 import StarIcon from '@mui/icons-material/Star';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   home:{
@@ -34,40 +35,37 @@ const useStyles = makeStyles({
 const RefList = (props) => {
   const classes = useStyles();
   let ideas = getIdeaContests();
-  let [data, setData] = useState(ideas);
+  /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
+  let [data, setData] = useState([]);
+  let [name, setName] = useState('');
+  let [sort, setSort] = useState('newest');
+  let [page, setPage] = useState(1);
+  let [category, setCatgory] = useState('etc')
   
   let users = getUserInfo()
+  /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
   let [user, setUser] = useState(users)
 
-  data=data.filter((d) =>
-    d.detail_category == props.kind
-  )
+
+  useEffect(()=>{
+    axios.get(`/BE/reference?page=${page}&sort=${sort}&category=${props.kind}`)
+    .then((res)=>{
+        setData(res.data.data.references)
+        console.log(res.data.data)
+    })
+    .catch((res)=>{
+        console.log("error")
+    })
+    
+    setCatgory(props.kind)
+    setName(props.name)
+  },[props.name, sort, props.kind])
+
 
   const onClickDate = () => {
-    data.sort((a,b) => {
-      if(a.resgist_date < b.resgist_date) return 1;
-      else if (a.resgist_date > b.resgist_date) return -1;
-      else {
-        if (a.contest_name < b.contest_name) return -1;
-        else if (a.contest_name > b.contest_name) return 1;
-        else return 0;
-      }
-    })
-    setData(data);
-    // let i = 0
-    // let n = []
-
-    // while (i < data.length) {
-    //   let j = 0
-    //   while (j < user.length) {
-    //     if (data[i].id==user[j].id) {
-    //       n.push(user[j])
-    //     }
-    //     j++
-    //   }
-    //   i++  
-    // }
-    // console.log(user)
+    /*이부분에 axios*/
+    setSort('newest')
+    
     document.getElementById("b1").style.backgroundColor="#FADA5E"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="white"
@@ -76,17 +74,8 @@ const RefList = (props) => {
 
   
   const onClickHits = () => {
-    data.sort((a,b) => {
-      if(a.hits < b.hits) return 1;
-      else if (a.hits > b.hits) return -1;
-      else {
-        if (a.contest_name < b.contest_name) return -1;
-        else if (a.contest_name > b.contest_name) return 1;
-        else return 0;
-      }
-      
-    })
-    setData(data);
+    /*이부분에 axios*/
+    setSort('like')
 
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="#FADA5E"
@@ -95,16 +84,8 @@ const RefList = (props) => {
   }
   
   const onClickThumbs = () => {
-    data.sort((a,b) => {
-      if(a.thumbs < b.thumbs) return 1;
-      else if (a.thumbs > b.thumbs) return -1;
-      else {
-        if (a.contest_name < b.contest_name) return -1;
-        else if (a.contest_name > b.contest_name) return 1;
-        else return 0;
-      }
-    })
-    setData(data);
+    /*이부분에 axios*/
+    setSort('view')
 
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="white"
@@ -113,16 +94,8 @@ const RefList = (props) => {
   }
   
   const onClickScrap = () => {
-    data.sort((a,b) => {
-      if(a.scrap < b.scrap) return 1;
-      else if (a.scrap > b.scrap) return -1;
-      else {
-        if (a.contest_name < b.contest_name) return -1;
-        else if (a.contest_name > b.contest_name) return 1;
-        else return 0;
-      }
-    })
-    setData(data);
+    
+    setSort('scrap')
 
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="white"
@@ -176,34 +149,34 @@ const RefList = (props) => {
     <Style.Line />
 
     {data.map((idea, index) => (
-    <Style.ContestItem key={idea.id}>
-      <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.id}` :
-      Lo.includes("video") ? `/ref/video/${idea.id}` :
-      Lo.includes("design") ? `/ref/design/${idea.id}` :
-      Lo.includes("etc") ? `/ref/etc/${idea.id}` :`/${idea.id}`}>
-      <Style.ContestImgCrop onClick={() => onModalHandler2(idea.id)}>
-        <Style.ContestImg src = {require('../../images/' + idea.contest_image + '.jpg')} alt = '1' />
+    <Style.ContestItem key={idea.postId}>
+      <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.postId}` :
+      Lo.includes("video") ? `/ref/video/${idea.postId}` :
+      Lo.includes("design") ? `/ref/design/${idea.postId}` :
+      Lo.includes("etc") ? `/ref/etc/${idea.postId}` :`/${idea.postId}`}>
+      <Style.ContestImgCrop onClick={() => onModalHandler2(idea.postId)}>
+        <Style.ContestImg src = {idea.postThumbnail} alt = '1' />
       </Style.ContestImgCrop>
       </Link>
-      <RefModal id2={idea.id} modalVisibleId2={modalVisibleId2} setModalVisibleId2={setModalVisibleId2} idea={idea} />
+      <RefModal id2={idea.postId} modalVisibleId2={modalVisibleId2} setModalVisibleId2={setModalVisibleId2} idea={idea} />
 
       <Style.ProfileInfo>
 
-        <Style.ProfileSize src = {require('../../images/' + idea.registrant_image + '.jpg')} alt="2"
-        onMouseEnter={() => {onModalHandler(idea.id); modalLocation(index+1)}}
-        onClick={() => {onModalHandler(idea.id); modalLocation(index+1)}}/>
+        <Style.ProfileSize src = {idea.postMember.profileImage} alt="2"
+        onMouseEnter={() => {onModalHandler(idea.postId); modalLocation(index+1)}}
+        onClick={() => {onModalHandler(idea.postId); modalLocation(index+1)}}/>
 
-        <RefModalFollow id={idea.id} modalVisibleId={modalVisibleId} setModalVisibleId={setModalVisibleId} 
+        <RefModalFollow id={idea.postId} modalVisibleId={modalVisibleId} setModalVisibleId={setModalVisibleId} 
         location={modalLocation(index+1)} idea={idea} />
 
         <Style.ProfileFont>{idea.registrant}</Style.ProfileFont>
         <Style.ProfileInfoDetail>
           &nbsp;<RemoveRedEyeOutlinedIcon className={classes.home} />
-          &nbsp;{idea.hits}&nbsp;
+          &nbsp;{idea.likeCount}&nbsp;
           &nbsp;<FavoriteOutlinedIcon className={classes.home2} />
-          &nbsp;{idea.thumbs}&nbsp;
+          &nbsp;{idea.views}&nbsp;
           &nbsp;<StarIcon className={classes.star} />
-          &nbsp;{idea.scrap}
+          &nbsp;{idea.scrapCount}
         </Style.ProfileInfoDetail>
         
       </Style.ProfileInfo>
