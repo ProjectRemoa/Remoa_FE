@@ -68,11 +68,15 @@ function MyPageWorkContainer() {
       {data && (
         <div style={{display:"flex", margin: "2%", width: "100%", height:"25%"}}>
         <div style={{display:"flex", flexDirection: "column", width: "30%", maxHeight:"100%"}}>
-            <img src={data.thumbnail} style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))", margin: "2%", maxWidth: "100%", maxHeight: "85%"}}/>
-            <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "15%"}}
+            <img src={data.thumbnail} style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))", margin: "2%", maxWidth: "100%", minHeight: "70%", maxHeight: "80%"}}/>
+            <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%"}}
             onClick = {()=>{
                 onClickModal(data.postId)
             }}> 작업물 뷰어 보기 </button>
+            <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%"}}
+            onClick = {()=>{
+                onClickModal(data.postId)
+            }}> 상세 피드백  </button>
         </div>
         
         <div style={{width: "70%", display:"flex", flexDirection: "column", maxHeight:"100%"}}>
