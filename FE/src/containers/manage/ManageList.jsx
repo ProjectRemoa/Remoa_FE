@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 function ManageList(props) {
   const classes = useStyles();
   const navigate = useNavigate();
-
+  
   // 받아온 data 가공 필요
   let data = props.data;
   console.log(data);
@@ -42,9 +42,9 @@ function ManageList(props) {
   let tpe = props.TPE;
   let tp = props.TP;
 
-  let profileImage = data[0].postMember.profileImage;
   let memberId = data[0].postMember.memberId;
   let nickname = data[0].postMember.nickname;
+  let profileImage = data[0].postMember.profileImage;
 
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
@@ -70,10 +70,9 @@ function ManageList(props) {
       }
     }
   }
-  let Lo = window.location.href;
 
   return (
-    <Style.ContestList>
+    <div>
       {data.map((mywork, index) => (
         <Style.ContestItem key={mywork.postId}>
           <Style.ContestImgCrop onClick={() => onModalHandler2(mywork.postId)}>
@@ -118,8 +117,7 @@ function ManageList(props) {
               location={modalLocation(index + 1)}
               idea={mywork}
             />*/}
-
-            <Style.ProfileFont>{nickname}</Style.ProfileFont>
+            <Style.ProfileFont>{mywork.title}</Style.ProfileFont>
             <Style.ProfileInfoDetail>
               {/* 유저 hits, thumbs, scrap */}
               &nbsp;
@@ -133,7 +131,7 @@ function ManageList(props) {
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
-    </Style.ContestList>
+    </div>
   );
 }
 

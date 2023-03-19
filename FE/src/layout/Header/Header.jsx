@@ -172,7 +172,7 @@ const Header = () => {
 
   const logoutOnClick = () => {
     axios.defaults.withCredentials = true;
-    // 404 error 발생..
+    // 404 error 발생
     axios
       .post(`/user/logout`, {
         withCredentials: true,
@@ -195,8 +195,6 @@ const Header = () => {
     Navigate("/signup");
   };
 
-  const loginYN = false;
-  //구체적인 로그인 여부 작업 전이라 임시적으로 만든 변수로 boolean 값에 따라 다른 헤더 출력
   return (
     <Style.Header>
       <div className={styles.contents}>
@@ -227,7 +225,7 @@ const Header = () => {
           </Style.NavItemWrapper>
 
           <Style.ButtonWrapper>
-            <LoginCheck />
+            <LoginCheck  />
             {/*{loginYN ? (
               <>
                 <Style.BellButton onClick={noticeOnClick}>
