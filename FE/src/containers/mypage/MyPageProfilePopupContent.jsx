@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import styled from "styled-components";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const Style={
     FullLayer:styled.div`
@@ -44,17 +48,31 @@ const Style={
 class PopupContent extends Component {
     render(){
         return(
-            <div className="dimmed_layer_wrapper">
+            <>
                 <Style.FullLayer>
                     <Style.CommonAlert> 
-                        <h2>This is Popup Title</h2>
+                        <div>
+                            <input
+                                type="text"
+                            >
+                            </input>
+                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                        </div>
+                        <a
+                            onClick={this.props.onClose}>
+                            <FontAwesomeIcon icon={faXmark} />
+                        </a>
                         <div>This is Popup Body</div>
                         <div>
-                            <button type="button" onClick={this.props.onClose}>close</button>
+                            <button 
+                                type="button" 
+                                onClick={this.props.onClose}
+                            >선택
+                            </button>
                         </div>
                     </Style.CommonAlert>
                 </Style.FullLayer>
-            </div>
+            </>
         );
     }
 }

@@ -139,13 +139,13 @@ function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
-    const [logState, setLogState] = useState();
+    const [logState, setLogState] = useState(null);
     const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const imgInput = useRef();
 
     const [input, setInput] = useState({
-        email: 'maninhat@kakao.com',
+        email: null,//'maninhat@kakao.com',
         nickname: '호갱',
         phoneNumber: '01012345678',
         university: '한국대학교',
@@ -258,22 +258,22 @@ function MyPageProfile() {
     };
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         getProfile();
         getProfileImg();
-    }, []);
+    }, []);*/
 
 
-    /*useEffect(() => {
-        setLogState(sessionStorage.getItem("id"));
-        console.log(logState);
+    useEffect(() => {
+        setLogState(localStorage.getItem("id"));
+        console.log("localStorage.getItem('id') = ", logState);
         if (logState) {
             getProfile();
             getProfileImg();
         } else {
             navigate("/sociallogin");
         }
-    }, []);*/
+    }, []);
     
 
     return(
@@ -299,7 +299,7 @@ function MyPageProfile() {
                     accept="image/*"
                     style={{display: "none"}}
                     onChange={(e) => onChangeImg(e)}
-                />
+                ></input>
             </form>
             
             <Style.HorizonLine/>
