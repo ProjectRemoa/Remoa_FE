@@ -103,5 +103,20 @@ export const DF = {
   `,
   FeedWrapperContent:styled.div`
     margin-top:24px;
-  `
+  `,
+  DetailPageButton:styled.a`
+    text-decoration-line: none;
+    height: 40px;
+    width:80px;
+    color:black;
+    font-size: 18px;
+    
+  `,
+  DetailPageButtonWrapper:styled.button`
+    border: none;
+    height: 30px;
+    width:120px;
+    background-color:#FADA5E;
+    box-shadow: none;
+  `,
 }

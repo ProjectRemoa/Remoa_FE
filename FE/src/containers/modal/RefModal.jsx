@@ -16,40 +16,39 @@ import useWindowSize from './pdfView/useWindowSize';
 import DetailedFeedback from './DetailedFeedback/DetailedFeedback';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-
 const useStyles = makeStyles({
-  arrow:{
-    fontSize:'25px',
-    color:"#FADA5E",
-    float:"left",
-    cursor:"pointer",
-    display:"block",
-    marginLeft:"20px",
-    fontWeight:"700",
+  arrow: {
+    fontSize: "25px",
+    color: "#FADA5E",
+    float: "left",
+    cursor: "pointer",
+    display: "block",
+    marginLeft: "20px",
+    fontWeight: "700",
   },
-  dis:{
-    display:"none"
+  dis: {
+    display: "none",
   },
-  show:{
-    display:"flex"
+  show: {
+    display: "flex",
   },
-  love:{
-    color:"red"
+  love: {
+    color: "red",
   },
   star: {
-    color:"#FADA5E",
+    color: "#FADA5E",
   },
   beforeClick: {
-    color:"#B0B0B0",
-    float:"left",
-    marginLeft:"25px",
-    marginTop:"13.5px"
+    color: "#B0B0B0",
+    float: "left",
+    marginLeft: "25px",
+    marginTop: "13.5px",
   },
   afterClick1: {
-    color:"red",
-    float:"left",
-    marginLeft:"25px",
-    marginTop:"13.5px"
+    color: "red",
+    float: "left",
+    marginLeft: "25px",
+    marginTop: "13.5px",
   },
   afterClick2: {
     color:"#FADA5E",
@@ -59,57 +58,62 @@ const useStyles = makeStyles({
   },
 })
 
-export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea}) {
+export default function RefModal({
+  id2,
+  modalVisibleId2,
+  setModalVisibleId2,
+  idea,
+}) {
   const classes = useStyles();
-  const Navigate = useNavigate()
-  let Lo = window.location.href
+  const Navigate = useNavigate();
+  let Lo = window.location.href;
 
   const onCloseHandler2 = () => {
-  	setModalVisibleId2(false)
+    setModalVisibleId2(false);
     if (Lo.includes("marketing")) {
-      Navigate("/ref/marketing")
+      Navigate("/ref/marketing");
     } else if (Lo.includes("video")) {
-      Navigate("/ref/video")
+      Navigate("/ref/video");
     } else if (Lo.includes("design")) {
-      Navigate("/ref/design")
+      Navigate("/ref/design");
     } else if (Lo.includes("etc")) {
-      Navigate("/ref/etc")
+      Navigate("/ref/etc");
     } else {
-      Navigate("/")
+      Navigate("/");
     }
-  }
+  };
 
-  const [like, setLike] = useState(idea.thumbs);
+  const [like, setLike] = useState(idea.likeCount);
   const [likeBoolean, setLikeBoolean] = useState(false)
   const handleLike = (e) => {
     if (likeBoolean === false) {
-      setLike(e+1)
+      setLike(e + 1);
     } else {
-      setLike(e)
+      setLike(e);
     }
     setLikeBoolean(!likeBoolean)
   }
-  const [subscribe, setSubscribe] = useState(idea.scrap)
+  const [subscribe, setSubscribe] = useState(idea.scrapCount)
   const [subscribeBoolean, setSubscribeBoolean] = useState(false)
   const handleSubscribe = (e) => {
     if (subscribeBoolean === false) {
-      setSubscribe(e+1)
+      setSubscribe(e + 1);
     } else {
-      setSubscribe(e)
+      setSubscribe(e);
     }
-    setSubscribeBoolean(!subscribeBoolean)
-  }
+    setSubscribeBoolean(!subscribeBoolean);
+  };
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false)
   const onModalHandler3 = id => {
      setModalVisibleId3(id)
   }
-  const media = idea.attached_file
+  const media = idea.thumbnail
 
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageScale, setPageScale] = useState(0.25);
+  const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(Number(numPages))
@@ -122,27 +126,29 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
 
   
   return (
-    <MS.ModalWrapper className={modalVisibleId2 == id2 ? classes.show : classes.dis}>
-    <MS.MobalBox>
-      <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
-      <br /> 
+    <MS.ModalWrapper
+      className={modalVisibleId2 == id2 ? classes.show : classes.dis}
+    >
+      <MS.MobalBox>
+        <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
+        <br />
         <MS.MobalHeader>
           <MS.HeaderDiv1>
-            <MS.DetailTitle>{idea.contest_name}</MS.DetailTitle>
+            <MS.DetailTitle>{idea.title}</MS.DetailTitle>
             <MS.DetailTitleInfo>
-              {idea.detail_regist}&nbsp;<span style={{color:"#FADA5E"}}>{idea.detail_result}</span>&nbsp;|
-              &nbsp;{getDate(idea.resgist_date)}&nbsp;|&nbsp;{idea.detail_category}
+              {idea.title}&nbsp;<span style={{color:"#FADA5E"}}>{idea.title}</span>&nbsp;|
+              &nbsp;{getDate(idea.postingTime)}&nbsp;|&nbsp;{idea.categoryName}
             </MS.DetailTitleInfo>
           </MS.HeaderDiv1>
 
           <MS.HeaderDiv2>
             <MS.HeaderUserInfo>
-              <MS.ProfileSize src={require('../../images/' + idea.registrant_image + '.jpg')} />
-              <MS.HeaderUserName>{idea.registrant}</MS.HeaderUserName>
+              <MS.ProfileSize src={idea.thumbnail} />
+              <MS.HeaderUserName>{idea.postMember.nickname}</MS.HeaderUserName>
               <MS.HeaderDetail2>
-                <RemoveRedEyeOutlinedIcon />{idea.hits}
-                <FavoriteOutlinedIcon className={classes.love} />{idea.thumbs}
-                <StarIcon className={classes.star} />{idea.scrap}
+                <RemoveRedEyeOutlinedIcon />{idea.likeCount}
+                <FavoriteOutlinedIcon className={classes.love} />{idea.views}
+                <StarIcon className={classes.star} />{idea.scrapCount}
               </MS.HeaderDetail2>
             </MS.HeaderUserInfo>
             <MS.DetailFeedbackButton>
@@ -151,8 +157,12 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
             <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)} >
               상세피드백 보기
             </MS.DetailFeedbackButton>
-            <DetailedFeedback id3={id2} modalVisibleId3={modalVisibleId3} setModalVisibleId3={setModalVisibleId3}
-             idea={idea} />
+            <DetailedFeedback
+              id3={id2}
+              modalVisibleId3={modalVisibleId3}
+              setModalVisibleId3={setModalVisibleId3}
+              idea={idea}
+            />
           </MS.HeaderDiv2>
         </MS.MobalHeader>
         <MS.Line />
@@ -213,22 +223,21 @@ export default function RefModal({id2, modalVisibleId2, setModalVisibleId2, idea
 
         </MS.MobalContents>
 
-  
         <MS.TraceBoxWrapper>
-          <MS.TraceBox onClick={() => handleLike(idea.thumbs)}>
+          <MS.TraceBox onClick={() => handleLike(idea.likeCount)}>
             <FavoriteOutlinedIcon className={likeBoolean?classes.afterClick1:classes.beforeClick} />
             {like}
           </MS.TraceBox>
           <div style={{width:"26px"}}></div>
-          <MS.TraceBox onClick={() => handleSubscribe(idea.scrap)}>
+          <MS.TraceBox onClick={() => handleSubscribe(idea.scrapCount)}>
             <StarIcon className={subscribeBoolean?classes.afterClick2:classes.beforeClick} />
             {subscribe}
           </MS.TraceBox>
         </MS.TraceBoxWrapper>
 
         <RefModalComment />
-    </MS.MobalBox>
-    
-  </MS.ModalWrapper>
+      </MS.MobalBox>
+            </MS.ModalWrapper>
   )
-}
+    
+  }

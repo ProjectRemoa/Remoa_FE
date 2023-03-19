@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import kakao_login from "../../images/kakao_login_large.png";
 import { KAKAO_AUTH_URL } from "./kakaodata";
-import axios from "axios";
 import { useEffect } from "react";
 import Modal from "./Modal";
 
@@ -31,83 +30,33 @@ const Style = {
   `,
 };
 
-const { Kakao } = window;
-
 function SocialLoginContainer() {
-  const code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
   const navigate = useNavigate();
 
-  /* 약관 동의 모달 생성 */
-  const [modalOpen, setModalOpen] = useState(false);
+  const isNotLogin = () => {
+    alert("이미 로그인 되어.");
+    navigate("/");
+  };
+  /*const showModal = (e) => {
+    modalOpen = true;
+  };*/
 
   useEffect(() => {
-    if (sessionStorage.getItem("id") !== null) {
-      setModalOpen(true);
+    // 수정 부분
+    if (localStorage.getItem("nickname") != null && sessionStorage.getItem("new") == false) {
+      console.log(localStorage.getItem("nickname"));
+      isNotLogin();
     }
-  });
+  }, []);
 
-  /* useEffect(() => {
-    axios
-      .get(`http://localhost:8080/login/kakao`)
-      .then((res) => {
-        console.log(res);
-        // 처음 가입한 회원이라면
-        // modalOpen=true;
-        // 이미 회원이라면
-        // modalOpen=false; navigate("/")
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);*/
-
-  const showModal = (e) => {
-    setModalOpen(true);
-  };
-
-  /*const getSession = () => {
-    const config = { "Conteny-Type": "application/json" };
-    axios
-      .post("/signup/kakao", code, config)
-      .then((result) => {
-        console.log(result);
-        if (result.status === 200 && result.data !== "login fail") {
-        }
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("로그인에 실패하였습니다.");
-        navigate("/sociallogin");
-      });
-  };*/
-
-  /*const kakaoLoginHandler = () => {
-    Kakao.Auth.login({
-      success: function (authObj) {
-        fetch(`${KAKAO_AUTH_URL}`, {
-          method: "GET",
-          body: JSON.stringfy({
-            access_token: authObj.access_token,
-          }),
-        })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-    });
-  };*/
   return (
     <>
-      <>{modalOpen && <Modal />}</>
+      <>{sessionStorage.getItem("new") && <Modal />}</>
       <div
         style={{
           width: "100%",
-          pointerEvents: modalOpen ? "none" : "auto",
+          margin: "30px auto",
+          pointerEvents: sessionStorage.getItem("new") ? "none" : "auto",
         }}
       >
         <div
