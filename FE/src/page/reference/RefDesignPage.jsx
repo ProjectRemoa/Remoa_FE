@@ -7,7 +7,7 @@ function RefDesignPage() {
   return (
     <Layout>
       <ReferenceContainer />
-      <RefListWrapper />
+      {/* <RefListWrapper /> */}
     </Layout>
   )
 }

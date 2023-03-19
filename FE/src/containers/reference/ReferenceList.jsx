@@ -1,11 +1,14 @@
 import {React, useEffect, useState} from 'react'
-import styled from "styled-components";
 import {makeStyles} from "@material-ui/core/styles";
-import { getIdeaContests } from '../../temporary/idea_data';
-
+import { getIdeaContests, getUserInfo } from '../../temporary/idea_data';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import ScreenShareOutlinedIcon from '@mui/icons-material/ScreenShareOutlined';
+import { Style } from '../../layout/ReferenceListStyle'
+import RefModal from '../modal/RefModal';
+import { Link } from 'react-router-dom';
+import RefModalFollow from '../modal/RefModalFollow';
+import StarIcon from '@mui/icons-material/Star';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   home:{
@@ -14,190 +17,86 @@ const useStyles = makeStyles({
   home2:{
     fontSize:'35px',
     color:"red"
-}
+  },
+  arrow:{
+    fontSize:'25px',
+    color:"#FADA5E",
+    float:"left",
+    cursor:"pointer",
+    display:"block",
+    marginLeft:"20px",
+    fontWeight:"700",
+  },
+  star: {
+    color:"#FADA5E",
+  }
 })
-const Style = {
-  ContestList:styled.div`
-    padding-top: 45px;
-  `,
-  ContestItem:styled.div`
-    width: 21.5vw;
-    height: 18.6vw;
-    float:left;
-    /* box-shadow: 0 0 0 1px blue inset; */
-    @media ${props => props.theme.desktop} {
-      width: ${(props) => props.theme.d_3rdSizeContestItem};
-      height: ${(props) => props.theme.d_3rdSizeContestItemH};
-    }
-    @media ${props => props.theme.mobile} {
-      width: ${(props) => props.theme.m_2ndSizeContestItem};
-      height: ${(props) => props.theme.m_2ndSizeContestItemH};;
-    }
-  `, //선이 86vw임을 참고 21.5 곱하기 4는 86
 
-  ContestImgCrop:styled.div`
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    height: 10.8vw;
-    @media ${props => props.theme.desktop} {
-      height: ${(props) => props.theme.d_3rdSizeContestImgCrop};
-    }
-    @media ${props => props.theme.mobile} {
-      height: ${(props) => props.theme.m_2ndSizeContestImgCrop};
-    }
-  `,
-  ContestImg:styled.img`
-    position: relative;
-    width: 19.5vw;
-    height: auto;
-    /* top:-100px; */
-    @media ${props => props.theme.desktop} {
-      width: ${(props) => props.theme.d_3rdSizeContestImg};
-    }
-    @media ${props => props.theme.mobile} {
-      width: ${(props) => props.theme.m_2ndSizeContestImg};
-    }
-
-  `,
-  ProfileSize:styled.img`
-    width: 4vw; 
-    height: 4vw;
-    object-fit: cover;
-    border-radius: 50%;
-    float: left;
-    margin-left: 5px;
-    @media ${props => props.theme.desktop} {
-      width: 5vw; height:5vw;
-    }
-    @media ${props => props.theme.mobile} {
-      width: 6vw; height:6vw;
-    }
-  `,
-  ProfileInfo:styled.div`
-    background-color: aqua;
-    position: relative;
-    width: 19.5vw;
-    height:6.8vw;
-    top: 6px;
-    left: 1vw;
-    display: block;
-    @media ${props => props.theme.desktop} {
-      width: ${(props) => props.theme.d_3rdSizeContestImg};
-      height: ${(props) => props.theme.d_3rdSizeContestExplain};
-    }
-    @media ${props => props.theme.mobile} {
-      width: ${(props) => props.theme.m_2ndSizeContestImg};
-      height: ${(props) => props.theme.m_2ndSizeContestExplain};
-    }
-
-  `,
-  ProfileInfoDetail:styled.div`
-    font-size: 20px;
-    display: inline-block;
-    justify-content: space-around;
-    position: relative;
-
-    margin-left: 40px;
-  `,
-  ProfileFont:styled.div`
-    font-size: 15px;
-    position: relative;
-    top: 10px;
-    @media ${props => props.theme.desktop} {
-      font-size: 18px;
-    }
-    @media ${props => props.theme.mobile} {
-      font-size: 21px;
-    }
-  `,
-    SortContainer:styled.div`
-    width: 86vw;
-    height: 25px;
-    top:0px;
-    position: absolute;
-    display: flex;
-    justify-content: right;
-    @media ${props => props.theme.desktop} {
-      justify-content: center;
-    }
-    @media ${props => props.theme.mobile} {
-      justify-content:center
-    }
-  `,
-  Sort:styled.div`
-    box-sizing: border-box;
-    position: relative;
-    width: 86px;
-    display: inline-block;
-    border: 0.5px solid #000000;
-    border-radius: 10px;
-    margin-right: 8px;
-    cursor: pointer;
-    :last-child{
-      margin-right: 0px;
-    };
-    :visited{
-      color: yellow;
-    };
-  `,
-    Line:styled.hr`
-    position: absolute;
-    width: 86vw;
-    border: 1px solid #B0B0B0;
-    top:19px;
-    margin-bottom: 10px;
-  `,
-}
-const RefList = () => {
+const RefList = (props) => {
   const classes = useStyles();
   let ideas = getIdeaContests();
-  let [data, setData] = useState(ideas);
-  let data1 = [...data]
+  /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
+  let [data, setData] = useState([]);
+  let [name, setName] = useState('');
+  let [sort, setSort] = useState('newest');
+  let [page, setPage] = useState(1);
+  let [category, setCatgory] = useState('etc')
+  
+  let users = getUserInfo()
+  /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
+  let [user, setUser] = useState(users)
+
+
+  useEffect(()=>{
+    axios.get(`/BE/reference?page=${page}&sort=${sort}&category=${props.kind}`)
+    .then((res)=>{
+        setData(res.data.data.references)
+        console.log(res.data.data)
+    })
+    .catch((res)=>{
+        console.log("error")
+    })
+    
+    setCatgory(props.kind)
+    setName(props.name)
+  },[props.name, sort, props.kind])
 
 
   const onClickDate = () => {
-    data1.sort((a,b) => {
-      if(a.resgist_date < b.resgist_date) return 1;
-      else if (a.resgist_date > b.resgist_date) return -1;
-      else return 0;})
-    setData(data1);
+    /*이부분에 axios*/
+    setSort('newest')
+    
     document.getElementById("b1").style.backgroundColor="#FADA5E"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="white"
     document.getElementById("b4").style.backgroundColor="white"
   }
 
+  
   const onClickHits = () => {
-    data1.sort((a,b) => {
-      if(a.hits < b.hits) return 1;
-      else if (a.hits > b.hits) return -1;
-      else return 0;})
-    setData(data1);
+    /*이부분에 axios*/
+    setSort('like')
+
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="#FADA5E"
     document.getElementById("b3").style.backgroundColor="white"
     document.getElementById("b4").style.backgroundColor="white"
   }
-
+  
   const onClickThumbs = () => {
-    data1.sort((a,b) => {
-      if(a.thumbs < b.thumbs) return 1;
-      else if (a.thumbs > b.thumbs) return -1;
-      else return 0;})
-    setData(data1);
+    /*이부분에 axios*/
+    setSort('view')
+
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="#FADA5E"
     document.getElementById("b4").style.backgroundColor="white"
   }
-
+  
   const onClickScrap = () => {
-    data1.sort((a,b) => {
-      if(a.scrap < b.scrap) return 1;
-      else if (a.scrap > b.scrap) return -1;
-      else return 0;})
-    setData(data1);
+    
+    setSort('scrap')
+
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="white"
@@ -207,11 +106,40 @@ const RefList = () => {
   useEffect(() => {
     onClickDate()
   },[])
+
+  const [modalVisibleId, setModalVisibleId] = useState("")
+  const onModalHandler = id => {
+    setModalVisibleId(id)
+  }
+  const [modalVisibleId2, setModalVisibleId2] = useState(false)
+  const onModalHandler2 = id => {
+    setModalVisibleId2(id)
+  }
+
+  function modalLocation(i){
+    if (window.innerWidth<=767) {
+      if (i%2==0) {
+        return 2
+      }
+    }
+    else if (window.innerWidth<=1023) {
+      if (i%3==0) {
+        return 3
+      }
+    }
+    else {
+      if (i%4==0) {
+        return 4
+      }
+    }
+  }
+  let Lo = window.location.href
+
   return(
   <Style.ContestList>
     <Style.Line />
     <Style.SortContainer>
-      {/* {isActive?<Style.PageStyle>최신순</Style.PageStyle>:"최신순"} */}
+
       <Style.Sort onClick={onClickDate} id="b1">최신순</Style.Sort>
       <Style.Sort onClick={onClickHits} id="b2">조회수순</Style.Sort>
       <Style.Sort onClick={onClickThumbs} id="b3">좋아요순</Style.Sort>
@@ -219,26 +147,42 @@ const RefList = () => {
     </Style.SortContainer>
 
     <Style.Line />
-    {data.map((idea) => (
-    <Style.ContestItem key={idea.id}>
-      <Style.ContestImgCrop>
-        <Style.ContestImg src = {require('../../images/' + idea.contest_image + '.jpg')} alt = '1' />
+
+    {data.map((idea, index) => (
+    <Style.ContestItem key={idea.postId}>
+      <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.postId}` :
+      Lo.includes("video") ? `/ref/video/${idea.postId}` :
+      Lo.includes("design") ? `/ref/design/${idea.postId}` :
+      Lo.includes("etc") ? `/ref/etc/${idea.postId}` :`/${idea.postId}`}>
+      <Style.ContestImgCrop onClick={() => onModalHandler2(idea.postId)}>
+        <Style.ContestImg src = {idea.postThumbnail} alt = '1' />
       </Style.ContestImgCrop>
+      </Link>
+      <RefModal id2={idea.postId} modalVisibleId2={modalVisibleId2} setModalVisibleId2={setModalVisibleId2} idea={idea} />
+
       <Style.ProfileInfo>
-        <Style.ProfileSize src = {require('../../images/' + idea.registrant_image + '.jpg')} alt="2"  />
+
+        <Style.ProfileSize src = {idea.postMember.profileImage} alt="2"
+        onMouseEnter={() => {onModalHandler(idea.postId); modalLocation(index+1)}}
+        onClick={() => {onModalHandler(idea.postId); modalLocation(index+1)}}/>
+
+        <RefModalFollow id={idea.postId} modalVisibleId={modalVisibleId} setModalVisibleId={setModalVisibleId} 
+        location={modalLocation(index+1)} idea={idea} />
+
         <Style.ProfileFont>{idea.registrant}</Style.ProfileFont>
         <Style.ProfileInfoDetail>
           &nbsp;<RemoveRedEyeOutlinedIcon className={classes.home} />
-          &nbsp;{idea.hits}&nbsp;
+          &nbsp;{idea.likeCount}&nbsp;
           &nbsp;<FavoriteOutlinedIcon className={classes.home2} />
-          &nbsp;{idea.thumbs}&nbsp;
-          &nbsp;<ScreenShareOutlinedIcon className={classes.home} />
-          &nbsp;{idea.scrap}
+          &nbsp;{idea.views}&nbsp;
+          &nbsp;<StarIcon className={classes.star} />
+          &nbsp;{idea.scrapCount}
         </Style.ProfileInfoDetail>
         
       </Style.ProfileInfo>
     </Style.ContestItem>
     ))}
+
   </Style.ContestList>
   )
 }

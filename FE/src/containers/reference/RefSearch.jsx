@@ -2,22 +2,25 @@ import {React, useState} from 'react'
 import styled from "styled-components";
 import SearchIcon from '@mui/icons-material/Search';
 import {makeStyles} from "@material-ui/core/styles";
+import { useNavigate } from 'react-router-dom';
+import RefSearchResult from './RefSearchResult';
+import RefListWrapper from './RefListWrapper';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles({
   home:{
       color: "white",
-      fontSize:'35px',
+      fontSize:'40px',
   }
 })
 const Style = {
   SearchDiv: styled.div`
-  width: 700px;
-  height: 85px;
+  width: 86vw;
+  height: auto;
   top:181px;
   position: absolute;
   display: flex;
   justify-content: center;
-
   `,
   Title: styled.div`
   font-family: 'Noto Sans KR';
@@ -39,16 +42,18 @@ const Style = {
     border-radius: 25px;
     padding-left: 20px;
     left: 0px;
-
   `,
-  ClickButton:styled.button`
+  ClickButton:styled.div`
     position: absolute;
     width: 54px;
     height: 39px;
     background: #FADA5E;
     border-radius: 25px;
     border: #FADA5E;
-    display: block;
+    display: flex;
+    cursor:pointer;
+    justify-content: center;
+    align-items: center;
   `,
   Bundle:styled.form`
     display: flex;
@@ -57,8 +62,6 @@ const Style = {
     position: absolute;
     height: 39px;
     top:42px;
-    left: 110px;
-
   `,
   SearchDeco:styled.p`
     font-size: large;
@@ -67,10 +70,27 @@ const Style = {
 }
 function RefSearch() {
   const classes = useStyles();
-  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const [search, setSearch] = useState('');
 
   const onChange = (e) => {
     setSearch(e.target.value.toLowerCase())
+  }
+
+  const [keyword, setKeyword] = useState("")
+  const [sendSearch, setSendSearch] = useState("")
+
+  const searchInput = () => {
+    const searchKeyword = document.querySelector('#v').value
+    console.log(searchKeyword)
+    setKeyword(searchKeyword);
+    // navigate(`/ref/search/${searchKeyword}`)
+    setSendSearch(search)
+  };
+  const activeEnter = (e) => {
+    if(e.key === "Enter") {
+      searchInput(e)
+    }
   }
   return (
     <Style.SearchDiv>
@@ -78,13 +98,15 @@ function RefSearch() {
         공모전 이름이나 종류를 검색해보세요
       </Style.Title>
       <Style.Bundle>
-        <Style.SearchBox type="text" value={search} onChange={onChange} />
-        <Style.ClickButton>
+        <Style.SearchBox type="text" value={search} onChange={onChange} id="v" 
+        autocomplete="false" onKeyDown={(e) => activeEnter(e)} />
+        <Style.ClickButton onClick={searchInput} >
           <SearchIcon className={classes.home}/>
         </Style.ClickButton>
       </Style.Bundle>
+      <RefListWrapper search={sendSearch}/>
     </Style.SearchDiv>
   )
 }
-//   ...
+
 export default RefSearch;

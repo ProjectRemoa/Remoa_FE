@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import kakao_login from "../../images/kakao_login_large.png";
 import { KAKAO_AUTH_URL } from "./kakaodata";
-import axios from "axios";
 import { useEffect } from "react";
+import Modal from "./Modal";
 
 const Style = {
   Container: styled.div`
@@ -30,85 +30,65 @@ const Style = {
   `,
 };
 
-const { Kakao } = window;
-
 function SocialLoginContainer() {
-  const code = new URL(window.location.href).searchParams.get("code");
-
   const navigate = useNavigate();
 
-  /*const getSession = () => {
-    const config = { "Conteny-Type": "application/json" };
-    axios
-      .post("/signup/kakao", code, config)
-      .then((result) => {
-        console.log(result);
-        if (result.status === 200 && result.data !== "login fail") {
-        }
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("로그인에 실패하였습니다.");
-        navigate("/sociallogin");
-      });
+  const isNotLogin = () => {
+    alert("잘못된 접근입니다.");
+    navigate("/");
+  };
+  /*const showModal = (e) => {
+    modalOpen = true;
   };*/
 
-  /*const kakaoLoginHandler = () => {
-    Kakao.Auth.login({
-      success: function (authObj) {
-        fetch(`${KAKAO_AUTH_URL}`, {
-          method: "GET",
-          body: JSON.stringfy({
-            access_token: authObj.access_token,
-          }),
-        })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-    });
-  };*/
+  useEffect(() => {
+    if (localStorage.getItem("nickname") != null) {
+      isNotLogin();
+    }
+  }, []);
+
   return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
+    <>
+      <>{sessionStorage.getItem("new") && <Modal />}</>
       <div
         style={{
-          lineHeight: "40px",
-          fontSize: "1.5rem",
-          fontFamily: "NotoSansKR-700",
-          marginBottom: "40px",
+          width: "100%",
+          margin: "30px auto",
+          pointerEvents: sessionStorage.getItem("new") ? "none" : "auto",
         }}
       >
-        간단한 로그인으로 <br /> 공모전 관련 자료를 자유롭게 찾아보세요
-      </div>
-
-      <Style.Container>
-        📚 공모전 수상작을 포함한 참가 작품들을 자유롭게 열람
-      </Style.Container>
-      <Style.Container>
-        💡참가작 공유를 통한 다양한 피드백 및 코멘트 수령
-      </Style.Container>
-
-      <Style.Wrapper>
-        <span
+        <div
           style={{
-            fontSize: "0.8rem",
+            lineHeight: "40px",
+            fontSize: "1.5rem",
+            fontFamily: "NotoSansKR-700",
+            marginBottom: "40px",
           }}
         >
-          카카오 계정으로 3초만에 가입하기
-        </span>
-        <a href={KAKAO_AUTH_URL}>
-          <img src={kakao_login} alt="kakaologin" />
-        </a>
-      </Style.Wrapper>
-    </div>
+          간단한 로그인으로 <br /> 공모전 관련 자료를 자유롭게 찾아보세요
+        </div>
+
+        <Style.Container>
+          📚 공모전 수상작을 포함한 참가 작품들을 자유롭게 열람
+        </Style.Container>
+        <Style.Container>
+          💡참가작 공유를 통한 다양한 피드백 및 코멘트 수령
+        </Style.Container>
+
+        <Style.Wrapper>
+          <span
+            style={{
+              fontSize: "0.8rem",
+            }}
+          >
+            카카오 계정으로 3초만에 가입하기
+          </span>
+          <a href={KAKAO_AUTH_URL}>
+            <img src={kakao_login} alt="kakaologin" />
+          </a>
+        </Style.Wrapper>
+      </div>
+    </>
   );
 }
 
