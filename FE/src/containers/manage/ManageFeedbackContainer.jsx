@@ -13,7 +13,7 @@ function ManageFeedbackContainer(){
     const FeedBackPage = 작품.map((data, i)=>{
         console.log(i);
         return(
-            <div style={{padding:"20px",top:`${(i+1) * topValue}%`}}>
+            <div key = 'i' style={{padding:"20px",top:`${(i+1) * topValue}%`}}>
                 <img src={imgCommentPagTest} className={styles.image} style={{top:`${(i+1) * topValue}%`}}/>
                 <button className={styles.button} style={{top:`${((i+1) * topValue)+17}%`}}>작품물 뷰어 보기</button>
                 <div className={styles.FeedBackBox} style={{top:`${(i+1) * topValue}%`}}/>

@@ -113,6 +113,7 @@ function Modal({ modalOpen }) {
         localStorage.removeItem("nickname");
         localStorage.removeItem("image");
         localStorage.removeItem("id");
+        sessionStorage.removeItem("new");
       })
       .catch((err) => {
         console.log(err);
