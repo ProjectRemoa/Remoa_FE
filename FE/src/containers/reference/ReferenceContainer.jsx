@@ -77,13 +77,13 @@ function ReferenceContainer() {
         {(window.location.pathname=='/ref/marketing')?<Style.PageStyle>광고/마케팅</Style.PageStyle>:"광고/마케팅"}
       </Style.Sort>
       <Style.Sort onClick={videoOnClick}>
-        {(window.location.pathname=='/ref/video')?<Style.PageStyle>영상</Style.PageStyle>:"영상"}
+        {(window.location.pathname=='/ref/video')?<Style.PageStyle>모두</Style.PageStyle>:"모두"}
       </Style.Sort>
       <Style.Sort onClick={designOnClick}>
         {(window.location.pathname=='/ref/design')?<Style.PageStyle>디자인</Style.PageStyle>:"디자인"}
       </Style.Sort>
       <Style.Sort onClick={etcOnClick}>
-      {(window.location.pathname=='/ref/etc')?<Style.PageStyle>기타 아이디어</Style.PageStyle>:"기타 아이디어"}
+      {(window.location.pathname=='/ref/etc')?<Style.PageStyle>기타</Style.PageStyle>:"기타"}
       </Style.Sort>
     </Style.UnderHeader>
     <RefSearch />

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import "./ManageShareContainer.scss";
 
@@ -53,6 +54,7 @@ function ManageShareContainer() {
 
   const [buttonColor, setButtonColor] = useState(false);
 
+  const navigate = useNavigate();
   /* 작품명 */
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -242,7 +244,8 @@ function ManageShareContainer() {
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
-          alert("성공");
+          alert("정상 등록되었습니다.");
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -408,7 +411,7 @@ function ManageShareContainer() {
                   ref={fileThumbnail}
                   onChange={handleFileChange_}
                   style={{ display: "none" }}
-                  accept=".jpeg, .png"
+                  accept=".jpeg, .png, .jpg"
                 />
               </td>
             </tr>
@@ -465,7 +468,7 @@ function ManageShareContainer() {
                   ref={fileInput}
                   onChange={handleFileChange}
                   style={{ display: "none" }}
-                  accept=".pdf, .ppt, .jpeg, .png, .mp4, .wav"
+                  accept=".pdf, .jpg, .jpeg, .png, .mp4, .wav"
                   multiple="multiple"
                 />
               </td>

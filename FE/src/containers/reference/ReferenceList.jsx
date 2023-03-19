@@ -38,6 +38,9 @@ const RefList = (props) => {
   /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
   let [data, setData] = useState([]);
   let [name, setName] = useState('');
+  let [sort, setSort] = useState('newest');
+  let [page, setPage] = useState(1);
+  let [category, setCatgory] = useState('etc')
   
   let users = getUserInfo()
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
@@ -45,17 +48,18 @@ const RefList = (props) => {
 
 
   useEffect(()=>{
-    axios.get(`/BE/reference?name=${props.name}`)
+    axios.get(`/BE/reference?page=${page}&sort=${sort}&category=${props.kind}`)
     .then((res)=>{
-        setData(res.data.data)
+        setData(res.data.data.references)
         console.log(res.data.data)
     })
     .catch((res)=>{
         console.log("error")
     })
     
+    setCatgory(props.kind)
     setName(props.name)
-  },[props.name])
+  },[props.name, sort, props.kind])
 
   useEffect(()=>{
     data=data.filter((d) =>
@@ -63,30 +67,9 @@ const RefList = (props) => {
   )
   },[data])
   const onClickDate = () => {
-    data.sort((a,b) => {
-      if(a.resgist_date < b.resgist_date) return 1;
-      else if (a.resgist_date > b.resgist_date) return -1;
-      else {
-        if (a.contest_name < b.contest_name) return -1;
-        else if (a.contest_name > b.contest_name) return 1;
-        else return 0;
-      }
-    })
-    setData(data);
-    // let i = 0
-    // let n = []
-
-    // while (i < data.length) {
-    //   let j = 0
-    //   while (j < user.length) {
-    //     if (data[i].id==user[j].id) {
-    //       n.push(user[j])
-    //     }
-    //     j++
-    //   }
-    //   i++  
-    // }
-    // console.log(user)
+    /*이부분에 axios*/
+    setSort('newest')
+    
     document.getElementById("b1").style.backgroundColor="#FADA5E"
     document.getElementById("b2").style.backgroundColor="white"
     document.getElementById("b3").style.backgroundColor="white"
@@ -95,17 +78,8 @@ const RefList = (props) => {
 
   
   const onClickHits = () => {
-    data.sort((a,b) => {
-      if(a.hits < b.hits) return 1;
-      else if (a.hits > b.hits) return -1;
-      else {
-        if (a.contest_name < b.contest_name) return -1;
-        else if (a.contest_name > b.contest_name) return 1;
-        else return 0;
-      }
-      
-    })
-    setData(data);
+    /*이부분에 axios*/
+    setSort('like')
 
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="#FADA5E"
@@ -114,16 +88,8 @@ const RefList = (props) => {
   }
   
   const onClickThumbs = () => {
-    data.sort((a,b) => {
-      if(a.thumbs < b.thumbs) return 1;
-      else if (a.thumbs > b.thumbs) return -1;
-      else {
-        if (a.contest_name < b.contest_name) return -1;
-        else if (a.contest_name > b.contest_name) return 1;
-        else return 0;
-      }
-    })
-    setData(data);
+    /*이부분에 axios*/
+    setSort('view')
 
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="white"
@@ -132,16 +98,8 @@ const RefList = (props) => {
   }
   
   const onClickScrap = () => {
-    data.sort((a,b) => {
-      if(a.scrap < b.scrap) return 1;
-      else if (a.scrap > b.scrap) return -1;
-      else {
-        if (a.contest_name < b.contest_name) return -1;
-        else if (a.contest_name > b.contest_name) return 1;
-        else return 0;
-      }
-    })
-    setData(data);
+    
+    setSort('scrap')
 
     document.getElementById("b1").style.backgroundColor="white"
     document.getElementById("b2").style.backgroundColor="white"
@@ -201,7 +159,7 @@ const RefList = (props) => {
       Lo.includes("design") ? `/ref/design/${idea.postId}` :
       Lo.includes("etc") ? `/ref/etc/${idea.postId}` :`/${idea.postId}`}>
       <Style.ContestImgCrop onClick={() => onModalHandler2(idea.postId)}>
-        <Style.ContestImg src = {idea.thumbnail} alt = '1' />
+        <Style.ContestImg src = {idea.postThumbnail} alt = '1' />
       </Style.ContestImgCrop>
       </Link>
       <RefModal id2={idea.postId} modalVisibleId2={modalVisibleId2} setModalVisibleId2={setModalVisibleId2} idea={idea} />
