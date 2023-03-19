@@ -62,7 +62,6 @@ export const Style = {
     }
   `,
   ProfileInfo:styled.div`
-    background-color: aqua;
     position: relative;
     width: 19.5vw;
     height:6.8vw;
