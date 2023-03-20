@@ -42,7 +42,7 @@ function ManageList(props) {
   let tpe = props.TPE;
   let tp = props.TP;
 
-  let profileImage = data[0].postMember.profileImage;
+  //let profileImage = data[0].postMember.profileImage;
   let memberId = data[0].postMember.memberId;
   let nickname = data[0].postMember.nickname;
 
@@ -99,7 +99,7 @@ function ManageList(props) {
           <Style.ProfileInfo>
             {/*유저 프로필 사진*/}
             <Style.ProfileSize
-              src={profileImage}
+              src={require("../../images/imgAnotherProfile.png")}
               alt={memberId}
               onMouseEnter={() => {
                 onModalHandler(mywork.postId);

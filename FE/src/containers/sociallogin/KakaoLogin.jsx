@@ -31,9 +31,13 @@ function KakaoLogin() {
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
-          // data: "김효빈"
-          // detail: "정상 처리~"
-          // message: "올바른 요청"
+          /*  data: 
+            email: "rkddkwl1375@daum.net"
+            kakaoId: 2649301685
+            nickname: "유저-213504"
+            profileImage: "https://remoa.s3.ap-northeast-2.amazonaws.com/img/profile_img.png"
+            termConsent: true
+          */
           localStorage.setItem("nickname", res.data.data);
           alert("환영합니다! " + localStorage.getItem("nickname") + "님!");
           navigate("/");

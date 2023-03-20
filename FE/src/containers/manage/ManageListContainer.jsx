@@ -16,40 +16,11 @@ function ManageListContainer() {
 
   const navigate = useNavigate();
 
-  const onChangeCategory = (e) => {
-    setCategoryName(e.target.value);
-  };
-
-  const getWork = () => {
-    console.log("========");
-    axios
-      .get(
-        //"/BE/user/reference"
-        `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`
-      )
-      .then((res) => {
-        console.log(
-          "options in getWork() : " +
-            pageNumber +
-            "," +
-            sortOption +
-            "," +
-            categoryName
-        );
-        console.log(res);
-        setMywork([...res.data.data.references]);
-        setTotalOfAllReferences(res.data.data.totalOfAllReferences);
-        setTotalOfPageElements(res.data.data.totalOfPageElements);
-        setTotalPages(res.data.data.totalPages);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   useEffect(() => {
     // 화면이 처음 뜰 때 렌더링
-    getWork();
+    const endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+
+    getWork(endpoint);
   }, []);
 
   useEffect(() => {
@@ -57,6 +28,34 @@ function ManageListContainer() {
     setCategoryName((categoryName) => categoryName);
     getWork();
   }, [categoryName]);
+
+  const onChangeCategory = (e) => {
+    setCategoryName(e.target.value);
+  };
+
+  const getWork = (endpoint) => {
+    console.log("========");
+    axios
+      .get(endpoint)
+      .then((res) => {
+        console.log(res);
+        setMywork([...res.data.data.references]);
+        setTotalOfAllReferences(res.data.data.totalOfAllReferences);
+        setTotalOfPageElements(res.data.data.totalOfPageElements);
+        setTotalPages(res.data.data.totalPages);
+        setPageNumber(res.data.data.totalOfPageElements);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const loadMoreItems = () => {
+    const endpoint = `/BE/user/reference?page=${
+      pageNumber + 1
+    }&sort=${sortOption}&category=${categoryName}`;
+    getWork(endpoint);
+  };
 
   return (
     <div className="ManageListContainer">
@@ -138,12 +137,15 @@ function ManageListContainer() {
             </span>
           </div>
         ) : (
-          <ManageList
-            data={mywork}
-            TAR={totalOfAllReferences}
-            TPE={totalOfPageElements}
-            TP={totalPages}
-          />
+          <>
+            <ManageList
+              data={mywork}
+              TAR={totalOfAllReferences}
+              TPE={totalOfPageElements}
+              TP={totalPages}
+            />
+            <button onClick={loadMoreItems}>Load More</button>
+          </>
         )}
       </div>
     </div>

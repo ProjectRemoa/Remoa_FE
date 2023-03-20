@@ -49,6 +49,7 @@ function ManageShareContainer() {
   const [compRes, setCompRes] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [category, setCategory] = useState("");
+  const [youtubeLink, setYoutubeLink] = useState("");
   const [uploads, setUploads] = useState([]);
 
   const [buttonColor, setButtonColor] = useState(false);
@@ -72,6 +73,10 @@ function ManageShareContainer() {
   /* 카테고리 */
   const onChangeCategory = (e) => {
     setCategory(e.target.value);
+  };
+
+  const onChangeYoutubeLink = (e) => {
+    setYoutubeLink(e.target.value);
   };
 
   /* 표지사진 */
@@ -190,19 +195,36 @@ function ManageShareContainer() {
   /* 검사 */
   useEffect(() => {
     // 하나라도 비어있으면 버튼이 클릭되지 않게
-    if (
-      name.length > 0 &&
-      comp.length > 0 &&
-      compRes.length > 0 &&
-      category.length > 0 &&
-      thumbnail !== null &&
-      uploads.length > 0
-    ) {
-      setButtonColor(true);
-    } else {
-      setButtonColor(false);
+    if (category === "video") {
+      // 영상을 클릭했다면 유튜브 링크도 첨부해야함
+      if (
+        name.length > 0 &&
+        comp.length > 0 &&
+        compRes.length > 0 &&
+        category.length > 0 &&
+        thumbnail !== null &&
+        uploads.length > 0 &&
+        youtubeLink.length > 0
+      ) {
+        setButtonColor(true);
+      } else {
+        setButtonColor(false);
+      }
+    } else if (category !== "video") {
+      if (
+        name.length > 0 &&
+        comp.length > 0 &&
+        compRes.length > 0 &&
+        category.length > 0 &&
+        thumbnail !== null &&
+        uploads.length > 0
+      ) {
+        setButtonColor(true);
+      } else {
+        setButtonColor(false);
+      }
     }
-  }, [name, comp, compRes, category, uploads, thumbnail]);
+  }, [name, comp, compRes, category, uploads, thumbnail, youtubeLink]);
 
   /* 등록하기 */
   const onClickRegister = () => {
@@ -214,6 +236,7 @@ function ManageShareContainer() {
       contestName: comp,
       category: category,
       contestAwardType: compRes,
+      // youtubeLink: youtubeLink
     };
     console.log(UploadPostForm);
     console.log(thumbnail);
@@ -341,7 +364,7 @@ function ManageShareContainer() {
                       id="radio-3"
                       type="radio"
                       name="category"
-                      value="design"
+                      value="video"
                       onChange={onChangeCategory}
                     />
                     <label htmlFor="radio-3">영상</label>
@@ -353,7 +376,7 @@ function ManageShareContainer() {
                       id="radio-4"
                       type="radio"
                       name="category"
-                      value="video"
+                      value="design"
                       onChange={onChangeCategory}
                     />
                     <label htmlFor="radio-4">디자인/사진</label>
@@ -371,6 +394,24 @@ function ManageShareContainer() {
                 </div>
               </td>
             </tr>
+            {/* 유튜브 링크 */}
+            {category === "video" && (
+              <tr>
+                <th className="th">
+                  <label>유튜브 링크</label>
+                </th>
+                <td className="td">
+                  <input
+                    required
+                    type="text"
+                    className="input"
+                    placeholder="영상 작업물 업로드 시 유튜브 링크를 업로드 해주세요."
+                    onChange={onChangeYoutubeLink}
+                  />
+                </td>
+              </tr>
+            )}
+
             {/* 표지사진 */}
             <tr>
               <th className="th">
