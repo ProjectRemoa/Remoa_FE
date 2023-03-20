@@ -21,10 +21,10 @@ function KakaoLogin() {
         if (res.status === 201) {
           // 201 : 회원가입
           // 객체로 만들려고 했으나.. 처리가 불편한 관계로 따로 설정했음
-          localStorage.setItem("email", res.data.data.email);
-          localStorage.setItem("id", res.data.data.id);
-          localStorage.setItem("image", res.data.data.image);
-          localStorage.setItem("nickname", res.data.data.nickname);
+          sessionStorage.setItem("email", res.data.data.email);
+          sessionStorage.setItem("id", res.data.data.id);
+          sessionStorage.setItem("image", res.data.data.image);
+          sessionStorage.setItem("nickname", res.data.data.nickname);
 
           // 회원가입하는 회원이면 modal창을 켜야함
           sessionStorage.setItem("new", true);
@@ -38,8 +38,8 @@ function KakaoLogin() {
             profileImage: "https://remoa.s3.ap-northeast-2.amazonaws.com/img/profile_img.png"
             termConsent: true
           */
-          localStorage.setItem("nickname", res.data.data);
-          alert("환영합니다! " + localStorage.getItem("nickname") + "님!");
+          sessionStorage.setItem("nickname", res.data.data);
+          alert("환영합니다! " + sessionStorage.getItem("nickname") + "님!");
           navigate("/");
         }
       })

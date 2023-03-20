@@ -95,10 +95,10 @@ function Modal({ modalOpen }) {
     }
 
     const KakaoSignupForm = {
-      kakaoId: localStorage.getItem("id"),
-      email: localStorage.getItem("email"),
-      nickname: localStorage.getItem("nickname"),
-      profileImage: localStorage.getItem("image"),
+      kakaoId: sessionStorage.getItem("id"),
+      email: sessionStorage.getItem("email"),
+      nickname: sessionStorage.getItem("nickname"),
+      profileImage: sessionStorage.getItem("image"),
       termConsent: termConsent,
     };
 
@@ -108,11 +108,11 @@ function Modal({ modalOpen }) {
       .then((res) => {
         console.log(res);
         // userInfo 보냈으면 sessionStorage에 있는 것들 id빼고 다 지우기
-        alert("환영합니다, " + localStorage.getItem("nickname") + "님!"); // 한글 깨짐 문제 존재
-        localStorage.removeItem("email");
-        localStorage.removeItem("nickname");
-        localStorage.removeItem("image");
-        localStorage.removeItem("id");
+        alert("환영합니다, " + sessionStorage.getItem("nickname") + "님!"); // 한글 깨짐 문제 존재
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("nickname");
+        sessionStorage.removeItem("image");
+        sessionStorage.removeItem("id");
         // 수정부분
         sessionStorage.removeItem("new");
       })
