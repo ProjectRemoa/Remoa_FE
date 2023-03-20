@@ -73,7 +73,7 @@ function ManageList(props) {
   let Lo = window.location.href;
 
   return (
-    <Style.ContestList>
+    <div>
       {data.map((mywork, index) => (
         <Style.ContestItem key={mywork.postId}>
           <Style.ContestImgCrop onClick={() => onModalHandler2(mywork.postId)}>
@@ -133,7 +133,7 @@ function ManageList(props) {
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
-    </Style.ContestList>
+    </div>
   );
 }
 
