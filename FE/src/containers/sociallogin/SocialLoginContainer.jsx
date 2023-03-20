@@ -34,7 +34,7 @@ function SocialLoginContainer() {
   const navigate = useNavigate();
 
   const isNotLogin = () => {
-    alert("이미 로그인 되어.");
+    alert("이미 로그인 되어있습니다.");
     navigate("/");
   };
   /*const showModal = (e) => {
@@ -43,7 +43,10 @@ function SocialLoginContainer() {
 
   useEffect(() => {
     // 수정 부분
-    if (localStorage.getItem("nickname") != null && sessionStorage.getItem("new") == false) {
+    if (
+      localStorage.getItem("nickname") != null &&
+      sessionStorage.getItem("new") === null
+    ) {
       console.log(localStorage.getItem("nickname"));
       isNotLogin();
     }

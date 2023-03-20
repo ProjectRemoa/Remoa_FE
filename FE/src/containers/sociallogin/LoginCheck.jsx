@@ -69,7 +69,7 @@ function LoginCheck() {
     //cookies.remove("JSESSIONID", { path: "/" });
     //localStorage.removeItem("id");
     localStorage.removeItem("nickname");
-    localStorage.removeItem("new");
+    sessionStorage.removeItem("new");
     setIsLogin(false);
     navigate("/");
   };
