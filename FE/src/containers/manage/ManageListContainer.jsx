@@ -149,7 +149,11 @@ function ManageListContainer() {
               TPE={totalOfPageElements}
               TP={totalPages}
             />
-            <button onClick={loadMoreItems}>더 보기</button>
+            <div>
+              <button className="button" onClick={loadMoreItems}>
+                더 보기
+              </button>
+            </div>
           </>
         )}
       </div>

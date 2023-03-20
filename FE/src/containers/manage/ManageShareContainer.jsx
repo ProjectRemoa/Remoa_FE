@@ -236,7 +236,7 @@ function ManageShareContainer() {
       contestName: comp,
       category: category,
       contestAwardType: compRes,
-      // youtubeLink: youtubeLink
+      youtubeLink: youtubeLink,
     };
     console.log(UploadPostForm);
     console.log(thumbnail);
