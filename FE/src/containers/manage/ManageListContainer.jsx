@@ -18,6 +18,7 @@ function ManageListContainer() {
 
   useEffect(() => {
     // 화면이 처음 뜰 때 렌더링
+    console.log("화면 첫 렌더링");
     const endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
 
     getWork(endpoint);
@@ -25,16 +26,20 @@ function ManageListContainer() {
 
   useEffect(() => {
     // 카테고리를 바꿀 떄마다 렌더링
+    console.log("카테고리를 바꿀 때마다 렌더링");
     setCategoryName((categoryName) => categoryName);
-    getWork();
+    const endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+    getWork(endpoint);
   }, [categoryName]);
 
   const onChangeCategory = (e) => {
     setCategoryName(e.target.value);
+    setPageNumber(1); // 카테고리 바꾸면 페이지 1로 자동 렌더링
   };
 
   const getWork = (endpoint) => {
     console.log("========");
+    console.log(endpoint);
     axios
       .get(endpoint)
       .then((res) => {
@@ -144,7 +149,7 @@ function ManageListContainer() {
               TPE={totalOfPageElements}
               TP={totalPages}
             />
-            <button onClick={loadMoreItems}>Load More</button>
+            <button onClick={loadMoreItems}>더 보기</button>
           </>
         )}
       </div>
