@@ -97,7 +97,7 @@ function ManageListContainer() {
       .get(endpoint)
       .then((res) => {
         console.log(res);
-        setMywork([...res.data.data.references]);
+        setMywork(...[res.data.data.references]); // 이어서 받으려면
         setTotalOfAllReferences(res.data.data.totalOfAllReferences);
         setTotalOfPageElements(res.data.data.totalOfPageElements);
         setTotalPages(res.data.data.totalPages);
@@ -114,7 +114,7 @@ function ManageListContainer() {
   };
 
   const onChangeColor = (e) => {
-    if (e === "newest") {
+    if (e === "newest" || e === "init") {
       document.getElementById("newest").style.backgroundColor = "#FADA5E";
       document.getElementById("view").style.backgroundColor = "white";
       document.getElementById("like").style.backgroundColor = "white";
