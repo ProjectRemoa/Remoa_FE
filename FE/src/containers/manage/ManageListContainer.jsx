@@ -25,79 +25,97 @@ const Line = styled.hr`
   margin: 0 auto;
 `;
 
-const Sort = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  width: 86px;
-  display: inline-block;
-  border: 0.5px solid #000000;
+const Category = styled.div`
+  width: 15.65%;
+  height: 43px;
+  border: 1px solid #b0b0b0;
   border-radius: 10px;
-  margin-right: 8px;
+  display: inline-block;
+
+  margin: 0 0.4% 0 0.4%; // 크기에 따라 margin 조절되게 설정
+  vertical-align: middle;
+  font-size: 80%;
   cursor: pointer;
-  :last-child {
-    margin-right: 0px;
-  }
-  :visited {
-    color: yellow;
-  }
 `;
 
 function ManageListContainer() {
   const [mywork, setMywork] = useState([]);
   const [totalOfAllReferences, setTotalOfAllReferences] = useState(0); // 전체 레퍼런스 수
   const [totalOfPageElements, setTotalOfPageElements] = useState(0); // 현재 페이지의 레퍼런스 수
-  const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
+  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
 
   const [pageNumber, setPageNumber] = useState(1);
   const [sortOption, setSortOption] = useState("newest");
   const [categoryName, setCategoryName] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [selectedSortIndex, setSekectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
 
   const navigate = useNavigate();
 
   useEffect(() => {
     // 화면이 처음 뜰 때 렌더링
     console.log("화면 첫 렌더링");
-    const endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint);
-    //onChangeColor("init");
+    const endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    getWork(endpoint, false);
   }, []);
 
   useEffect(() => {
     // 카테고리를 바꿀 떄마다 렌더링
     console.log("카테고리를 바꿀 때마다 렌더링");
     setCategoryName((categoryName) => categoryName);
-    const endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint);
+    setPageNumber(1); // 카테고리 바꾸면 페이지 1로 자동 렌더링
+    setSortOption("newest");
+    setTotalPages(1);
+    setCurrentPage(1);
+    const endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    getWork(endpoint, false);
   }, [categoryName]);
 
   useEffect(() => {
     // 정렬순을 바꿀 때마다 렌더링
     console.log("정렬순을 바꿀 때마다 렌더링");
-    const endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint);
+    setPageNumber(1); // 카테고리 바꾸면 페이지 1로 자동 렌더링
+    setTotalPages(1);
+    setCurrentPage(1);
+    const endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    getWork(endpoint, false);
   }, [sortOption]);
 
-  const onChangeCategory = (e) => {
-    setCategoryName(e.target.value);
-    setPageNumber(1); // 카테고리 바꾸면 페이지 1로 자동 렌더링
-    setSortOption("newest");
-    onChangeColor("init"); // 카테고리 바꿀 때마다 색 초기화화
+  useEffect(() => {
+    setTotalPages((totalPages) => totalPages);
+  }, [totalPages]);
+
+  const onChangeCategory = (category) => {
+    setCategoryName(category);
   };
 
-  const onChangeSort = (e) => {
-    onChangeColor(e.target.id);
-    setSortOption(e.target.id); // 정렬 바꾸면 페이지 1로 자동 렌더링
+  const handleSortClick = (index) => {
+    setSekectedSortIndex(index);
+    if (index === 0) {
+      setSortOption("newest");
+    } else if (index === 1) {
+      setSortOption("like");
+    } else if (index === 2) {
+      setSortOption("view");
+    } else {
+      setSortOption("scrap");
+    }
     setPageNumber(1);
   };
 
-  const getWork = (endpoint) => {
+  const getWork = (endpoint, isLoad) => {
     console.log("========");
     console.log(endpoint);
     axios
       .get(endpoint)
       .then((res) => {
         console.log(res);
-        setMywork(...[res.data.data.references]); // 이어서 받으려면
+        if (isLoad === true)
+          // 이어서 받으려면
+          setMywork([...mywork, ...res.data.data.references]);
+        // 카테고리를 바꾸거나 정렬순을 바꾸거나
+        else setMywork(...[res.data.data.references]);
         setTotalOfAllReferences(res.data.data.totalOfAllReferences);
         setTotalOfPageElements(res.data.data.totalOfPageElements);
         setTotalPages(res.data.data.totalPages);
@@ -106,35 +124,17 @@ function ManageListContainer() {
       .catch((err) => {
         console.log(err);
       });
+
+    console.log(
+      "pageNumber : " + pageNumber + ", totalPages : " + totalPages,
+      ", currentPage : " + currentPage
+    );
   };
 
   const loadMoreItems = () => {
+    setCurrentPage(currentPage + 1);
     const endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint);
-  };
-
-  const onChangeColor = (e) => {
-    if (e === "newest" || e === "init") {
-      document.getElementById("newest").style.backgroundColor = "#FADA5E";
-      document.getElementById("view").style.backgroundColor = "white";
-      document.getElementById("like").style.backgroundColor = "white";
-      document.getElementById("scrap").style.backgroundColor = "white";
-    } else if (e === "view") {
-      document.getElementById("newest").style.backgroundColor = "white";
-      document.getElementById("view").style.backgroundColor = "#FADA5E";
-      document.getElementById("like").style.backgroundColor = "white";
-      document.getElementById("scrap").style.backgroundColor = "white";
-    } else if (e === "like") {
-      document.getElementById("newest").style.backgroundColor = "white";
-      document.getElementById("view").style.backgroundColor = "white";
-      document.getElementById("like").style.backgroundColor = "#FADA5E";
-      document.getElementById("scrap").style.backgroundColor = "white";
-    } else {
-      document.getElementById("newest").style.backgroundColor = "white";
-      document.getElementById("view").style.backgroundColor = "white";
-      document.getElementById("like").style.backgroundColor = "white";
-      document.getElementById("scrap").style.backgroundColor = "#FADA5E";
-    }
+    getWork(endpoint, true);
   };
 
   return (
@@ -149,67 +149,107 @@ function ManageListContainer() {
       >
         내 작업물 목록
       </div>
-      <div align="center" style={{ paddingBottom: "30px" }}>
-        <div className="form_radio_btn" style={{ float: "left" }}>
-          <input
-            id="radio-1"
-            type="radio"
-            name="category"
-            value="all"
-            onChange={onChangeCategory}
-          />
-          <label htmlFor="radio-1">전체</label>
-        </div>
-        <div className="form_radio_btn" style={{ float: "left" }}>
-          <input
-            id="radio-2"
-            type="radio"
-            name="category"
-            value="idea"
-            onChange={onChangeCategory}
-          />
-          <label htmlFor="radio-2">기획/아이디어</label>
-        </div>
-        <div className="form_radio_btn" style={{ float: "left" }}>
-          <input
-            id="radio-3"
-            type="radio"
-            name="category"
-            value="marketing"
-            onChange={onChangeCategory}
-          />
-          <label htmlFor="radio-3">광고/마케팅</label>
-        </div>
-        <div className="form_radio_btn" style={{ float: "left" }}>
-          <input
-            id="radio-4"
-            type="radio"
-            name="category"
-            value="video"
-            onChange={onChangeCategory}
-          />
-          <label htmlFor="radio-4">영상</label>
-        </div>
-        <div className="form_radio_btn" style={{ float: "left" }}>
-          <input
-            id="radio-5"
-            type="radio"
-            name="category"
-            value="design"
-            onChange={onChangeCategory}
-          />
-          <label htmlFor="radio-5">디자인/사진</label>
-        </div>
-        <div className="form_radio_btn" style={{ float: "left" }}>
-          <input
-            id="radio-6"
-            type="radio"
-            name="category"
-            value="etc"
-            onChange={onChangeCategory}
-          />
-          <label htmlFor="radio-6">기타 아이디어</label>
-        </div>
+      <div
+        align="center"
+        style={{
+          paddingBottom: "30px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Category
+          state="all"
+          onClick={() => onChangeCategory("all")}
+          style={{
+            backgroundColor: categoryName === "all" ? "#fada5e" : "#f9fafc",
+            boxShadow:
+              categoryName === "all"
+                ? "none"
+                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            color: categoryName === "all" ? "white" : "#B0B0B0",
+          }}
+        >
+          <span style={{ display: "inline-block", marginTop: "10px" }}>
+            전체
+          </span>
+        </Category>
+        <Category
+          onClick={() => onChangeCategory("idea")}
+          style={{
+            backgroundColor: categoryName === "idea" ? "#fada5e" : "#f9fafc",
+            boxShadow:
+              categoryName === "idea"
+                ? "none"
+                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            color: categoryName === "idea" ? "white" : "#B0B0B0",
+          }}
+        >
+          <span style={{ display: "inline-block", marginTop: "10px" }}>
+            기획/아이디어
+          </span>
+        </Category>
+        <Category
+          onClick={() => onChangeCategory("marketing")}
+          style={{
+            backgroundColor:
+              categoryName === "marketing" ? "#fada5e" : "#f9fafc",
+            boxShadow:
+              categoryName === "marketing"
+                ? "none"
+                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            color: categoryName === "marketing" ? "white" : "#B0B0B0",
+          }}
+        >
+          <span style={{ display: "inline-block", marginTop: "10px" }}>
+            광고/마케팅
+          </span>
+        </Category>
+        <Category
+          onClick={() => onChangeCategory("video")}
+          style={{
+            backgroundColor: categoryName === "video" ? "#fada5e" : "#f9fafc",
+            boxShadow:
+              categoryName === "video"
+                ? "none"
+                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            color: categoryName === "video" ? "white" : "#B0B0B0",
+          }}
+        >
+          <span style={{ display: "inline-block", marginTop: "10px" }}>
+            영상
+          </span>
+        </Category>
+        <Category
+          onClick={() => onChangeCategory("design")}
+          style={{
+            backgroundColor: categoryName === "design" ? "#fada5e" : "#f9fafc",
+            boxShadow:
+              categoryName === "design"
+                ? "none"
+                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            color: categoryName === "design" ? "white" : "#B0B0B0",
+          }}
+        >
+          <span style={{ display: "inline-block", marginTop: "10px" }}>
+            디자인/사진
+          </span>
+        </Category>
+        <Category
+          onClick={() => onChangeCategory("etc")}
+          style={{
+            backgroundColor: categoryName === "etc" ? "#fada5e" : "#f9fafc",
+            boxShadow:
+              categoryName === "etc"
+                ? "none"
+                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            color: categoryName === "etc" ? "white" : "#B0B0B0",
+          }}
+        >
+          <span style={{ display: "inline-block", marginTop: "10px" }}>
+            기타 아이디어
+          </span>
+        </Category>
       </div>
 
       <div>
@@ -226,17 +266,42 @@ function ManageListContainer() {
           </div>
         ) : (
           <div>
+            {/* 정렬순 */}
             <div style={{ float: "right", margin: "5px 10px 15px 0px" }}>
-              <Style.Sort onClick={onChangeSort} id="newest">
+              <Style.Sort
+                onClick={() => handleSortClick(0)}
+                style={{
+                  backgroundColor:
+                    selectedSortIndex === 0 ? "#FADA5E" : "white",
+                }}
+              >
                 최신순
               </Style.Sort>
-              <Style.Sort onClick={onChangeSort} id="view">
+              <Style.Sort
+                onClick={() => handleSortClick(1)}
+                style={{
+                  backgroundColor:
+                    selectedSortIndex === 1 ? "#FADA5E" : "white",
+                }}
+              >
                 조회수순
               </Style.Sort>
-              <Style.Sort onClick={onChangeSort} id="like">
+              <Style.Sort
+                onClick={() => handleSortClick(2)}
+                style={{
+                  backgroundColor:
+                    selectedSortIndex === 2 ? "#FADA5E" : "white",
+                }}
+              >
                 좋아요순
               </Style.Sort>
-              <Style.Sort onClick={onChangeSort} id="scrap">
+              <Style.Sort
+                onClick={() => handleSortClick(3)}
+                style={{
+                  backgroundColor:
+                    selectedSortIndex === 3 ? "#FADA5E" : "white",
+                }}
+              >
                 스크랩순
               </Style.Sort>
             </div>
@@ -252,7 +317,8 @@ function ManageListContainer() {
                 margin: "0 auto",
               }}
             >
-              {totalPages > 1 && (
+              <Line />
+              {currentPage !== totalPages && (
                 <div style={{ width: "100%" }}>
                   <Button onClick={loadMoreItems}>더 보기</Button>
                 </div>
