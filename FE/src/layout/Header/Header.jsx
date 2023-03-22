@@ -172,7 +172,7 @@ const Header = () => {
 
   const logoutOnClick = () => {
     axios.defaults.withCredentials = true;
-    // 404 error 발생..
+    // 404 error 발생
     axios
       .post(`/user/logout`, {
         withCredentials: true,
