@@ -7,16 +7,18 @@ import styled from "styled-components";
 import { Style } from "../../layout/ReferenceListStyle";
 
 const Button = styled.button`
-  width: 30%;
+  width: 12%;
   height: 40px;
   margin: 0 auto;
   border-radius: 10px;
+  border: 1px solid #b0b0b0;
   box-shadow: none;
-  color: black;
+  color: #464646;
+  font-size: 78%;
 
   cursor: pointer;
   background: #fada5e;
-  border: none;
+  font-family: NotoSansKR-700;
 `;
 
 const Line = styled.hr`
@@ -54,33 +56,11 @@ function ManageListContainer() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 화면이 처음 뜰 때 렌더링
-    console.log("화면 첫 렌더링");
+    // 카테고리, 정렬을 바꿀 떄마다 렌더링
+    console.log("카테고리, 또는 정렬을 바꿀 때마다 렌더링");
     const endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
     getWork(endpoint, false);
-  }, []);
-
-  useEffect(() => {
-    // 카테고리를 바꿀 떄마다 렌더링
-    console.log("카테고리를 바꿀 때마다 렌더링");
-    setCategoryName((categoryName) => categoryName);
-    setPageNumber(1); // 카테고리 바꾸면 페이지 1로 자동 렌더링
-    setSortOption("newest");
-    setTotalPages(1);
-    setCurrentPage(1);
-    const endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint, false);
-  }, [categoryName]);
-
-  useEffect(() => {
-    // 정렬순을 바꿀 때마다 렌더링
-    console.log("정렬순을 바꿀 때마다 렌더링");
-    setPageNumber(1); // 카테고리 바꾸면 페이지 1로 자동 렌더링
-    setTotalPages(1);
-    setCurrentPage(1);
-    const endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint, false);
-  }, [sortOption]);
+  }, [categoryName, sortOption]);
 
   useEffect(() => {
     setTotalPages((totalPages) => totalPages);
@@ -88,6 +68,11 @@ function ManageListContainer() {
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
+    setSekectedSortIndex(0);
+    setPageNumber(1);
+    setTotalPages(1);
+    setCurrentPage(1);
+    setSortOption("newest");
   };
 
   const handleSortClick = (index) => {
@@ -95,13 +80,15 @@ function ManageListContainer() {
     if (index === 0) {
       setSortOption("newest");
     } else if (index === 1) {
-      setSortOption("like");
-    } else if (index === 2) {
       setSortOption("view");
+    } else if (index === 2) {
+      setSortOption("like");
     } else {
       setSortOption("scrap");
     }
     setPageNumber(1);
+    setTotalPages(1);
+    setCurrentPage(1);
   };
 
   const getWork = (endpoint, isLoad) => {
@@ -119,7 +106,7 @@ function ManageListContainer() {
         setTotalOfAllReferences(res.data.data.totalOfAllReferences);
         setTotalOfPageElements(res.data.data.totalOfPageElements);
         setTotalPages(res.data.data.totalPages);
-        setPageNumber(res.data.data.totalPages);
+        setPageNumber(pageNumber + 1); // 다음 페이지를 렌더링 하기 위해
       })
       .catch((err) => {
         console.log(err);
@@ -147,7 +134,10 @@ function ManageListContainer() {
           fontSize: "1.8vw",
         }}
       >
-        내 작업물 목록
+        <span style={{ color: "#FADA5E" }}>
+          {sessionStorage.getItem("nickname")}
+        </span>
+        님의 내 작업물 목록
       </div>
       <div
         align="center"
@@ -320,7 +310,7 @@ function ManageListContainer() {
               <Line />
               {currentPage !== totalPages && (
                 <div style={{ width: "100%" }}>
-                  <Button onClick={loadMoreItems}>더 보기</Button>
+                  <Button onClick={loadMoreItems}>더 보기 &gt;</Button>
                 </div>
               )}
             </div>

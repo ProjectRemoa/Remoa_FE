@@ -267,7 +267,7 @@ function ManageShareContainer() {
         console.log(response);
         if (response.status === 200) {
           alert("정상 등록되었습니다.");
-          navigate("/");
+          navigate("/manage/list");
         }
       })
       .catch((err) => {

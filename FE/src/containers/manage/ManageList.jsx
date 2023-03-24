@@ -42,9 +42,9 @@ function ManageList(props) {
   let tpe = props.TPE;
   let tp = props.TP;
 
-  //let profileImage = data[0].postMember.profileImage;
   let memberId = data[0].postMember.memberId;
   let nickname = data[0].postMember.nickname;
+  let profileImage = data[0].postMember.profileImage;
 
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
@@ -70,7 +70,6 @@ function ManageList(props) {
       }
     }
   }
-  let Lo = window.location.href;
 
   return (
     <div>
@@ -99,7 +98,7 @@ function ManageList(props) {
           <Style.ProfileInfo>
             {/*유저 프로필 사진*/}
             <Style.ProfileSize
-              src={require("../../images/imgAnotherProfile.png")}
+              src={profileImage}
               alt={memberId}
               onMouseEnter={() => {
                 onModalHandler(mywork.postId);
@@ -118,8 +117,7 @@ function ManageList(props) {
               location={modalLocation(index + 1)}
               idea={mywork}
             />*/}
-
-            <Style.ProfileFont>{nickname}</Style.ProfileFont>
+            <Style.ProfileFont>{mywork.title}</Style.ProfileFont>
             <Style.ProfileInfoDetail>
               {/* 유저 hits, thumbs, scrap */}
               &nbsp;
