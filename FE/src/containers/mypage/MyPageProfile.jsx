@@ -67,7 +67,7 @@ const Style={
     ItemWrapper:styled.div`
         margin-top: 22px;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 28px;
     `,
     Question:styled.div`
@@ -139,7 +139,7 @@ function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
     const [previewImage, setPreviewImage] = useState(defaultImage);
-    const [idcheck, setIdcheck] = useState("");
+    const [idcheck, setIdcheck] = useState();
     const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const imgInput = useRef();
@@ -184,7 +184,12 @@ function MyPageProfile() {
         .get(`/BE/nickname?nickname=${nickname}`)
         .then((res) => {
         if (res.status === 200) {
-            setIdcheck(res.data.data);
+            console.log(res.data.data);
+            if (!res.data.data) {
+                setIdcheck(<div style={{color:'#FF0101', fontSize:'15px'}}>중복된 닉네임이 존재합니다.</div>);
+            } else {
+                setIdcheck(<div style={{color:'#0075FF', fontSize:'15px'}}>닉네임을 사용하실 수 있습니다.</div>);
+            } 
         }
         })
         .catch((err) => {
@@ -197,8 +202,13 @@ function MyPageProfile() {
         setIsOpenPopup(true);
     };
 
-    const closePopup = () => {
+    const closePopup = (university) => {
+        console.log("확인")
         setIsOpenPopup(false);
+        setInput({
+            ...input,
+            ['university']:university
+        });
     };
 
     const getProfileImg = () => {
@@ -227,7 +237,6 @@ function MyPageProfile() {
             }
         })
         .catch((err) => {
-            console.log("PUT : 사용자 정보를 변경하던 중 에러")
             console.error(err);
         });
 
@@ -241,11 +250,9 @@ function MyPageProfile() {
             }
           })
         .then(() => {
-            console.log("프로필 사진 put 완료")
             navigate("/");
         })
         .catch((err) => {
-            console.log("PUT : 프로필 사진을 변경하던 중 에러")
             console.error(err);
         });
     };
@@ -258,7 +265,6 @@ function MyPageProfile() {
             }
         })
         .catch((err) => {
-            console.log("GET : 사용자 정보를 가져오는 중 에러")
             console.log(err);
         });
     };
@@ -293,6 +299,11 @@ function MyPageProfile() {
                     style={{display: "none"}}
                     onChange={(e) => onChangeImg(e)}
                 ></input>
+                <Style.ProfileImageButton
+                    onClick={sendProfileImg}
+                >
+                    프로필 사진 변경
+                </Style.ProfileImageButton>
             </form>
             
             <Style.HorizonLine/>
@@ -318,8 +329,8 @@ function MyPageProfile() {
                         type='button'
                         onClick={() => nicknameOverlapCheck(nickname)}
                     >중복 확인</Style.ItemButton>
+                    <div>{idcheck}</div>
                 </Style.ItemWrapper>
-                <div>{idcheck}</div>
                 <Style.ItemWrapper>
                     <Style.Question>휴대전화</Style.Question>
                     <Style.Answer 
@@ -331,7 +342,10 @@ function MyPageProfile() {
                 
                 <Style.ItemWrapper>
                     <Style.Question>재학 중 대학</Style.Question>
-                    <Style.University>{university}</Style.University>
+                    <Style.Answer
+                        placeholder={university}
+                        disabled
+                    ></Style.Answer>
                     <Style.ItemButton
                         type='button'
                         id='popupDom'
@@ -339,13 +353,13 @@ function MyPageProfile() {
                     >검색하기</Style.ItemButton>
                     {isOpenPopup &&
                         <PopupDom>
-                            <PopupContent onClose={closePopup}/>
+                            <PopupContent onClose={closePopup(university)}></PopupContent>
                         </PopupDom>
                     }
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{display: "flex"}}>
-                    <Style.Question style={{flex:1}}>한줄 소개</Style.Question>
+                    <Style.Question style={{flex:0.6}}>한줄 소개</Style.Question>
                     <Style.Answer 
                         placeholder={oneLineIntroduction}
                         name="oneLineIntroduction"
@@ -353,7 +367,7 @@ function MyPageProfile() {
                         style={{
                             width: "700px",
                             height: "90px",
-                            flex: 2.1
+                            flex: 2.7
                         }}
                     ></Style.Answer>
                 </Style.ItemWrapper>
