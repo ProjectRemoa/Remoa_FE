@@ -26,6 +26,12 @@ const Style={
         font-family: 'Inter';
         margin-top: 22px;
     `,
+    ImgBtnWrap:styled.form`
+        display: flex;
+        flex-direction: row;
+        width: 400px;
+        margin: 0 auto;
+    `,
     ProfileImageButton:styled.label`
         width: 177px;
         height: 46px;
@@ -71,6 +77,7 @@ const Style={
         gap: 28px;
     `,
     Question:styled.div`
+        width: 200px;
         font-size: 20px;
         font-weight: bold;
         font-family: 'Inter';
@@ -186,9 +193,9 @@ function MyPageProfile() {
         if (res.status === 200) {
             console.log(res.data.data);
             if (!res.data.data) {
-                setIdcheck(<div style={{color:'#FF0101', fontSize:'15px'}}>중복된 닉네임이 존재합니다.</div>);
+                setIdcheck(<div style={{width: '200px', color:'#FF0101', lineHeight: '42px', fontSize:'15px'}}>중복된 닉네임이 존재합니다.</div>);
             } else {
-                setIdcheck(<div style={{color:'#0075FF', fontSize:'15px'}}>닉네임을 사용하실 수 있습니다.</div>);
+                setIdcheck(<div style={{width: '200px', color:'#0075FF', lineHeight: '42px', fontSize:'15px'}}>닉네임을 사용하실 수 있습니다.</div>);
             } 
         }
         })
@@ -218,6 +225,17 @@ function MyPageProfile() {
         if (res.status === 200) {
             setProfileImage(res.data.data);
         }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
+
+    const deleteProfileImg = () => {
+        axios
+        .delete(`/BE/user/img`)
+        .then(() => {
+            console.log("프로필 이미지 삭제 완료");
         })
         .catch((err) => {
             console.log(err);
@@ -284,7 +302,7 @@ function MyPageProfile() {
                 님<br />오늘은 어떤 공모전에 참여하시나요?
             </Style.ProfileIntro>
 
-            <form>
+            <Style.ImgBtnWrap>
                 <Style.ProfileImageButton
                     onClick={sendProfileImg}
                 >
@@ -300,11 +318,11 @@ function MyPageProfile() {
                     onChange={(e) => onChangeImg(e)}
                 ></input>
                 <Style.ProfileImageButton
-                    onClick={sendProfileImg}
+                    onClick={deleteProfileImg}
                 >
-                    프로필 사진 변경
+                    기본 사진으로 변경
                 </Style.ProfileImageButton>
-            </form>
+            </Style.ImgBtnWrap>
             
             <Style.HorizonLine/>
             
@@ -352,20 +370,20 @@ function MyPageProfile() {
                         onClick={openPopup}
                     >검색하기</Style.ItemButton>
                     {isOpenPopup &&
-                        <PopupDom>
+                        <PopupDom isOpen={isOpenPopup}>
                             <PopupContent onClose={closePopup(university)}></PopupContent>
                         </PopupDom>
                     }
                 </Style.ItemWrapper>
                 
-                <Style.ItemWrapper style={{display: "flex"}}>
-                    <Style.Question style={{flex:0.6}}>한줄 소개</Style.Question>
+                <Style.ItemWrapper style={{gridTemplateColumns: '1fr 3fr'}}>
+                    <Style.Question>한줄 소개</Style.Question>
                     <Style.Answer 
                         placeholder={oneLineIntroduction}
                         name="oneLineIntroduction"
                         onChange={onChangeInput}
                         style={{
-                            width: "700px",
+                            width: "675px",
                             height: "90px",
                             flex: 2.7
                         }}
