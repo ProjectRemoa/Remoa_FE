@@ -123,8 +123,12 @@ export default function RefModal({
   const changePageNum = (e) => {
     setShow(e.target.value)
   }
+  const a = "tset.pdf"
+  //파일 확장자에 따라서 다른 뷰어 출력하기
+  let fileLength = a.length
+  let fileDot = a.lastIndexOf(".")
+  let fileType = a.substring(fileDot+1,fileLength).toLocaleLowerCase()
 
-  
   return (
     <MS.ModalWrapper
       className={modalVisibleId2 == id2 ? classes.show : classes.dis}
@@ -136,8 +140,8 @@ export default function RefModal({
           <MS.HeaderDiv1>
             <MS.DetailTitle>{idea.title}</MS.DetailTitle>
             <MS.DetailTitleInfo>
-              {idea.title}&nbsp;<span style={{color:"#FADA5E"}}>{idea.title}</span>&nbsp;|
-              &nbsp;{getDate(idea.postingTime)}&nbsp;|&nbsp;{idea.categoryName}
+              {idea.contestName}&nbsp;<span style={{color:"#FADA5E"}}>{idea.contestAwardType}</span>&nbsp;|
+              &nbsp;{getDate(idea.postingTime)}&nbsp;|&nbsp;{idea.category}
             </MS.DetailTitleInfo>
           </MS.HeaderDiv1>
 
@@ -163,24 +167,24 @@ export default function RefModal({
               setModalVisibleId3={setModalVisibleId3}
               idea={idea}
               numPages={numPages}
+              media={media}
             />
           </MS.HeaderDiv2>
         </MS.MobalHeader>
         <MS.Line />
 
         <MS.MobalContents>
-          {media && media.map(function(a){
+          {/* 형식이 jpg jpeg png라면 */}
+          {media && media.map(function(a,index){
             return (
-              <MS.ContentImg src={a} key={a} />
+              <MS.ContentImg src={a} key={a} id={index} />
             )
           })}
 
-          {/* 영상은 유튜브 링크로 대체된다는데 입력되는 방식은 어떤가? */}
-
-          {/* 
+          {/* 동영상 링크가 있다면?
           {modalVisibleId2 ? 
             <video width='100%' height='auto' controlsList="nodownload" controls>
-              <source src={require("../../images/임시이미지.mp4")} type="video/mp4"/>
+              <source src={어쩌구저쩌구} type="video/mp4"/>
             </video>
           : "" } */}
 

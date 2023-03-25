@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 })
 
-const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea, numPages}) => {
+const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea, numPages, media}) => {
   const classes = useStyles();
   const onCloseHandler = () => {
   	setModalVisibleId3("")
@@ -32,6 +32,11 @@ const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea, numPa
     setSearch(e.target.value)
   }
   const opti = Array.from({length:numPages}, (v,i)=>i+1)
+  //이거는 pdf의 경우
+  const pageCount = Array.from({length:media}, (v,i)=>i+1)
+  //이미지의 경우
+
+  //동영상의 경우
   return (
     <DF.ModalWrapper className={modalVisibleId3 == id3 ? classes.show : classes.dis}>
       <DF.ModalHeader>
@@ -53,6 +58,11 @@ const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea, numPa
             {opti && opti.map(function(a,index){
               return <option value={a} key={index}>{a}</option>
             })}
+            {/* pdf */}
+            {pageCount && pageCount.map(function(a,index){
+              return <option value={a} key={index}>{a}</option>
+            })}
+            {/* 사진덩어리 */}
             </select>
             <DF.FeedbackSend>등록</DF.FeedbackSend>
           </DF.RegTop>
