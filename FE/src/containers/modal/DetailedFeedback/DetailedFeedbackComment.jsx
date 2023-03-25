@@ -2,19 +2,7 @@ import React from 'react'
 import { DF } from '../../../layout/DetailFeedbackStyle'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { detailC } from '../../../temporary/detailcomment';
-let again = [
-  {
-    againImg:"https://cdn.pixabay.com/photo/2022/04/06/12/49/countryside-7115530_960_720.jpg",
-    againWriter:"공모전짱",
-    thumbs:21,
-    againContent:"덕분에"
-  },{
-    againImg:"https://about.canva.com/wp-content/uploads/sites/8/2019/03/red.png",
-    againWriter:"공모",
-    thumbs:1,
-    againContent:"ㅋㅋ"
-  }
-]
+import DetailedFeedbackCommentAgain from './DetailedFeedbackCommentAgain';
 export default function DetailedFeedbackComment() {
   return (
     <DF.EachFeedWrapper>
@@ -47,9 +35,7 @@ export default function DetailedFeedbackComment() {
                 {d1.content}
               </p>
               
-              {/* {d1.again?.map((d2,index)=> {
-                <div key={index}>s{d2.againContent}</div>
-              })} */}
+              <DetailedFeedbackCommentAgain />
           </div>
           ))}
           

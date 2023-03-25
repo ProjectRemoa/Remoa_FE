@@ -75,6 +75,7 @@ export const DF = {
     height: 46px;
     object-fit: cover;
     border-radius: 50%;
+
   `,
   FeedWrapperHeader:styled.div`
     display:flex;
@@ -135,4 +136,13 @@ export const DF = {
     background-color:#FADA5E;
     box-shadow: none;
   `,
+  AgainWrapper:styled.div`
+    width: 100%;
+    height: auto;
+  `,
+  AgainTable:styled.table`
+    width: 100%;
+    position: relative;
+    right: 10px;
+  `
 }
