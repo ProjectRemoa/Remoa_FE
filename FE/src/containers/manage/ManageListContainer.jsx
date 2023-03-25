@@ -131,12 +131,6 @@ function ManageListContainer() {
   }
   return (
     <div className="ManageListContainer">
-<<<<<<< HEAD
-      <div align="left" style={{ margin: "30px auto",fontWeight: "700",
-fontSize: "25px",
-lineHeight: "36px", color:"#464646"}}>
-        <span style={{color:"#FADA5E"}}>{nick}</span>님의 내 작업물 목록
-=======
       <div
         align="left"
         style={{
@@ -149,7 +143,6 @@ lineHeight: "36px", color:"#464646"}}>
           {sessionStorage.getItem("nickname")}
         </span>
         님의 내 작업물 목록
->>>>>>> 63744a4a3e86d5603d13f0c26991ce06475c8215
       </div>
       <div
         align="center"
@@ -267,15 +260,6 @@ lineHeight: "36px", color:"#464646"}}>
             </span>
           </div>
         ) : (
-<<<<<<< HEAD
-          <ManageList
-            data={mywork}
-            TAR={totalOfAllReferences}
-            TPE={totalOfPageElements}
-            TP={totalPages}
-            getData={getData}
-          />
-=======
           <div>
             {/* 정렬순 */}
             <div style={{ float: "right", margin: "5px 10px 15px 0px" }}>
@@ -336,7 +320,6 @@ lineHeight: "36px", color:"#464646"}}>
               )}
             </div>
           </div>
->>>>>>> 63744a4a3e86d5603d13f0c26991ce06475c8215
         )}
       </div>
     </div>
