@@ -94,7 +94,7 @@ const RefList = (props) => {
   }
   
   const onClickScrap = () => {
-    
+
     setSort('scrap')
 
     document.getElementById("b1").style.backgroundColor="white"
@@ -150,19 +150,19 @@ const RefList = (props) => {
 
     {data.map((idea, index) => (
     <Style.ContestItem key={idea.postId}>
-      <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.postId}` :
+      {/* <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.postId}` :
       Lo.includes("video") ? `/ref/video/${idea.postId}` :
       Lo.includes("design") ? `/ref/design/${idea.postId}` :
-      Lo.includes("etc") ? `/ref/etc/${idea.postId}` :`/${idea.postId}`}>
+      Lo.includes("etc") ? `/ref/etc/${idea.postId}` :`/${idea.postId}`}> */}
       <Style.ContestImgCrop onClick={() => onModalHandler2(idea.postId)}>
-        <Style.ContestImg src = {idea.postThumbnail} alt = '1' />
+        <Style.ContestImg src = {idea.postThumbnail} alt = '' />
       </Style.ContestImgCrop>
-      </Link>
+      {/* </Link> */}
       <RefModal id2={idea.postId} modalVisibleId2={modalVisibleId2} setModalVisibleId2={setModalVisibleId2} idea={idea} />
 
       <Style.ProfileInfo>
 
-        <Style.ProfileSize src = {idea.postMember.profileImage} alt="2"
+        <Style.ProfileSize src = {idea.postMember.profileImage} alt=""
         onMouseEnter={() => {onModalHandler(idea.postId); modalLocation(index+1)}}
         onClick={() => {onModalHandler(idea.postId); modalLocation(index+1)}}/>
 

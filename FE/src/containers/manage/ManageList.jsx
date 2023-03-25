@@ -34,7 +34,12 @@ const useStyles = makeStyles({
 function ManageList(props) {
   const classes = useStyles();
   const navigate = useNavigate();
-
+  const onShow = () => {
+    props.getData(nickname)
+  }
+  useEffect(()=>{
+    onShow()
+  },[])
   // 받아온 data 가공 필요
   let data = props.data;
   console.log(data);

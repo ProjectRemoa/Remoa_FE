@@ -10,24 +10,24 @@ export default function RMCommentWrite() {
     setContents(event.target.value);
   };
 
-  // const fetchData = async () => {
-  //   const response = await axios.get(`localhost:8080/reference/${postId}/comment`)
-  //   setCommentList(response.data)
-  // }
-  // useEffect(() => {fetchData()},[]);
+  const fetchData = async (postId) => {
+    // const response = await axios.get(`localhost:8080/reference/${postId}/comment`)
+    // setCommentList(response.data)
+  }
+  useEffect(() => {fetchData()},[]);
 
-  const onSumbitHandler = async (e) => {
-    // e.preventDefault();
+  const onSumbitHandler = async (postId) => {
+    // postId.preventDefault()
     // await axios.post(`localhost:8080/reference/${postId}/comment`,contents)
     // .then((response) => {
     //   if (response.status === 200) alert("성공");
     // })
     // .catch(() => {alert("통신 오류");});
-    // fetchData()
+    // fetchData(postId)
   }
 
   return(
-    <MS.CommentWriteWrapper onSubmit={onSumbitHandler}>
+    <MS.CommentWriteWrapper>
       <p style={{float:"left", fontSize:"20px"}}>Comment</p>
       <MS.CommentButton>댓글 등록</MS.CommentButton>
       <MS.WriteInput required placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!

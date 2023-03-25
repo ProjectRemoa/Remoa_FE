@@ -41,7 +41,7 @@ export let ideacontest = [
     detail_regist:"단국대학교 SW중심대학 경소톤",
     detail_result:"출품작",
     detail_category:"기획/아이디어",
-    attached_file:[]
+    attached_file:['test.pdf']
   },
   {
     id: id3,

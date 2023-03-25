@@ -69,7 +69,6 @@ export const DF = {
   EachFeedWrapper:styled.div`
     width:100%;
     height:auto;
-    background-color:skyblue;
   `,
   ProfileSize:styled.img`
     width: 46px; 
@@ -101,8 +100,25 @@ export const DF = {
     position:absolute;
     right:0px;
   `,
-  FeedWrapperContent:styled.div`
+  FeedWrapperButton:styled.button`
     margin-top:24px;
+    border: none;
+    height: 26px;
+    width:102px;
+    background-color:#FADA5E;
+    position: relative;
+    right:170px;
+    box-shadow: none;
+  `,
+  WrapperSearch:styled.a`
+    text-decoration-line: none;
+    height: 26px;
+    width:80px;
+    color:black;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
   `,
   DetailPageButton:styled.a`
     text-decoration-line: none;

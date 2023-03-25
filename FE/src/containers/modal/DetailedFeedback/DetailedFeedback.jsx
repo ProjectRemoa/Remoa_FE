@@ -1,9 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { DF } from "../../../layout/DetailFeedbackStyle";
 import CloseIcon from '@mui/icons-material/Close';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import { useState } from "react";
 
+import { useState } from "react";
+import DetailedFeedbackComment from "./DetailedFeedbackComment";
 const useStyles = makeStyles({
   dis:{
     display:"none"
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 })
 
-const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea}) => {
+const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea, numPages}) => {
   const classes = useStyles();
   const onCloseHandler = () => {
   	setModalVisibleId3("")
@@ -31,7 +31,7 @@ const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea}) => {
   const changeSearch = (e) => {
     setSearch(e.target.value)
   }
-
+  const opti = Array.from({length:numPages}, (v,i)=>i+1)
   return (
     <DF.ModalWrapper className={modalVisibleId3 == id3 ? classes.show : classes.dis}>
       <DF.ModalHeader>
@@ -40,27 +40,7 @@ const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea}) => {
       </DF.ModalHeader>
 
       <DF.Feedback>
-        <DF.EachFeedWrapper>
-          <DF.FeedWrapperHeader>
-            <DF.ProfileSize src={'https://about.canva.com/wp-content/uploads/sites/8/2019/03/red.png'} />
-            <DF.ProfileName>
-              기획의 달인
-            </DF.ProfileName>
-            <DF.ButtonWrapper>
-              <DF.HeaderButton>
-                <ThumbUpIcon />
-                <DF.ThumbCount>22</DF.ThumbCount>
-              </DF.HeaderButton>
-              <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px"}}>
-                답글
-              </DF.HeaderButton>
-            </DF.ButtonWrapper>          
-          </DF.FeedWrapperHeader>
-          <DF.FeedWrapperContent>
-            <a href="#3">dfdsf</a>
-          </DF.FeedWrapperContent>
-        </DF.EachFeedWrapper>
-
+        <DetailedFeedbackComment />
       </DF.Feedback>
 
       <DF.ModalWriteFeed>
@@ -69,7 +49,11 @@ const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea}) => {
             <DF.RegExplain>
               <span style={{color:"#FADA5E",fontWeight:"800"}}>Feedback</span>&nbsp; 페이지 번호 &nbsp;
             </DF.RegExplain>
-            <input style={{width:"55px",height:"24px"}} required />
+            <select style={{width:"55px",height:"24px",position:"relative",bottom:"7px"}}>
+            {opti && opti.map(function(a,index){
+              return <option value={a} key={index}>{a}</option>
+            })}
+            </select>
             <DF.FeedbackSend>등록</DF.FeedbackSend>
           </DF.RegTop>
           <DF.RegBottom>

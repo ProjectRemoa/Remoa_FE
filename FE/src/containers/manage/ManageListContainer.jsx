@@ -58,10 +58,17 @@ function ManageListContainer() {
     getWork();
   }, [categoryName]);
 
+  const [nick, setNick] = useState('')
+
+  const getData = (nick) => {
+    setNick(nick);
+  }
   return (
     <div className="ManageListContainer">
-      <div align="left" style={{ margin: "30px auto" }}>
-        내 작업물 목록
+      <div align="left" style={{ margin: "30px auto",fontWeight: "700",
+fontSize: "25px",
+lineHeight: "36px", color:"#464646"}}>
+        <span style={{color:"#FADA5E"}}>{nick}</span>님의 내 작업물 목록
       </div>
       <div align="center" style={{ paddingBottom: "30px" }}>
         <div className="form_radio_btn" style={{ float: "left" }}>
@@ -143,6 +150,7 @@ function ManageListContainer() {
             TAR={totalOfAllReferences}
             TPE={totalOfPageElements}
             TP={totalPages}
+            getData={getData}
           />
         )}
       </div>
