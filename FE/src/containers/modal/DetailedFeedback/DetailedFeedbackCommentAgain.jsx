@@ -12,7 +12,7 @@ const again = [
     againImg:"https://about.canva.com/wp-content/uploads/sites/8/2019/03/red.png",
     againWriter:"공모",
     thumbs:1,
-    againContent:"목숨이 우리 천하를 인간에 이상을 어디 부패를 그리하였는가? 대고, 없는 천자만홍이 찾아다녀도, 용감하고 가치를 수 이것이다. "
+    againContent:"목숨이 우리 천하를 인간에 이상을 어디 부패를 그리하였는가? 대고, 없는 천자만홍이 찾아다녀도, 용감하고 가치를 수 이것이다."
   }
 ]
 export default function DetailedFeedbackCommentAgain() {
