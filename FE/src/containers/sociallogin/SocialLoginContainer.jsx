@@ -44,10 +44,10 @@ function SocialLoginContainer() {
   useEffect(() => {
     // 수정 부분
     if (
-      localStorage.getItem("nickname") != null &&
+      sessionStorage.getItem("nickname") != null &&
       sessionStorage.getItem("new") === null
     ) {
-      console.log(localStorage.getItem("nickname"));
+      console.log(sessionStorage.getItem("nickname"));
       isNotLogin();
     }
   }, []);
