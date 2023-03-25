@@ -183,7 +183,8 @@ export default function RefModal({
               <source src={require("../../images/임시이미지.mp4")} type="video/mp4"/>
             </video>
           : "" } */}
-          <MS.PdfWrapper >
+
+            <MS.PdfWrapper >
               <MS.PdfSet>
                 페이지 입력
                 {numPages>1 ? <>
@@ -218,7 +219,8 @@ export default function RefModal({
                 </Document>
               </MS.PdfMannage>
               <div style={{height:"50px",width:"auto"}} />
-            </MS.PdfWrapper>
+          </MS.PdfWrapper>
+
         </MS.MobalContents>
 
         <MS.TraceBoxWrapper>

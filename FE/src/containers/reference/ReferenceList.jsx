@@ -169,15 +169,17 @@ const RefList = (props) => {
         <RefModalFollow id={idea.postId} modalVisibleId={modalVisibleId} setModalVisibleId={setModalVisibleId} 
         location={modalLocation(index+1)} idea={idea} />
 
-        <Style.ProfileFont>{idea.registrant}</Style.ProfileFont>
-        <Style.ProfileInfoDetail>
-          &nbsp;<RemoveRedEyeOutlinedIcon className={classes.home} />
-          &nbsp;{idea.likeCount}&nbsp;
-          &nbsp;<FavoriteOutlinedIcon className={classes.home2} />
-          &nbsp;{idea.views}&nbsp;
-          &nbsp;<StarIcon className={classes.star} />
-          &nbsp;{idea.scrapCount}
-        </Style.ProfileInfoDetail>
+        <Style.ProfileData>
+          <Style.ProfileFont>{idea.title}</Style.ProfileFont>
+          <Style.ProfileInfoDetail>
+            &nbsp;<RemoveRedEyeOutlinedIcon className={classes.home} />
+            &nbsp;{idea.likeCount}&nbsp;
+            &nbsp;<FavoriteOutlinedIcon className={classes.home2} />
+            &nbsp;{idea.views}&nbsp;
+            &nbsp;<StarIcon className={classes.star} />
+            &nbsp;{idea.scrapCount}
+          </Style.ProfileInfoDetail>
+        </Style.ProfileData>
         
       </Style.ProfileInfo>
     </Style.ContestItem>

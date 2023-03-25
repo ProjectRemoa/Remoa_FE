@@ -5,6 +5,8 @@ import axios from "axios";
 import defaultImage from "../../images/profile_img.png"
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import PopupDom from './MypageProfilePopupDom';
+import PopupContent from './MyPageProfilePopupContent';
 
 const Style={
     Wrapper:styled.div`
@@ -136,7 +138,9 @@ const Style={
 function MyPageProfile() {
     const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState(defaultImage);
+    const [previewImage, setPreviewImage] = useState(defaultImage);
     const [idcheck, setIdcheck] = useState("");
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const imgInput = useRef();
 
@@ -159,33 +163,25 @@ function MyPageProfile() {
     };
 
     const onChangeImg = (e) => {
-        imgInput.current.click();
-
-        setProfileImage({
-            ...profileImage,
-            profileImage: e.target.value
-        })
-
-        const formData = new FormData();
-        formData.append('file', e.target.files[0]);
-
-        axios.put(`localhost:8080/user/img`, formData)
-        .then((res) => {
-            if (res.status === 200) {
-                console.log(res);
-                console.log("프로필 사진 put 완료")
-                navigate("/");
-            }
-        })
-        .catch((err) => {
-            console.log("PUT : 프로필 사진을 변경하던 중 에러")
-            console.error(err);
+        console.log(e);
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        return new Promise((resolve) => {
+            reader.onload = () => {
+                setProfileImage(reader.result);
+                setPreviewImage(e.target.files[0]);
+                resolve();
+            };
         });
+    };
+
+    const sendProfileImg = () => {
+        imgInput.current.click();
     };
 
     const nicknameOverlapCheck = (nickname) => {
         axios
-        .get(`http://localhost:8080/nickname?nickname=${nickname}`)
+        .get(`/BE/nickname?nickname=${nickname}`)
         .then((res) => {
         if (res.status === 200) {
             setIdcheck(res.data.data);
@@ -197,9 +193,17 @@ function MyPageProfile() {
     
     };
 
+    const openPopup = () => {
+        setIsOpenPopup(true);
+    };
+
+    const closePopup = () => {
+        setIsOpenPopup(false);
+    };
+
     const getProfileImg = () => {
         axios
-        .get(`http://localhost:8080/user/img`)
+        .get(`/BE/user/img`)
         .then((res) => {
         if (res.status === 200) {
             setProfileImage(res.data.data);
@@ -210,8 +214,8 @@ function MyPageProfile() {
         });
     };
 
-    const changeProfile = (nickname, phoneNumber, university, oneLineIntroduction) => {
-        axios.put(`http://localhost:8080/user`, {
+    const changeProfile = () => {
+        axios.put(`/BE/user`, {
             nickname : nickname,
             phoneNumber : phoneNumber,
             university : university,
@@ -226,10 +230,28 @@ function MyPageProfile() {
             console.log("PUT : 사용자 정보를 변경하던 중 에러")
             console.error(err);
         });
+
+        const formData = new FormData();
+        formData.append('file', previewImage);
+
+        axios.put(`/BE/user/img`, formData, {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+        .then(() => {
+            console.log("프로필 사진 put 완료")
+            navigate("/");
+        })
+        .catch((err) => {
+            console.log("PUT : 프로필 사진을 변경하던 중 에러")
+            console.error(err);
+        });
     };
 
     const getProfile = () => {
-        axios.get('http://localhost:8080/user', { withCredentials: true })
+        axios.get('/BE/user', { withCredentials: true })
         .then((res) => {
             if (res.status === 200) {
                 setInput(res.data.data);
@@ -246,7 +268,6 @@ function MyPageProfile() {
         getProfile();
         getProfileImg();
     }, []);
-    
 
     return(
     <>
@@ -257,9 +278,9 @@ function MyPageProfile() {
                 님<br />오늘은 어떤 공모전에 참여하시나요?
             </Style.ProfileIntro>
 
-            <div>
+            <form>
                 <Style.ProfileImageButton
-                    onClick={onChangeImg}
+                    onClick={sendProfileImg}
                 >
                     프로필 사진 변경
                 </Style.ProfileImageButton>
@@ -270,8 +291,9 @@ function MyPageProfile() {
                     name='file'
                     accept="image/*"
                     style={{display: "none"}}
-                />
-            </div>
+                    onChange={(e) => onChangeImg(e)}
+                ></input>
+            </form>
             
             <Style.HorizonLine/>
             
@@ -290,7 +312,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={nickname}
                         name="nickname"
-                        value={nickname}
                         onChange={onChangeInput}
                     ></Style.Answer>
                     <Style.ItemButton
@@ -304,7 +325,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={phoneNumber}
                         name="phoneNumber"
-                        value={phoneNumber}
                         onChange={onChangeInput}
                     ></Style.Answer>
                 </Style.ItemWrapper>
@@ -314,7 +334,14 @@ function MyPageProfile() {
                     <Style.University>{university}</Style.University>
                     <Style.ItemButton
                         type='button'
+                        id='popupDom'
+                        onClick={openPopup}
                     >검색하기</Style.ItemButton>
+                    {isOpenPopup &&
+                        <PopupDom>
+                            <PopupContent onClose={closePopup}/>
+                        </PopupDom>
+                    }
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{display: "flex"}}>
@@ -322,7 +349,6 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={oneLineIntroduction}
                         name="oneLineIntroduction"
-                        value={oneLineIntroduction}
                         onChange={onChangeInput}
                         style={{
                             width: "700px",
@@ -334,7 +360,7 @@ function MyPageProfile() {
             </Style.ProfileWrapper>
 
             <Style.ModifyButton
-                onClick={() => changeProfile(nickname, phoneNumber, university, oneLineIntroduction)}
+                onClick={() => changeProfile()}
             >수정 완료</Style.ModifyButton>
 
         </Style.Wrapper>
