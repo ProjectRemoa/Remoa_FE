@@ -78,10 +78,10 @@ export default function RefModal({
     likeCount: 0,
     scrapCount: 0,
   });
-  const [middle, setMiddle] = useState({
+  const [middle, setMiddle] = useState({});
+  const [bottom, setBottom] = useState({
     comments: [],
   });
-  const [bottom, setBottom] = useState("");
 
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
@@ -101,8 +101,11 @@ export default function RefModal({
           scrapCount: res.data.data.scrapCount,
         });
 
-        // middle : pdf/사진, 좋아요, 스크랩
-        setMiddle({
+        // middle : pdf/사진, 좋아요, 스크랩, filetype
+        setMiddle({});
+
+        // bottom : 댓글
+        setBottom({
           comments: res.data.data.comments,
         });
       })
@@ -335,7 +338,7 @@ export default function RefModal({
           </MS.TraceBox>
         </MS.TraceBoxWrapper>
 
-        <RefModalComment comments={middle.comments} />
+        <RefModalComment postId={id2} comments={middle.comments} />
       </MS.MobalBox>
     </MS.ModalWrapper>
   );
