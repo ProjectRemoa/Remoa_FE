@@ -116,7 +116,7 @@ function Modal({ modalOpen }) {
         sessionStorage.removeItem("id");
         alert("회원가입이 완료되었습니다.");
         // 수정부분
-        sessionStorage.removeItem("new");
+        //sessionStorage.removeItem("new");
       })
       .catch((err) => {
         console.log(err);
