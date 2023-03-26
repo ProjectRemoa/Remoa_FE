@@ -88,9 +88,9 @@ function ReferenceContainer() {
         </Style.Sort>
         <Style.Sort onClick={videoOnClick}>
           {window.location.pathname == "/ref/video" ? (
-            <Style.PageStyle>모두</Style.PageStyle>
+            <Style.PageStyle>영상</Style.PageStyle>
           ) : (
-            "모두"
+            "영상"
           )}
         </Style.Sort>
         <Style.Sort onClick={designOnClick}>
@@ -102,9 +102,9 @@ function ReferenceContainer() {
         </Style.Sort>
         <Style.Sort onClick={etcOnClick}>
           {window.location.pathname == "/ref/etc" ? (
-            <Style.PageStyle>기타</Style.PageStyle>
+            <Style.PageStyle>기타아이디어</Style.PageStyle>
           ) : (
-            "기타"
+            "기타아이디어"
           )}
         </Style.Sort>
       </Style.UnderHeader>
