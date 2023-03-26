@@ -19,7 +19,7 @@ export default function RMCommentList() {
             <DF.ProfileSize src={"https://about.canva.com/wp-content/uploads/sites/8/2019/03/red.png"} />
           </td>
           <td style={{width:"100px"}}>
-            공모전짱ffffffffffffffffffff
+            공모전짱fffffffffffffffffff
           </td>
           <td style={{float:"left",position:"relative",top:"15px"}}>
             <DF.HeaderButton>
