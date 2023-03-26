@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FirstModal from "../modal/FirstModal";
@@ -70,7 +70,7 @@ function ReferenceContainer() {
 
   return (
     <>
-      <>{sessionStorage.getItem("new") && <FirstModal />}</>
+      <>{sessionStorage.getItem("new") === true && <FirstModal />}</>
       <Style.UnderHeader>
         <Style.Sort onClick={ideaOnClick}>
           {window.location.pathname == "/" ? (

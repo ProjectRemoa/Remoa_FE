@@ -83,9 +83,9 @@ export default function FirstModal() {
           </FM.ChangeProfile>
           <FM.Close
             style={{ cursor: "pointer" }}
-            onClick={() => setModal(false)}
+            onClick={() => sessionStorage.setItem("modal", false)}
           >
-            다음에 변경하기
+            <a href={window.location.reload()}>다음에 변경하기</a>
           </FM.Close>
         </FM.Modal>
       </FM.ModalWrapper>
