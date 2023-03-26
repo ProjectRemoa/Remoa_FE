@@ -122,7 +122,12 @@ const RefList = (props) => {
   };
   const onModalHandler2 = (id) => {
     setModalVisibleId2(id);
+    console.log(id);
   };
+
+  useEffect(() => {
+    setModalVisibleId2((modalVisibleId2) => modalVisibleId2);
+  }, [modalVisibleId2]);
 
   const [postId, setPostId] = useState(0);
   const [idea, setIdea] = useState({});
@@ -143,7 +148,6 @@ const RefList = (props) => {
     }
   }
   let Lo = window.location.href;
-  console.log(modalVisibleId2);
 
   return (
     <Style.ContestList>
@@ -162,25 +166,22 @@ const RefList = (props) => {
           스크랩순
         </Style.Sort>
       </Style.SortContainer>
-
       <Style.Line />
-
       {data.map((idea, index) => (
         <Style.ContestItem key={idea.postId}>
           <Style.ContestImgCrop>
             <Style.ContestImg
               src={idea.postThumbnail}
               alt=""
-              onClick={() => onModalHandler2(idea.postId)}
+              onClick={
+                () =>
+                  onClickModal(
+                    idea,
+                    idea.postId
+                  ) /*onModalHandler2(idea.postId)*/
+              }
             />
           </Style.ContestImgCrop>
-
-          <RefModal
-            id2={idea.postId}
-            idea={idea}
-            modalVisibleId2={modalVisibleId2}
-            setModalVisibleId2={setModalVisibleId2}
-          />
 
           <Style.ProfileInfo>
             <Style.ProfileSize
@@ -219,14 +220,14 @@ const RefList = (props) => {
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
-      {/*{modal === true && (
+      {modalVisibleId2 !== "" && (
         <RefModal
           id2={postId}
           idea={idea}
           modalVisibleId2={modalVisibleId2}
           setModalVisibleId2={setModalVisibleId2}
         />
-      )}*/}
+      )}
     </Style.ContestList>
   );
 };

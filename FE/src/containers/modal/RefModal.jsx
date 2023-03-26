@@ -195,9 +195,11 @@ export default function RefModal({
   const changePageNum = (e) => {
     setShow(e.target.value);
   };
+  console.log("visiglbeId2 : " + modalVisibleId2 + ", id2 : " + id2);
 
   return (
-    <MS.ModalWrapper className={modalVisibleId2 == id2 ? "d_block" : "d_none"}>
+    <MS.ModalWrapper /*className={modalVisibleId2 === id2 ? "d_block" : "d_none"}*/
+    >
       <MS.MobalBox>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         <br />
@@ -250,7 +252,7 @@ export default function RefModal({
             ? media.map(function (a, index) {
                 return <MS.ContentImg src={a} key={a} id={index} />;
               })
-            : "파일을 불러오지 못했습니다."}
+            : ""}
 
           {/* 동영상 링크가 있다면?
           {modalVisibleId2 ? 
