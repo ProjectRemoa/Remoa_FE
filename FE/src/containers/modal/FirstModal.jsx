@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FM } from "../../layout/FirstModalStyle";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CheckIcon from "@mui/icons-material/Check";
@@ -11,9 +11,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function FirstModal() {
+export default function FirstModal({ modalOpen, setModalOpen }) {
   const classes = useStyles();
-  const [modal, setModal] = useState(true);
   const navigate = useNavigate();
 
   const onClickChange = () => {
@@ -23,7 +22,7 @@ export default function FirstModal() {
 
   return (
     <>
-      <FM.ModalWrapper>
+      <FM.ModalWrapper style={{ display: modalOpen === false && "none" }}>
         <FM.Modal>
           <FM.Up>
             <FM.Welcome>
@@ -83,9 +82,12 @@ export default function FirstModal() {
           </FM.ChangeProfile>
           <FM.Close
             style={{ cursor: "pointer" }}
-            onClick={() => sessionStorage.setItem("modal", false)}
+            onClick={() => {
+              setModalOpen(false);
+              sessionStorage.removeItem("new");
+            }}
           >
-            <a href={window.location.reload()}>다음에 변경하기</a>
+            다음에 변경하기
           </FM.Close>
         </FM.Modal>
       </FM.ModalWrapper>
