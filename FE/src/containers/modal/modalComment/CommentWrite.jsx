@@ -22,7 +22,7 @@ export default function RMCommentWrite() {
     // .then((response) => {
     //   if (response.status === 200) alert("성공");
     // })
-    // .catch(() => {alert("통신 오류");});
+    // .catch(() => {alert("통신 오류");})
     // fetchData(postId)
   }
 
