@@ -73,6 +73,9 @@ function ManageShareContainer() {
   /* 카테고리 */
   const onChangeCategory = (e) => {
     setCategory(e.target.value);
+    if (e.target.value === "video") {
+      setUploads([]); // 초기화
+    }
   };
 
   const onChangeYoutubeLink = (e) => {
@@ -456,63 +459,66 @@ function ManageShareContainer() {
               </td>
             </tr>
             {/* 첨부파일 */}
-            <tr>
-              <th className="th" style={{ verticalAlign: "top" }}>
-                <label>첨부파일</label>
-              </th>
-              <td className="td">
-                <div
-                  style={{
-                    width: "60%",
-                    height: "100px",
-                    fontSize: "70%",
-                    border: "1px solid #b0b0b0",
-                    background: "#ffffff",
-                    borderRadius: "10px",
-                    textAlign: "left",
-                    color: "#B0B0B0",
-                    padding: "3px",
-                    cursor: "pointer",
-                    overflow: "auto",
-                  }}
-                  onClick={onClickUpload}
-                >
-                  {uploads.length === 0 ? (
-                    <span>
-                      PDF/JPEG/PNG/MP4 파일만 업로드 가능하며, PDF, MP4 파일을
-                      1개 이상 올릴 시 다른 파일을 추가로 업로드할 수 없습니다.
-                      <br />
-                      이미지 파일의 경우 복수 업로드 가능하지만
-                    </span>
-                  ) : (
-                    <div>
-                      {uploads.map((upload) => (
-                        <span key={upload.name}>
-                          {upload.name}&nbsp;
-                          <span
-                            onClick={(e) => {
-                              e.stopPropagation(); // 겹쳐진 영역에서의 이중 클릭 이벤트 방지
-                              onClickDelete(upload.name);
-                            }}
-                          >
-                            🗙
+            {category !== "video" && (
+              <tr>
+                <th className="th" style={{ verticalAlign: "top" }}>
+                  <label>첨부파일</label>
+                </th>
+                <td className="td">
+                  <div
+                    style={{
+                      width: "60%",
+                      height: "100px",
+                      fontSize: "70%",
+                      border: "1px solid #b0b0b0",
+                      background: "#ffffff",
+                      borderRadius: "10px",
+                      textAlign: "left",
+                      color: "#B0B0B0",
+                      padding: "3px",
+                      cursor: "pointer",
+                      overflow: "auto",
+                    }}
+                    onClick={onClickUpload}
+                  >
+                    {uploads.length === 0 ? (
+                      <span>
+                        PDF/JPEG/PNG/MP4 파일만 업로드 가능하며, PDF, MP4 파일을
+                        1개 이상 올릴 시 다른 파일을 추가로 업로드할 수
+                        없습니다.
+                        <br />
+                        이미지 파일의 경우 복수 업로드 가능하지만
+                      </span>
+                    ) : (
+                      <div>
+                        {uploads.map((upload) => (
+                          <span key={upload.name}>
+                            {upload.name}&nbsp;
+                            <span
+                              onClick={(e) => {
+                                e.stopPropagation(); // 겹쳐진 영역에서의 이중 클릭 이벤트 방지
+                                onClickDelete(upload.name);
+                              }}
+                            >
+                              🗙
+                            </span>
+                            <br />
                           </span>
-                          <br />
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <input
-                  type="file"
-                  ref={fileInput}
-                  onChange={handleFileChange}
-                  style={{ display: "none" }}
-                  accept=".pdf, .jpg, .jpeg, .png, .mp4, .wav"
-                  multiple="multiple"
-                />
-              </td>
-            </tr>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    ref={fileInput}
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                    accept=".pdf, .jpg, .jpeg, .png, .mp4, .wav"
+                    multiple="multiple"
+                  />
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
