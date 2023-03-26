@@ -8,7 +8,7 @@ export default function RefModalComment(props) {
   return (
     <MS.CommentWrapper>
       <RMCommentWrite postId={postId} />
-      <RMCommentList comments={comments}/>
+      <RMCommentList comments={comments} postId={postId} />
     </MS.CommentWrapper>
   );
 }

@@ -18,11 +18,12 @@ export default function RMCommentWrite(props) {
     const data = axios.post(`/BE/reference/${props.postId}/comment`,UploadComment)
     .then((response) => {
       if (response.status === 200) alert(response.data);
-
     })
     .catch(() => {alert("통신 오류");})
+
     return data;
-  }
+    }
+    
 
   return(
     <MS.CommentWriteWrapper>
