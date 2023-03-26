@@ -58,7 +58,7 @@ const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea, numPa
             {opti && opti.map(function(a,index){
               return <option value={a} key={index}>{a}</option>
             })}
-            {/* pdf */}
+            {/* pdf  */}
             {pageCount && pageCount.map(function(a,index){
               return <option value={a} key={index}>{a}</option>
             })}
