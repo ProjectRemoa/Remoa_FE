@@ -10,11 +10,7 @@ export default function RMCommentWrite() {
     setContents(event.target.value);
   };
 
-  const fetchData = async (postId) => {
-    // const response = await axios.get(`localhost:8080/reference/${postId}/comment`)
-    // setCommentList(response.data)
-  }
-  useEffect(() => {fetchData()},[]);
+  
 
   const onSumbitHandler = async (postId) => {
     // postId.preventDefault()
