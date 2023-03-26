@@ -46,6 +46,8 @@ const RefList = (props) => {
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
   let [user, setUser] = useState(users);
 
+  sessionStorage.setItem("modal", false);
+
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
     //console.log(endpoint);
@@ -55,8 +57,8 @@ const RefList = (props) => {
         setData(res.data.data.references);
         console.log(res.data.data);
       })
-      .catch((res) => {
-        console.log("error");
+      .catch((err) => {
+        console.log(err);
       });
 
     setCatgory(props.kind);
@@ -106,14 +108,27 @@ const RefList = (props) => {
     onClickDate();
   }, []);
 
+  useEffect(() => {
+    if (sessionStorage.getItem("refmodal") === false) {
+      setModal(false);
+    }
+  }, []);
+
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
     setModalVisibleId(id);
   };
-  const [modalVisibleId2, setModalVisibleId2] = useState(false);
-  const onModalHandler2 = (id) => {
-    setModalVisibleId2(id);
+
+  const [modal, setModal] = useState(false);
+  const onClickModal = (idea, postId) => {
+    //sessionStorage.setItem("refmodal", true);
+    setModal(!modal);
+    setIdea(idea);
+    setPostId(postId);
   };
+
+  const [postId, setPostId] = useState(0);
+  const [idea, setIdea] = useState({});
 
   function modalLocation(i) {
     if (window.innerWidth <= 767) {
@@ -154,20 +169,9 @@ const RefList = (props) => {
 
       {data.map((idea, index) => (
         <Style.ContestItem key={idea.postId}>
-          {/* <Link to={ Lo.includes("marketing") ? `/ref/marketing/${idea.postId}` :
-      Lo.includes("video") ? `/ref/video/${idea.postId}` :
-      Lo.includes("design") ? `/ref/design/${idea.postId}` :
-      Lo.includes("etc") ? `/ref/etc/${idea.postId}` :`/${idea.postId}`}> */}
-          <Style.ContestImgCrop onClick={() => onModalHandler2(idea.postId)}>
+          <Style.ContestImgCrop onClick={() => onClickModal(idea, idea.postId)}>
             <Style.ContestImg src={idea.postThumbnail} alt="" />
           </Style.ContestImgCrop>
-          {/* </Link> */}
-          <RefModal
-            id2={idea.postId}
-            modalVisibleId2={modalVisibleId2}
-            setModalVisibleId2={setModalVisibleId2}
-            idea={idea}
-          />
 
           <Style.ProfileInfo>
             <Style.ProfileSize
@@ -206,6 +210,9 @@ const RefList = (props) => {
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
+      {sessionStorage.getItem("refmodal") === true && (
+        <RefModal id2={postId} idea={idea} />
+      )}
     </Style.ContestList>
   );
 };

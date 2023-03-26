@@ -58,12 +58,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RefModal({
-  id2,
-  modalVisibleId2,
-  setModalVisibleId2,
-  idea,
-}) {
+export default function RefModal({ id2, idea }) {
   const classes = useStyles();
   const Navigate = useNavigate();
   let Lo = window.location.href;
@@ -78,7 +73,12 @@ export default function RefModal({
     likeCount: 0,
     scrapCount: 0,
   });
-  const [middle, setMiddle] = useState({});
+  const [middle, setMiddle] = useState({
+    fileNames: [],
+    fileType: "",
+    likeCount: 0,
+    scrapCount: 0,
+  });
   const [bottom, setBottom] = useState({
     comments: [],
   });
@@ -102,7 +102,21 @@ export default function RefModal({
         });
 
         // middle : pdf/사진, 좋아요, 스크랩, filetype
-        setMiddle({});
+        let fileLength = res.data.data.fileNames[1].length;
+        let fileDot = res.data.data.fileNames[1].lastIndexOf(".");
+        setMiddle({
+          fileNames: res.data.data.fileNames,
+          likeCount: res.data.data.likeCount,
+          scrapCount: res.data.data.scrapCount,
+          fileType: res.data.data.fileNames[1]
+            .substring(fileDot + 1, fileLength)
+            .toLocaleLowerCase(),
+        });
+        console.log(
+          res.data.data.fileNames[1]
+            .substring(fileDot + 1, fileLength)
+            .toLocaleLowerCase()
+        );
 
         // bottom : 댓글
         setBottom({
@@ -115,8 +129,7 @@ export default function RefModal({
   }, []);
 
   const onCloseHandler2 = () => {
-    setModalVisibleId2(false);
-    if (Lo.includes("marketing")) {
+    /*if (Lo.includes("marketing")) {
       Navigate("/ref/marketing");
     } else if (Lo.includes("video")) {
       Navigate("/ref/video");
@@ -124,9 +137,11 @@ export default function RefModal({
       Navigate("/ref/design");
     } else if (Lo.includes("etc")) {
       Navigate("/ref/etc");
-    } else {
-      Navigate("/");
-    }
+    } else {*/
+    Navigate("/");
+    //window.location.reload(); // 새로고침
+    sessionStorage.setItem("refmodal", false);
+    /*}*/
   };
 
   const [like, setLike] = useState(idea.likeCount);
@@ -152,7 +167,7 @@ export default function RefModal({
   const handleScrap = (e) => {
     if (scrapBoolean === false) {
       //setSubscribe(e + 1);
-      axios.post(`/BE/reference/srap`);
+      axios.post(`/BE/reference/scrap/${id2}`);
     } else {
       setScrap(e);
     }
@@ -178,16 +193,9 @@ export default function RefModal({
   const changePageNum = (e) => {
     setShow(e.target.value);
   };
-  const a = "tset.pdf";
-  //파일 확장자에 따라서 다른 뷰어 출력하기
-  let fileLength = a.length;
-  let fileDot = a.lastIndexOf(".");
-  let fileType = a.substring(fileDot + 1, fileLength).toLocaleLowerCase();
 
   return (
-    <MS.ModalWrapper
-      className={modalVisibleId2 === id2 ? classes.show : classes.dis}
-    >
+    <MS.ModalWrapper>
       <MS.MobalBox>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         <br />
@@ -234,11 +242,13 @@ export default function RefModal({
         <MS.MobalContents>
           {/* 형식이 jpg jpeg png라면 */}
           {media &&
-          (fileType === "jpg" || fileType === "jpeg" || fileType === "png")
+          (middle.fileType === "jpg" ||
+            middle.fileType === "jpeg" ||
+            middle.fileType === "png")
             ? media.map(function (a, index) {
                 return <MS.ContentImg src={a} key={a} id={index} />;
               })
-            : ""}
+            : "파일을 불러오지 못했습니다."}
 
           {/* 동영상 링크가 있다면?
           {modalVisibleId2 ? 
@@ -247,7 +257,7 @@ export default function RefModal({
             </video>
           : "" } */}
 
-          {fileType === "pdf" ? (
+          {middle.fileType === "pdf" ? (
             <MS.PdfWrapper>
               <MS.PdfSet>
                 페이지 입력

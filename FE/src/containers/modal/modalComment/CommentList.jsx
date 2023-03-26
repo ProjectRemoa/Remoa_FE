@@ -1,35 +1,62 @@
 import { DF } from "../../../layout/DetailFeedbackStyle"
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import axios from 'axios'
-import { useEffect } from "react";
+import { useState } from "react";
+import { MS } from "../../../layout/ModalStyle"
 
-export default function RMCommentList() {
-  const fetchData = async () => {
-    // const response = await axios.get(`localhost:8080/reference/${postId}/comment`)
-    // setCommentList(response.data)
+export default function RMCommentList(props) {
+  const comments = props.comments;
+  const [isEdit, setIsEdit] = useState(false)
+  const [contents, setContents] = useState("")
+  const onChangeContents = (event) => {
+    setContents(event.target.value);
+  };
+
+  const onPutHandler = () => {
+    if (isEdit) {
+      const UploadComment= {
+        comment: contents
+      }
+      const data = axios.put(`/BE/reference/comment/${props.postId}`,UploadComment)
+      .then((response) => {
+        if (response.status === 200) alert(response.data);
+      })
+      .catch(() => {alert("통신 오류");})
+  
+      return data;
+    } else {
+      
+    } 
   }
-  useEffect(() => {fetchData()},[]);
-
+  const onDelete = () => {
+    const data = axios.delete(`/BE/reference/comment/${props.postId}`)
+    .then((response) => {
+      if (response.status === 200) alert(response.data);
+    })
+    .catch(() => {alert("통신 오류");})
+    return data
+  }
   return(
     <>
-      <DF.AgainWrapper>
+    {comments && comments.map((comments,index)=>(
+      <DF.AgainWrapper key={index}>
         <DF.AgainTable>
+          <tbody>
         <tr>
           <td>
-            <DF.ProfileSize src={"https://about.canva.com/wp-content/uploads/sites/8/2019/03/red.png"} />
+            <DF.ProfileSize src={comments.member.profileImage} />
           </td>
           <td style={{width:"100px"}}>
-            공모전짱ffffffffffffffffffff
+            {comments.member.nickname}
           </td>
           <td style={{float:"left",position:"relative",top:"15px"}}>
             <DF.HeaderButton>
               <ThumbUpIcon />
-              <DF.ThumbCount>22</DF.ThumbCount>
+              <DF.ThumbCount>{comments.likeCount}</DF.ThumbCount>
             </DF.HeaderButton>
-            <DF.HeaderButton style={{top:"-4px",position:"relative",color:"black",marginLeft:"22px"}}>
+            <DF.HeaderButton style={{top:"-4px",position:"relative",color:"black",marginLeft:"22px"}} onClick={() => {setIsEdit(!isEdit);}}>
               수정
             </DF.HeaderButton>
-            <DF.HeaderButton style={{top:"-4px",position:"relative",color:"black",marginLeft:"22px"}}>
+            <DF.HeaderButton style={{top:"-4px",position:"relative",color:"black",marginLeft:"22px"}} onClick={onDelete()}>
               삭제
             </DF.HeaderButton>
           </td>
@@ -37,12 +64,21 @@ export default function RMCommentList() {
         <tr>
           <td></td>
           <td colspan="2" style={{textAlign:"left"}}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra et.
+            {isEdit ?
+            <>
+              <MS.WriteInput required placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
+              욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다." 
+              onChange={onChangeContents} defaultValue={comments.comment} />
+              <button onClick={onPutHandler}>수정 완료하기</button>
+            </>
+            : comments.comment}
           </td>
         </tr>
+        </tbody>
       </DF.AgainTable>
      
     </DF.AgainWrapper>
+    ))} 
     </>
   )
 }
