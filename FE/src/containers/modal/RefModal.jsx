@@ -175,11 +175,11 @@ export default function RefModal({
 
         <MS.MobalContents>
           {/* 형식이 jpg jpeg png라면 */}
-          {media && media.map(function(a,index){
+          {(media && (fileType=="jpg" || fileType=="jpeg" || fileType=="png" ))  ? media.map(function(a,index){
             return (
               <MS.ContentImg src={a} key={a} id={index} />
             )
-          })}
+          }) : ""}
 
           {/* 동영상 링크가 있다면?
           {modalVisibleId2 ? 
@@ -188,7 +188,7 @@ export default function RefModal({
             </video>
           : "" } */}
 
-            <MS.PdfWrapper >
+          {fileType=="pdf"?  <MS.PdfWrapper >
               <MS.PdfSet>
                 페이지 입력
                 {numPages>1 ? <>
@@ -223,8 +223,8 @@ export default function RefModal({
                 </Document>
               </MS.PdfMannage>
               <div style={{height:"50px",width:"auto"}} />
-          </MS.PdfWrapper>
-
+          </MS.PdfWrapper> : ""}
+           
         </MS.MobalContents>
 
         <MS.TraceBoxWrapper>
