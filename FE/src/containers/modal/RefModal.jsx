@@ -58,10 +58,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RefModal({ id2, idea }) {
+export default function RefModal({
+  id2,
+  idea,
+  modalVisibleId2,
+  setModalVisibleId2,
+}) {
   const classes = useStyles();
   const Navigate = useNavigate();
-  let Lo = window.location.href;
 
   const [top, setTop] = useState({
     title: "",
@@ -138,9 +142,7 @@ export default function RefModal({ id2, idea }) {
     } else if (Lo.includes("etc")) {
       Navigate("/ref/etc");
     } else {*/
-    Navigate("/");
-    //window.location.reload(); // 새로고침
-    sessionStorage.setItem("refmodal", false);
+    setModalVisibleId2("");
     /*}*/
   };
 
@@ -195,7 +197,7 @@ export default function RefModal({ id2, idea }) {
   };
 
   return (
-    <MS.ModalWrapper>
+    <MS.ModalWrapper className={modalVisibleId2 == id2 ? "d_block" : "d_none"}>
       <MS.MobalBox>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         <br />

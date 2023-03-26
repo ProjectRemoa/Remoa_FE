@@ -46,8 +46,6 @@ const RefList = (props) => {
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
   let [user, setUser] = useState(users);
 
-  sessionStorage.setItem("modal", false);
-
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
     //console.log(endpoint);
@@ -108,23 +106,22 @@ const RefList = (props) => {
     onClickDate();
   }, []);
 
-  useEffect(() => {
-    if (sessionStorage.getItem("refmodal") === false) {
-      setModal(false);
-    }
-  }, []);
-
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
     setModalVisibleId(id);
   };
 
+  const [modalVisibleId2, setModalVisibleId2] = useState("");
+
   const [modal, setModal] = useState(false);
   const onClickModal = (idea, postId) => {
-    //sessionStorage.setItem("refmodal", true);
     setModal(!modal);
     setIdea(idea);
     setPostId(postId);
+    setModalVisibleId2(postId);
+  };
+  const onModalHandler2 = (id) => {
+    setModalVisibleId2(id);
   };
 
   const [postId, setPostId] = useState(0);
@@ -146,6 +143,7 @@ const RefList = (props) => {
     }
   }
   let Lo = window.location.href;
+  console.log(modalVisibleId2);
 
   return (
     <Style.ContestList>
@@ -169,9 +167,20 @@ const RefList = (props) => {
 
       {data.map((idea, index) => (
         <Style.ContestItem key={idea.postId}>
-          <Style.ContestImgCrop onClick={() => onClickModal(idea, idea.postId)}>
-            <Style.ContestImg src={idea.postThumbnail} alt="" />
+          <Style.ContestImgCrop>
+            <Style.ContestImg
+              src={idea.postThumbnail}
+              alt=""
+              onClick={() => onModalHandler2(idea.postId)}
+            />
           </Style.ContestImgCrop>
+
+          <RefModal
+            id2={idea.postId}
+            idea={idea}
+            modalVisibleId2={modalVisibleId2}
+            setModalVisibleId2={setModalVisibleId2}
+          />
 
           <Style.ProfileInfo>
             <Style.ProfileSize
@@ -210,9 +219,14 @@ const RefList = (props) => {
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
-      {sessionStorage.getItem("refmodal") === true && (
-        <RefModal id2={postId} idea={idea} />
-      )}
+      {/*{modal === true && (
+        <RefModal
+          id2={postId}
+          idea={idea}
+          modalVisibleId2={modalVisibleId2}
+          setModalVisibleId2={setModalVisibleId2}
+        />
+      )}*/}
     </Style.ContestList>
   );
 };
