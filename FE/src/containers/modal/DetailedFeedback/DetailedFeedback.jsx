@@ -62,7 +62,7 @@ const DetailedFeedback = ({id3, modalVisibleId3, setModalVisibleId3, idea, numPa
             {pageCount && pageCount.map(function(a,index){
               return <option value={a} key={index}>{a}</option>
             })}
-            {/* 사진덩어리 */}
+            {/* 사진덩어리*/}
             </select>
             <DF.FeedbackSend>등록</DF.FeedbackSend>
           </DF.RegTop>
