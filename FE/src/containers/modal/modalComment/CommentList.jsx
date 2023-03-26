@@ -1,7 +1,7 @@
 import { DF } from "../../../layout/DetailFeedbackStyle"
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { useState } from "react";
-import { MS } from "../../../layout/ModalStyle";
+import { MS } from "../../../layout/ModalStyle"
 
 export default function RMCommentList(props) {
   const comments = props.comments;
