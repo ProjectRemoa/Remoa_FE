@@ -173,6 +173,8 @@ const RefList = (props) => {
             <Style.ContestImg src={idea.postThumbnail} alt="" />
           </Style.ContestImgCrop>
 
+          <Style.ProfileFont>{idea.title}</Style.ProfileFont>
+          
           <Style.ProfileInfo>
             <Style.ProfileSize
               src={idea.postMember.profileImage}
@@ -186,7 +188,7 @@ const RefList = (props) => {
                 modalLocation(index + 1);
               }}
             />
-
+            {idea.postMember.nickname}
             <RefModalFollow
               id={idea.postId}
               modalVisibleId={modalVisibleId}
@@ -196,7 +198,7 @@ const RefList = (props) => {
             />
 
             <Style.ProfileData>
-              <Style.ProfileFont>{idea.title}</Style.ProfileFont>
+              
               <Style.ProfileInfoDetail>
                 &nbsp;
                 <RemoveRedEyeOutlinedIcon className={classes.home} />

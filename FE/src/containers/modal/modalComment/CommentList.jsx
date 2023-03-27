@@ -2,7 +2,7 @@ import { DF } from "../../../layout/DetailFeedbackStyle"
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { useState } from "react";
 import { MS } from "../../../layout/ModalStyle";
-
+import axios from "axios";
 export default function RMCommentList(props) {
   const comments = props.comments;
   const [isEdit, setIsEdit] = useState(false)

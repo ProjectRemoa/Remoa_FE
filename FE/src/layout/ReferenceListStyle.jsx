@@ -102,6 +102,7 @@ export const Style = {
     font-size: 1em;
     position: relative;
     top: 10px;
+    right:50px;
     @media ${props => props.theme.desktop} {
       font-size: 18px;
     }

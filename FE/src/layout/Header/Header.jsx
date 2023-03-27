@@ -75,11 +75,12 @@ const Style = {
   ButtonWrapper: styled.div`
     display: flex;
     flex-direction: row;
-    position: absolute;
-    right: 0%;
+    position: relative;
+    left:20vw;
     @media ${(props) => props.theme.desktop} {
     }
     @media ${(props) => props.theme.mobile} {
+     left:0vw;
     }
   `,
   BellButton: styled.button`

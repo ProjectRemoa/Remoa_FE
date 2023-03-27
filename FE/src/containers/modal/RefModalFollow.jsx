@@ -5,12 +5,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 const useStyles = makeStyles({
   close:{
-      color:"#FADA5E",
-      position:"absolute",
-      right:"5px",
-      cursor:"pointer",
-      top:"5px"
-  },
+    color:"#FADA5E",
+    position:"absolute",
+    right:"5px",
+    cursor:"pointer",
+    top:"5px"
+  }
 })
 
 export default function RefModalFollow({id, location, modalVisibleId, setModalVisibleId, idea}) {
