@@ -12,19 +12,24 @@ export default function RMCommentWrite(props) {
   };
 
   const onSumbitHandler = () => {
+    //e.preventDefault();
     const UploadComment = {
       comment: contents,
     };
-    const data = axios
+    //const data = axios
+    axios
       .post(`/BE/reference/${props.postId}/comment`, UploadComment)
       .then((response) => {
-        if (response.status === 200) alert(response.data);
+        console.log(response);
+        //if (response.status === 200) alert(response.data);
       })
-      .catch(() => {
-        alert("통신 오류");
+      .catch((err) => {
+        console.log(err);
       });
 
-    return data;
+    //navigate("/");
+
+    //return data;
   };
 
   return (
@@ -36,6 +41,7 @@ export default function RMCommentWrite(props) {
         placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
         욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
         onChange={onChangeContents}
+        value={contents}
       />
     </MS.CommentWriteWrapper>
   );

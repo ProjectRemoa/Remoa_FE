@@ -206,7 +206,6 @@ function ManageShareContainer() {
         compRes.length > 0 &&
         category.length > 0 &&
         thumbnail !== null &&
-        uploads.length > 0 &&
         youtubeLink.length > 0
       ) {
         setButtonColor(true);

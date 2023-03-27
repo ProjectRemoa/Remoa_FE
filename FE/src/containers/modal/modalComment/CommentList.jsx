@@ -3,6 +3,9 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import React, { useState } from "react";
 import { MS } from "../../../layout/ModalStyle";
 import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 export default function RMCommentList(props) {
   const comments = props.comments;
   const [isEdit, setIsEdit] = useState(false);
@@ -10,35 +13,41 @@ export default function RMCommentList(props) {
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
+  const navigate = useNavigate();
 
   const onPutHandler = () => {
     if (isEdit) {
       const UploadComment = {
         comment: contents,
       };
-      const data = axios
+      //const data =
+
+      axios
         .put(`/BE/reference/comment/${props.postId}`, UploadComment)
         .then((response) => {
+          console.log(response);
           if (response.status === 200) alert(response.data);
         })
-        .catch(() => {
-          alert("통신 오류");
+        .catch((err) => {
+          console.log(err);
         });
+      //navigate("/");
 
-      return data;
+      //return data;
     } else {
     }
   };
   const onDelete = () => {
-    const data = axios
+    //const data = axios
+    axios
       .delete(`/BE/reference/comment/${props.postId}`)
       .then((response) => {
-        if (response.status === 200) alert(response.data);
+        // if (response.status === 200) alert(response.data);
       })
       .catch(() => {
-        alert("통신 오류");
+        //alert("통신 오류");
       });
-    return data;
+    //return data;
   };
   return (
     <>
@@ -51,7 +60,9 @@ export default function RMCommentList(props) {
                   <td>
                     <DF.ProfileSize src={comments.member.profileImage} />
                   </td>
-                  <td style={{ width: "100px" }}>{comments.member.nickname}</td>
+                  <td style={{ width: "100px", fontSize: "90%" }}>
+                    {comments.member.nickname}
+                  </td>
                   <td
                     style={{ float: "left", position: "relative", top: "15px" }}
                   >

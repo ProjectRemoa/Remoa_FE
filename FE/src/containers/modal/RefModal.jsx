@@ -140,6 +140,8 @@ export default function RefModal({
       Navigate("/ref/design");
     } else if (Lo.includes("etc")) {
       Navigate("/ref/etc");
+    } else if (Lo.includes("/manage/list")) {
+      Navigate("/manage/list");
     } else {
       Navigate("/");
     }
@@ -257,7 +259,6 @@ export default function RefModal({
           {middle.fileType === "jpg" ||
           middle.fileType === "jpeg" ||
           middle.fileType === "png" ? (
-            /* 형식이 jpg jpeg png라면 */
             middle.fileNames.map((srcLink, index) => {
               return <MS.ContentImg src={srcLink} key={srcLink} id={index} />;
             })

@@ -210,9 +210,9 @@ const RefList = (props) => {
               <Style.ProfileInfoDetail>
                 &nbsp;
                 <RemoveRedEyeOutlinedIcon className={classes.home} />
-                &nbsp;{idea.likeCount}&nbsp; &nbsp;
-                <FavoriteOutlinedIcon className={classes.home2} />
                 &nbsp;{idea.views}&nbsp; &nbsp;
+                <FavoriteOutlinedIcon className={classes.home2} />
+                &nbsp;{idea.likeCount}&nbsp; &nbsp;
                 <StarIcon className={classes.star} />
                 &nbsp;{idea.scrapCount}
               </Style.ProfileInfoDetail>
