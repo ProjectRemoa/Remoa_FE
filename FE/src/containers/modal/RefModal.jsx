@@ -129,8 +129,6 @@ export default function RefModal({
         console.log(err);
       });
   }, []);
-
-  console.log(middle.fileNames[0]);
   let Lo = window.location.href;
 
   const onCloseHandler2 = () => {
@@ -151,30 +149,40 @@ export default function RefModal({
   const [like, setLike] = useState(idea.likeCount);
   const [likeBoolean, setLikeBoolean] = useState(false);
   const handleLike = (e) => {
-    if (likeBoolean === false) {
-      //setLike(e + 1);
-      axios
-        .post(`/BE/reference/like/${id2}`)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
+    /*if (likeBoolean === false) {*/
+    //setLike(e + 1);
+    axios
+      .post(`/BE/reference/${id2}/like`)
+      .then((res) => {
+        console.log(res);
+        setLike(res.data.data.likeCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    /* } else {
       setLike(e);
-    }
+    }*/
     setLikeBoolean(!likeBoolean);
   };
   const [scrap, setScrap] = useState(idea.scrapCount);
   const [scrapBoolean, setscrapBoolean] = useState(false);
   const handleScrap = (e) => {
-    if (scrapBoolean === false) {
-      //setSubscribe(e + 1);
-      axios.post(`/BE/reference/scrap/${id2}`);
-    } else {
-      setScrap(e);
-    }
+    /*if (scrapBoolean === false) {*/
+    //setSubscribe(e + 1);
+    axios
+      .post(`/BE/reference/${id2}/scrap`)
+      .then((res) => {
+        console.log(res);
+        setScrap(res.data.data.scrapCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    //} else {
+    //  setScrap(e);
+    //}
     setscrapBoolean(!scrapBoolean);
   };
 
@@ -347,10 +355,7 @@ export default function RefModal({
           </MS.TraceBox>
         </MS.TraceBoxWrapper>
 
-        <RefModalComment
-          postId={id2}
-          comments={middle.comments /*bottom.comments*/}
-        />
+        <RefModalComment postId={id2} comments={bottom.comments} />
       </MS.MobalBox>
     </MS.ModalWrapper>
   );
