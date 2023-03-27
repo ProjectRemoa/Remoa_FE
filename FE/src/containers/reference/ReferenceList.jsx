@@ -46,8 +46,6 @@ const RefList = (props) => {
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
   let [user, setUser] = useState(users);
 
-  sessionStorage.setItem("modal", false);
-
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
     //console.log(endpoint);
@@ -108,24 +106,28 @@ const RefList = (props) => {
     onClickDate();
   }, []);
 
-  useEffect(() => {
-    if (sessionStorage.getItem("refmodal") === false) {
-      setModal(false);
-    }
-  }, []);
-
   const [modalVisibleId, setModalVisibleId] = useState("");
   const onModalHandler = (id) => {
     setModalVisibleId(id);
   };
 
+  const [modalVisibleId2, setModalVisibleId2] = useState("");
+
   const [modal, setModal] = useState(false);
   const onClickModal = (idea, postId) => {
-    //sessionStorage.setItem("refmodal", true);
     setModal(!modal);
     setIdea(idea);
     setPostId(postId);
+    setModalVisibleId2(postId);
   };
+  const onModalHandler2 = (id) => {
+    setModalVisibleId2(id);
+    console.log(id);
+  };
+
+  useEffect(() => {
+    setModalVisibleId2((modalVisibleId2) => modalVisibleId2);
+  }, [modalVisibleId2]);
 
   const [postId, setPostId] = useState(0);
   const [idea, setIdea] = useState({});
@@ -164,13 +166,21 @@ const RefList = (props) => {
           스크랩순
         </Style.Sort>
       </Style.SortContainer>
-
       <Style.Line />
-
       {data.map((idea, index) => (
         <Style.ContestItem key={idea.postId}>
-          <Style.ContestImgCrop onClick={() => onClickModal(idea, idea.postId)}>
-            <Style.ContestImg src={idea.postThumbnail} alt="" />
+          <Style.ContestImgCrop>
+            <Style.ContestImg
+              src={idea.postThumbnail}
+              alt=""
+              onClick={
+                () =>
+                  onClickModal(
+                    idea,
+                    idea.postId
+                  ) /*onModalHandler2(idea.postId)*/
+              }
+            />
           </Style.ContestImgCrop>
 
           <Style.ProfileFont>{idea.title}</Style.ProfileFont>
@@ -202,9 +212,9 @@ const RefList = (props) => {
               <Style.ProfileInfoDetail>
                 &nbsp;
                 <RemoveRedEyeOutlinedIcon className={classes.home} />
-                &nbsp;{idea.likeCount}&nbsp; &nbsp;
-                <FavoriteOutlinedIcon className={classes.home2} />
                 &nbsp;{idea.views}&nbsp; &nbsp;
+                <FavoriteOutlinedIcon className={classes.home2} />
+                &nbsp;{idea.likeCount}&nbsp; &nbsp;
                 <StarIcon className={classes.star} />
                 &nbsp;{idea.scrapCount}
               </Style.ProfileInfoDetail>
@@ -212,8 +222,13 @@ const RefList = (props) => {
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
-      {sessionStorage.getItem("refmodal") === true && (
-        <RefModal id2={postId} idea={idea} />
+      {modalVisibleId2 !== "" && (
+        <RefModal
+          id2={postId}
+          idea={idea}
+          modalVisibleId2={modalVisibleId2}
+          setModalVisibleId2={setModalVisibleId2}
+        />
       )}
     </Style.ContestList>
   );
