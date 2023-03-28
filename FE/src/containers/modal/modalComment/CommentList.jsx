@@ -14,8 +14,9 @@ export default function RMCommentList(props) {
     setContents(event.target.value);
   };
   const navigate = useNavigate();
+  console.log(props);
 
-  const onPutHandler = () => {
+  const onPutHandler = (commentId) => {
     if (isEdit) {
       const UploadComment = {
         comment: contents,
@@ -23,10 +24,11 @@ export default function RMCommentList(props) {
       //const data =
 
       axios
-        .put(`/BE/reference/comment/${props.postId}`, UploadComment)
+        .put(`/BE/reference/comment/${commentId}`, UploadComment)
         .then((response) => {
           console.log(response);
-          if (response.status === 200) alert(response.data);
+          props.setComments({ comments: response.data.data });
+          alert("댓글 수정이 완료되었습니다.");
         })
         .catch((err) => {
           console.log(err);
@@ -35,6 +37,7 @@ export default function RMCommentList(props) {
 
       //return data;
     } else {
+      console.log(isEdit);
     }
   };
   const onDelete = () => {
@@ -42,10 +45,15 @@ export default function RMCommentList(props) {
     axios
       .delete(`/BE/reference/comment/${props.postId}`)
       .then((response) => {
+        console.log(response);
+        props.setComments({ comments: response.data.data });
+        alert("댓글 삭제가 완료되었습니다.");
         // if (response.status === 200) alert(response.data);
       })
-      .catch(() => {
-        //alert("통신 오류");
+      .catch((err) => {
+        console.log(err);
+
+        alert("통신 오류 in list");
       });
     //return data;
   };
@@ -70,30 +78,36 @@ export default function RMCommentList(props) {
                       <ThumbUpIcon />
                       <DF.ThumbCount>{comments.likeCount}</DF.ThumbCount>
                     </DF.HeaderButton>
-                    <DF.HeaderButton
-                      style={{
-                        top: "-4px",
-                        position: "relative",
-                        color: "black",
-                        marginLeft: "22px",
-                      }}
-                      onClick={() => {
-                        setIsEdit(!isEdit);
-                      }}
-                    >
-                      수정
-                    </DF.HeaderButton>
-                    <DF.HeaderButton
-                      style={{
-                        top: "-4px",
-                        position: "relative",
-                        color: "black",
-                        marginLeft: "22px",
-                      }}
-                      onClick={onDelete()}
-                    >
-                      삭제
-                    </DF.HeaderButton>
+                    {comments.member.nickname ===
+                      // 내가 해당 댓글 작성자여야만 수정 버튼이 보여야 함
+                      sessionStorage.getItem("nickname") && (
+                      <>
+                        <DF.HeaderButton
+                          style={{
+                            top: "-4px",
+                            position: "relative",
+                            color: "black",
+                            marginLeft: "22px",
+                          }}
+                          onClick={() => {
+                            setIsEdit(!isEdit);
+                          }}
+                        >
+                          수정
+                        </DF.HeaderButton>
+                        <DF.HeaderButton
+                          style={{
+                            top: "-4px",
+                            position: "relative",
+                            color: "black",
+                            marginLeft: "22px",
+                          }}
+                          onClick={onDelete}
+                        >
+                          삭제
+                        </DF.HeaderButton>
+                      </>
+                    )}
                   </td>
                 </tr>
                 <tr>
@@ -108,7 +122,11 @@ export default function RMCommentList(props) {
                           onChange={onChangeContents}
                           defaultValue={comments.comment}
                         />
-                        <button onClick={onPutHandler}>수정 완료하기</button>
+                        <button
+                          onClick={() => onPutHandler(comments.commentId)}
+                        >
+                          수정 완료하기
+                        </button>
                       </>
                     ) : (
                       comments.comment
