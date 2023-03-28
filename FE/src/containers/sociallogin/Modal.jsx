@@ -108,13 +108,14 @@ function Modal({ modalOpen }) {
       .then((res) => {
         console.log(res);
         // userInfo 보냈으면 sessionStorage에 있는 것들 id빼고 다 지우기
-        sessionStorage.setItem("nickname", res.data.data.nickname);
+        sessionStorage.setItem("nickname", res.data.data.email);
         //alert("환영합니다, " + sessionStorage.getItem("nickname") + "님!"); // 한글 깨짐 문제 존재
-        sessionStorage.removeItem("email");
+        //sessionStorage.removeItem("email");
         //sessionStorage.removeItem("nickname");
         //sessionStorage.removeItem("image");
         sessionStorage.removeItem("id");
         alert("회원가입이 완료되었습니다.");
+        window.location.reload();
         // 수정부분
         sessionStorage.removeItem("new");
       })

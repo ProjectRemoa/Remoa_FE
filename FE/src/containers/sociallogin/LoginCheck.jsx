@@ -45,7 +45,10 @@ function LoginCheck() {
   // localStorage나 sessionStorage를 권장
 
   useEffect(() => {
-    if (sessionStorage.getItem("nickname") !== null) {
+    if (
+      sessionStorage.getItem("nickname") !== null ||
+      sessionStorage.getItem("email") !== null
+    ) {
       setIsLogin(true);
     } else {
       setIsLogin(false);
@@ -69,6 +72,7 @@ function LoginCheck() {
     //cookies.remove("JSESSIONID", { path: "/" });
     //localStorage.removeItem("id");
     sessionStorage.removeItem("nickname");
+    sessionStorage.removeItem("email");
     sessionStorage.removeItem("new");
     setIsLogin(false);
     navigate("/");

@@ -40,7 +40,9 @@ const Category = styled.div`
   cursor: pointer;
 `;
 
-function ManageListContainer() {
+function ManageListContainer({ match }) {
+  // match ; params
+  const { id } = match.params; // member가 다르면 get도 달라야겠네..
   const [mywork, setMywork] = useState([]);
   const [totalOfAllReferences, setTotalOfAllReferences] = useState(0); // 전체 레퍼런스 수
   const [totalOfPageElements, setTotalOfPageElements] = useState(0); // 현재 페이지의 레퍼런스 수
@@ -58,7 +60,12 @@ function ManageListContainer() {
   useEffect(() => {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
     console.log("카테고리, 또는 정렬을 바꿀 때마다 렌더링");
-    const endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    let endpoint;
+    if (id !== null) {
+      endpoint = `/BE/user/reference/${id}/?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    } else {
+      endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    }
     getWork(endpoint, false);
   }, [categoryName, sortOption]);
 
@@ -120,15 +127,20 @@ function ManageListContainer() {
 
   const loadMoreItems = () => {
     setCurrentPage(currentPage + 1);
-    const endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+    let endpoint;
+    if (id !== null) {
+      endpoint = `/BE/user/reference/${id}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+    } else {
+      endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+    }
     getWork(endpoint, true);
   };
 
-  const [nick, setNick] = useState('')
+  const [nick, setNick] = useState("");
 
   const getData = (nick) => {
     setNick(nick);
-  }
+  };
   return (
     <div className="ManageListContainer">
       <div
@@ -141,6 +153,7 @@ function ManageListContainer() {
       >
         <span style={{ color: "#FADA5E" }}>
           {sessionStorage.getItem("nickname")}
+          {/* 다른 사람의 작업물 목록도 보여야 함 */}
         </span>
         님의 내 작업물 목록
       </div>

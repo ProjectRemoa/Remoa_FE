@@ -12,21 +12,33 @@ export default function RMCommentWrite(props) {
   };
 
   const onSumbitHandler = () => {
-    //e.preventDefault();
-    const UploadComment = {
-      comment: contents,
-    };
-    //const data = axios
-    axios
-      .post(`/BE/reference/${props.postId}/comment`, UploadComment)
-      .then((response) => {
-        console.log(response);
-        //if (response.status === 200) alert(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
+    if (
+      sessionStorage.getItem("nickname") === null //||
+      //sessionStorage.getItem("email") === null
+    ) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/sociallogin");
+    } else {
+      //e.preventDefault();
+      const UploadComment = {
+        comment: contents,
+      };
+      //const data = axios
+      axios
+        .post(`/BE/reference/${props.postId}/comment`, UploadComment, {
+          contentType: "text/html; charset=utf-8",
+        })
+        .then((response) => {
+          console.log(response);
+          props.setComments({ comments: response.data.data });
+          alert("댓글 등록이 완료되었습니다.");
+          //if (response.status === 200) alert(response.data);
+        })
+        .catch((err) => {
+          alert("통신 오류");
+          console.log(err);
+        });
+    }
     //navigate("/");
 
     //return data;

@@ -8,8 +8,12 @@ export default function RefModalComment(props) {
   const postId = props.postId;
   return (
     <MS.CommentWrapper>
-      <RMCommentWrite postId={postId} />
-      <RMCommentList comments={comments} postId={postId} />
+      <RMCommentWrite postId={postId} setComments={props.setComments} />
+      <RMCommentList
+        comments={comments}
+        postId={postId}
+        setComments={props.setComments}
+      />
     </MS.CommentWrapper>
   );
 }

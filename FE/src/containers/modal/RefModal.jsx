@@ -356,7 +356,11 @@ export default function RefModal({
           </MS.TraceBox>
         </MS.TraceBoxWrapper>
 
-        <RefModalComment postId={id2} comments={bottom.comments} />
+        <RefModalComment
+          postId={id2}
+          comments={bottom.comments}
+          setComments={setBottom}
+        />
       </MS.MobalBox>
     </MS.ModalWrapper>
   );
