@@ -43,7 +43,7 @@ export default function RMCommentList(props) {
   const onDelete = () => {
     //const data = axios
     axios
-      .delete(`/BE/reference/comment/${props.postId}`)
+      .delete(`/BE/comment/${props.postId}`)
       .then((response) => {
         console.log(response);
         props.setComments({ comments: response.data.data });
@@ -57,6 +57,7 @@ export default function RMCommentList(props) {
       });
     //return data;
   };
+
   return (
     <>
       {comments &&
@@ -90,7 +91,7 @@ export default function RMCommentList(props) {
                             marginLeft: "22px",
                           }}
                           onClick={() => {
-                            setIsEdit(!isEdit);
+                          setIsEdit(!isEdit)
                           }}
                         >
                           수정
@@ -114,20 +115,20 @@ export default function RMCommentList(props) {
                   <td></td>
                   <td colspan="2" style={{ textAlign: "left" }}>
                     {isEdit ? (
-                      <>
+                      <div id={comments.commentId} >
                         <MS.WriteInput
                           required
                           placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
-              욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
+                          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
                           onChange={onChangeContents}
                           defaultValue={comments.comment}
                         />
                         <button
-                          onClick={() => onPutHandler(comments.commentId)}
+                          onClick={() => {return onPutHandler(comments.commentId)}}
                         >
                           수정 완료하기
                         </button>
-                      </>
+                      </div>
                     ) : (
                       comments.comment
                     )}
