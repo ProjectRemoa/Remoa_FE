@@ -190,7 +190,7 @@ const RefList = (props) => {
                 <tbody>
                   <tr style={{width:"3vw"}}>
                     <td>
-                      <Style.ProfileSize src={idea.postMember.profileImage} alt=""
+                      <Style.ProfileSize src={idea.postMember.profileImage} alt=" "
                       onMouseEnter={() => {
                         onModalHandler(idea.postId);
                         modalLocation(index + 1);
