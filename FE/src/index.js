@@ -63,15 +63,12 @@ root.render(
             <Route path="/sociallogin" element={<SocialLoginPage />} />
             <Route path="/login/kakao" element={<KakaoLogin />} />
             <Route path="/" element={<RefIdeaPage />} />
-
             <Route path="/" element={<RefIdeaPage />}>
               <Route path=":id" element={<RefModal />} />
             </Route>
-
             <Route path="/ref/idea" element={<RefIdeaPage />}>
               <Route path=":id" element={<RefModal />} />
             </Route>
-
             <Route path="/ref/marketing" element={<RefMarketingPage />}>
               <Route path=":id" element={<RefModal />} />
             </Route>
@@ -85,7 +82,8 @@ root.render(
               <Route path=":id" element={<RefModal />} />
             </Route>
             <Route path="/ref/search/:search" element={<RefSearchPage />} />
-
+            <Route path="/manage/list/:id" element={<ManageList />} />
+            {/* 다른 사람의 작업물 목록도 보여야 함 */}
             <Route element={<AuthLayout />}>
               <Route path="/manage/list" element={<ManageList />} />
 
