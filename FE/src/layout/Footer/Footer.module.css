@@ -4,6 +4,7 @@
   width: 100%;
   bottom: 0;
   display : block;
+  position: absolute;
 }
 
 .contents{
@@ -18,4 +19,5 @@
 .title{
   font-weight: 600;
   font-size: 20px;
+  color: black;
 }

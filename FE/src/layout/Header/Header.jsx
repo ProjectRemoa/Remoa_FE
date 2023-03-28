@@ -1,6 +1,5 @@
 import styles from "./Header.module.css";
 import styled from "styled-components";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useNavigate } from "react-router-dom";
 import img from "../../images/로고대체.jpg";
 import axios from "axios";
@@ -9,16 +8,10 @@ import LoginCheck from "../../containers/sociallogin/LoginCheck";
 const Style = {
   Header: styled.div`
     position: fixed;
-    width: 1920px;
+    width: 100vw;
     height: 80px;
     background-color: #fada5e;
     z-index: 3;
-    @media ${(props) => props.theme.desktop} {
-      width: 1023px;
-    }
-    @media ${(props) => props.theme.mobile} {
-      width: 767px;
-    }
   `,
   Wrapper: styled.div`
     width: 100vw;
@@ -75,13 +68,8 @@ const Style = {
   ButtonWrapper: styled.div`
     display: flex;
     flex-direction: row;
-    position: relative;
-    left:20vw;
-    @media ${(props) => props.theme.desktop} {
-    }
-    @media ${(props) => props.theme.mobile} {
-     left:0vw;
-    }
+    position: absolute;
+    right:0;
   `,
   BellButton: styled.button`
     border: solid 2px white;
