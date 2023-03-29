@@ -110,7 +110,7 @@ export default function RefModal({
         // middle : pdf/사진, 좋아요, 스크랩, filetype
         let fileLength;
         let fileDot;
-        let fileType;
+        let fileType = "";
         if (res.data.data.fileNames.length >= 2) {
           // 영상이 아닌 경우
           // 영상인 경우 fileType은 ""값
@@ -266,12 +266,19 @@ export default function RefModal({
         <MS.Line />
 
         <MS.MobalContents>
-          {middle.youtubeLink !== "" ? (
+          {middle.fileType === "jpg" ||
+          middle.fileType === "jpeg" ||
+          middle.fileType === "png" ? (
+            middle.fileNames.map((srcLink, index) => {
+              return <MS.ContentImg src={srcLink} key={srcLink} id={index} />;
+            })
+          ) : middle.youtubeLink !== "" ? (
             <YouTube
               videoId={middle.youtubeLink}
               opts={{
-                width: "640px",
-                height: "390px",
+                width: "100%", //"640px",
+                height: "725px", //"390px",
+
                 playerVars: {
                   rel: 0,
                   modestbranding: 1, // youtube 로고 삽입 x
@@ -279,12 +286,6 @@ export default function RefModal({
               }}
               onEnd={(e) => e.target.stopVideo(0)}
             />
-          ) : middle.fileType === "jpg" ||
-            middle.fileType === "jpeg" ||
-            middle.fileType === "png" ? (
-            middle.fileNames.map((srcLink, index) => {
-              return <MS.ContentImg src={srcLink} key={srcLink} id={index} />;
-            })
           ) : (
             <MS.PdfWrapper>
               <MS.PdfSet>

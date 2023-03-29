@@ -83,7 +83,7 @@ root.render(
               <Route path=":id" element={<RefModal />} />
             </Route>
             <Route path="/ref/search/:search" element={<RefSearchPage />} />
-            <Route path="/manage/list/:id" element={<OtherManageList />} />
+            <Route path="/user/list/:id" element={<OtherManageList />} />
             {/* 다른 사람의 작업물 목록도 보여야 함*/}
             <Route element={<AuthLayout />}>
               <Route path="/manage/list" element={<ManageList />} />

@@ -40,10 +40,10 @@ export default function RMCommentList(props) {
       console.log(isEdit);
     }
   };
-  const onDelete = () => {
+  const onDelete = (commentId) => {
     //const data = axios
     axios
-      .delete(`/BE/comment/${props.postId}`)
+      .delete(`/BE/reference/comment/${commentId}`)
       .then((response) => {
         console.log(response);
         props.setComments({ comments: response.data.data });
@@ -61,11 +61,16 @@ export default function RMCommentList(props) {
       .post(`/BE/comment/${commentId}/like`)
       .then((res) => {
         console.log(res);
+        setThumb(res.data.data.LikeCount);
+        alert("댓글을 추천하였습니다.");
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const [thumb, setThumb] = useState(0);
+
   return (
     <>
       {comments &&
@@ -87,7 +92,7 @@ export default function RMCommentList(props) {
                       <ThumbUpIcon
                         onClick={() => onClickThumb(comments.commentId)}
                       />
-                      <DF.ThumbCount>{comments.likeCount}</DF.ThumbCount>
+                      <DF.ThumbCount>{thumb}</DF.ThumbCount>
                     </DF.HeaderButton>
                     {comments.member.nickname ===
                       // 내가 해당 댓글 작성자여야만 수정 버튼이 보여야 함
@@ -113,7 +118,7 @@ export default function RMCommentList(props) {
                             color: "black",
                             marginLeft: "22px",
                           }}
-                          onClick={onDelete}
+                          onClick={() => onDelete(comments.commentId)}
                         >
                           삭제
                         </DF.HeaderButton>

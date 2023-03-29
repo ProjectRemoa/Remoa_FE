@@ -25,9 +25,7 @@ export default function RMCommentWrite(props) {
       };
       //const data = axios
       axios
-        .post(`/BE/reference/${props.postId}/comment`, UploadComment, {
-          contentType: "text/html; charset=utf-8",
-        })
+        .post(`/BE/reference/${props.postId}/comment`, UploadComment)
         .then((response) => {
           console.log(response);
           props.setComments({ comments: response.data.data });
