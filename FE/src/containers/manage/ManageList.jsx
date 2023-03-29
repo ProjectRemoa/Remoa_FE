@@ -94,30 +94,48 @@ function ManageList(props) {
           </Style.ContestImgCrop>
 
           <Style.ProfileInfo>
-            {/*유저 프로필 사진*/}
-            <Style.ProfileSize
-              src={profileImage}
-              alt={memberId}
-              onMouseEnter={() => {
-                onModalHandler(mywork.postId);
-                modalLocation(index + 1);
-              }}
-              onClick={() => {
-                onModalHandler(mywork.postId);
-                modalLocation(index + 1);
-              }}
-            />
             <Style.ProfileFont>{mywork.title}</Style.ProfileFont>
-            <Style.ProfileInfoDetail>
-              {/* 유저 hits, thumbs, scrap */}
-              &nbsp;
-              <RemoveRedEyeOutlinedIcon className={classes.home} />
-              &nbsp;{mywork.views}&nbsp; &nbsp;
-              <FavoriteOutlinedIcon className={classes.home2} />
-              &nbsp;{mywork.likeCount}&nbsp; &nbsp;
-              <StarIcon className={classes.star} />
-              &nbsp;{mywork.scrapCount}
-            </Style.ProfileInfoDetail>
+
+            <table style={{ position: "absolute", top: "30px" }}>
+              <tbody>
+                <tr style={{ width: "3vw" }}>
+                  <td>
+                    <Style.ProfileSize
+                      src={mywork.postMember.profileImage}
+                      alt=" "
+                      onMouseEnter={() => {
+                        onModalHandler(mywork.postId);
+                        modalLocation(index + 1);
+                      }}
+                      onClick={() => {
+                        onModalHandler(mywork.postId);
+                        modalLocation(index + 1);
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <span
+                      style={{ left: "6vw", position: "absolute", top: "1vw" }}
+                    >
+                      {mywork.postMember.nickname}
+                    </span>
+                  </td>
+                </tr>
+                <tr style={{ width: "17vw" }}>
+                  <td></td>
+                  <td style={{ position: "relative", right: "50px" }}>
+                    <Style.ProfileInfoDetail>
+                      <RemoveRedEyeOutlinedIcon className={classes.home} />
+                      &nbsp;{mywork.views}&nbsp; &nbsp;
+                      <FavoriteOutlinedIcon className={classes.home2} />
+                      &nbsp;{mywork.likeCount}&nbsp; &nbsp;
+                      <StarIcon className={classes.star} />
+                      &nbsp;{mywork.scrapCount}
+                    </Style.ProfileInfoDetail>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}

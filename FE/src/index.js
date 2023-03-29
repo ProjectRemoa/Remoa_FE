@@ -41,6 +41,7 @@ import RefSearchPage from "./page/reference/RefSearchPage";
 import Auth from "./Auth";
 import AuthLayout from "./layout/AuthLayout";
 import PageWork from "./page/mypage/PageWork";
+import OtherManageList from "./page/management/OtherManageList";
 
 axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -82,7 +83,7 @@ root.render(
               <Route path=":id" element={<RefModal />} />
             </Route>
             <Route path="/ref/search/:search" element={<RefSearchPage />} />
-            <Route path="/manage/list/:id" element={<ManageList />} />
+            <Route path="/manage/list/:id" element={<OtherManageList />} />
             {/* 다른 사람의 작업물 목록도 보여야 함 */}
             <Route element={<AuthLayout />}>
               <Route path="/manage/list" element={<ManageList />} />
