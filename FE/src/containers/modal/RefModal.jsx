@@ -11,7 +11,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-
+import YouTube from "react-youtube";
 import useWindowSize from "./pdfView/useWindowSize";
 import DetailedFeedback from "./DetailedFeedback/DetailedFeedback";
 import { pdfjs, Document, Page } from "react-pdf";
@@ -83,6 +83,7 @@ export default function RefModal({
     fileType: "",
     likeCount: 0,
     scrapCount: 0,
+    youtubeLink: "", // category가 영상일 때
   });
   const [bottom, setBottom] = useState({
     comments: [],
@@ -107,23 +108,41 @@ export default function RefModal({
         });
 
         // middle : pdf/사진, 좋아요, 스크랩, filetype
-        let fileLength = res.data.data.fileNames[1].length;
-        let fileDot = res.data.data.fileNames[1].lastIndexOf(".");
+        let fileLength;
+        let fileDot;
+        let fileType;
+        if (res.data.data.fileNames.length >= 2) {
+          // 영상이 아닌 경우
+          // 영상인 경우 fileType은 ""값
+          fileLength = res.data.data.fileNames[1].length;
+          fileDot = res.data.data.fileNames[1].lastIndexOf(".");
+          fileType = res.data.data.fileNames[1]
+            .substring(fileDot + 1, fileLength)
+            .toLocaleLowerCase();
+        }
+
+        let videoId = res.data.data.youtubeLink.split("=");
+
         setMiddle({
           fileNames: res.data.data.fileNames.filter(
             (item, index) => index !== 0
           ),
           likeCount: res.data.data.likeCount,
           scrapCount: res.data.data.scrapCount,
-          fileType: res.data.data.fileNames[1]
-            .substring(fileDot + 1, fileLength)
-            .toLocaleLowerCase(),
+          fileType: fileType,
+          youtubeLink: videoId[1], // videoId만 출력해야함
         });
 
         // bottom : 댓글
         setBottom({
           comments: res.data.data.comments,
         });
+
+        // 내가 좋아요/스크랩했는지?
+        setLikeBoolean(res.data.data.isLiked);
+        setscrapBoolean(res.data.data.isScraped);
+        setLike(res.data.data.likeCount);
+        setScrap(res.data.data.scrapCount);
       })
       .catch((err) => {
         console.log(err);
@@ -148,11 +167,12 @@ export default function RefModal({
     setModalVisibleId2("");
   };
 
-  const [like, setLike] = useState(idea.likeCount);
+  const [like, setLike] = useState(0);
+  const [scrap, setScrap] = useState(0);
   const [likeBoolean, setLikeBoolean] = useState(false);
+  const [scrapBoolean, setscrapBoolean] = useState(false);
+
   const handleLike = (e) => {
-    /*if (likeBoolean === false) {*/
-    //setLike(e + 1);
     axios
       .post(`/BE/reference/${id2}/like`)
       .then((res) => {
@@ -162,17 +182,10 @@ export default function RefModal({
       .catch((err) => {
         console.log(err);
       });
-
-    /* } else {
-      setLike(e);
-    }*/
     setLikeBoolean(!likeBoolean);
   };
-  const [scrap, setScrap] = useState(idea.scrapCount);
-  const [scrapBoolean, setscrapBoolean] = useState(false);
+
   const handleScrap = (e) => {
-    /*if (scrapBoolean === false) {*/
-    //setSubscribe(e + 1);
     axios
       .post(`/BE/reference/${id2}/scrap`)
       .then((res) => {
@@ -182,9 +195,6 @@ export default function RefModal({
       .catch((err) => {
         console.log(err);
       });
-    //} else {
-    //  setScrap(e);
-    //}
     setscrapBoolean(!scrapBoolean);
   };
 
@@ -256,9 +266,22 @@ export default function RefModal({
         <MS.Line />
 
         <MS.MobalContents>
-          {middle.fileType === "jpg" ||
-          middle.fileType === "jpeg" ||
-          middle.fileType === "png" ? (
+          {middle.youtubeLink !== "" ? (
+            <YouTube
+              videoId={middle.youtubeLink}
+              opts={{
+                width: "640px",
+                height: "390px",
+                playerVars: {
+                  rel: 0,
+                  modestbranding: 1, // youtube 로고 삽입 x
+                },
+              }}
+              onEnd={(e) => e.target.stopVideo(0)}
+            />
+          ) : middle.fileType === "jpg" ||
+            middle.fileType === "jpeg" ||
+            middle.fileType === "png" ? (
             middle.fileNames.map((srcLink, index) => {
               return <MS.ContentImg src={srcLink} key={srcLink} id={index} />;
             })
@@ -327,13 +350,6 @@ export default function RefModal({
               <div style={{ height: "50px", width: "auto" }} />
             </MS.PdfWrapper>
           )}
-
-          {/* 동영상 링크가 있다면?
-          {modalVisibleId2 ? 
-            <video width='100%' height='auto' controlsList="nodownload" controls>
-              <source src={어쩌구저쩌구} type="video/mp4"/>
-            </video>
-          : "" } */}
         </MS.MobalContents>
 
         <MS.TraceBoxWrapper>

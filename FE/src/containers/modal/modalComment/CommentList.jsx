@@ -52,12 +52,20 @@ export default function RMCommentList(props) {
       })
       .catch((err) => {
         console.log(err);
-
-        alert("통신 오류 in list");
       });
     //return data;
   };
 
+  const onClickThumb = (commentId) => {
+    axios
+      .post(`/BE/comment/${commentId}/like`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <>
       {comments &&
@@ -76,7 +84,9 @@ export default function RMCommentList(props) {
                     style={{ float: "left", position: "relative", top: "15px" }}
                   >
                     <DF.HeaderButton>
-                      <ThumbUpIcon />
+                      <ThumbUpIcon
+                        onClick={() => onClickThumb(comments.commentId)}
+                      />
                       <DF.ThumbCount>{comments.likeCount}</DF.ThumbCount>
                     </DF.HeaderButton>
                     {comments.member.nickname ===
@@ -91,7 +101,7 @@ export default function RMCommentList(props) {
                             marginLeft: "22px",
                           }}
                           onClick={() => {
-                          setIsEdit(!isEdit)
+                            setIsEdit(!isEdit);
                           }}
                         >
                           수정
@@ -115,7 +125,7 @@ export default function RMCommentList(props) {
                   <td></td>
                   <td colspan="2" style={{ textAlign: "left" }}>
                     {isEdit ? (
-                      <div id={comments.commentId} >
+                      <div id={comments.commentId}>
                         <MS.WriteInput
                           required
                           placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
@@ -124,7 +134,9 @@ export default function RMCommentList(props) {
                           defaultValue={comments.comment}
                         />
                         <button
-                          onClick={() => {return onPutHandler(comments.commentId)}}
+                          onClick={() => {
+                            return onPutHandler(comments.commentId);
+                          }}
                         >
                           수정 완료하기
                         </button>

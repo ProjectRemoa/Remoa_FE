@@ -17,12 +17,14 @@ export default function FirstModal({ modalOpen, setModalOpen }) {
 
   const onClickChange = () => {
     sessionStorage.removeItem("new");
+    setModalOpen(false);
     navigate("/mypage/profile");
   };
 
   return (
     <>
-      <FM.ModalWrapper style={{ display: modalOpen === false && "none" }}>
+      <FM.ModalWrapper>
+        {/*style={{ display: modalOpen === false && "none" }}>*/}
         <FM.Modal>
           <FM.Up>
             <FM.Welcome>
