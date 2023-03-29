@@ -50,10 +50,14 @@ function ReferenceContainer() {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem("new") === true) {
+    console.log(typeof sessionStorage.getItem("new"));
+    if (sessionStorage.getItem("new") === "true") {
+      // type이 string
       setModalOpen(true);
+      //console.log("First Modal");
+    } else {
     }
-  });
+  }, []);
 
   const ideaOnClick = () => {
     Navigate("/");
@@ -78,7 +82,9 @@ function ReferenceContainer() {
   return (
     <>
       <>
-        <FirstModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+        {modalOpen && (
+          <FirstModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+        )}
       </>
       <Style.UnderHeader>
         <Style.Sort onClick={ideaOnClick}>

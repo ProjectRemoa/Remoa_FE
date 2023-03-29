@@ -52,10 +52,19 @@ export default function RMCommentList(props) {
       })
       .catch((err) => {
         console.log(err);
-
-        alert("통신 오류 in list");
       });
     //return data;
+  };
+
+  const onClickThumb = (commentId) => {
+    axios
+      .post(`/BE/comment/${commentId}/like`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <>
@@ -75,7 +84,9 @@ export default function RMCommentList(props) {
                     style={{ float: "left", position: "relative", top: "15px" }}
                   >
                     <DF.HeaderButton>
-                      <ThumbUpIcon />
+                      <ThumbUpIcon
+                        onClick={() => onClickThumb(comments.commentId)}
+                      />
                       <DF.ThumbCount>{comments.likeCount}</DF.ThumbCount>
                     </DF.HeaderButton>
                     {comments.member.nickname ===
