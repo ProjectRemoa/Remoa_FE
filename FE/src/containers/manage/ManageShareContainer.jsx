@@ -534,7 +534,7 @@ function ManageShareContainer() {
         disabled={!buttonColor}
         state={buttonColor}
         onClick={onClickRegister}
-        style={{ marginTop: "30px" }}
+        style={{ marginTop: "30px", marginBottom :"30px" }}
       >
         등록하기
       </Style.Button>

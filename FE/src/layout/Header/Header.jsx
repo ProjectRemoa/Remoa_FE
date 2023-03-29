@@ -1,7 +1,7 @@
 import styles from "./Header.module.css";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import img from "../../images/로고대체.jpg";
+import img from "../../images/LEMOA_TEXT_MARK.png";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import LoginCheck from "../../containers/sociallogin/LoginCheck";
@@ -25,7 +25,6 @@ const Style = {
   Logo: styled.div`
     width: 135px;
     height: 80px;
-    background-color: #d3a8ff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,7 +50,7 @@ const Style = {
   `,
   NavItemWrapper: styled.div`
     position: relative;
-    left: 0%;
+    left: 5%;
     @media ${(props) => props.theme.desktop} {
     }
     @media ${(props) => props.theme.mobile} {
@@ -188,7 +187,7 @@ const Header = () => {
     <Style.Header>
       <div className={styles.contents}>
         <Style.Logo>
-          <img src={img} alt="로고대체" />
+          <img src={img} alt="로고대체" style={{width:"120px"}} />
         </Style.Logo>
         <Style.NavWrapper>
           <Style.NavItemWrapper>

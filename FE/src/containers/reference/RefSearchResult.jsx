@@ -1,5 +1,4 @@
 import { React, useState } from 'react'
-import { getIdeaContests } from '../../temporary/idea_data'
 import St from '../../layout/RefSearchResultStyle';
 import { Style } from '../../layout/ReferenceListStyle'
 import {makeStyles} from "@material-ui/core/styles";
@@ -31,8 +30,7 @@ const useStyles = makeStyles({
 })
 function RefSearchResult(props) {
   const classes = useStyles();
-  let ideas = getIdeaContests();
-  let [data, setData] = useState(ideas);
+  let [data, setData] = useState('ideas');
 
   let whatSearch = decodeURI(window.location.pathname)
   const searched = data.filter((item) =>

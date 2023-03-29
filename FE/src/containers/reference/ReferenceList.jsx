@@ -1,6 +1,5 @@
 import { React, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { getIdeaContests, getUserInfo } from "../../temporary/idea_data";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import { Style } from "../../layout/ReferenceListStyle";
@@ -34,7 +33,6 @@ const useStyles = makeStyles({
 
 const RefList = (props) => {
   const classes = useStyles();
-  let ideas = getIdeaContests();
   /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
   let [data, setData] = useState([]);
   let [name, setName] = useState("");
@@ -42,9 +40,8 @@ const RefList = (props) => {
   let [page, setPage] = useState(1);
   let [category, setCatgory] = useState("etc");
 
-  let users = getUserInfo();
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
-  let [user, setUser] = useState(users);
+  let [user, setUser] = useState('');
 
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
