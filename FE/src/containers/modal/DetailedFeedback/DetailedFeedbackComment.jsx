@@ -27,7 +27,7 @@ export default function DetailedFeedbackComment() {
           {detailC[index].feedback.map((d1, index)=> (
             <div key={index}>
               <DF.FeedWrapperButton>
-                <DF.WrapperSearch href={`#${d1.page}`}>
+                <DF.WrapperSearch href={`#${d1.page-1}`}>
                   {d1.page}페이지
                 </DF.WrapperSearch>
               </DF.FeedWrapperButton>
