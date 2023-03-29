@@ -45,8 +45,6 @@ function Footer() {
       .catch((err) => {
         console.log(err);
       });
-    //cookies.remove("JSESSIONID", { path: "/" });
-    //localStorage.removeItem("id");
     sessionStorage.removeItem("nickname");
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("new");
