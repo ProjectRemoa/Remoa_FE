@@ -182,15 +182,17 @@ const RefList = (props) => {
               }
             />
           </Style.ContestImgCrop>
-               
+
           <Style.ProfileInfo>
             <Style.ProfileFont>{idea.title}</Style.ProfileFont>
 
-              <table style={{position:"absolute",top:"30px"}}>
-                <tbody>
-                  <tr style={{width:"3vw"}}>
-                    <td>
-                      <Style.ProfileSize src={idea.postMember.profileImage} alt=" "
+            <table style={{ position: "absolute", top: "30px" }}>
+              <tbody>
+                <tr style={{ width: "3vw" }}>
+                  <td>
+                    <Style.ProfileSize
+                      src={idea.postMember.profileImage}
+                      alt=" "
                       onMouseEnter={() => {
                         onModalHandler(idea.postId);
                         modalLocation(index + 1);
@@ -198,38 +200,40 @@ const RefList = (props) => {
                       onClick={() => {
                         onModalHandler(idea.postId);
                         modalLocation(index + 1);
-                      }} />
-            
-                      <RefModalFollow
-                        id={idea.postId}
-                        modalVisibleId={modalVisibleId}
-                        setModalVisibleId={setModalVisibleId}
-                        location={modalLocation(index + 1)}
-                        idea={idea}
-                      />
-                    </td>
-                    <td>
-                      <span style={{left:"6vw",position:"absolute",top:"1vw"}}>
-                        {idea.postMember.nickname}
-                      </span>
-                    </td>
-                  </tr>
-                  <tr style={{width:"17vw"}}>
-                    <td></td>
-                    <td style={{position:"relative",right:"50px"}}>
+                      }}
+                    />
 
-                      <Style.ProfileInfoDetail>
-                        <RemoveRedEyeOutlinedIcon className={classes.home} />
-                        &nbsp;{idea.views}&nbsp; &nbsp;
-                        <FavoriteOutlinedIcon className={classes.home2} />
-                        &nbsp;{idea.likeCount}&nbsp; &nbsp;
-                        <StarIcon className={classes.star} />
-                        &nbsp;{idea.scrapCount}
-                      </Style.ProfileInfoDetail>
+                    <RefModalFollow
+                      id={idea.postId}
+                      modalVisibleId={modalVisibleId}
+                      setModalVisibleId={setModalVisibleId}
+                      location={modalLocation(index + 1)}
+                      idea={idea}
+                    />
                   </td>
-                  </tr>
-                </tbody>
-              </table>                
+                  <td>
+                    <span
+                      style={{ left: "6vw", position: "absolute", top: "1vw" }}
+                    >
+                      {idea.postMember.nickname}
+                    </span>
+                  </td>
+                </tr>
+                <tr style={{ width: "17vw" }}>
+                  <td></td>
+                  <td style={{ position: "relative", right: "50px" }}>
+                    <Style.ProfileInfoDetail>
+                      <RemoveRedEyeOutlinedIcon className={classes.home} />
+                      &nbsp;{idea.views}&nbsp; &nbsp;
+                      <FavoriteOutlinedIcon className={classes.home2} />
+                      &nbsp;{idea.likeCount}&nbsp; &nbsp;
+                      <StarIcon className={classes.star} />
+                      &nbsp;{idea.scrapCount}
+                    </Style.ProfileInfoDetail>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}

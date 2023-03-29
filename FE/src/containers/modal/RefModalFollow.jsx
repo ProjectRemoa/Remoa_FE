@@ -3,6 +3,7 @@ import "../../../src/App.css";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles({
   close: {
     color: "#FADA5E",
@@ -21,12 +22,17 @@ export default function RefModalFollow({
   idea,
 }) {
   const classes = useStyles();
+  const navigate = useNavigate();
   const onCloseHandler = () => {
     setModalVisibleId("");
   };
   const [stateFollow, setStatestateFollow] = useState(false);
   const onClickFollow = () => {
     setStatestateFollow(!stateFollow);
+  };
+
+  const onClickMore = () => {
+    navigate(`/manage/list/${idea.postMember.memberId}`);
   };
   return (
     <MS.SmallModalWrapper
@@ -54,7 +60,10 @@ export default function RefModalFollow({
         <MS.SmallModalButton onClick={onClickFollow}>
           {stateFollow ? "팔로잉 중" : "팔로잉하기"}
         </MS.SmallModalButton>
-        <MS.SmallModalButton style={{ marginLeft: "7px" }}>
+        <MS.SmallModalButton
+          style={{ marginLeft: "7px", cursor: "pointer" }}
+          onClick={onClickMore}
+        >
           더 많은 작품 보기
         </MS.SmallModalButton>
       </MS.SmallModalButtonWrapper>
