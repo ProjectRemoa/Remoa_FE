@@ -65,7 +65,7 @@ function OtherManageListConatiner({ match }) {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
     console.log("카테고리, 또는 정렬을 바꿀 때마다 렌더링");
     let endpoint;
-    endpoint = `/BE/reference/${id}/?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    endpoint = `/BE/user/reference/${id}`; //?page=${1}&sort=${sortOption}&category=${categoryName}`;
     //endpoint = `/BE/user/reference/${id}`;
 
     getWork(endpoint, false);
@@ -131,7 +131,7 @@ function OtherManageListConatiner({ match }) {
   const loadMoreItems = () => {
     setCurrentPage(currentPage + 1);
     let endpoint;
-    endpoint = `/BE/reference/${id}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+    endpoint = `/BE/user/reference/${id}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
 
     getWork(endpoint, true);
   };
@@ -163,6 +163,7 @@ function OtherManageListConatiner({ match }) {
           alignItems: "center",
         }}
       >
+        {/*
         <Category
           state="all"
           onClick={() => onChangeCategory("all")}
@@ -254,7 +255,7 @@ function OtherManageListConatiner({ match }) {
           <span style={{ display: "inline-block", marginTop: "10px" }}>
             기타 아이디어
           </span>
-        </Category>
+        </Category>*/}
       </div>
 
       <div>
@@ -273,6 +274,7 @@ function OtherManageListConatiner({ match }) {
         ) : (
           <div>
             {/* 정렬순 */}
+            {/*
             <div style={{ float: "right", margin: "5px 10px 15px 0px" }}>
               <Style.Sort
                 onClick={() => handleSortClick(0)}
@@ -310,7 +312,7 @@ function OtherManageListConatiner({ match }) {
               >
                 스크랩순
               </Style.Sort>
-            </div>
+              </div>*/}
             <Line />
             <ManageList
               data={mywork}
