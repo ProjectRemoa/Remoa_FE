@@ -42,7 +42,7 @@ export default function DetailedFeedbackComment(props) {
                 {d1.content}
               </p>
               
-              {/* <DetailedFeedbackCommentAgain /> */}
+              {/* <DetailedFeedbackCommentAgain />*/}
           </div>
           ))}
           
