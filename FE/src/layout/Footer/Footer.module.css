@@ -1,19 +1,20 @@
-.footer{
-  background: #F5F5F5;
+.footer {
+  background: #f5f5f5;
   width: 100%;
   bottom: 0;
-  height:240px;
+  height: 150px; /*240px;*/
   display: flex;
   justify-content: center;
   padding-top: 50px;
+  position: absolute;
 }
 
-.contents{
+.contents {
   display: block;
   justify-content: center;
 }
 
-.title{
+.title {
   font-weight: 600;
   font-size: 20px;
   color: black;
