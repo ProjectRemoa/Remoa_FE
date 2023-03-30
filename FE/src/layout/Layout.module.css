@@ -4,19 +4,19 @@
   display: flex;
   flex-direction: column;
   text-align: center;
-  margin: 0;
   width: 100%;
 }
 
 .main {
   /*min-height: 1024px;*/
   margin-top: 150px; /* 03/19 수정 효빈 */
-  /*width: 100%;
-  /*height: 100%; /* 이렇게 해야 footer가 하단 고정 */
+  /*width: 100%;*/
+  height: 100%; /* 이렇게 해야 footer가 하단 고정 */
   background-color: white;
   overflow: auto; /* 2023-01-24 scroll 기능 구현  */
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "NotoSansKR-400";
+  width: 100vw;
 }

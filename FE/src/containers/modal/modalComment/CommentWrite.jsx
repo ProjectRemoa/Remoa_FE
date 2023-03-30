@@ -1,37 +1,58 @@
-import { MS } from "../../../layout/ModalStyle"
-import { useState, useEffect } from "react";
-import axios from 'axios'
+import { MS } from "../../../layout/ModalStyle";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export default function RMCommentWrite() {
-  const [contents, setContents] = useState("")
-  const [commentList, setCommentList] = useState([]);
-  let postId
+export default function RMCommentWrite(props) {
+  const navigate = useNavigate();
+  const [contents, setContents] = useState("");
+
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
 
-  // const fetchData = async () => {
-  //   const response = await axios.get(`localhost:8080/reference/${postId}/comment`)
-  //   setCommentList(response.data)
-  // }
-  // useEffect(() => {fetchData()},[]);
+  const onSumbitHandler = () => {
+    if (
+      sessionStorage.getItem("nickname") === null //||
+      //sessionStorage.getItem("email") === null
+    ) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/sociallogin");
+    } else {
+      //e.preventDefault();
+      const UploadComment = {
+        comment: contents,
+      };
+      //const data = axios
+      axios
+        .post(`/BE/reference/${props.postId}/comment`, UploadComment)
+        .then((response) => {
+          console.log(response);
+          props.setComments({ comments: response.data.data });
+          alert("댓글 등록이 완료되었습니다.");
+          //if (response.status === 200) alert(response.data);
+        })
+        .catch((err) => {
+          alert("통신 오류");
+          console.log(err);
+        });
+    }
+    //navigate("/");
 
-  const onSumbitHandler = async (e) => {
-    // e.preventDefault();
-    // await axios.post(`localhost:8080/reference/${postId}/comment`,contents)
-    // .then((response) => {
-    //   if (response.status === 200) alert("성공");
-    // })
-    // .catch(() => {alert("통신 오류");});
-    // fetchData()
-  }
+    //return data;
+  };
 
-  return(
-    <MS.CommentWriteWrapper onSubmit={onSumbitHandler}>
-      <p style={{float:"left", fontSize:"20px"}}>Comment</p>
-      <MS.CommentButton>댓글 등록</MS.CommentButton>
-      <MS.WriteInput required placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
-        욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다." onChange={onChangeContents} />
+  return (
+    <MS.CommentWriteWrapper>
+      <p style={{ float: "left", fontSize: "20px" }}>Comment</p>
+      <MS.CommentButton onClick={()=> {return onSumbitHandler()}}>댓글 등록</MS.CommentButton>
+      <MS.WriteInput
+        required
+        placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
+        욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
+        onChange={onChangeContents}
+        value={contents}
+      />
     </MS.CommentWriteWrapper>
-  )
+  );
 }

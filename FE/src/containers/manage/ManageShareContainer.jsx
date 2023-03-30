@@ -46,9 +46,10 @@ function getByteLength(s, b, i, c) {
 function ManageShareContainer() {
   const [name, setName] = useState("");
   const [comp, setComp] = useState("");
-  const [compRes, setCompRes] = useState("");
+  const [compRes, setCompRes] = useState("수상작");
   const [thumbnail, setThumbnail] = useState(null);
   const [category, setCategory] = useState("");
+  const [youtubeLink, setYoutubeLink] = useState("");
   const [uploads, setUploads] = useState([]);
 
   const [buttonColor, setButtonColor] = useState(false);
@@ -72,6 +73,13 @@ function ManageShareContainer() {
   /* 카테고리 */
   const onChangeCategory = (e) => {
     setCategory(e.target.value);
+    if (e.target.value === "video") {
+      setUploads([]); // 초기화
+    }
+  };
+
+  const onChangeYoutubeLink = (e) => {
+    setYoutubeLink(e.target.value);
   };
 
   /* 표지사진 */
@@ -190,19 +198,35 @@ function ManageShareContainer() {
   /* 검사 */
   useEffect(() => {
     // 하나라도 비어있으면 버튼이 클릭되지 않게
-    if (
-      name.length > 0 &&
-      comp.length > 0 &&
-      compRes.length > 0 &&
-      category.length > 0 &&
-      thumbnail !== null &&
-      uploads.length > 0
-    ) {
-      setButtonColor(true);
-    } else {
-      setButtonColor(false);
+    if (category === "video") {
+      // 영상을 클릭했다면 유튜브 링크도 첨부해야함
+      if (
+        name.length > 0 &&
+        comp.length > 0 &&
+        compRes.length > 0 &&
+        category.length > 0 &&
+        thumbnail !== null &&
+        youtubeLink.length > 0
+      ) {
+        setButtonColor(true);
+      } else {
+        setButtonColor(false);
+      }
+    } else if (category !== "video") {
+      if (
+        name.length > 0 &&
+        comp.length > 0 &&
+        compRes.length > 0 &&
+        category.length > 0 &&
+        thumbnail !== null &&
+        uploads.length > 0
+      ) {
+        setButtonColor(true);
+      } else {
+        setButtonColor(false);
+      }
     }
-  }, [name, comp, compRes, category, uploads, thumbnail]);
+  }, [name, comp, compRes, category, uploads, thumbnail, youtubeLink]);
 
   /* 등록하기 */
   const onClickRegister = () => {
@@ -214,6 +238,7 @@ function ManageShareContainer() {
       contestName: comp,
       category: category,
       contestAwardType: compRes,
+      youtubeLink: youtubeLink,
     };
     console.log(UploadPostForm);
     console.log(thumbnail);
@@ -244,7 +269,7 @@ function ManageShareContainer() {
         console.log(response);
         if (response.status === 200) {
           alert("정상 등록되었습니다.");
-          navigate("/");
+          navigate("/manage/list");
         }
       })
       .catch((err) => {
@@ -299,15 +324,24 @@ function ManageShareContainer() {
               <th className="th">
                 <label>수상 결과</label>
               </th>
-              <td className="td">
-                <input
+
+              {/*<td className="td">*/}
+              <select style={{ float: "left", width: "58.5%" }}>
+                <option key="수상작" value="수상작" onChange={onChangeRes}>
+                  수상작
+                </option>
+                <option key="참가작" value="참가작" onChange={onChangeRes}>
+                  참가작
+                </option>
+              </select>
+              {/*<input
                   required
                   type="text"
                   className="input"
                   placeholder="수상 결과를 선택해주세요"
                   onChange={onChangeRes}
-                />
-              </td>
+    />*/}
+              {/*</td>*/}
             </tr>
             {/* 카테고리 */}
             <tr>
@@ -341,7 +375,7 @@ function ManageShareContainer() {
                       id="radio-3"
                       type="radio"
                       name="category"
-                      value="design"
+                      value="video"
                       onChange={onChangeCategory}
                     />
                     <label htmlFor="radio-3">영상</label>
@@ -353,7 +387,7 @@ function ManageShareContainer() {
                       id="radio-4"
                       type="radio"
                       name="category"
-                      value="video"
+                      value="design"
                       onChange={onChangeCategory}
                     />
                     <label htmlFor="radio-4">디자인/사진</label>
@@ -371,6 +405,24 @@ function ManageShareContainer() {
                 </div>
               </td>
             </tr>
+            {/* 유튜브 링크 */}
+            {category === "video" && (
+              <tr>
+                <th className="th">
+                  <label>유튜브 링크</label>
+                </th>
+                <td className="td">
+                  <input
+                    required
+                    type="text"
+                    className="input"
+                    placeholder="영상 작업물 업로드 시 유튜브 링크를 업로드 해주세요."
+                    onChange={onChangeYoutubeLink}
+                  />
+                </td>
+              </tr>
+            )}
+
             {/* 표지사진 */}
             <tr>
               <th className="th">
@@ -415,63 +467,66 @@ function ManageShareContainer() {
               </td>
             </tr>
             {/* 첨부파일 */}
-            <tr>
-              <th className="th" style={{ verticalAlign: "top" }}>
-                <label>첨부파일</label>
-              </th>
-              <td className="td">
-                <div
-                  style={{
-                    width: "60%",
-                    height: "100px",
-                    fontSize: "70%",
-                    border: "1px solid #b0b0b0",
-                    background: "#ffffff",
-                    borderRadius: "10px",
-                    textAlign: "left",
-                    color: "#B0B0B0",
-                    padding: "3px",
-                    cursor: "pointer",
-                    overflow: "auto",
-                  }}
-                  onClick={onClickUpload}
-                >
-                  {uploads.length === 0 ? (
-                    <span>
-                      PDF/JPEG/PNG/MP4 파일만 업로드 가능하며, PDF, MP4 파일을
-                      1개 이상 올릴 시 다른 파일을 추가로 업로드할 수 없습니다.
-                      <br />
-                      이미지 파일의 경우 복수 업로드 가능하지만
-                    </span>
-                  ) : (
-                    <div>
-                      {uploads.map((upload) => (
-                        <span key={upload.name}>
-                          {upload.name}&nbsp;
-                          <span
-                            onClick={(e) => {
-                              e.stopPropagation(); // 겹쳐진 영역에서의 이중 클릭 이벤트 방지
-                              onClickDelete(upload.name);
-                            }}
-                          >
-                            🗙
+            {category !== "video" && (
+              <tr>
+                <th className="th" style={{ verticalAlign: "top" }}>
+                  <label>첨부파일</label>
+                </th>
+                <td className="td">
+                  <div
+                    style={{
+                      width: "60%",
+                      height: "100px",
+                      fontSize: "70%",
+                      border: "1px solid #b0b0b0",
+                      background: "#ffffff",
+                      borderRadius: "10px",
+                      textAlign: "left",
+                      color: "#B0B0B0",
+                      padding: "3px",
+                      cursor: "pointer",
+                      overflow: "auto",
+                    }}
+                    onClick={onClickUpload}
+                  >
+                    {uploads.length === 0 ? (
+                      <span>
+                        PDF/JPEG/PNG/MP4 파일만 업로드 가능하며, PDF, MP4 파일을
+                        1개 이상 올릴 시 다른 파일을 추가로 업로드할 수
+                        없습니다.
+                        <br />
+                        이미지 파일의 경우 복수 업로드 가능하지만
+                      </span>
+                    ) : (
+                      <div>
+                        {uploads.map((upload) => (
+                          <span key={upload.name}>
+                            {upload.name}&nbsp;
+                            <span
+                              onClick={(e) => {
+                                e.stopPropagation(); // 겹쳐진 영역에서의 이중 클릭 이벤트 방지
+                                onClickDelete(upload.name);
+                              }}
+                            >
+                              🗙
+                            </span>
+                            <br />
                           </span>
-                          <br />
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <input
-                  type="file"
-                  ref={fileInput}
-                  onChange={handleFileChange}
-                  style={{ display: "none" }}
-                  accept=".pdf, .jpg, .jpeg, .png, .mp4, .wav"
-                  multiple="multiple"
-                />
-              </td>
-            </tr>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    ref={fileInput}
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                    accept=".pdf, .jpg, .jpeg, .png, .mp4, .wav"
+                    multiple="multiple"
+                  />
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -479,7 +534,7 @@ function ManageShareContainer() {
         disabled={!buttonColor}
         state={buttonColor}
         onClick={onClickRegister}
-        style={{ marginTop: "30px" }}
+        style={{ marginTop: "30px", marginBottom :"30px" }}
       >
         등록하기
       </Style.Button>

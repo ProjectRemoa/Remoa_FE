@@ -1,12 +1,19 @@
 import { MS } from "../../layout/ModalStyle";
 import RMCommentList from "./modalComment/CommentList";
 import RMCommentWrite from "./modalComment/CommentWrite";
+import React from "react";
 
-export default function RefModalComment() {
+export default function RefModalComment(props) {
+  const comments = props.comments;
+  const postId = props.postId;
   return (
     <MS.CommentWrapper>
-      <RMCommentWrite />
-      <RMCommentList />
+      <RMCommentWrite postId={postId} setComments={props.setComments} />
+      <RMCommentList
+        comments={comments}
+        postId={postId}
+        setComments={props.setComments}
+      />
     </MS.CommentWrapper>
-  )
+  );
 }
