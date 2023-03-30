@@ -112,7 +112,7 @@ export default function RefModal({
         let fileDot;
         let fileType = "";
         if (res.data.data.fileNames.length >= 2) {
-          // 영상이 아닌 경우
+          // 영상 아닌 경우
           // 영상인 경우 fileType은 ""값
           fileLength = res.data.data.fileNames[1].length;
           fileDot = res.data.data.fileNames[1].lastIndexOf(".");
