@@ -1,12 +1,12 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import MyPageContainer from "../../containers/mypage/MyPageContainer";
-import Following from "../../containers/mypage/Follow/Following";
+import Follow from "../../containers/mypage/Follow";
 function PageFollowing() {
   return (
     <Layout>
       <MyPageContainer />
-      <Following></Following>
+      <Follow></Follow>
     </Layout>
   )
 }
