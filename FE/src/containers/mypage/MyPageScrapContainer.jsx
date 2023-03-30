@@ -25,7 +25,7 @@ const Button = styled.button`
   font-family: NotoSansKR-700;
 `;
 
-function MyPageScrapContainer() {
+function MyPageScrapContainer({ from }) {
   const [mywork, setMywork] = useState([]);
   const [totalOfAllReferences, setTotalOfAllReferences] = useState(0); // 전체 레퍼런스 수
   const [totalOfPageElements, setTotalOfPageElements] = useState(0); // 현재 페이지의 레퍼런스 수
@@ -107,12 +107,20 @@ function MyPageScrapContainer() {
               TAR={totalOfAllReferences}
               TPE={totalOfPageElements}
               TP={totalPages}
+              from={from === "work" ? "work" : "scrap"}
             />
             <div
               style={{
                 margin: "0 auto",
               }}
-            ></div>
+            >
+              <Line />
+              {totalElements > 12 && (
+                <div style={{ width: "100%" }}>
+                  <Button onClick={loadMoreItems}>더보기 &gt;</Button>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

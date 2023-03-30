@@ -30,9 +30,10 @@ const DetailedFeedback = ({
   numPages,
   media,
   link,
-  feedbacks
+  feedbacks,
+  setFeedback,
 }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const classes = useStyles();
   const onCloseHandler = () => {
     setModalVisibleId3("");
@@ -53,9 +54,7 @@ const DetailedFeedback = ({
   //이미지의 경우
 
   const onSumbitHandler = (e) => {
-    if (
-      sessionStorage.getItem("nickname") === null 
-    ) {
+    if (sessionStorage.getItem("nickname") === null) {
       alert("로그인이 필요한 서비스입니다.");
       navigate("/sociallogin");
     } else {
@@ -68,12 +67,14 @@ const DetailedFeedback = ({
         .then((response) => {
           console.log(response);
           alert("댓글 등록이 완료되었습니다.");
+          setFeedback(response.data.data); // 새로운 피드백 배열
         })
         .catch((err) => {
           alert("통신 오류");
           console.log(err);
         });
     }
+    setContents(""); // 입력된 피드백 초기화
   };
   return (
     <DF.ModalWrapper
@@ -97,17 +98,18 @@ const DetailedFeedback = ({
               </span>
               &nbsp; 페이지 번호 &nbsp;
             </DF.RegExplain>
-            <select onChange={handleSelect}
+            <select
+              onChange={handleSelect}
               style={{
                 width: "55px",
                 height: "24px",
                 position: "relative",
                 bottom: "7px",
-              }} disabled={link ? true : false
-              }
+              }}
+              disabled={link ? true : false}
             >
               {opti &&
-                opti.map(function(a, index) {
+                opti.map(function (a, index) {
                   return (
                     <option value={a} key={index}>
                       {a}
@@ -116,7 +118,7 @@ const DetailedFeedback = ({
                 })}
               {/* pdf  */}
               {pageCount &&
-                pageCount.map(function(a, index) {
+                pageCount.map(function (a, index) {
                   return (
                     <option value={a} key={index}>
                       {a}
@@ -124,12 +126,15 @@ const DetailedFeedback = ({
                   );
                 })}
               {/* 사진*/}
-              
             </select>
             <DF.FeedbackSend onClick={onSumbitHandler}>등록</DF.FeedbackSend>
           </DF.RegTop>
           <DF.RegBottom>
-            <DF.WriteInput onChange={onChangeContents} value={contents} required />
+            <DF.WriteInput
+              onChange={onChangeContents}
+              value={contents}
+              required
+            />
           </DF.RegBottom>
         </DF.ModalFeedReg>
       </DF.ModalWriteFeed>

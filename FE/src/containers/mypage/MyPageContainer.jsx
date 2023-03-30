@@ -84,7 +84,9 @@ function MyPageContainer() {
           )}
         </Style.Sort>
         <Style.Sort onClick={workOnClick}>
-          {window.location.pathname === "/mypage/work" ? (
+          {window.location.pathname === "/mypage/work" ||
+          window.location.pathname === "/mypage/scrap" ||
+          window.location.pathname === "/mypage/myfeedback" ? (
             <Style.PageStyle>내 활동 관리</Style.PageStyle>
           ) : (
             "내 활동 관리"

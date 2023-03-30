@@ -8,6 +8,7 @@ import RefModal from "../modal/RefModal";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import StarIcon from "@mui/icons-material/Star";
+import RefModalFollow from "../modal/RefModalFollow";
 
 const useStyles = makeStyles({
   home: {
@@ -64,6 +65,20 @@ function ManageList(props) {
     setModalVisibleId2(postId);
   };
 
+  /* RefModalFollow에 필요한 정보 */
+  const [index, setIndex] = useState(0);
+  const [otherMemberId, setOtherMemberId] = useState(0);
+  const [ideaFollow, setIdeaFollow] = useState({});
+  const [isFollow, setIsFollow] = useState(false);
+  const onClickFollow = (index, memberId, idea, isFollow) => {
+    setModalVisibleId(0);
+    setOtherMemberId(memberId);
+    setModalVisibleId(memberId);
+    setIndex(modalLocation(index + 1));
+    setIdeaFollow(idea);
+    setIsFollow(isFollow);
+  };
+
   function modalLocation(i) {
     if (window.innerWidth <= 767) {
       if (i % 2 === 0) {
@@ -104,12 +119,15 @@ function ManageList(props) {
                       src={mywork.postMember.profileImage}
                       alt=" "
                       onMouseEnter={() => {
-                        onModalHandler(mywork.postId);
-                        modalLocation(index + 1);
+                        onClickFollow(index, mywork.postMember.memberId, idea);
                       }}
                       onClick={() => {
-                        onModalHandler(mywork.postId);
-                        modalLocation(index + 1);
+                        onClickFollow(
+                          index,
+                          mywork.postMember.memberId,
+                          mywork,
+                          mywork.postMember.isFollow
+                        );
                       }}
                     />
                   </td>
@@ -147,6 +165,17 @@ function ManageList(props) {
           idea={idea}
         />
       )}
+      {modalVisibleId !== "" &&
+        (props.from === "work" || props.from === "scrap") && (
+          <RefModalFollow
+            id={otherMemberId}
+            modalVisibleId={modalVisibleId}
+            setModalVisibleId={setModalVisibleId}
+            location={modalLocation(index + 1) /*index*/}
+            idea={ideaFollow}
+            isFollow={isFollow}
+          />
+        )}
     </div>
   );
 }
