@@ -6,17 +6,17 @@ import DetailedFeedbackCommentAgain from './DetailedFeedbackCommentAgain';
 export default function DetailedFeedbackComment({feedbacks,link}) {
   return (
     <DF.EachFeedWrapper>
-      {feedbacks && feedbacks.map((f, index) => (
+      
         <div key={index} style={{marginBottom:"30px"}}>
           <DF.FeedWrapperHeader>
-            <DF.ProfileSize src={f.member.profileImage} />
+            <DF.ProfileSize src={feedbacks.member.profileImage} />
             <DF.ProfileName>
-              {f.member.nickname}
+              {feedbacks.member.nickname}
             </DF.ProfileName>
             <DF.ButtonWrapper>
               <DF.HeaderButton>
                 <ThumbUpIcon />
-                <DF.ThumbCount>{f.likeCount}</DF.ThumbCount>
+                <DF.ThumbCount>{feedbacks.likeCount}</DF.ThumbCount>
               </DF.HeaderButton>
               {/* <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
                 답글
@@ -24,8 +24,8 @@ export default function DetailedFeedbackComment({feedbacks,link}) {
             </DF.ButtonWrapper>          
           </DF.FeedWrapperHeader>
 
-   
-            <div>
+          {feedbacks && feedbacks.map((f, index) => (
+            <div key={index}>
               <DF.FeedWrapperButton>
                 {link ? 
                 <DF.WrapperSearch>
@@ -44,9 +44,9 @@ export default function DetailedFeedbackComment({feedbacks,link}) {
               
               {/* <DetailedFeedbackCommentAgain /> */}
           </div>
-          
+          ))}
         </div>
-      ))}
+      
   </DF.EachFeedWrapper>
   )
 }
