@@ -5,7 +5,6 @@ import axios from "axios";
 import defaultImage from "../../images/profile_img.png"
 import { useRef } from 'react';
 import { useEffect } from 'react';
-import PopupDom from './MypageProfilePopupDom';
 import PopupContent from './MyPageProfilePopupContent';
 
 const Style={
@@ -209,13 +208,12 @@ function MyPageProfile() {
         setIsOpenPopup(true);
     };
 
-    const closePopup = (university) => {
-        console.log("확인")
+    const closePopup = () => {
         setIsOpenPopup(false);
-        setInput({
-            ...input,
-            ['university']:university
-        });
+    };
+
+    const getUniversity = (name) => {
+        closePopup();
     };
 
     const getProfileImg = () => {
@@ -236,6 +234,7 @@ function MyPageProfile() {
         .delete(`/BE/user/img`)
         .then(() => {
             console.log("프로필 이미지 삭제 완료");
+            window.location.reload();
         })
         .catch((err) => {
             console.log(err);
@@ -361,6 +360,7 @@ function MyPageProfile() {
                 <Style.ItemWrapper>
                     <Style.Question>재학 중 대학</Style.Question>
                     <Style.Answer
+                        id='profileUniversity'
                         placeholder={university}
                         disabled
                     ></Style.Answer>
@@ -369,11 +369,7 @@ function MyPageProfile() {
                         id='popupDom'
                         onClick={openPopup}
                     >검색하기</Style.ItemButton>
-                    {isOpenPopup &&
-                        <PopupDom isOpen={isOpenPopup}>
-                            <PopupContent onClose={closePopup(university)}></PopupContent>
-                        </PopupDom>
-                    }
+                    {isOpenPopup && <PopupContent getUniversity={getUniversity} close={closePopup}></PopupContent>}
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{gridTemplateColumns: '1fr 3fr'}}>
