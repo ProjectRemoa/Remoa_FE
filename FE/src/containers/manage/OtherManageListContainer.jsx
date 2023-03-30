@@ -21,22 +21,6 @@ const Button = styled.button`
   font-family: NotoSansKR-700;
 `;
 
-const ButtonRegister = styled.button`
-  width: 15%;
-  min-width: 280px;
-
-  height: 50px;
-  margin: 0 auto;
-  border: none;
-  border-radius: 30px;
-  box-shadow: none;
-  color: #010101;
-
-  cursor: pointer;
-  background: #fada5e;
-  font-family: NotoSansKR-700;
-`;
-
 const Line = styled.hr`
   width: 90%;
   border: none;
@@ -56,7 +40,9 @@ const Category = styled.div`
   cursor: pointer;
 `;
 
-function ManageListContainer() {
+function OtherManageListConatiner({ match }) {
+  // match ; params
+  const { id } = useParams(); // member가 다르면 get도 달라야겠네..
   const [mywork, setMywork] = useState([]);
   const [totalOfAllReferences, setTotalOfAllReferences] = useState(0); // 전체 레퍼런스 수
   const [totalOfPageElements, setTotalOfPageElements] = useState(0); // 현재 페이지의 레퍼런스 수
@@ -69,18 +55,19 @@ function ManageListContainer() {
 
   const [selectedSortIndex, setSekectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
 
+  const [name, setName] = useState(""); // 해당 유저의 이름
+
   const navigate = useNavigate();
+
+  console.log("id : " + id);
 
   useEffect(() => {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
     console.log("카테고리, 또는 정렬을 바꿀 때마다 렌더링");
     let endpoint;
-    //if (id !== undefined) {
-    //endpoint = `/BE/user/reference/${id}/?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    //  endpoint = `/BE/user/reference/${id}`;
-    //} else {
-    endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    //}
+    endpoint = `/BE/user/reference/${id}`; //?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    //endpoint = `/BE/user/reference/${id}`;
+
     getWork(endpoint, false);
   }, [categoryName, sortOption]);
 
@@ -129,6 +116,7 @@ function ManageListContainer() {
         setTotalOfPageElements(res.data.data.totalOfPageElements);
         setTotalPages(res.data.data.totalPages);
         setPageNumber(pageNumber + 1); // 다음 페이지를 렌더링 하기 위해
+        setName(res.data.data.references[0].postMember.nickname);
       })
       .catch((err) => {
         console.log(err);
@@ -143,11 +131,8 @@ function ManageListContainer() {
   const loadMoreItems = () => {
     setCurrentPage(currentPage + 1);
     let endpoint;
-    //if (id !== undefined) {
-    //  endpoint = `/BE/user/reference/${id}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    //} else {
-    endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    //}
+    endpoint = `/BE/user/reference/${id}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+
     getWork(endpoint, true);
   };
 
@@ -155,10 +140,6 @@ function ManageListContainer() {
 
   const getData = (nick) => {
     setNick(nick);
-  };
-
-  const onClickRegister = () => {
-    navigate("/manage/share");
   };
   return (
     <div className="ManageListContainer">
@@ -170,10 +151,8 @@ function ManageListContainer() {
           fontSize: "1.8vw",
         }}
       >
-        <span style={{ color: "#FADA5E" }}>
-          {sessionStorage.getItem("nickname")}
-        </span>
-        님의 내 작업물 목록
+        <span style={{ color: "#FADA5E" }}>{name}</span>
+        님의 작업물 목록
       </div>
       <div
         align="center"
@@ -184,6 +163,7 @@ function ManageListContainer() {
           alignItems: "center",
         }}
       >
+        {/*
         <Category
           state="all"
           onClick={() => onChangeCategory("all")}
@@ -275,30 +255,26 @@ function ManageListContainer() {
           <span style={{ display: "inline-block", marginTop: "10px" }}>
             기타 아이디어
           </span>
-        </Category>
+        </Category>*/}
       </div>
 
       <div>
         {!totalOfAllReferences ? (
           <div style={{ marginTop: "50px" }}>
-            <p
+            <span
               style={{
-                fontSize: "2vw",
+                fontSize: "1.75vw",
                 color: "#464646",
                 fontFamily: "NotoSansKR-700",
-                marginBottom: "5px",
               }}
             >
               아직 작업물이 없어요
-            </p>
-            <p style={{ fontSize: "1.2vw" }}>
-              작업물을 업로드해 다른 사람들의 피드백을 받아보세요
-            </p>
-            <ButtonRegister onClick={onClickRegister}>등록하기</ButtonRegister>
+            </span>
           </div>
         ) : (
           <div>
             {/* 정렬순 */}
+            {/*
             <div style={{ float: "right", margin: "5px 10px 15px 0px" }}>
               <Style.Sort
                 onClick={() => handleSortClick(0)}
@@ -336,7 +312,7 @@ function ManageListContainer() {
               >
                 스크랩순
               </Style.Sort>
-            </div>
+              </div>*/}
             <Line />
             <ManageList
               data={mywork}
@@ -363,4 +339,4 @@ function ManageListContainer() {
   );
 }
 
-export default ManageListContainer;
+export default OtherManageListConatiner;

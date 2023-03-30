@@ -9,8 +9,10 @@ import PopupContent from './MyPageProfilePopupContent';
 
 const Style={
     Wrapper:styled.div`
-        margin-top: 200px;
+        margin-top: 100px;
         margin-bottom: 112px;
+        height:auto;
+        widht:auto;
     `,
     ProfileImage:styled.img`
         width: 222px;

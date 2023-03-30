@@ -40,6 +40,8 @@ import RefSearchPage from "./page/reference/RefSearchPage";
 
 import Auth from "./Auth";
 import AuthLayout from "./layout/AuthLayout";
+import PageWork from "./page/mypage/PageWork";
+import OtherManageList from "./page/management/OtherManageList";
 
 axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -62,15 +64,12 @@ root.render(
             <Route path="/sociallogin" element={<SocialLoginPage />} />
             <Route path="/login/kakao" element={<KakaoLogin />} />
             <Route path="/" element={<RefIdeaPage />} />
-
             <Route path="/" element={<RefIdeaPage />}>
               <Route path=":id" element={<RefModal />} />
             </Route>
-
             <Route path="/ref/idea" element={<RefIdeaPage />}>
               <Route path=":id" element={<RefModal />} />
             </Route>
-
             <Route path="/ref/marketing" element={<RefMarketingPage />}>
               <Route path=":id" element={<RefModal />} />
             </Route>
@@ -84,7 +83,8 @@ root.render(
               <Route path=":id" element={<RefModal />} />
             </Route>
             <Route path="/ref/search/:search" element={<RefSearchPage />} />
-
+            <Route path="/user/list/:id" element={<OtherManageList />} />
+            {/* 다른 사람의 작업물 목록도 보여야 함*/}
             <Route element={<AuthLayout />}>
               <Route path="/manage/list" element={<ManageList />} />
 
@@ -96,6 +96,7 @@ root.render(
               <Route path="/mypage/following" element={<PageFollowing />} />
               <Route path="/mypage/scrap" element={<PageScrap />} />
               <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
+              <Route path="/mypage/work" element={<PageWork />} />
               <Route path="/mypage/faq" element={<PageFAQ />} />
             </Route>
             <Route path="*" element={<UnknownPage />} />
