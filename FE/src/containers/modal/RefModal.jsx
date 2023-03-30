@@ -257,10 +257,11 @@ export default function RefModal({
               id3={id2}
               modalVisibleId3={modalVisibleId3}
               setModalVisibleId3={setModalVisibleId3}
-              idea={idea}
+              
               numPages={numPages}
-              media={media}
+              media={middle.fileNames}
               link={middle.youtubeLink}
+              feedbacks={idea.feedbacks}
             />
           </MS.HeaderDiv2>
         </MS.MobalHeader>
