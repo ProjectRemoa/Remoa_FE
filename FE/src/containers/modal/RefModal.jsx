@@ -89,6 +89,7 @@ export default function RefModal({
     comments: [],
   });
 
+  const [category, setCategory] = useState("");
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
     axios
@@ -112,7 +113,7 @@ export default function RefModal({
         let fileDot;
         let fileType = "";
         if (res.data.data.fileNames.length >= 2) {
-          // 영상이 아닌 경우
+          // 영상 아닌 경우
           // 영상인 경우 fileType은 ""값
           fileLength = res.data.data.fileNames[1].length;
           fileDot = res.data.data.fileNames[1].lastIndexOf(".");
@@ -143,6 +144,9 @@ export default function RefModal({
         setscrapBoolean(res.data.data.isScraped);
         setLike(res.data.data.likeCount);
         setScrap(res.data.data.scrapCount);
+
+        // 카테고리 따라서 뜨는 뷰어 다르게
+        setCategory(res.data.data.category);
       })
       .catch((err) => {
         console.log(err);
@@ -218,7 +222,7 @@ export default function RefModal({
   const changePageNum = (e) => {
     setShow(e.target.value);
   };
-  
+
   return (
     <MS.ModalWrapper /*className={modalVisibleId2 === id2 ? "d_block" : "d_none"}*/
     >
@@ -257,7 +261,6 @@ export default function RefModal({
               id3={id2}
               modalVisibleId3={modalVisibleId3}
               setModalVisibleId3={setModalVisibleId3}
-              
               numPages={numPages}
               media={middle.fileNames}
               link={middle.youtubeLink}
@@ -268,13 +271,7 @@ export default function RefModal({
         <MS.Line />
 
         <MS.MobalContents>
-          {middle.fileType === "jpg" ||
-          middle.fileType === "jpeg" ||
-          middle.fileType === "png" ? (
-            middle.fileNames.map((srcLink, index) => {
-              return <MS.ContentImg src={srcLink} key={srcLink} id={index} />;
-            })
-          ) : middle.youtubeLink !== "" ? (
+          {category === "video" ? (
             <YouTube
               videoId={middle.youtubeLink}
               opts={{
@@ -288,6 +285,12 @@ export default function RefModal({
               }}
               onEnd={(e) => e.target.stopVideo(0)}
             />
+          ) : middle.fileType === "jpg" ||
+            middle.fileType === "jpeg" ||
+            middle.fileType === "png" ? (
+            middle.fileNames.map((srcLink, index) => {
+              return <MS.ContentImg src={srcLink} key={srcLink} id={index} />;
+            })
           ) : (
             <MS.PdfWrapper>
               <MS.PdfSet>

@@ -42,7 +42,7 @@ export default function DetailedFeedbackComment({feedbacks,link}) {
                 {f.feedback}
               </p>
               
-              {/* <DetailedFeedbackCommentAgain /> */}
+              {/* <DetailedFeedbackCommentAgain />*/}
           </div>
           ))}
         </div>
