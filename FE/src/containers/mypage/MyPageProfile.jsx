@@ -9,7 +9,7 @@ import PopupContent from './MyPageProfilePopupContent';
 
 const Style={
     Wrapper:styled.div`
-        margin-top: 200px;
+        margin-top: 100px;
         margin-bottom: 112px;
     `,
     ProfileImage:styled.img`
