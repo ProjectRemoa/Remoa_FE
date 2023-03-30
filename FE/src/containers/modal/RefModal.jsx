@@ -87,6 +87,11 @@ export default function RefModal({
   });
   const [comments, setComments] = useState([]); // 댓글 왜 안되지
   const [feedback, setFeedback] = useState([]);
+  const [postMember, setPostMember] = useState({
+    memberId: 0,
+    nickname: "",
+    profileImage: "",
+  });
 
   const [category, setCategory] = useState("");
   useEffect(() => {
@@ -156,6 +161,13 @@ export default function RefModal({
 
         // 피드백 담아서 넘기기
         setFeedback(res.data.data.feedbacks);
+
+        // 유저 정보 받기
+        setPostMember({
+          memberId: res.data.data.postMember.memberId,
+          nickname: res.data.data.postMember.nickname,
+          profileImage: res.data.data.postMember.profileImage,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -257,8 +269,8 @@ export default function RefModal({
 
           <MS.HeaderDiv2>
             <MS.HeaderUserInfo>
-              <MS.ProfileSize src={idea.postMember.profileImage} />
-              <MS.HeaderUserName>{idea.postMember.nickname}</MS.HeaderUserName>
+              <MS.ProfileSize src={postMember.profileImage} />
+              <MS.HeaderUserName>{postMember.nickname}</MS.HeaderUserName>
               <MS.HeaderDetail2>
                 <RemoveRedEyeOutlinedIcon />
                 {top.views}
