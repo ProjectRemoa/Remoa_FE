@@ -1,9 +1,10 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { DF } from "../../../layout/DetailFeedbackStyle";
 import CloseIcon from "@mui/icons-material/Close";
-
+import axios from "axios";
 import React, { useState } from "react";
 import DetailedFeedbackComment from "./DetailedFeedbackComment";
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles({
   dis: {
     display: "none",
@@ -26,25 +27,54 @@ const DetailedFeedback = ({
   id3,
   modalVisibleId3,
   setModalVisibleId3,
-  idea,
   numPages,
   media,
-  link
+  link,
+  feedbacks
 }) => {
+  const navigate = useNavigate()
   const classes = useStyles();
   const onCloseHandler = () => {
     setModalVisibleId3("");
   };
-  const [search, setSearch] = useState(1);
-  const changeSearch = (e) => {
-    setSearch(e.target.value);
+  const [contents, setContents] = useState("");
+
+  const onChangeContents = (event) => {
+    setContents(event.target.value);
+  };
+
+  const [selected, setSelected] = useState(1);
+  const handleSelect = (e) => {
+    setSelected(e.target.value);
   };
   const opti = Array.from({ length: numPages }, (v, i) => i + 1);
   //이거는 pdf의 경우
-  const pageCount = Array.from({ length: media }, (v, i) => i + 1);
+  const pageCount = Array.from({ length: media.length }, (v, i) => i + 1);
   //이미지의 경우
 
-  //동영상의 경우
+  const onSumbitHandler = (e) => {
+    if (
+      sessionStorage.getItem("nickname") === null 
+    ) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/sociallogin");
+    } else {
+      e.preventDefault();
+      const UploadFeedback = {
+        feedback: contents,
+      };
+      axios
+        .post(`/BE/reference/${id3}/${selected}`, UploadFeedback)
+        .then((response) => {
+          console.log(response);
+          alert("댓글 등록이 완료되었습니다.");
+        })
+        .catch((err) => {
+          alert("통신 오류");
+          console.log(err);
+        });
+    }
+  };
   return (
     <DF.ModalWrapper
       className={modalVisibleId3 == id3 ? classes.show : classes.dis}
@@ -55,7 +85,7 @@ const DetailedFeedback = ({
       </DF.ModalHeader>
 
       <DF.Feedback>
-        <DetailedFeedbackComment link={link} />
+        <DetailedFeedbackComment link={link} feedbacks={feedbacks} />
       </DF.Feedback>
 
       <DF.ModalWriteFeed>
@@ -67,7 +97,7 @@ const DetailedFeedback = ({
               </span>
               &nbsp; 페이지 번호 &nbsp;
             </DF.RegExplain>
-            <select
+            <select onChange={handleSelect}
               style={{
                 width: "55px",
                 height: "24px",
@@ -96,10 +126,10 @@ const DetailedFeedback = ({
               {/* 사진*/}
               
             </select>
-            <DF.FeedbackSend>등록</DF.FeedbackSend>
+            <DF.FeedbackSend onClick={onSumbitHandler}>등록</DF.FeedbackSend>
           </DF.RegTop>
           <DF.RegBottom>
-            <DF.WriteInput onChange={changeSearch} required />
+            <DF.WriteInput onChange={onChangeContents} value={contents} required />
           </DF.RegBottom>
         </DF.ModalFeedReg>
       </DF.ModalWriteFeed>

@@ -1,50 +1,49 @@
 import React from 'react'
 import { DF } from '../../../layout/DetailFeedbackStyle'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import { detailC } from '../../../temporary/detailcomment';
 import DetailedFeedbackCommentAgain from './DetailedFeedbackCommentAgain';
-export default function DetailedFeedbackComment(props) {
+
+export default function DetailedFeedbackComment({feedbacks,link}) {
   return (
     <DF.EachFeedWrapper>
-      {detailC.map((d, index) => (
+      {feedbacks && feedbacks.map((f, index) => (
         <div key={index} style={{marginBottom:"30px"}}>
           <DF.FeedWrapperHeader>
-            <DF.ProfileSize src={d.writerImg} />
+            <DF.ProfileSize src={f.member.profileImage} />
             <DF.ProfileName>
-              {d.writer}
+              {f.member.nickname}
             </DF.ProfileName>
             <DF.ButtonWrapper>
-              {/* <DF.HeaderButton>
+              <DF.HeaderButton>
                 <ThumbUpIcon />
-                <DF.ThumbCount>{d.thumbs}</DF.ThumbCount>
+                <DF.ThumbCount>{f.likeCount}</DF.ThumbCount>
               </DF.HeaderButton>
-              <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
+              {/* <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
                 답글
               </DF.HeaderButton> */}
             </DF.ButtonWrapper>          
           </DF.FeedWrapperHeader>
 
-          {detailC[index].feedback.map((d1, index)=> (
-            <div key={index}>
+   
+            <div>
               <DF.FeedWrapperButton>
-                {props.link ? 
+                {link ? 
                 <DF.WrapperSearch>
-                  {index+1}
+                  동영상
                 </DF.WrapperSearch>
                  :
-                <DF.WrapperSearch href={`#${d1.page-1}`}>
-                {d1.page}페이지
+                <DF.WrapperSearch href={`#${f.page}`}>
+                {f.page}페이지
               </DF.WrapperSearch>
               }
                
               </DF.FeedWrapperButton>
               <p style={{fontSize:"18px",lineHeight:"22px",textAlign:"left"}}>
-                {d1.content}
+                {f.feedback}
               </p>
               
               {/* <DetailedFeedbackCommentAgain /> */}
           </div>
-          ))}
           
         </div>
       ))}

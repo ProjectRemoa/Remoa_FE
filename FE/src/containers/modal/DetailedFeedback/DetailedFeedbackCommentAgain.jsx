@@ -18,7 +18,7 @@ const again = [
 export default function DetailedFeedbackCommentAgain() {
   return (
     <DF.AgainWrapper>
-      {again.map((a,index) => (    
+      {again && again.map((a,index) => (    
         <DF.AgainTable key={index}>
         <tr>
           <td>
