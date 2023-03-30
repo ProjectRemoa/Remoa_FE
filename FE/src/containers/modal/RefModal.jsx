@@ -218,7 +218,7 @@ export default function RefModal({
   const changePageNum = (e) => {
     setShow(e.target.value);
   };
-
+  
   return (
     <MS.ModalWrapper /*className={modalVisibleId2 === id2 ? "d_block" : "d_none"}*/
     >
@@ -260,6 +260,7 @@ export default function RefModal({
               idea={idea}
               numPages={numPages}
               media={media}
+              link={middle.youtubeLink}
             />
           </MS.HeaderDiv2>
         </MS.MobalHeader>

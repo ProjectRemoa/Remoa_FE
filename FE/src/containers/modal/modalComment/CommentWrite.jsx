@@ -45,7 +45,7 @@ export default function RMCommentWrite(props) {
   return (
     <MS.CommentWriteWrapper>
       <p style={{ float: "left", fontSize: "20px" }}>Comment</p>
-      <MS.CommentButton onClick={onSumbitHandler}>댓글 등록</MS.CommentButton>
+      <MS.CommentButton onClick={()=> {return onSumbitHandler()}}>댓글 등록</MS.CommentButton>
       <MS.WriteInput
         required
         placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!

@@ -29,6 +29,7 @@ const DetailedFeedback = ({
   idea,
   numPages,
   media,
+  link
 }) => {
   const classes = useStyles();
   const onCloseHandler = () => {
@@ -54,7 +55,7 @@ const DetailedFeedback = ({
       </DF.ModalHeader>
 
       <DF.Feedback>
-        <DetailedFeedbackComment />
+        <DetailedFeedbackComment link={link} />
       </DF.Feedback>
 
       <DF.ModalWriteFeed>
@@ -72,7 +73,8 @@ const DetailedFeedback = ({
                 height: "24px",
                 position: "relative",
                 bottom: "7px",
-              }}
+              }} disabled={link ? true : false
+              }
             >
               {opti &&
                 opti.map(function(a, index) {
@@ -92,6 +94,7 @@ const DetailedFeedback = ({
                   );
                 })}
               {/* 사진*/}
+              
             </select>
             <DF.FeedbackSend>등록</DF.FeedbackSend>
           </DF.RegTop>

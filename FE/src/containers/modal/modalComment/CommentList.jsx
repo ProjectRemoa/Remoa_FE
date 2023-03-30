@@ -129,7 +129,8 @@ export default function RMCommentList(props) {
                 <tr>
                   <td></td>
                   <td colspan="2" style={{ textAlign: "left" }}>
-                    {isEdit ? (
+                    {(isEdit && comments.member.nickname ===
+                      sessionStorage.getItem("nickname")) ? (
                       <div id={comments.commentId}>
                         <MS.WriteInput
                           required
@@ -140,7 +141,7 @@ export default function RMCommentList(props) {
                         />
                         <button
                           onClick={() => {
-                            return onPutHandler(comments.commentId);
+                            return onPutHandler(comments.commentId),setIsEdit(!isEdit);
                           }}
                         >
                           수정 완료하기
