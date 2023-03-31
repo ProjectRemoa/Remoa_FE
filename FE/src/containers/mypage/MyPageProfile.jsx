@@ -170,6 +170,24 @@ function MyPageProfile() {
         });
     };
 
+    const changePhone = (e) => {
+        let phone = e.target.value
+        .replace(/[^0-9]/g, '')
+        .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+
+        setInput({
+            ...input,
+            ['phoneNumber']: phone
+        });
+    };
+
+    const changeUniversity = (name) => {
+        setInput({
+            ...input,
+            ['university']:name
+        });
+    };
+
     const onChangeImg = (e) => {
         console.log(e);
         const reader = new FileReader();
@@ -369,7 +387,7 @@ function MyPageProfile() {
                     <Style.Answer 
                         placeholder={phoneNumber}
                         name="phoneNumber"
-                        onChange={onChangeInput}
+                        onChange={changePhone}
                     ></Style.Answer>
                 </Style.ItemWrapper>
                 
@@ -385,7 +403,7 @@ function MyPageProfile() {
                         id='popupDom'
                         onClick={openPopup}
                     >검색하기</Style.ItemButton>
-                    {isOpenPopup && <PopupContent close={closePopup}></PopupContent>}
+                    {isOpenPopup && <PopupContent changeUniversity={changeUniversity} close={closePopup}></PopupContent>}
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{gridTemplateColumns: '1fr 3fr'}}>

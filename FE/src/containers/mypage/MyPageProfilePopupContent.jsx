@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import React, { useState } from "react";
-import {
-  faMagnifyingGlass,
-  faPassport,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import data from "./temporary/university";
 import { data } from "./temporary/university";
 
 const Style = {
@@ -127,8 +123,7 @@ const Style = {
 
 const PopupContent = (props) => {
   const [input, setInput] = useState("한국대학교");
-  const [index, setIndex] = useState([]);
-  const { close } = props;
+  const { changeUniversity, close } = props;
   const [info, setInfo] = useState([
     <Style.Trow key={"1"}>
       <Style.TbodyValue>{""}</Style.TbodyValue>
@@ -146,18 +141,13 @@ const PopupContent = (props) => {
 
   const clickTableEvent = (target) => {
     let targeting = document.getElementById(target);
-    let trs = [];
-    console.log("index = ", index);
-    for (let i = 0; i < index.length; i++) {
-      trs.push(document.getElementById(index[i]));
-    }
-    console.log("trs = ", trs);
+    let tableRow = document.getElementsByClassName("Tr");
+    let targetName = document.getElementById(target+"universityName");
     if (targeting) {
-      for (let i = 0; i < index.length; i++) {
-        trs[i].style.backgroundColor = "#FFFFFF";
-        console.log("색 하얀색");
-      }
-      targeting.style.backgroundColor = "#FADA5E";
+        for (let i = 0; i < tableRow.length; i++)
+            tableRow[i].style.backgroundColor = "#FFFFFF";
+        targeting.style.backgroundColor = "#FADA5E";
+        changeUniversity(targetName.innerText);
     }
   };
 
@@ -168,28 +158,24 @@ const PopupContent = (props) => {
   const searchUniversity = (input) => {
     setInfo(info.splice(0));
     const newInfo = [];
-    const newIndex = [];
     for (let i = 0; i < data.length; i++) {
       if (data[i]["name"].includes(input)) {
         let universityValue = (
           <Style.Trow
+            className="Tr"
             id={i.toString()}
             key={i.toString()}
             onClick={() => clickTableEvent(i.toString())}
           >
             <Style.TbodyValue>{data[i]["address"]}</Style.TbodyValue>
-            <Style.TbodyValue>{data[i]["name"]}</Style.TbodyValue>
+            <Style.TbodyValue id={i.toString()+"universityName"}>{data[i]["name"]}</Style.TbodyValue>
           </Style.Trow>
         );
         newInfo.push(universityValue);
-        newIndex.push(i.toString());
       }
     }
     setInfo(newInfo);
-    setIndex(newIndex);
   };
-
-  console.log(info);
 
   return (
     <>
