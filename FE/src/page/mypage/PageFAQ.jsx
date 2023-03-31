@@ -1,11 +1,12 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import MyPageContainer from "../../containers/mypage/MyPageContainer";
+import MyPageFAQ from "../../containers/mypage/MyPageFAQ";
 function PageFAQ() {
   return (
     <Layout>
       <MyPageContainer />
-      공지사항 / FAQ
+      <MyPageFAQ></MyPageFAQ>
     </Layout>
   )
 }
