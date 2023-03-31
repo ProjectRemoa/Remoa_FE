@@ -8,34 +8,36 @@ import { useNavigate } from "react-router-dom";
 export default function RMCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
+  const [putMemberId, setPutMemberId] = useState(0); // 수정할 member id
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
   const navigate = useNavigate();
 
   const onPutHandler = (commentId) => {
-    if (isEdit) {
-      const UploadComment = {
-        comment: contents,
-      };
-      //const data =
+    // if (isEdit) {
+    const UploadComment = {
+      comment: contents,
+    };
+    //const data =
 
-      axios
-        .put(`/BE/reference/comment/${commentId}`, UploadComment)
-        .then((response) => {
-          console.log(response);
-          setComments(response.data.data);
-          alert("댓글 수정이 완료되었습니다.");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      //navigate("/");
+    axios
+      .put(`/BE/reference/comment/${commentId}`, UploadComment)
+      .then((response) => {
+        console.log(response);
+        setComments(response.data.data);
+        alert("댓글 수정이 완료되었습니다.");
+        setPutMemberId(0);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    //navigate("/");
 
-      //return data;
-    } else {
-      console.log(isEdit);
-    }
+    //return data;
+    // } else {
+    //  console.log(isEdit);
+    //}
   };
   const onDelete = (commentId) => {
     //const data = axios
@@ -103,7 +105,8 @@ export default function RMCommentList({ comments, postId, setComments }) {
                             marginLeft: "22px",
                           }}
                           onClick={() => {
-                            setIsEdit(!isEdit);
+                            //setIsEdit(!isEdit);
+                            setPutMemberId(comments.commentId);
                           }}
                         >
                           수정
@@ -126,7 +129,30 @@ export default function RMCommentList({ comments, postId, setComments }) {
                 <tr>
                   <td></td>
                   <td colspan="2" style={{ textAlign: "left" }}>
-                    {isEdit &&
+                    {putMemberId === comments.commentId ? (
+                      <div id={comments.commentId}>
+                        <MS.WriteInput
+                          required
+                          placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
+                          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
+                          onChange={onChangeContents}
+                          defaultValue={comments.comment}
+                        />
+                        <button
+                          onClick={() => {
+                            return (
+                              onPutHandler(comments.commentId),
+                              setIsEdit(!isEdit)
+                            );
+                          }}
+                        >
+                          수정 완료하기
+                        </button>
+                      </div>
+                    ) : (
+                      comments.comment
+                    )}
+                    {/*isEdit &&
                     comments.member.nickname ===
                       sessionStorage.getItem("nickname") ? (
                       <div id={comments.commentId}>
@@ -150,7 +176,7 @@ export default function RMCommentList({ comments, postId, setComments }) {
                       </div>
                     ) : (
                       comments.comment
-                    )}
+                    )*/}
                   </td>
                 </tr>
               </tbody>

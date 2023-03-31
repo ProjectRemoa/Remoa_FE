@@ -46,7 +46,7 @@ const RefList = (props) => {
 
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
-    //console.log(endpoint);
+    console.log(endpoint);
     axios
       .get(endpoint)
       .then((res) => {
@@ -73,7 +73,7 @@ const RefList = (props) => {
 
   const onClickHits = () => {
     /*이부분에 axios*/
-    setSort("like");
+    setSort("view");
 
     document.getElementById("b1").style.backgroundColor = "white";
     document.getElementById("b2").style.backgroundColor = "#FADA5E";
@@ -83,7 +83,7 @@ const RefList = (props) => {
 
   const onClickThumbs = () => {
     /*이부분에 axios*/
-    setSort("view");
+    setSort("like");
 
     document.getElementById("b1").style.backgroundColor = "white";
     document.getElementById("b2").style.backgroundColor = "white";
