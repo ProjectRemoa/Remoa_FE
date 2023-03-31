@@ -8,14 +8,17 @@ export const Style = {
     width: 21.5vw;
     height: 18.6vw;
     float:left;
+    margin-bottom:40px;
     /* box-shadow: 0 0 0 1px blue inset; */
     @media ${props => props.theme.desktop} {
       width: ${(props) => props.theme.d_3rdSizeContestItem};
       height: ${(props) => props.theme.d_3rdSizeContestItemH};
+      margin-bottom:50px;
     }
     @media ${props => props.theme.mobile} {
       width: ${(props) => props.theme.m_2ndSizeContestItem};
-      height: ${(props) => props.theme.m_2ndSizeContestItemH};;
+      height: ${(props) => props.theme.m_2ndSizeContestItemH};
+      margin-bottom:60px;
     }
   `, //선이 86vw임을 참고 21.5 곱하기 4는 86
 
@@ -77,7 +80,8 @@ export const Style = {
 
   `,
   ProfileInfoDetail:styled.div`
-    font-size: 0.8em;
+    width:100%;
+    font-size: 0.7em;
     display: inline;
     justify-content: space-around;
     margin-top: 15px;

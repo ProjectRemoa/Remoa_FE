@@ -100,7 +100,7 @@ export default function RefModalFollow({
   return (
     <MS.SmallModalWrapper
       className={
-        modalVisibleId == id && isItMe === false ? "d_block" : "d_none"
+        (modalVisibleId == id) && (isItMe === false) ? "d_block" : "d_none"
       }
       location={location}
     >

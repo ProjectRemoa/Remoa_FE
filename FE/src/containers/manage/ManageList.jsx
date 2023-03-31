@@ -12,10 +12,10 @@ import RefModalFollow from "../modal/RefModalFollow";
 
 const useStyles = makeStyles({
   home: {
-    fontSize: "35px",
+    fontSize: "25px",
   },
   home2: {
-    fontSize: "35px",
+    fontSize: "22.5px",
     color: "red",
   },
   arrow: {
