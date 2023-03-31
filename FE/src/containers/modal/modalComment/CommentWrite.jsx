@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function RMCommentWrite(props) {
+export default function RMCommentWrite({ postId, setComments }) {
   const navigate = useNavigate();
   const [contents, setContents] = useState("");
 
@@ -11,7 +11,7 @@ export default function RMCommentWrite(props) {
     setContents(event.target.value);
   };
 
-  const onSumbitHandler = () => {
+  const onSumbitHandler = (e) => {
     if (
       sessionStorage.getItem("nickname") === null //||
       //sessionStorage.getItem("email") === null
@@ -19,16 +19,16 @@ export default function RMCommentWrite(props) {
       alert("로그인이 필요한 서비스입니다.");
       navigate("/sociallogin");
     } else {
-      //e.preventDefault();
+      e.preventDefault();
       const UploadComment = {
         comment: contents,
       };
       //const data = axios
       axios
-        .post(`/BE/reference/${props.postId}/comment`, UploadComment)
+        .post(`/BE/reference/${postId}/comment`, UploadComment)
         .then((response) => {
           console.log(response);
-          props.setComments({ comments: response.data.data });
+          setComments(response.data.data);
           alert("댓글 등록이 완료되었습니다.");
           //if (response.status === 200) alert(response.data);
         })
@@ -37,15 +37,13 @@ export default function RMCommentWrite(props) {
           console.log(err);
         });
     }
-    //navigate("/");
-
-    //return data;
+    setContents("");
   };
 
   return (
     <MS.CommentWriteWrapper>
       <p style={{ float: "left", fontSize: "20px" }}>Comment</p>
-      <MS.CommentButton onClick={()=> {return onSumbitHandler()}}>댓글 등록</MS.CommentButton>
+      <MS.CommentButton onClick={onSumbitHandler}>댓글 등록</MS.CommentButton>
       <MS.WriteInput
         required
         placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!

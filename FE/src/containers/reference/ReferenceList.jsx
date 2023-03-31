@@ -41,7 +41,7 @@ const RefList = (props) => {
   let [category, setCatgory] = useState("etc");
 
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
-  let [user, setUser] = useState('');
+  let [user, setUser] = useState("");
 
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
@@ -124,12 +124,31 @@ const RefList = (props) => {
 
   useEffect(() => {
     setModalVisibleId2((modalVisibleId2) => modalVisibleId2);
-  }, [modalVisibleId2]);
+    setModalVisibleId((modalVisibleId) => modalVisibleId);
+  }, [modalVisibleId2, setModalVisibleId]);
 
+  /* RefModal에 필요한 정보 */
   const [postId, setPostId] = useState(0);
   const [idea, setIdea] = useState({});
 
+  let Lo = window.location.href;
+
+  /* RefModalFollow에 필요한 정보 */
+  const [index, setIndex] = useState(0);
+  const [memberId, setMemberId] = useState(0);
+  const [ideaFollow, setIdeaFollow] = useState({});
+  const [isFollow, setIsFollow] = useState(false);
+  const onClickFollow = (index, memberId, idea, isFollow) => {
+    setModalVisibleId(0);
+    setMemberId(memberId);
+    setModalVisibleId(memberId);
+    setIndex(modalLocation(index + 1));
+    setIdeaFollow(idea);
+    setIsFollow(isFollow);
+  };
+
   function modalLocation(i) {
+    //console.log("window.innerWidth : " + window.innerWidth);
     if (window.innerWidth <= 767) {
       if (i % 2 == 0) {
         return 2;
@@ -143,8 +162,8 @@ const RefList = (props) => {
         return 4;
       }
     }
+    //return i;
   }
-  let Lo = window.location.href;
 
   return (
     <Style.ContestList>
@@ -170,13 +189,7 @@ const RefList = (props) => {
             <Style.ContestImg
               src={idea.postThumbnail}
               alt=""
-              onClick={
-                () =>
-                  onClickModal(
-                    idea,
-                    idea.postId
-                  ) /*onModalHandler2(idea.postId)*/
-              }
+              onClick={() => onClickModal(idea, idea.postId)}
             />
           </Style.ContestImgCrop>
 
@@ -191,22 +204,27 @@ const RefList = (props) => {
                       src={idea.postMember.profileImage}
                       alt=" "
                       onMouseEnter={() => {
-                        onModalHandler(idea.postId);
-                        modalLocation(index + 1);
+                        /*onModalHandler(idea.postId);
+                        modalLocation(index + 1);*/
+                        onClickFollow(index, idea.postMember.memberId, idea);
                       }}
                       onClick={() => {
-                        onModalHandler(idea.postId);
-                        modalLocation(index + 1);
+                        onClickFollow(
+                          index,
+                          idea.postMember.memberId,
+                          idea,
+                          idea.postMember.isFollow
+                        );
                       }}
                     />
 
-                    <RefModalFollow
+                    {/*<RefModalFollow
                       id={idea.postId}
                       modalVisibleId={modalVisibleId}
                       setModalVisibleId={setModalVisibleId}
                       location={modalLocation(index + 1)}
                       idea={idea}
-                    />
+                    />*/}
                   </td>
                   <td>
                     <span
@@ -237,9 +255,18 @@ const RefList = (props) => {
       {modalVisibleId2 !== "" && (
         <RefModal
           id2={postId}
-          idea={idea}
           modalVisibleId2={modalVisibleId2}
           setModalVisibleId2={setModalVisibleId2}
+        />
+      )}
+      {modalVisibleId !== "" && (
+        <RefModalFollow
+          id={memberId}
+          modalVisibleId={modalVisibleId}
+          setModalVisibleId={setModalVisibleId}
+          location={modalLocation(index + 1) /*index*/}
+          idea={ideaFollow}
+          isFollow={isFollow}
         />
       )}
     </Style.ContestList>
