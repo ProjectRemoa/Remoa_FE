@@ -9,7 +9,7 @@ import RefModalComment from "./RefModalComment";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import StarIcon from "@mui/icons-material/Star";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import YouTube from "react-youtube";
@@ -58,19 +58,19 @@ const useStyles = makeStyles({
     marginLeft: "25px",
     marginTop: "13.5px",
   },
-  dotIcon : {
-    cursor:"pointer",
-    position:"absolute",
-    top:"10px",
-    right:"10px"
-  }
+  dotIcon: {
+    cursor: "pointer",
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+  },
 });
 
 export default function RefModal({
   id2,
   modalVisibleId2,
   setModalVisibleId2,
-  setData
+  setData,
 }) {
   const classes = useStyles();
   const Navigate = useNavigate();
@@ -99,10 +99,10 @@ export default function RefModal({
     nickname: "",
     profileImage: "",
   });
-  const [showSel, setShowSel] = useState(false)
+  const [showSel, setShowSel] = useState(false);
   const showSelect = () => {
-    setShowSel(!showSel)
-  }
+    setShowSel(!showSel);
+  };
   const [category, setCategory] = useState("");
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
@@ -164,8 +164,6 @@ export default function RefModal({
         // 내가 좋아요/스크랩했는지?
         setLikeBoolean(res.data.data.isLiked);
         setscrapBoolean(res.data.data.isScraped);
-        setLike(res.data.data.likeCount);
-        setScrap(res.data.data.scrapCount);
 
         // 카테고리 따라서 뜨는 뷰어 다르게
         setCategory(res.data.data.category);
@@ -207,8 +205,7 @@ export default function RefModal({
     setModalVisibleId2("");
   };
 
-  const [like, setLike] = useState(0);
-  const [scrap, setScrap] = useState(0);
+  // 좋아요, 스크랩
   const [likeBoolean, setLikeBoolean] = useState(false);
   const [scrapBoolean, setscrapBoolean] = useState(false);
 
@@ -217,13 +214,22 @@ export default function RefModal({
       .post(`/BE/reference/${id2}/like`)
       .then((res) => {
         console.log(res);
-        setLike(res.data.data.likeCount);
-        setTop({ likeCount: res.data.data.likeCount });
+        setTop({
+          postId: top.postId,
+          title: top.title,
+          contestName: top.contestName,
+          contestAwardType: top.contestAwardType,
+          category: top.category,
+          postingTime: top.postingTime,
+          views: top.views, // useEffect []안하면 계속 count됨
+          likeCount: res.data.data.likeCount,
+          scrapCount: top.scrapCount,
+        });
+        setLikeBoolean(!likeBoolean);
       })
       .catch((err) => {
         console.log(err);
       });
-    setLikeBoolean(!likeBoolean);
   };
 
   const handleScrap = () => {
@@ -231,13 +237,22 @@ export default function RefModal({
       .post(`/BE/reference/${id2}/scrap`)
       .then((res) => {
         console.log(res);
-        setScrap(res.data.data.scrapCount);
-        setTop({ scrapCount: res.data.data.scrapCount });
+        setTop({
+          postId: top.postId,
+          title: top.title,
+          contestName: top.contestName,
+          contestAwardType: top.contestAwardType,
+          category: top.category,
+          postingTime: top.postingTime,
+          views: top.views, // useEffect []안하면 계속 count됨
+          likeCount: top.likeCount,
+          scrapCount: res.data.data.scrapCount,
+        });
+        setscrapBoolean(!scrapBoolean);
       })
       .catch((err) => {
         console.log(err);
       });
-    setscrapBoolean(!scrapBoolean);
   };
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
@@ -248,7 +263,7 @@ export default function RefModal({
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageScale, setPageScale] = useState(0.5); 
+  const [pageScale, setPageScale] = useState(0.5);
 
   function onDocumentLoadSuccess({ numPages }) {
     console.log("pdf 로드 성공");
@@ -260,38 +275,60 @@ export default function RefModal({
     setShow(e.target.value);
   };
 
-  // const onDelete = (postId) => {
-  //   axios
-  //     .delete(`/BE/user/reference/${postId}`)
-  //     .then((response) => {
-  //       console.log(response);
-  //       setData({ data: response.data.data });
-  //       alert("레퍼런스 삭제가 완료되었습니다.");
-  //       Navigate("/")
-  //     })
-  //     .catch((err) => {
-  //       alert(err);
-  //     });
-  // };
-  
+  // 레퍼런스 삭제
+  const onDelete = () => {
+    axios
+      .delete(`/BE/user/reference/${id2}`)
+      .then((response) => {
+        console.log(response);
+        //setData({ data: response.data.data });
+        alert("레퍼런스 삭제가 완료되었습니다.");
+        Navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // 레퍼런스 수정
+  const onClickPut = () => {
+    if (
+      window.confirm(
+        "레퍼런스를 수정하게되면 표지사진, 첨부파일이 날아가게 됩니다."
+      )
+    ) {
+      alert("수정 기능은 구현 중~");
+      Navigate("/");
+      //Navigate(`/manage/put/:${id2}`);
+    } else {
+    }
+  };
+
   return (
     <MS.ModalWrapper>
       {/*className={modalVisibleId2 == id2 ? "d_block" : "d_none"}*/}
       <MS.MobalBox>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
-        {postMember.nickname === sessionStorage.getItem("nickname") ? (
-        <> 
-          <MoreVertIcon className={classes.dotIcon} onClick={showSelect}/>
-          {showSel? 
-          <MS.EtcDiv>
-            <MS.Functionp>수정하기</MS.Functionp>
-            <div style={{width: "90px",height: "0px",border: "0.5px solid #B0B0B0",
-            position:'relative',left:"5px"}} />
-            <MS.Functionp>삭제하기</MS.Functionp>
-          </MS.EtcDiv>
-           : ""}         
-        </>) 
-        : ""}
+        {postMember.nickname === sessionStorage.getItem("nickname") && (
+          <>
+            <MoreVertIcon className={classes.dotIcon} onClick={showSelect} />
+            {showSel && (
+              <MS.EtcDiv>
+                <MS.Functionp onClick={onClickPut}>수정하기</MS.Functionp>
+                <div
+                  style={{
+                    width: "90px",
+                    height: "0px",
+                    border: "0.5px solid #B0B0B0",
+                    position: "relative",
+                    left: "5px",
+                  }}
+                />
+                <MS.Functionp onClick={onDelete}>삭제하기</MS.Functionp>
+              </MS.EtcDiv>
+            )}
+          </>
+        )}
         <br />
         <MS.MobalHeader>
           <MS.HeaderDiv1>
@@ -301,7 +338,7 @@ export default function RefModal({
               <span style={{ color: "#FADA5E" }}>{top.contestAwardType}</span>
               &nbsp;| &nbsp;{getDate(top.postingTime)}&nbsp;|&nbsp;
               {top.category}
-            </MS.DetailTitleInfo>                
+            </MS.DetailTitleInfo>
           </MS.HeaderDiv1>
 
           <MS.HeaderDiv2>
@@ -424,7 +461,10 @@ export default function RefModal({
         </MS.MobalContents>
 
         <MS.TraceBoxWrapper>
-          <MS.TraceBox onClick={() => handleLike()}>
+          <MS.TraceBox
+            style={{ background: "#FFFFFF" }}
+            onClick={() => handleLike()}
+          >
             <FavoriteOutlinedIcon
               className={
                 likeBoolean ? classes.afterClick1 : classes.beforeClick

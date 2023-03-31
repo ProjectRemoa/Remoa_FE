@@ -26,7 +26,6 @@ export const MS = {
     border-radius: 1vw / 1vw;
   `,
   MobalContents:styled.div`
-    background-color: pink;
     width: auto;
     height: auto;
     margin: 20px;
@@ -158,7 +157,7 @@ export const MS = {
     border: 0;
     box-shadow:  none;
     right: 3%;
-    top:7%;
+    top:3%;
   `,
   WriteInput:styled.textarea`
     border-radius: 10px;
@@ -211,7 +210,7 @@ export const MS = {
     top: 40%;
     height: 40px;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 26px;
     text-align: center;
     box-shadow: none;

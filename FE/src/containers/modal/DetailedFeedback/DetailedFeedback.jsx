@@ -49,9 +49,7 @@ const DetailedFeedback = ({
     setSelected(e.target.value);
   };
   const opti = Array.from({ length: numPages }, (v, i) => i + 1);
-  //이거는 pdf의 경우
   const pageCount = Array.from({ length: media.length }, (v, i) => i + 1);
-  //이미지의 경우
 
   const onSumbitHandler = (e) => {
     if (sessionStorage.getItem("nickname") === null) {

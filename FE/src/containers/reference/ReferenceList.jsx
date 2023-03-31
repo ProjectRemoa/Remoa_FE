@@ -11,14 +11,14 @@ import axios from "axios";
 
 const useStyles = makeStyles({
   home: {
-    fontSize: "35px",
+    fontSize: "25px",
   },
   home2: {
-    fontSize: "35px",
+    fontSize: "22.5px",
     color: "red",
   },
   arrow: {
-    fontSize: "25px",
+    fontSize: "22.5px",
     color: "#FADA5E",
     float: "left",
     cursor: "pointer",
@@ -27,6 +27,7 @@ const useStyles = makeStyles({
     fontWeight: "700",
   },
   star: {
+    fontSize: "22.5px",
     color: "#FADA5E",
   },
 });
@@ -45,7 +46,7 @@ const RefList = (props) => {
 
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
-    //console.log(endpoint);
+    console.log(endpoint);
     axios
       .get(endpoint)
       .then((res) => {
@@ -72,7 +73,7 @@ const RefList = (props) => {
 
   const onClickHits = () => {
     /*이부분에 axios*/
-    setSort("like");
+    setSort("view");
 
     document.getElementById("b1").style.backgroundColor = "white";
     document.getElementById("b2").style.backgroundColor = "#FADA5E";
@@ -82,7 +83,7 @@ const RefList = (props) => {
 
   const onClickThumbs = () => {
     /*이부분에 axios*/
-    setSort("view");
+    setSort("like");
 
     document.getElementById("b1").style.backgroundColor = "white";
     document.getElementById("b2").style.backgroundColor = "white";
@@ -148,7 +149,6 @@ const RefList = (props) => {
   };
 
   function modalLocation(i) {
-    //console.log("window.innerWidth : " + window.innerWidth);
     if (window.innerWidth <= 767) {
       if (i % 2 == 0) {
         return 2;
@@ -162,7 +162,6 @@ const RefList = (props) => {
         return 4;
       }
     }
-    //return i;
   }
 
   return (
@@ -217,14 +216,22 @@ const RefList = (props) => {
                         );
                       }}
                     />
-
+                    {modalVisibleId !== "" && (
+                            <RefModalFollow
+                              id={idea.postId}
+                              modalVisibleId={modalVisibleId}
+                              setModalVisibleId={setModalVisibleId}
+                              location={modalLocation(index + 1) /*index*/}
+                              idea={ideaFollow}
+                              isFollow={isFollow}
+                            />
+                    )}
                     {/*<RefModalFollow
                       id={idea.postId}
                       modalVisibleId={modalVisibleId}
                       setModalVisibleId={setModalVisibleId}
                       location={modalLocation(index + 1)}
-                      idea={idea}
-                    />*/}
+                      idea={idea}/>*/}
                   </td>
                   <td>
                     <span
@@ -260,16 +267,7 @@ const RefList = (props) => {
           setData={setData}
         />
       )}
-      {modalVisibleId !== "" && (
-        <RefModalFollow
-          id={memberId}
-          modalVisibleId={modalVisibleId}
-          setModalVisibleId={setModalVisibleId}
-          location={modalLocation(index + 1) /*index*/}
-          idea={ideaFollow}
-          isFollow={isFollow}
-        />
-      )}
+      
     </Style.ContestList>
   );
 };

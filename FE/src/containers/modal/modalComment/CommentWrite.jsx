@@ -12,10 +12,7 @@ export default function RMCommentWrite({ postId, setComments }) {
   };
 
   const onSumbitHandler = (e) => {
-    if (
-      sessionStorage.getItem("nickname") === null //||
-      //sessionStorage.getItem("email") === null
-    ) {
+    if (sessionStorage.getItem("nickname") === null) {
       alert("로그인이 필요한 서비스입니다.");
       navigate("/sociallogin");
     } else {
