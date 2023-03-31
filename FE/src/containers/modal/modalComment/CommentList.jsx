@@ -52,7 +52,6 @@ export default function RMCommentList({ comments, postId, setComments }) {
       .catch((err) => {
         alert(err);
       });
-    //return data;
   };
 
   const onClickThumb = (commentId) => {
