@@ -62,43 +62,48 @@ function MyPageWorkContainer() {
         })
   }, []);
 
-  const FeedBackPage = () =>{
+  const FeedBackPage = ({data}) =>{
     return (
-      <div style={{display:"flex", margin: "2%", width: "100%", height:"25%"}}>
-                <div style={{display:"flex", flexDirection: "column", width: "30%", maxHeight:"100%"}}>
-                    <img src={data.thumbnail} style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))", margin: "2%", maxWidth: "100%", maxHeight: "85%"}}/>
-                    <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "15%"}}
-                    onClick = {()=>{
-                        onClickModal(data.postId)
-                    }}> 작업물 뷰어 보기 </button>
+      <>
+      {data && (
+        <div style={{display:"flex", margin: "2%", width: "100%", height:"25%"}}>
+        <div style={{display:"flex", flexDirection: "column", width: "30%", maxHeight:"100%"}}>
+            <img src={data.thumbnail} style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))", margin: "2%", maxWidth: "100%", maxHeight: "85%"}}/>
+            <button style={{background: "#FADASE", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "15%"}}
+            onClick = {()=>{
+                onClickModal(data.postId)
+            }}> 작업물 뷰어 보기 </button>
+        </div>
+        
+        <div style={{width: "70%", display:"flex", flexDirection: "column", maxHeight:"100%"}}>
+            <div style={{textAlign:"left", fontSize:"1.4em", width: "100%", height: "15%", margin: "1%"}}> {data.title} </div>
+            <div style={{display:"flex", flexDirection: "column", width: "100%", height: "83%", border: "1px solid #FADA5E", borderRadius: "10px"}}>
+                <div style={{width: "100%", height: "35%", marginLeft: "5%", marginTop: "3%", marginBottom: "2%"}}>
+                    <div style={{textAlign:"left", fontSize:"18px"}}>
+                        내가 작성한 코맨트
+                    </div>
+                    <div style={{textAlign:"left", fontSize:"14px"}}>
+                        가장 먼저 작성된 코멘트 1개만 보입니다.
+                    </div>
                 </div>
-                
-                <div style={{width: "70%", display:"flex", flexDirection: "column", maxHeight:"100%"}}>
-                    <div style={{textAlign:"left", fontSize:"1.4em", width: "100%", height: "15%", margin: "1%"}}> {data.title} </div>
-                    <div style={{display:"flex", flexDirection: "column", width: "100%", height: "83%", border: "1px solid #FADA5E", borderRadius: "10px"}}>
-                        <div style={{width: "100%", height: "35%", marginLeft: "5%", marginTop: "3%", marginBottom: "2%"}}>
-                            <div style={{textAlign:"left", fontSize:"18px"}}>
-                                내가 작성한 코맨트
-                            </div>
-                            <div style={{textAlign:"left", fontSize:"14px"}}>
-                                가장 먼저 작성된 코멘트 1개만 보입니다.
-                            </div>
+                <div style={{width: "100%", height: "50%", display:"flex", marginLeft: "5%", marginBottom: "5%"}}>
+                    <img src={data.member.profileImage} style={{marginTop: "2%", maxWidth: "20%", maxHeight: "80%", borderRadius: "40px"}}/>
+                    <div style={{width: "80%", height:"100%", marginLeft: "2%", marginTop: "4%", display:"flex", flexDirection: "column", textAlign: "left"}}>
+                        <div style={{textAlign: "left", fontSize: "18px"}}>
+                            {data.member.nickname}
+                            <span style={{marginLeft: "2%"}}>👍 {data.likeCount}</span>
                         </div>
-                        <div style={{width: "100%", height: "50%", display:"flex", marginLeft: "5%", marginBottom: "5%"}}>
-                            <img src={data.member.profileImage} style={{marginTop: "2%", maxWidth: "20%", maxHeight: "80%", borderRadius: "40px"}}/>
-                            <div style={{width: "80%", height:"100%", marginLeft: "2%", marginTop: "4%", display:"flex", flexDirection: "column", textAlign: "left"}}>
-                                <div style={{textAlign: "left", fontSize: "18px"}}>
-                                    {data.member.nickname}
-                                    <span style={{marginLeft: "2%"}}>👍 {data.likeCount}</span>
-                                </div>
-                                <div style={{textAlign: "left", fontSize: "16px", marginTop:"1%"}}>
-                                    {data.content}
-                                </div>
-                            </div>
+                        <div style={{textAlign: "left", fontSize: "16px", marginTop:"1%"}}>
+                            {data.content}
                         </div>
                     </div>
                 </div>
-      </div>
+            </div>
+        </div>
+        </div>
+      )}
+    </>
+    
     )
   }
 
@@ -125,7 +130,7 @@ function MyPageWorkContainer() {
       }}
     >
       <div style={{textAlign:"left", fontFamily: "NotoSansKR-700", margin: "30px auto", fontSize: "1.8vw",}}>코멘트 및 피드백을 단 작업물</div>
-      {allComments == 0 ? <NullData/> : <FeedBackPage/>}
+      {allComments == 0 ? <NullData/> : <FeedBackPage data={data}/>}
       {allComments < 2 ? null : <div style={{ margin: "0 auto" }}>
         <Line />
         <div style={{ width: "100%" }}>
