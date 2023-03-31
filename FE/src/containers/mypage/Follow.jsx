@@ -127,9 +127,9 @@ function Follow() {
     const navigate = useNavigate();
     const [followingList, setFollowingList] = useState([]); // test: useState([temp1,temp2]);
     const [followerList, setFollowerList] = useState([]); // test: useState([temp1,temp2]);
-    const [username, setUsername] = useState('호갱');
-    const [followingNum, setFollowingNum] = useState(10);
-    const [followerNum, setFollowerNum] = useState(10);
+    const [username, setUsername] = useState('');
+    const [followingNum, setFollowingNum] = useState(null);
+    const [followerNum, setFollowerNum] = useState(null);
     const [following, setFollowing] = useState(true);
     const [followInfo, setFollowInfo] = useState({
         followingColor: "#000000",
@@ -172,6 +172,7 @@ function Follow() {
     };
 
     const getFollowingList = () => {
+        const newInfo = [];
         axios.get(`/BE/following`)
         .then((res) => {
             setUsername(res.data.data.userName);
@@ -202,8 +203,9 @@ function Follow() {
                     </Style.FollowBtnWrap>
                 </Style.FollowWrap>
                 );
-                setFollowingList([...followingList, userInfo]);
+                newInfo.push(userInfo);
             }
+            setFollowingList(newInfo);
         })
     };
 

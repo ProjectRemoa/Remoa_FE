@@ -74,7 +74,7 @@ const Style={
         outline : none;
     `,
     UniversityTable:styled.table`
-        width: 100%;
+        
     `,
     SelectBtnWrap:styled.div`
         width: 100%;
@@ -89,6 +89,11 @@ const Style={
         color: #010101;
         margin: auto;
     `,
+    TableWrap:styled.div`
+        height: 350px;
+        overflow-y: auto;
+        overflow-x: hidden; 
+    `,
     Table:styled.table`
         width: 100%;
         text-align: center;
@@ -102,6 +107,7 @@ const Style={
     `,
     TheadValue:styled.th`
         text-align: left;
+        background-color: #E1E1E1;
         padding-left: 10%;
     `,
     Tbody:styled.tbody`
@@ -113,64 +119,76 @@ const Style={
     `,
     Trow:styled.tr`
         height: 56px;
+        background-color: #FFFFFF
     `
 }
 
 const PopupContent = (props) => {
     const [input, setInput] = useState('한국대학교');
-    const [info, setInfo] = useState([]);//[data[0]['address'], data[0]['name']], [data[1]['address'], data[1]['name']], [data[2]['address'], data[2]['name']], [data[3]['address'], data[3]['name']], [data[4]['address'], data[4]['name']]]);
-
+    const [index, setIndex] = useState([]);
     const {close} = props;
+    const [info, setInfo] = useState(
+        [<Style.Trow key={'1'}>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        </Style.Trow>,
+        <Style.Trow key={'2'}>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        </Style.Trow>,
+        <Style.Trow key={'3'}>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        </Style.Trow>
+        ]
+    );
+
+    const clickTableEvent = (target) => {
+        let targeting = document.getElementById(target);
+        let trs = [];
+        console.log("index = ", index);
+        for (let i=0; i<index.length; i++) {
+            trs.push(document.getElementById(index[i]));
+        }
+        console.log("trs = ", trs);
+        if (targeting) {
+            for (let i=0; i<index.length; i++) {
+                trs[i].style.backgroundColor = '#FFFFFF';
+                console.log("색 하얀색");
+            }
+            targeting.style.backgroundColor = '#FADA5E';
+        }
+    };
 
     const inputHandler = (e) => {
         setInput(e.target.value);
     };
 
-    const clickTableEvent = (target) => {
-        let targeting = document.getElementById(target);
-        /*let t1 = document.getElementById("tr1");
-        let t2 = document.getElementById("tr2");
-        let t3 = document.getElementById("tr3");
-        let t4 = document.getElementById("tr4");
-        let t5 = document.getElementById("tr5");*/
-        if (targeting) {
-            /*t1.style.backgroundColor = '#FFFFFF';
-            t2.style.backgroundColor = '#FFFFFF';
-            t3.style.backgroundColor = '#FFFFFF';
-            t4.style.backgroundColor = '#FFFFFF';
-            t5.style.backgroundColor = '#FFFFFF';*/
-            targeting.style.backgroundColor = '#FADA5E';
-        }
-    };
-      
     const searchUniversity = (input) => {
-        /*data.forEach((value) => {
-            if (value['name'].includes(input) && [value['address'],value['name']]) {
-                let universityValue = [value['address'],value['name']];
-                setInfo([info.concat(universityValue)]);
-                console.log(universityValue);
-            } 
-            //console.log(info);
-        });*/
+        setInfo(info.splice(0));
+        const newInfo = [];
+        const newIndex = [];
         for (let i=0; i<data.length; i++) {
             if (data[i]['name'].includes(input)) {
-                console.log(data[i]);
                 let universityValue = (
                 <Style.Trow 
-                    id={data[i]['name']}
-                    key={data[i]['name']}
-                    onClick={() => clickTableEvent(data[i]['name'])}    
+                    id={i.toString()}
+                    key={i.toString()}
+                    onClick={() => clickTableEvent(i.toString())}   
                 >
                     <Style.TbodyValue>{data[i]['address']}</Style.TbodyValue>
                     <Style.TbodyValue>{data[i]['name']}</Style.TbodyValue>
                 </Style.Trow>
                 );
-                console.log(universityValue);
-                setInfo([...info, universityValue]);
+                newInfo.push(universityValue);
+                newIndex.push(i.toString());
             }
         };
-        console.log("info = ",info);
+        setInfo(newInfo);
+        setIndex(newIndex);
     };
+
+    console.log(info);
 
     return(
         <>
@@ -211,52 +229,20 @@ const PopupContent = (props) => {
                     </Style.InputWrap>
                 </Style.SearchWrap>
 
-                <Style.Table>
-                    <Style.Thead>
-                        <Style.Trow>
-                        <Style.TheadValue scope="col">소재지</Style.TheadValue>
-                        <Style.TheadValue scope="col">대학명</Style.TheadValue>
-                        </Style.Trow>
-                    </Style.Thead>
-                    <Style.Tbody>
-                        {info? info : null}
-                        {/*<Style.Trow
-                            id="tr1"
-                            onClick={() => clickTableEvent("tr1")}
-                        >
-                        <Style.TbodyValue>{info[0][0]}</Style.TbodyValue>
-                        <Style.TbodyValue>{info[0][1]}</Style.TbodyValue>
-                        </Style.Trow>
-                        <Style.Trow
-                            id="tr2"
-                            onClick={() => clickTableEvent("tr2")}    
-                        >
-                        <Style.TbodyValue>{info[1][0]}</Style.TbodyValue>
-                        <Style.TbodyValue>{info[1][1]}</Style.TbodyValue>
-                        </Style.Trow>
-                        <Style.Trow
-                            id="tr3"
-                            onClick={() => clickTableEvent("tr3")} 
-                        >
-                        <Style.TbodyValue>{info[2][0]}</Style.TbodyValue>
-                        <Style.TbodyValue>{info[2][1]}</Style.TbodyValue>
-                        </Style.Trow>
-                        <Style.Trow
-                            id="tr4"
-                            onClick={() => clickTableEvent("tr4")}    
-                        >
-                        <Style.TbodyValue>{info[3][0]}</Style.TbodyValue>
-                        <Style.TbodyValue>{info[3][1]}</Style.TbodyValue>
-                        </Style.Trow>
-                        <Style.Trow
-                            id="tr5"
-                            onClick={() => clickTableEvent("tr5")}    
-                        >
-                        <Style.TbodyValue>{info[4][0]}</Style.TbodyValue>
-                        <Style.TbodyValue>{info[4][1]}</Style.TbodyValue>
-                        </Style.Trow>*/}
-                    </Style.Tbody>
-                </Style.Table> 
+                <Style.TableWrap>
+                    <Style.Table>
+                        <Style.Thead>
+                            <Style.Trow>
+                            <Style.TheadValue scope="col">소재지</Style.TheadValue>
+                            <Style.TheadValue scope="col">대학명</Style.TheadValue>
+                            </Style.Trow>
+                        </Style.Thead>
+                        <Style.Tbody>
+                            {info? info : null}
+                        </Style.Tbody>
+                    </Style.Table>
+                </Style.TableWrap>
+                 
 
                 <Style.SelectBtnWrap>
                     <Style.SelectBtn
