@@ -89,10 +89,10 @@ export default function RMCommentList({ comments, postId, setComments }) {
                   <td
                     style={{ float: "left", position: "relative", top: "15px" }}
                   >
-                    <DF.HeaderButton>
-                      <ThumbUpIcon
-                        onClick={() => onClickThumb(comments.commentId)}
-                      />
+                    <DF.HeaderButton
+                      onClick={() => onClickThumb(comments.commentId)}
+                    >
+                      <ThumbUpIcon />
                       <DF.ThumbCount>{thumb}</DF.ThumbCount>
                     </DF.HeaderButton>
                     {comments.member.nickname ===

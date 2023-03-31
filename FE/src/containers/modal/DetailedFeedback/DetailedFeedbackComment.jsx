@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { DF } from "../../../layout/DetailFeedbackStyle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DetailedFeedbackCommentAgain from "./DetailedFeedbackCommentAgain";
@@ -13,6 +13,12 @@ export default function DetailedFeedbackComment({
 }) {
   const navigate = useNavigate();
   console.log(feedbacks);
+
+  const [contents, setContents] = useState("");
+  const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
+  const onChangeContents = (event) => {
+    setContents(event.target.value);
+  };
   const onClickFeedback = (feedbackId) => {
     console.log("feedbackId : " + feedbackId);
     if (sessionStorage.getItem("nickname") !== null) {
@@ -34,19 +40,42 @@ export default function DetailedFeedbackComment({
   };
   const onClickModify = () => {};
   const onClickDelete = (feedback_id) => {
+    axios.delete(`/BE/reference/feedback/${feedback_id}`).then((res) => {
+      console.log(res);
+      axios.get(`/BE/reference/${id3}`).then((res) => {
+        setFeedback(res.data.data.feedbacks);
+      });
+    });
+  };
+
+  const onClickThumb = (feedback_id) => {
     axios
-      .delete(`/BE/reference/feedback/${feedback_id}`)
+      .post(`/BE/reference/feedback/${feedback_id}/like`)
       .then((res) => {
         console.log(res);
-        axios.get(`/BE/reference/${id3}`).then((res) => {
-          setFeedback(res.data.data.feedbacks);
-        });
+        setFeedback(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  console.log(sessionStorage.getItem("nickname"));
+
+  const onPutHandler = (feedback_id) => {
+    const UploadComment = {
+      feedback: contents,
+    };
+    axios
+      .put(`/BE/reference/feedback/${feedback_id}`, UploadComment)
+      .then((response) => {
+        console.log(response);
+        setFeedback(response.data.data);
+        alert("댓글 수정이 완료되었습니다.");
+        setPutMemberId(0);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <DF.EachFeedWrapper>
       {feedbacks &&
