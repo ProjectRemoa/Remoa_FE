@@ -157,7 +157,7 @@ export const MS = {
     border: 0;
     box-shadow:  none;
     right: 3%;
-    top:7%;
+    top:3%;
   `,
   WriteInput:styled.textarea`
     border-radius: 10px;

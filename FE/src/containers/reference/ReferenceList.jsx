@@ -149,7 +149,6 @@ const RefList = (props) => {
   };
 
   function modalLocation(i) {
-    //console.log("window.innerWidth : " + window.innerWidth);
     if (window.innerWidth <= 767) {
       if (i % 2 == 0) {
         return 2;
@@ -217,7 +216,16 @@ const RefList = (props) => {
                         );
                       }}
                     />
-
+                    {modalVisibleId !== "" && (
+                            <RefModalFollow
+                              id={idea.postId}
+                              modalVisibleId={modalVisibleId}
+                              setModalVisibleId={setModalVisibleId}
+                              location={modalLocation(index + 1) /*index*/}
+                              idea={ideaFollow}
+                              isFollow={isFollow}
+                            />
+                    )}
                     {/*<RefModalFollow
                       id={idea.postId}
                       modalVisibleId={modalVisibleId}
@@ -260,16 +268,7 @@ const RefList = (props) => {
           setData={setData}
         />
       )}
-      {modalVisibleId !== "" && (
-        <RefModalFollow
-          id={memberId}
-          modalVisibleId={modalVisibleId}
-          setModalVisibleId={setModalVisibleId}
-          location={modalLocation(index + 1) /*index*/}
-          idea={ideaFollow}
-          isFollow={isFollow}
-        />
-      )}
+      
     </Style.ContestList>
   );
 };
