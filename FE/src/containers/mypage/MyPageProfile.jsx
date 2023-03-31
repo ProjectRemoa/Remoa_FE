@@ -196,7 +196,12 @@ function MyPageProfile() {
             if (!res.data.data) {
                 setIdcheck(<div style={{width: '200px', color:'#FF0101', lineHeight: '42px', fontSize:'15px'}}>중복된 닉네임이 존재합니다.</div>);
             } else {
-                setIdcheck(<div style={{width: '200px', color:'#0075FF', lineHeight: '42px', fontSize:'15px'}}>닉네임을 사용하실 수 있습니다.</div>);
+                if (checkUserId(nickname)) {
+                    setIdcheck(<div style={{width: '200px', color:'#0075FF', lineHeight: '42px', fontSize:'15px'}}>닉네임을 사용하실 수 있습니다.</div>);
+                }   
+                else
+                    window.location.reload();
+
             } 
         }
         })
@@ -212,10 +217,6 @@ function MyPageProfile() {
 
     const closePopup = () => {
         setIsOpenPopup(false);
-    };
-
-    const getUniversity = (name) => {
-        closePopup();
     };
 
     const getProfileImg = () => {
@@ -288,6 +289,18 @@ function MyPageProfile() {
         });
     };
 
+
+    const checkUserId = (id) => {
+        if (id == "")
+            return false;
+ 
+        const idRegExp = /^[ㄱ-ㅎ가-힣a-zA-z0-9]{2,7}$/;
+        if (!idRegExp.test(id)) {
+            alert("닉네임은 한글, 영문 대소문자, 숫자 2~8자리로 입력해야합니다!");
+            return false;
+        }
+        return true;
+    };
 
     useEffect(() => {
         getProfile();
@@ -371,7 +384,7 @@ function MyPageProfile() {
                         id='popupDom'
                         onClick={openPopup}
                     >검색하기</Style.ItemButton>
-                    {isOpenPopup && <PopupContent getUniversity={getUniversity} close={closePopup}></PopupContent>}
+                    {isOpenPopup && <PopupContent close={closePopup}></PopupContent>}
                 </Style.ItemWrapper>
                 
                 <Style.ItemWrapper style={{gridTemplateColumns: '1fr 3fr'}}>

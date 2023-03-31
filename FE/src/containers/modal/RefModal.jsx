@@ -461,7 +461,10 @@ export default function RefModal({
         </MS.MobalContents>
 
         <MS.TraceBoxWrapper>
-          <MS.TraceBox onClick={() => handleLike()}>
+          <MS.TraceBox
+            style={{ background: "#FFFFFF" }}
+            onClick={() => handleLike()}
+          >
             <FavoriteOutlinedIcon
               className={
                 likeBoolean ? classes.afterClick1 : classes.beforeClick

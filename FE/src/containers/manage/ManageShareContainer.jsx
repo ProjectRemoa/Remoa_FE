@@ -508,12 +508,12 @@ function ManageShareContainer({ match }) {
                     onClick={onClickUpload}
                   >
                     {uploads.length === 0 ? (
-                      <span>
-                        PDF/JPEG/PNG/MP4 파일만 업로드 가능하며, PDF, MP4 파일을
-                        1개 이상 올릴 시 다른 파일을 추가로 업로드할 수
-                        없습니다.
+                      <span style={{ fontSize: "80%" }}>
+                        PDF/JPEG/PNG/JPG 파일만 업로드 가능하며, PDF 파일을 1개
+                        이상 올릴 시 다른 파일을 추가로 업로드할 수 없습니다.
                         <br />
-                        이미지 파일의 경우 복수 업로드 가능하지만
+                        (이미지 파일의 경우 복수 업로드 가능하며 파일 제목의
+                        가나다순, 숫자의 경우 오름차순으로 업로드됩니다.)
                       </span>
                     ) : (
                       <div>
