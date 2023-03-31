@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { data } from "./temporary/university";
 
 const Style={
     FullLayer:styled.div`
@@ -86,18 +86,9 @@ const Style={
 
 const PopupContent = (props) => {
     const [input, setInput] = useState('한국대학교');
-    const [info, setInfo] = useState([['소재지1', '대학명1'], ['소재지2', '대학명2'], ['소재지3', '대학명3']]);
+    const [info, setInfo] = useState([[data[0]['address'], data[0]['name']], [data[1]['address'], data[1]['name']], [data[2]['address'], data[2]['name']]]);
     
     const {getUniversity, close} = props;
-
-    /*const getApi = () =>{
-        axios.get('url')
-        .then((res) => console.log(res));
-    };
-
-    useEffect(() => {
-        getApi();
-    }, [])*/
 
     const inputHandler = (e) => {
         setInput(e.target.value);
