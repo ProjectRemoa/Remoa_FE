@@ -86,7 +86,12 @@ const DetailedFeedback = ({
       </DF.ModalHeader>
 
       <DF.Feedback>
-        <DetailedFeedbackComment link={link} feedbacks={feedbacks} />
+        <DetailedFeedbackComment
+          link={link}
+          feedbacks={feedbacks}
+          setFeedback={setFeedback}
+          id={id3}
+        />
       </DF.Feedback>
 
       <DF.ModalWriteFeed>

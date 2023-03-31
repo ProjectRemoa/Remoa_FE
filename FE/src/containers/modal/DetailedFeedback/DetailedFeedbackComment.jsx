@@ -1,9 +1,38 @@
-import React from 'react'
-import { DF } from '../../../layout/DetailFeedbackStyle'
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import DetailedFeedbackCommentAgain from './DetailedFeedbackCommentAgain';
+import React from "react";
+import { DF } from "../../../layout/DetailFeedbackStyle";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import DetailedFeedbackCommentAgain from "./DetailedFeedbackCommentAgain";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export default function DetailedFeedbackComment({feedbacks,link}) {
+export default function DetailedFeedbackComment({
+  feedbacks,
+  link,
+  setFeedback,
+  id3,
+}) {
+  const navigate = useNavigate();
+  console.log(feedbacks);
+  const onClickFeedback = (feedbackId) => {
+    console.log("feedbackId : " + feedbackId);
+    if (sessionStorage.getItem("nickname") !== null) {
+      axios
+        .post(`/BE/reference/feedback/${feedbackId}/like`)
+        .then((res) => {
+          console.log(res);
+          axios.get(`/BE/reference/${id3}`).then((res) => {
+            setFeedback(res.data.data.feedbacks);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/sociallogin");
+    }
+  };
+
   return (
     <DF.EachFeedWrapper>
       {feedbacks && feedbacks.map((feedbacks, index) => ( 
@@ -39,12 +68,11 @@ export default function DetailedFeedbackComment({feedbacks,link}) {
               <p style={{fontSize:"18px",lineHeight:"22px",textAlign:"left"}}>
                 {feedbacks.feedback}
               </p>
-              
+
               {/* <DetailedFeedbackCommentAgain />*/}
+            </div>
           </div>
-          
-        </div>
-      ))}
-  </DF.EachFeedWrapper>
-  )
+        ))}
+    </DF.EachFeedWrapper>
+  );
 }

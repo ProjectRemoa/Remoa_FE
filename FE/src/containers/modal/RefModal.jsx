@@ -244,7 +244,6 @@ export default function RefModal({
   const onModalHandler3 = (id) => {
     setModalVisibleId3(id);
   };
-  
 
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
