@@ -257,6 +257,7 @@ const RefList = (props) => {
           id2={postId}
           modalVisibleId2={modalVisibleId2}
           setModalVisibleId2={setModalVisibleId2}
+          setData={setData}
         />
       )}
       {modalVisibleId !== "" && (
