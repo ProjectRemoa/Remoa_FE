@@ -99,6 +99,10 @@ export default function DetailedFeedbackComment({
                         marginLeft: "3px",
                         color: "black",
                       }}
+                      onClick={() => {
+                        onPutHandler(feedbacks.feedbackId);
+                        setContents(feedbacks.feedback);
+                      }}
                     >
                       수정
                     </DF.HeaderButton>
