@@ -3,7 +3,6 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import React, { useState } from "react";
 import { MS } from "../../../layout/ModalStyle";
 import axios from "axios";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function RMCommentList({ comments, postId, setComments }) {

@@ -11,14 +11,14 @@ import axios from "axios";
 
 const useStyles = makeStyles({
   home: {
-    fontSize: "35px",
+    fontSize: "25px",
   },
   home2: {
-    fontSize: "35px",
+    fontSize: "22.5px",
     color: "red",
   },
   arrow: {
-    fontSize: "25px",
+    fontSize: "22.5px",
     color: "#FADA5E",
     float: "left",
     cursor: "pointer",
@@ -27,6 +27,7 @@ const useStyles = makeStyles({
     fontWeight: "700",
   },
   star: {
+    fontSize: "22.5px",
     color: "#FADA5E",
   },
 });

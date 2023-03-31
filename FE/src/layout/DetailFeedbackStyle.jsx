@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const DF = {
   ModalWrapper: styled.div`
     position: absolute;
-    top: 35vh;
+    top: 30vh;
     right: 5px;
     width: 490px;
     height: 800px;
@@ -97,17 +97,18 @@ export const DF = {
     font-size: 100%; //20px;; // 글자 크기가 너무 커서 조절했습니다
   `,
   ButtonWrapper: styled.div`
-    position: absolute;
-    left: 150px;
+    position: relative;
+    left: 50px;
+    top:15px;
   `,
   FeedWrapperButton: styled.button`
-    margin-top: 24px;
+    margin-top: 12px;
     border: none;
     height: 26px;
-    width: 70px;
+    width: 80px;
     background-color: #fada5e;
     position: relative;
-    right: 190px;
+    right: 180px;
     box-shadow: none;
   `,
   WrapperSearch: styled.a`
