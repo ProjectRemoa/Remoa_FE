@@ -41,7 +41,7 @@ export default function RMCommentList({ comments, postId, setComments }) {
   };
   const onDelete = (commentId) => {
     axios
-      .delete(`/BE/user/reference/comment/${commentId}` )
+      .delete(`/BE/reference/comment/${commentId}` )
       .then((response) => {
         console.log(response);
         setComments(response.data.data);
@@ -59,7 +59,6 @@ export default function RMCommentList({ comments, postId, setComments }) {
       .then((res) => {
         console.log(res);
         setThumb(res.data.data.LikeCount);
-        alert("댓글을 추천하였습니다.");
       })
       .catch((err) => {
         console.log(err);
@@ -85,10 +84,8 @@ export default function RMCommentList({ comments, postId, setComments }) {
                   <td
                     style={{ float: "left", position: "relative", top: "15px" }}
                   >
-                    <DF.HeaderButton>
-                      <ThumbUpIcon
-                        onClick={() => onClickThumb(comments.commentId)}
-                      />
+                    <DF.HeaderButton onClick={() => onClickThumb(comments.commentId)}>
+                      <ThumbUpIcon/>
                       <DF.ThumbCount>{thumb}</DF.ThumbCount>
                     </DF.HeaderButton>
                     {comments.member.nickname ===

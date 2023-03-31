@@ -148,4 +148,22 @@ export const DF = {
     position: relative;
     top: 50px;
   `,
+  ModifyFin:styled.button`
+    width:150px;
+    height:37.5px;
+    box-shadow:none;
+  `,
+  ModifyText:styled.textarea`
+    border-radius: 10px;
+    width: 90%;
+    min-height: 90px;
+    font-family: 'Inter';
+    font-size: 15px;
+    line-height: 25px;
+    resize: none;
+    border:1px solid black;
+    ::placeholder {
+      color:black
+    }
+  `
 };
