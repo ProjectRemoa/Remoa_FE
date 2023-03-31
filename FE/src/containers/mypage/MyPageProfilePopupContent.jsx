@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React, { useState } from 'react'
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faPassport } from "@fortawesome/free-solid-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { data } from "./temporary/university";
@@ -82,17 +82,60 @@ const Style={
         color: #010101;
         margin: auto;
     `,
+    Table:styled.table`
+        width: 100%;
+        text-align: center;
+        border-collapse:collapse;
+        text-align: left;
+    `,
+    Thead:styled.thead`
+        height: 56px;
+        background-color: #E1E1E1;
+        font-weigth: bold;
+    `,
+    TheadValue:styled.th`
+        text-align: left;
+        padding-left: 10%;
+    `,
+    Tbody:styled.tbody`
+        background-color: #FFFFFF;
+    `,
+    TbodyValue:styled.td`
+        height: 56px;
+        padding-left: 10%;
+    `,
+    Trow:styled.tr`
+        height: 56px;
+    `
 }
 
 const PopupContent = (props) => {
     const [input, setInput] = useState('한국대학교');
-    const [info, setInfo] = useState([[data[0]['address'], data[0]['name']], [data[1]['address'], data[1]['name']], [data[2]['address'], data[2]['name']]]);
+    const [info, setInfo] = useState([[data[0]['address'], data[0]['name']], [data[1]['address'], data[1]['name']], ["", ""], ["", ""], ["", ""]]);
     
-    const {getUniversity, close} = props;
+    const {close} = props;
 
     const inputHandler = (e) => {
         setInput(e.target.value);
     };
+
+    const clickTableEvent = (target) => {
+        let check = document.getElementById(target);
+        if (check) {
+            /*document.getElementById('t1').style.backgroundColor = '#FFFFFF';
+            document.getElementById('t2').style.backgroundColor = '#FFFFFF';
+            document.getElementById('t3').style.backgroundColor = '#FFFFFF';
+            document.getElementById('t4').style.backgroundColor = '#FFFFFF';
+            document.getElementById('t5').style.backgroundColor = '#FFFFFF';*/
+            document.getElementById(target).style.backgroundColor = '#FADA5E';
+            console.log("확인");
+        }
+        else {
+            console.log("error")
+        }
+    }
+        
+    
 
     return(
         <>
@@ -129,35 +172,56 @@ const PopupContent = (props) => {
                     </Style.InputWrap>
                 </Style.SearchWrap>
 
-                <div>
-                    <table>
-                        <thead>
-                            <tr>
-                            <th scope="col">소재지</th>
-                            <th scope="col">대학명</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <td>{info[0][0]}</td>
-                            <td>{info[0][1]}</td>
-                            </tr>
-                            <tr>
-                            <td>{info[1][0]}</td>
-                            <td>{info[1][1]}</td>
-                            </tr>
-                            <tr>
-                            <td>{info[2][0]}</td>
-                            <td>{info[2][1]}</td>
-                            </tr>
-                        </tbody>
-                    </table> 
-                </div>
+                <Style.Table>
+                    <Style.Thead>
+                        <Style.Trow>
+                        <Style.TheadValue scope="col">소재지</Style.TheadValue>
+                        <Style.TheadValue scope="col">대학명</Style.TheadValue>
+                        </Style.Trow>
+                    </Style.Thead>
+                    <Style.Tbody>
+                        <Style.Trow
+                            id="tr1"
+                            onClick={() => clickTableEvent("tr1")}
+                        >
+                        <Style.TbodyValue>{info[0][0]}</Style.TbodyValue>
+                        <Style.TbodyValue>{info[0][1]}</Style.TbodyValue>
+                        </Style.Trow>
+                        <Style.Trow
+                            id="tr2"
+                            onClick={clickTableEvent("tr2")}    
+                        >
+                        <Style.TbodyValue>{info[1][0]}</Style.TbodyValue>
+                        <Style.TbodyValue>{info[1][1]}</Style.TbodyValue>
+                        </Style.Trow>
+                        <Style.Trow
+                            id="tr3"
+                            onClick={clickTableEvent("tr3")} 
+                        >
+                        <Style.TbodyValue>{info[2][0]}</Style.TbodyValue>
+                        <Style.TbodyValue>{info[2][1]}</Style.TbodyValue>
+                        </Style.Trow>
+                        <Style.Trow
+                            id="tr4"
+                            onClick={clickTableEvent("tr4")}    
+                        >
+                        <Style.TbodyValue>{info[3][0]}</Style.TbodyValue>
+                        <Style.TbodyValue>{info[3][1]}</Style.TbodyValue>
+                        </Style.Trow>
+                        <Style.Trow
+                            className="tr5"
+                            onClick={clickTableEvent("tr5")}
+                        >
+                        <Style.TbodyValue>{info[4][0]}</Style.TbodyValue>
+                        <Style.TbodyValue>{info[4][1]}</Style.TbodyValue>
+                        </Style.Trow>
+                    </Style.Tbody>
+                </Style.Table> 
 
                 <Style.SelectBtnWrap>
                     <Style.SelectBtn
                         type="button" 
-                        onClick={getUniversity(input)}
+                        onClick={close}
                     >선택
                     </Style.SelectBtn>
                 </Style.SelectBtnWrap>
