@@ -330,5 +330,23 @@ export const MS = {
     position: absolute;
     right:230px;
     border: 3px solid black;
+  `,
+  EtcDiv: styled.div`
+    width:100px;
+    height:80px;
+    border: 1px solid #B0B0B0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    position:absolute;
+    background-color:white;
+    top:15px;
+    right:30px;
+    display:block;
+    z-index:11;
+  `,
+  Functionp:styled.span`
+    font-size: 20px;
+    line-height:40px;
+    text-align: center;
+    cursor:pointer;
   `
 }

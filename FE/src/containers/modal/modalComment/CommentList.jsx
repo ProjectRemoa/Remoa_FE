@@ -43,7 +43,7 @@ export default function RMCommentList(props) {
   const onDelete = (commentId) => {
     //const data = axios
     axios
-      .delete(`/BE/reference/comment/${commentId}`)
+      .delete(`/BE/user/reference/comment/${commentId}`)
       .then((response) => {
         console.log(response);
         props.setComments({ comments: response.data.data });

@@ -9,6 +9,7 @@ import RefModalComment from "./RefModalComment";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import StarIcon from "@mui/icons-material/Star";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import YouTube from "react-youtube";
@@ -57,9 +58,20 @@ const useStyles = makeStyles({
     marginLeft: "25px",
     marginTop: "13.5px",
   },
+  dotIcon : {
+    cursor:"pointer",
+    position:"absolute",
+    top:"10px",
+    right:"10px"
+  }
 });
 
-export default function RefModal({ id2, modalVisibleId2, setModalVisibleId2 }) {
+export default function RefModal({
+  id2,
+  modalVisibleId2,
+  setModalVisibleId2,
+  setData
+}) {
   const classes = useStyles();
   const Navigate = useNavigate();
 
@@ -87,7 +99,10 @@ export default function RefModal({ id2, modalVisibleId2, setModalVisibleId2 }) {
     nickname: "",
     profileImage: "",
   });
-
+  const [showSel, setShowSel] = useState(false)
+  const showSelect = () => {
+    setShowSel(!showSel)
+  }
   const [category, setCategory] = useState("");
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
@@ -97,6 +112,7 @@ export default function RefModal({ id2, modalVisibleId2, setModalVisibleId2 }) {
         console.log(res);
         // top : 제목, 콘테스트 이름, 작성일자, 카테고리, 조회수, 좋아요수, 스크랩 수
         setTop({
+          postId: res.data.data.postId,
           title: res.data.data.title,
           contestName: res.data.data.contestName,
           contestAwardType: res.data.data.contestAwardType,
@@ -232,7 +248,7 @@ export default function RefModal({ id2, modalVisibleId2, setModalVisibleId2 }) {
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
+  const [pageScale, setPageScale] = useState(0.5); 
 
   function onDocumentLoadSuccess({ numPages }) {
     console.log("pdf 로드 성공");
@@ -244,11 +260,38 @@ export default function RefModal({ id2, modalVisibleId2, setModalVisibleId2 }) {
     setShow(e.target.value);
   };
 
+  // const onDelete = (postId) => {
+  //   axios
+  //     .delete(`/BE/user/reference/${postId}`)
+  //     .then((response) => {
+  //       console.log(response);
+  //       setData({ data: response.data.data });
+  //       alert("레퍼런스 삭제가 완료되었습니다.");
+  //       Navigate("/")
+  //     })
+  //     .catch((err) => {
+  //       alert(err);
+  //     });
+  // };
+  
   return (
     <MS.ModalWrapper>
       {/*className={modalVisibleId2 == id2 ? "d_block" : "d_none"}*/}
       <MS.MobalBox>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
+        {postMember.nickname === sessionStorage.getItem("nickname") ? (
+        <> 
+          <MoreVertIcon className={classes.dotIcon} onClick={showSelect}/>
+          {showSel? 
+          <MS.EtcDiv>
+            <MS.Functionp>수정하기</MS.Functionp>
+            <div style={{width: "90px",height: "0px",border: "0.5px solid #B0B0B0",
+            position:'relative',left:"5px"}} />
+            <MS.Functionp>삭제하기</MS.Functionp>
+          </MS.EtcDiv>
+           : ""}         
+        </>) 
+        : ""}
         <br />
         <MS.MobalHeader>
           <MS.HeaderDiv1>
@@ -258,7 +301,7 @@ export default function RefModal({ id2, modalVisibleId2, setModalVisibleId2 }) {
               <span style={{ color: "#FADA5E" }}>{top.contestAwardType}</span>
               &nbsp;| &nbsp;{getDate(top.postingTime)}&nbsp;|&nbsp;
               {top.category}
-            </MS.DetailTitleInfo>
+            </MS.DetailTitleInfo>                
           </MS.HeaderDiv1>
 
           <MS.HeaderDiv2>

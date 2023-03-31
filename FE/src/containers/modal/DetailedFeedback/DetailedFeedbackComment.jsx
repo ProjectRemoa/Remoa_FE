@@ -35,44 +35,38 @@ export default function DetailedFeedbackComment({
 
   return (
     <DF.EachFeedWrapper>
-      {feedbacks &&
-        feedbacks.map((f, index) => (
-          <div key={index} style={{ marginBottom: "30px" }}>
-            <DF.FeedWrapperHeader>
-              <DF.ProfileSize src={f.member.profileImage} />
-              <DF.ProfileName>{f.member.nickname}</DF.ProfileName>
-              <DF.ButtonWrapper>
-                <DF.HeaderButton>
-                  <ThumbUpIcon onClick={() => onClickFeedback(f.feedbackId)} />
-                  <DF.ThumbCount>{f.likeCount}</DF.ThumbCount>
-                </DF.HeaderButton>
-                {/* <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
+      {feedbacks && feedbacks.map((feedbacks, index) => ( 
+        <div style={{marginBottom:"30px"}} key={index}>
+          <DF.FeedWrapperHeader>
+            <DF.ProfileSize src={feedbacks.member.profileImage} alt="" />
+            <DF.ProfileName>
+              {feedbacks.member.nickname}
+            </DF.ProfileName>
+            <DF.ButtonWrapper>
+              <DF.HeaderButton>
+                <ThumbUpIcon />
+                <DF.ThumbCount>{feedbacks.likeCount}</DF.ThumbCount>
+              </DF.HeaderButton>
+              {/* <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
                 답글
-              </DF.HeaderButton> */}
-              </DF.ButtonWrapper>
-            </DF.FeedWrapperHeader>
-
-            <div>
+              </DF.HeaderButton>*/}
+            </DF.ButtonWrapper>          
+          </DF.FeedWrapperHeader>
+            <div >
               <DF.FeedWrapperButton>
-                {link ? (
-                  <DF.WrapperSearch>동영상</DF.WrapperSearch>
-                ) : (
-                  <DF.WrapperSearch
-                    href={`#${f.page}`}
-                    style={{ fontSize: "90%" /* 글자 크기 조절했습니다 */ }}
-                  >
-                    {f.page}페이지
-                  </DF.WrapperSearch>
-                )}
+                {link ? 
+                <DF.WrapperSearch>
+                  동영상
+                </DF.WrapperSearch>
+                 :
+                <DF.WrapperSearch href={`#${feedbacks.page}`}>
+                {feedbacks.page}페이지
+              </DF.WrapperSearch>
+              }
+               
               </DF.FeedWrapperButton>
-              <p
-                style={{
-                  fontSize: "18px",
-                  lineHeight: "22px",
-                  textAlign: "left",
-                }}
-              >
-                {f.feedback}
+              <p style={{fontSize:"18px",lineHeight:"22px",textAlign:"left"}}>
+                {feedbacks.feedback}
               </p>
 
               {/* <DetailedFeedbackCommentAgain />*/}
