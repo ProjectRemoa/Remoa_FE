@@ -282,13 +282,16 @@ export default function RefModal({
         {postMember.nickname === sessionStorage.getItem("nickname") ? (
         <> 
           <MoreVertIcon className={classes.dotIcon} onClick={showSelect}/>
-          {showSel? <select>
-            <option>수정하기</option>
-            <option>삭제하기</option>
-          </select> : ""}         
+          {showSel? 
+          <MS.EtcDiv>
+            <MS.Functionp>수정하기</MS.Functionp>
+            <div style={{width: "90px",height: "0px",border: "0.5px solid #B0B0B0",
+            position:'relative',left:"5px"}} />
+            <MS.Functionp>삭제하기</MS.Functionp>
+          </MS.EtcDiv>
+           : ""}         
         </>) 
         : ""}
-        {/* 여기다 레퍼런스 삭제 하시면 됩니당 */}
         <br />
         <MS.MobalHeader>
           <MS.HeaderDiv1>
