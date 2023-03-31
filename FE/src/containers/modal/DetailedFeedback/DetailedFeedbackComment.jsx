@@ -49,7 +49,7 @@ export default function DetailedFeedbackComment({
               </DF.HeaderButton>
               {/* <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
                 답글
-              </DF.HeaderButton> */}
+              </DF.HeaderButton>*/}
             </DF.ButtonWrapper>          
           </DF.FeedWrapperHeader>
             <div >
