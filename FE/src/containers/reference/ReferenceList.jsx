@@ -149,7 +149,6 @@ const RefList = (props) => {
   };
 
   function modalLocation(i) {
-    //console.log("window.innerWidth : " + window.innerWidth);
     if (window.innerWidth <= 767) {
       if (i % 2 == 0) {
         return 2;

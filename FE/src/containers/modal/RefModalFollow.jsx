@@ -24,7 +24,6 @@ export default function RefModalFollow({
   idea,
   isFollow,
 }) {
-  console.log("memberId : " + id);
   const classes = useStyles();
   const navigate = useNavigate();
   const onCloseHandler = () => {
