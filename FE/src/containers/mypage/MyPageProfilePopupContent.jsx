@@ -47,10 +47,16 @@ const Style={
         gap : 10px;
         margin-bottom: 30px;
     `,
-    SearchBtn:styled.div`
+    SearchBtnWrap:styled.div`
         background-color: #FADA5E;
-        padding: 8px 20px 8px 20px;
+        padding: 0px 20px 8px 20px;
         border-radius: 25px 0px 0px 25px;
+    `,
+    SearchBtn:styled.button`
+        border: none;
+        background-color:transparent;
+        outline: none;
+        box-shadow: none;
     `,
     InputWrap:styled.div`
         border: 2px solid #CDCDCD;
@@ -68,11 +74,12 @@ const Style={
         outline : none;
     `,
     UniversityTable:styled.table`
-        
+        width: 100%;
     `,
     SelectBtnWrap:styled.div`
         width: 100%;
         display: flex;
+        margin-top: 30px;
     `,
     SelectBtn:styled.button`
         width: 235px;
@@ -111,8 +118,8 @@ const Style={
 
 const PopupContent = (props) => {
     const [input, setInput] = useState('한국대학교');
-    const [info, setInfo] = useState([[data[0]['address'], data[0]['name']], [data[1]['address'], data[1]['name']], ["", ""], ["", ""], ["", ""]]);
-    
+    const [info, setInfo] = useState([]);//[data[0]['address'], data[0]['name']], [data[1]['address'], data[1]['name']], [data[2]['address'], data[2]['name']], [data[3]['address'], data[3]['name']], [data[4]['address'], data[4]['name']]]);
+
     const {close} = props;
 
     const inputHandler = (e) => {
@@ -120,22 +127,50 @@ const PopupContent = (props) => {
     };
 
     const clickTableEvent = (target) => {
-        let check = document.getElementById(target);
-        if (check) {
-            /*document.getElementById('t1').style.backgroundColor = '#FFFFFF';
-            document.getElementById('t2').style.backgroundColor = '#FFFFFF';
-            document.getElementById('t3').style.backgroundColor = '#FFFFFF';
-            document.getElementById('t4').style.backgroundColor = '#FFFFFF';
-            document.getElementById('t5').style.backgroundColor = '#FFFFFF';*/
-            document.getElementById(target).style.backgroundColor = '#FADA5E';
-            console.log("확인");
+        let targeting = document.getElementById(target);
+        /*let t1 = document.getElementById("tr1");
+        let t2 = document.getElementById("tr2");
+        let t3 = document.getElementById("tr3");
+        let t4 = document.getElementById("tr4");
+        let t5 = document.getElementById("tr5");*/
+        if (targeting) {
+            /*t1.style.backgroundColor = '#FFFFFF';
+            t2.style.backgroundColor = '#FFFFFF';
+            t3.style.backgroundColor = '#FFFFFF';
+            t4.style.backgroundColor = '#FFFFFF';
+            t5.style.backgroundColor = '#FFFFFF';*/
+            targeting.style.backgroundColor = '#FADA5E';
         }
-        else {
-            console.log("error")
-        }
-    }
-        
-    
+    };
+      
+    const searchUniversity = (input) => {
+        /*data.forEach((value) => {
+            if (value['name'].includes(input) && [value['address'],value['name']]) {
+                let universityValue = [value['address'],value['name']];
+                setInfo([info.concat(universityValue)]);
+                console.log(universityValue);
+            } 
+            //console.log(info);
+        });*/
+        for (let i=0; i<data.length; i++) {
+            if (data[i]['name'].includes(input)) {
+                console.log(data[i]);
+                let universityValue = (
+                <Style.Trow 
+                    id={data[i]['name']}
+                    key={data[i]['name']}
+                    onClick={() => clickTableEvent(data[i]['name'])}    
+                >
+                    <Style.TbodyValue>{data[i]['address']}</Style.TbodyValue>
+                    <Style.TbodyValue>{data[i]['name']}</Style.TbodyValue>
+                </Style.Trow>
+                );
+                console.log(universityValue);
+                setInfo([...info, universityValue]);
+            }
+        };
+        console.log("info = ",info);
+    };
 
     return(
         <>
@@ -157,13 +192,17 @@ const PopupContent = (props) => {
                     </Style.DetailContent>
                 
                 <Style.SearchWrap>
-                    <Style.SearchBtn>
-                        <FontAwesomeIcon 
+                    <Style.SearchBtnWrap>
+                        <Style.SearchBtn
+                            type="button"
+                            onClick={() => searchUniversity(input)}>
+                            <FontAwesomeIcon 
                             icon={faMagnifyingGlass} 
                             color="white"
                             size='2x'
-                        />
-                    </Style.SearchBtn>
+                            />
+                        </Style.SearchBtn>
+                    </Style.SearchBtnWrap>
                     <Style.InputWrap>
                         <Style.Input
                             onChange={(e) => inputHandler(e)}
@@ -180,7 +219,8 @@ const PopupContent = (props) => {
                         </Style.Trow>
                     </Style.Thead>
                     <Style.Tbody>
-                        <Style.Trow
+                        {info? info : null}
+                        {/*<Style.Trow
                             id="tr1"
                             onClick={() => clickTableEvent("tr1")}
                         >
@@ -189,32 +229,32 @@ const PopupContent = (props) => {
                         </Style.Trow>
                         <Style.Trow
                             id="tr2"
-                            onClick={clickTableEvent("tr2")}    
+                            onClick={() => clickTableEvent("tr2")}    
                         >
                         <Style.TbodyValue>{info[1][0]}</Style.TbodyValue>
                         <Style.TbodyValue>{info[1][1]}</Style.TbodyValue>
                         </Style.Trow>
                         <Style.Trow
                             id="tr3"
-                            onClick={clickTableEvent("tr3")} 
+                            onClick={() => clickTableEvent("tr3")} 
                         >
                         <Style.TbodyValue>{info[2][0]}</Style.TbodyValue>
                         <Style.TbodyValue>{info[2][1]}</Style.TbodyValue>
                         </Style.Trow>
                         <Style.Trow
                             id="tr4"
-                            onClick={clickTableEvent("tr4")}    
+                            onClick={() => clickTableEvent("tr4")}    
                         >
                         <Style.TbodyValue>{info[3][0]}</Style.TbodyValue>
                         <Style.TbodyValue>{info[3][1]}</Style.TbodyValue>
                         </Style.Trow>
                         <Style.Trow
-                            className="tr5"
-                            onClick={clickTableEvent("tr5")}
+                            id="tr5"
+                            onClick={() => clickTableEvent("tr5")}    
                         >
                         <Style.TbodyValue>{info[4][0]}</Style.TbodyValue>
                         <Style.TbodyValue>{info[4][1]}</Style.TbodyValue>
-                        </Style.Trow>
+                        </Style.Trow>*/}
                     </Style.Tbody>
                 </Style.Table> 
 
