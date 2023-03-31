@@ -125,24 +125,27 @@ const Style={
 
 function Follow() {
     const navigate = useNavigate();
-    const [userList, setUserList] = useState([]); // test: useState([temp1,temp2]);
-    const [username, setUsername] = useState('호갱');
-    const [followNum, setFollowNum] = useState(10);
+    const [followingList, setFollowingList] = useState([]); // test: useState([temp1,temp2]);
+    const [followerList, setFollowerList] = useState([]); // test: useState([temp1,temp2]);
+    const [username, setUsername] = useState('');
+    const [followingNum, setFollowingNum] = useState(null);
+    const [followerNum, setFollowerNum] = useState(null);
     const [following, setFollowing] = useState(true);
     const [followInfo, setFollowInfo] = useState({
         followingColor: "#000000",
         followerColor: "#D0D0D0",
-        followingIntro: <Style.FollowNum><Style.Text>{username}</Style.Text>님이 팔로잉하고 있는 유저는 총 <Style.Text>{followNum}</Style.Text>명 입니다</Style.FollowNum>,
+        followingIntro: <Style.FollowNum><Style.Text>{username}</Style.Text>님이 팔로우하고 있는 유저는 총&nbsp;<Style.Text>{followingNum}</Style.Text>명 입니다</Style.FollowNum>,
         followerIntro: null
     });
 
     const { followingColor, followerColor, followingIntro, followerIntro } = followInfo;
 
     const followingPage = () => {
+        setFollowing(true);
         setFollowInfo({
             ['followingColor']: "#000000",
             ['followerColor']: "#D0D0D0",
-            ['followingIntro']: <Style.FollowNum><Style.Text>{username}</Style.Text>님이 팔로잉하고 있는 유저는 총&nbsp;<Style.Text>{followNum}</Style.Text>명 입니다</Style.FollowNum>,
+            ['followingIntro']: <Style.FollowNum><Style.Text>{username}</Style.Text>님이 팔로우하고 있는 유저는 총&nbsp;<Style.Text>{followingNum}</Style.Text>명 입니다</Style.FollowNum>,
             ['followerIntro']: null
         });
     };
@@ -153,7 +156,7 @@ function Follow() {
             ['followingColor']: "#D0D0D0",
             ['followerColor']: "#000000",
             ['followingIntro']: null,
-            ['followerIntro']: <Style.FollowNum>총&nbsp;<Style.Text>{followNum}</Style.Text>명이&nbsp;<Style.Text>{username}</Style.Text>님을 팔로잉하고 있어요</Style.FollowNum>
+            ['followerIntro']: <Style.FollowNum>총&nbsp;<Style.Text>{followerNum}</Style.Text>명이&nbsp;<Style.Text>{username}</Style.Text>님을 팔로잉하고 있어요</Style.FollowNum>
         });
     };
 
@@ -169,10 +172,11 @@ function Follow() {
     };
 
     const getFollowingList = () => {
+        const newInfo = [];
         axios.get(`/BE/following`)
         .then((res) => {
             setUsername(res.data.data.userName);
-            setFollowNum(res.data.data.followNum);
+            setFollowingNum(res.data.data.followNum);
             for (let i=0; i<res.data.data.resMypageList.length; i++) {
                 let userInfo = (
                 <Style.FollowWrap>
@@ -199,8 +203,9 @@ function Follow() {
                     </Style.FollowBtnWrap>
                 </Style.FollowWrap>
                 );
-                setUserList([...userList, userInfo]);
+                newInfo.push(userInfo);
             }
+            setFollowingList(newInfo);
         })
     };
 
@@ -208,7 +213,7 @@ function Follow() {
         axios.get(`/BE/follower`)
         .then((res) => {
             setUsername(res.data.data.userName);
-            setFollowNum(res.data.data.followNum);
+            setFollowerNum(res.data.data.followNum);
             for (let i=0; i<res.data.data.resMypageList.length; i++) {
                 let userInfo = (
                 <Style.FollowWrap>
@@ -235,21 +240,17 @@ function Follow() {
                     </Style.FollowBtnWrap>
                 </Style.FollowWrap>
                 );
-                setUserList([...userList, userInfo]);
+                setFollowerList([...followerList, userInfo]);
             }
         })
     };
 
-    
 
     useEffect(() => {
-        if(following)
-            getFollowingList();
-        else
-            getFollowerList();
+        getFollowingList();
+        getFollowerList();
     }, []);
 
- 
 
     return(
     <>
@@ -268,10 +269,9 @@ function Follow() {
                         팔로워 관리
                     </Style.FollowBtn>
                 </Style.BtnWrap>
-                {followingIntro}
-                {followerIntro}
+                {following? followingIntro : followerIntro}
             </Style.HeaderWrap>
-            <Style.FollowList>{userList}</Style.FollowList>
+            <Style.FollowList>{following? followingList : followerList}</Style.FollowList>
         </Style.Wrap>    
     </>
   )

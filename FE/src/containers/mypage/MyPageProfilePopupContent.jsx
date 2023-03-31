@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import React, { useState } from 'react'
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faPassport } from "@fortawesome/free-solid-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { data } from "./temporary/university";
 
 const Style={
     FullLayer:styled.div`
@@ -47,10 +47,16 @@ const Style={
         gap : 10px;
         margin-bottom: 30px;
     `,
-    SearchBtn:styled.div`
+    SearchBtnWrap:styled.div`
         background-color: #FADA5E;
-        padding: 8px 20px 8px 20px;
+        padding: 0px 20px 8px 20px;
         border-radius: 25px 0px 0px 25px;
+    `,
+    SearchBtn:styled.button`
+        border: none;
+        background-color:transparent;
+        outline: none;
+        box-shadow: none;
     `,
     InputWrap:styled.div`
         border: 2px solid #CDCDCD;
@@ -73,6 +79,7 @@ const Style={
     SelectBtnWrap:styled.div`
         width: 100%;
         display: flex;
+        margin-top: 30px;
     `,
     SelectBtn:styled.button`
         width: 235px;
@@ -82,26 +89,106 @@ const Style={
         color: #010101;
         margin: auto;
     `,
+    TableWrap:styled.div`
+        height: 350px;
+        overflow-y: auto;
+        overflow-x: hidden; 
+    `,
+    Table:styled.table`
+        width: 100%;
+        text-align: center;
+        border-collapse:collapse;
+        text-align: left;
+    `,
+    Thead:styled.thead`
+        height: 56px;
+        background-color: #E1E1E1;
+        font-weigth: bold;
+    `,
+    TheadValue:styled.th`
+        text-align: left;
+        background-color: #E1E1E1;
+        padding-left: 10%;
+    `,
+    Tbody:styled.tbody`
+        background-color: #FFFFFF;
+    `,
+    TbodyValue:styled.td`
+        height: 56px;
+        padding-left: 10%;
+    `,
+    Trow:styled.tr`
+        height: 56px;
+        background-color: #FFFFFF
+    `
 }
 
 const PopupContent = (props) => {
     const [input, setInput] = useState('한국대학교');
-    const [info, setInfo] = useState([['소재지1', '대학명1'], ['소재지2', '대학명2'], ['소재지3', '대학명3']]);
-    
-    const {getUniversity, close} = props;
+    const [index, setIndex] = useState([]);
+    const {close} = props;
+    const [info, setInfo] = useState(
+        [<Style.Trow key={'1'}>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        </Style.Trow>,
+        <Style.Trow key={'2'}>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        </Style.Trow>,
+        <Style.Trow key={'3'}>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        <Style.TbodyValue>{""}</Style.TbodyValue>
+        </Style.Trow>
+        ]
+    );
 
-    /*const getApi = () =>{
-        axios.get('url')
-        .then((res) => console.log(res));
+    const clickTableEvent = (target) => {
+        let targeting = document.getElementById(target);
+        let trs = [];
+        console.log("index = ", index);
+        for (let i=0; i<index.length; i++) {
+            trs.push(document.getElementById(index[i]));
+        }
+        console.log("trs = ", trs);
+        if (targeting) {
+            for (let i=0; i<index.length; i++) {
+                trs[i].style.backgroundColor = '#FFFFFF';
+                console.log("색 하얀색");
+            }
+            targeting.style.backgroundColor = '#FADA5E';
+        }
     };
-
-    useEffect(() => {
-        getApi();
-    }, [])*/
 
     const inputHandler = (e) => {
         setInput(e.target.value);
     };
+
+    const searchUniversity = (input) => {
+        setInfo(info.splice(0));
+        const newInfo = [];
+        const newIndex = [];
+        for (let i=0; i<data.length; i++) {
+            if (data[i]['name'].includes(input)) {
+                let universityValue = (
+                <Style.Trow 
+                    id={i.toString()}
+                    key={i.toString()}
+                    onClick={() => clickTableEvent(i.toString())}   
+                >
+                    <Style.TbodyValue>{data[i]['address']}</Style.TbodyValue>
+                    <Style.TbodyValue>{data[i]['name']}</Style.TbodyValue>
+                </Style.Trow>
+                );
+                newInfo.push(universityValue);
+                newIndex.push(i.toString());
+            }
+        };
+        setInfo(newInfo);
+        setIndex(newIndex);
+    };
+
+    console.log(info);
 
     return(
         <>
@@ -123,13 +210,17 @@ const PopupContent = (props) => {
                     </Style.DetailContent>
                 
                 <Style.SearchWrap>
-                    <Style.SearchBtn>
-                        <FontAwesomeIcon 
+                    <Style.SearchBtnWrap>
+                        <Style.SearchBtn
+                            type="button"
+                            onClick={() => searchUniversity(input)}>
+                            <FontAwesomeIcon 
                             icon={faMagnifyingGlass} 
                             color="white"
                             size='2x'
-                        />
-                    </Style.SearchBtn>
+                            />
+                        </Style.SearchBtn>
+                    </Style.SearchBtnWrap>
                     <Style.InputWrap>
                         <Style.Input
                             onChange={(e) => inputHandler(e)}
@@ -138,35 +229,25 @@ const PopupContent = (props) => {
                     </Style.InputWrap>
                 </Style.SearchWrap>
 
-                <div>
-                    <table>
-                        <thead>
-                            <tr>
-                            <th scope="col">소재지</th>
-                            <th scope="col">대학명</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <td>{info[0][0]}</td>
-                            <td>{info[0][1]}</td>
-                            </tr>
-                            <tr>
-                            <td>{info[1][0]}</td>
-                            <td>{info[1][1]}</td>
-                            </tr>
-                            <tr>
-                            <td>{info[2][0]}</td>
-                            <td>{info[2][1]}</td>
-                            </tr>
-                        </tbody>
-                    </table> 
-                </div>
+                <Style.TableWrap>
+                    <Style.Table>
+                        <Style.Thead>
+                            <Style.Trow>
+                            <Style.TheadValue scope="col">소재지</Style.TheadValue>
+                            <Style.TheadValue scope="col">대학명</Style.TheadValue>
+                            </Style.Trow>
+                        </Style.Thead>
+                        <Style.Tbody>
+                            {info? info : null}
+                        </Style.Tbody>
+                    </Style.Table>
+                </Style.TableWrap>
+                 
 
                 <Style.SelectBtnWrap>
                     <Style.SelectBtn
                         type="button" 
-                        onClick={getUniversity(input)}
+                        onClick={close}
                     >선택
                     </Style.SelectBtn>
                 </Style.SelectBtnWrap>
