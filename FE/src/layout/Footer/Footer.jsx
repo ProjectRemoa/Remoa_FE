@@ -4,6 +4,7 @@ import styled from "styled-components";
 import img from "../../images/LOGO_SYMBOLMARK.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const Style = {
   FooterEmail: styled.p`
     font-weight: 500;
@@ -54,12 +55,12 @@ function Footer() {
     <footer
       className={styles.footer}
       style={
-        /*window.location.href.includes("mypage") ||
+        window.location.href.includes("mypage/myfeedback") ||
         window.location.href.includes("manage/feedback") ||
         window.location.href.includes("manage/share") ||
         window.location.href.includes("user/list")
           ? { position: "relative" }
-          : */ { position: "absolute", bottom: "-150px" }
+          : { position: "absolute", bottom: "-150px" }
       }
     >
       <div className={styles.contents}>

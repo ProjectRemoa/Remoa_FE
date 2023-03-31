@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 const useStyles = makeStyles({
   close: {
     color: "#FADA5E",
@@ -20,23 +22,86 @@ export default function RefModalFollow({
   modalVisibleId,
   setModalVisibleId,
   idea,
+  isFollow,
 }) {
+  console.log("memberId : " + id);
   const classes = useStyles();
   const navigate = useNavigate();
   const onCloseHandler = () => {
     setModalVisibleId("");
   };
-  const [stateFollow, setStatestateFollow] = useState(false);
+  const [stateFollow, setStateFollow] = useState(false);
   const onClickFollow = () => {
-    setStatestateFollow(!stateFollow);
+    console.log("===팔로잉하기 클릭");
+    //setStatestateFollow(!stateFollow);
+    if (!sessionStorage.getItem("nickname")) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/sociallogin");
+    } else {
+      // follow 정보 보내고
+      axios
+        .post(`/BE/follow/${id}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status === 201) {
+            // 팔로잉 시작
+            setStateFollow(true);
+          } else if (res.status === 200) {
+            // 언팔로잉 시작
+            setStateFollow(false);
+          }
+
+          // follow 정보 받아옴
+          axios
+            .get(`/BE/follow/${id}`)
+            .then((res) => {
+              setFollower(res.data.data.follower);
+              setFollowing(res.data.data.following);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.response.data.detail === "자신을 팔로우할 수 없습니다") {
+            setIsItMe(true);
+            alert("자신은 팔로우할 수 없습니다.");
+            console.log("자신의 프로필 모달창은 띄우지 않습니다");
+            setModalVisibleId("");
+          }
+        });
+    }
   };
 
   const onClickMore = () => {
-    navigate(`/manage/list/${idea.postMember.memberId}`);
+    navigate(`/user/list/${id}`);
   };
+
+  const [following, setFollowing] = useState(0);
+  const [follower, setFollower] = useState(0);
+  const [isItMe, setIsItMe] = useState(false);
+  useEffect(() => {
+    console.log("==팔로잉/팔로우 확인");
+    axios
+      .get(`/BE/follow/${id}`)
+      .then((res) => {
+        console.log(res);
+        setFollower(res.data.data.follower);
+        setFollowing(res.data.data.following);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    setStateFollow(isFollow);
+  }, [modalVisibleId]);
+
   return (
     <MS.SmallModalWrapper
-      className={modalVisibleId == id ? "d_block" : "d_none"}
+      className={
+        modalVisibleId == id && isItMe === false ? "d_block" : "d_none"
+      }
       location={location}
     >
       <CloseIcon onClick={onCloseHandler} className={classes.close}>
@@ -49,16 +114,16 @@ export default function RefModalFollow({
 
       <MS.FollowingFollower>
         <MS.ModalFollowing>Following</MS.ModalFollowing>
-        &nbsp;13
+        &nbsp;{following}
       </MS.FollowingFollower>
       <MS.FollowingFollower>
         <MS.ModalFollower>Follower</MS.ModalFollower>
-        50
+        {follower}
       </MS.FollowingFollower>
 
       <MS.SmallModalButtonWrapper>
         <MS.SmallModalButton onClick={onClickFollow}>
-          {stateFollow ? "팔로잉 중" : "팔로잉하기"}
+          {stateFollow ? "언팔로잉하기" : "팔로잉하기"}
         </MS.SmallModalButton>
         <MS.SmallModalButton
           style={{ marginLeft: "7px", cursor: "pointer" }}

@@ -59,12 +59,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RefModal({
-  id2,
-  idea,
-  modalVisibleId2,
-  setModalVisibleId2,
-}) {
+export default function RefModal({ id2, modalVisibleId2, setModalVisibleId2 }) {
   const classes = useStyles();
   const Navigate = useNavigate();
 
@@ -85,8 +80,12 @@ export default function RefModal({
     scrapCount: 0,
     youtubeLink: "", // category가 영상일 때
   });
-  const [bottom, setBottom] = useState({
-    comments: [],
+  const [comments, setComments] = useState([]); // 댓글 왜 안되지
+  const [feedback, setFeedback] = useState([]);
+  const [postMember, setPostMember] = useState({
+    memberId: 0,
+    nickname: "",
+    profileImage: "",
   });
 
   const [category, setCategory] = useState("");
@@ -112,7 +111,7 @@ export default function RefModal({
         let fileLength;
         let fileDot;
         let fileType = "";
-        if (res.data.data.fileNames.length >= 2) {
+        if (res.data.data.category !== "video") {
           // 영상 아닌 경우
           // 영상인 경우 fileType은 ""값
           fileLength = res.data.data.fileNames[1].length;
@@ -122,7 +121,16 @@ export default function RefModal({
             .toLocaleLowerCase();
         }
 
-        let videoId = res.data.data.youtubeLink.split("=");
+        let videoId;
+        let link = res.data.data.youtubeLink;
+        if (res.data.data.category === "video") {
+          if (link.includes("?v=")) {
+            videoId = link.split("?v=")[1]; // watch?v= 형식인 경우
+          } else if (link.includes("youtu.be")) {
+            // youtu.be/id~ 인 경우
+            videoId = link.split("/")[3];
+          } else console.log(videoId);
+        }
 
         setMiddle({
           fileNames: res.data.data.fileNames.filter(
@@ -131,13 +139,11 @@ export default function RefModal({
           likeCount: res.data.data.likeCount,
           scrapCount: res.data.data.scrapCount,
           fileType: fileType,
-          youtubeLink: videoId[1], // videoId만 출력해야함
+          youtubeLink: videoId, // videoId만 출력해야함
         });
 
         // bottom : 댓글
-        setBottom({
-          comments: res.data.data.comments,
-        });
+        setComments(res.data.data.comments);
 
         // 내가 좋아요/스크랩했는지?
         setLikeBoolean(res.data.data.isLiked);
@@ -147,6 +153,16 @@ export default function RefModal({
 
         // 카테고리 따라서 뜨는 뷰어 다르게
         setCategory(res.data.data.category);
+
+        // 피드백 담아서 넘기기
+        setFeedback(res.data.data.feedbacks);
+
+        // 유저 정보 받기
+        setPostMember({
+          memberId: res.data.data.postMember.memberId,
+          nickname: res.data.data.postMember.nickname,
+          profileImage: res.data.data.postMember.profileImage,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -165,6 +181,10 @@ export default function RefModal({
       Navigate("/ref/etc");
     } else if (Lo.includes("/manage/list")) {
       Navigate("/manage/list");
+    } else if (Lo.includes("/mypage/scrap")) {
+      Navigate("/mypage/scrap");
+    } else if (Lo.includes("/mypage/work")) {
+      Navigate("/mypage/work");
     } else {
       Navigate("/");
     }
@@ -176,12 +196,13 @@ export default function RefModal({
   const [likeBoolean, setLikeBoolean] = useState(false);
   const [scrapBoolean, setscrapBoolean] = useState(false);
 
-  const handleLike = (e) => {
+  const handleLike = () => {
     axios
       .post(`/BE/reference/${id2}/like`)
       .then((res) => {
         console.log(res);
         setLike(res.data.data.likeCount);
+        setTop({ likeCount: res.data.data.likeCount });
       })
       .catch((err) => {
         console.log(err);
@@ -189,12 +210,13 @@ export default function RefModal({
     setLikeBoolean(!likeBoolean);
   };
 
-  const handleScrap = (e) => {
+  const handleScrap = () => {
     axios
       .post(`/BE/reference/${id2}/scrap`)
       .then((res) => {
         console.log(res);
         setScrap(res.data.data.scrapCount);
+        setTop({ scrapCount: res.data.data.scrapCount });
       })
       .catch((err) => {
         console.log(err);
@@ -206,7 +228,6 @@ export default function RefModal({
   const onModalHandler3 = (id) => {
     setModalVisibleId3(id);
   };
-  const media = idea.thumbnail;
 
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
@@ -224,8 +245,8 @@ export default function RefModal({
   };
 
   return (
-    <MS.ModalWrapper /*className={modalVisibleId2 === id2 ? "d_block" : "d_none"}*/
-    >
+    <MS.ModalWrapper>
+      {/*className={modalVisibleId2 == id2 ? "d_block" : "d_none"}*/}
       <MS.MobalBox>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         <br />
@@ -242,8 +263,8 @@ export default function RefModal({
 
           <MS.HeaderDiv2>
             <MS.HeaderUserInfo>
-              <MS.ProfileSize src={idea.postMember.profileImage} />
-              <MS.HeaderUserName>{idea.postMember.nickname}</MS.HeaderUserName>
+              <MS.ProfileSize src={postMember.profileImage} />
+              <MS.HeaderUserName>{postMember.nickname}</MS.HeaderUserName>
               <MS.HeaderDetail2>
                 <RemoveRedEyeOutlinedIcon />
                 {top.views}
@@ -264,7 +285,8 @@ export default function RefModal({
               numPages={numPages}
               media={middle.fileNames}
               link={middle.youtubeLink}
-              feedbacks={idea.feedbacks}
+              feedbacks={feedback} // 피드백 전체 넘겼습니다.
+              setFeedback={setFeedback} // 혹시 몰라 피드백을 수정할 수 있는 setFeedback도 같이 넘깁니다.
             />
           </MS.HeaderDiv2>
         </MS.MobalHeader>
@@ -359,29 +381,29 @@ export default function RefModal({
         </MS.MobalContents>
 
         <MS.TraceBoxWrapper>
-          <MS.TraceBox onClick={() => handleLike(top.likeCount)}>
+          <MS.TraceBox onClick={() => handleLike()}>
             <FavoriteOutlinedIcon
               className={
                 likeBoolean ? classes.afterClick1 : classes.beforeClick
               }
             />
-            {like}
+            {top.likeCount}
           </MS.TraceBox>
           <div style={{ width: "26px" }}></div>
-          <MS.TraceBox onClick={() => handleScrap(top.scrapCount)}>
+          <MS.TraceBox onClick={() => handleScrap()}>
             <StarIcon
               className={
                 scrapBoolean ? classes.afterClick2 : classes.beforeClick
               }
             />
-            {scrap}
+            {top.scrapCount}
           </MS.TraceBox>
         </MS.TraceBoxWrapper>
 
         <RefModalComment
           postId={id2}
-          comments={bottom.comments}
-          setComments={setBottom}
+          comments={comments}
+          setComments={setComments}
         />
       </MS.MobalBox>
     </MS.ModalWrapper>
