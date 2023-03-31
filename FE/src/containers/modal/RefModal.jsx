@@ -59,11 +59,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RefModal({
-  id2,
-  modalVisibleId2,
-  setModalVisibleId2,
-}) {
+export default function RefModal({ id2, modalVisibleId2, setModalVisibleId2 }) {
   const classes = useStyles();
   const Navigate = useNavigate();
 
@@ -232,7 +228,6 @@ export default function RefModal({
   const onModalHandler3 = (id) => {
     setModalVisibleId3(id);
   };
-  
 
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
