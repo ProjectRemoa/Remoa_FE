@@ -217,14 +217,15 @@ const RefList = (props) => {
                       }}
                     />
                     {modalVisibleId !== "" && (
-                            <RefModalFollow
-                              id={idea.postId}
-                              modalVisibleId={modalVisibleId}
-                              setModalVisibleId={setModalVisibleId}
-                              location={modalLocation(index + 1) /*index*/}
-                              idea={ideaFollow}
-                              isFollow={isFollow}
-                            />
+                      <RefModalFollow
+                        id={idea.postId}
+                        modalVisibleId={modalVisibleId}
+                        setModalVisibleId={setModalVisibleId}
+                        location={modalLocation(index + 1) /*index*/}
+                        idea={ideaFollow}
+                        isFollow={isFollow}
+                        memberId={idea.postMember.memberId}
+                      />
                     )}
                     {/*<RefModalFollow
                       id={idea.postId}
@@ -267,7 +268,6 @@ const RefList = (props) => {
           setData={setData}
         />
       )}
-      
     </Style.ContestList>
   );
 };

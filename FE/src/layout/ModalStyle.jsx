@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MS = {
-  ModalWrapper:styled.div`
+  ModalWrapper: styled.div`
     position: fixed;
     top: 0;
     left: 0;
@@ -15,7 +15,7 @@ export const MS = {
     cursor: default;
     overflow-y: scroll;
   `,
-  MobalBox:styled.div`
+  MobalBox: styled.div`
     position: absolute;
     background-color: #fff;
     width: 86vw;
@@ -25,79 +25,80 @@ export const MS = {
     padding: 15px 15px 0px 15px;
     border-radius: 1vw / 1vw;
   `,
-  MobalContents:styled.div`
+  MobalContents: styled.div`
     width: auto;
     height: auto;
     margin: 20px;
   `,
-  Line:styled.hr`
+  Line: styled.hr`
     width: auto;
-    border: 1px solid #B0B0B0;
+    border: 1px solid #b0b0b0;
     margin: 30px 0 30px 0;
   `,
-  MobalHeader:styled.div`
+  MobalHeader: styled.div`
     width: auto;
     height: auto;
     display: flex;
   `,
-  HeaderDiv1:styled.div`
+  HeaderDiv1: styled.div`
     height: auto;
-    width:65%;
+    width: 65%;
     text-align: left;
   `,
-  HeaderDiv2:styled.div`
+  HeaderDiv2: styled.div`
     height: auto;
-    width:35%
+    width: 35%;
   `,
-  DetailTitle:styled.div`
+  DetailTitle: styled.div`
     font-weight: 700;
     font-size: 25px;
     margin-top: 10px;
     margin-bottom: 30px;
   `,
-  DetailTitleInfo:styled.div`
+  DetailTitleInfo: styled.div`
     font-weight: 400;
     font-size: 20px;
   `,
-  SmallModalWrapper:styled.div`
+  SmallModalWrapper: styled.div`
     box-sizing: border-box;
     position: absolute;
     width: 401px;
     height: 128px;
-    left: ${props => props.location == 4 ? "-20vw" : "5vw"};
+    left: ${(props) => (props.location == 4 ? "-20vw" : "5vw")};
     @media ${(props) => props.theme.desktop} {
-      left: ${props => props.location == 3 ? "-40vw" : "5vw"};
-      top:5.5vw;
+      left: ${(props) => (props.location == 3 ? "-40vw" : "5vw")};
+      top: 5.5vw;
     }
     @media ${(props) => props.theme.mobile} {
-      left: ${props => props.location == 2 ? "-50vw" : "5.5vw"};
-      top:7vw;
+      left: ${(props) => (props.location == 2 ? "-50vw" : "5.5vw")};
+      top: 7vw;
     }
-    background: #FFFFFF;
-    border: 0.5px solid #B0B0B0;
-    border-radius: ${props => (props.location) >= 1 ? "10px 0px 10px 10px" : "0px 10px 10px 10px"};
+    background: #ffffff;
+    border: 0.5px solid #b0b0b0;
+    border-radius: ${(props) =>
+      props.location >= 1 ? "10px 0px 10px 10px" : "0px 10px 10px 10px"};
     z-index: 4;
-    top:4vw;
+    top: 4vw;
   `,
-  ModalProfile:styled.div`
+  ModalProfile: styled.div`
     margin-left: 25px;
     margin-top: 25px;
   `,
-  ModalProfilePhoto:styled.img`
-    width: 40px; 
+  ModalProfilePhoto: styled.img`
+    width: 40px;
     height: 40px;
     object-fit: cover;
     border-radius: 50%;
-    float: left;  
+    float: left;
   `,
-  ModalProfileName:styled.div`
+  ModalProfileName: styled.div`
     font-size: 20px;
     position: absolute;
     color: black;
-    left:75px;
-    top:25px;
+    left: 75px;
+    top: 25px;
   `,
-  FollowingFollower:styled.div`
+  FollowingFollower: styled.div`
     width: 126.5px;
     height: 24px;
     display: absolute;
@@ -106,28 +107,28 @@ export const MS = {
     margin-right: 15px;
     font-weight: 700;
     font-size: 20px;
-    color:black;
+    color: black;
     line-height: 24px;
   `,
-  ModalFollower:styled.span`
-    color: #FADA5E;
-    float: left;
+  ModalFollower: styled.span`
+    color: #fada5e;
+    float: right; //left;
   `,
-  ModalFollowing:styled.span`
-    color: #FADA5E;
-    float: left;
+  ModalFollowing: styled.span`
+    color: #fada5e;
+    float: right; //left;
   `,
-  SmallModalButtonWrapper:styled.div`
-    width:353px;
+  SmallModalButtonWrapper: styled.div`
+    width: 353px;
     height: 23px;
     position: absolute;
     bottom: 24px;
-    left:25px;
+    left: 25px;
   `,
-  SmallModalButton:styled.div`
+  SmallModalButton: styled.div`
     width: 173px;
     height: 23px;
-    background-color: #FADA5E;
+    background-color: #fada5e;
     border-radius: 10px;
     font-size: 15px;
     line-height: 23px;
@@ -135,63 +136,63 @@ export const MS = {
     display: inline-block;
     cursor: pointer;
   `,
-  CommentWrapper:styled.div`
-    background-color:#F5F5F5;
+  CommentWrapper: styled.div`
+    background-color: #f5f5f5;
     width: 100%;
     padding: 0px 15px 50px 15px;
     height: auto;
     border-radius: 0px 0px 10px 10px;
     position: relative;
-    left:-15px
+    left: -15px;
   `,
-  CommentWriteWrapper:styled.form`
+  CommentWriteWrapper: styled.form`
     margin: 0px 10px 25px 10px;
     justify-content: center;
     height: auto;
   `,
-  CommentButton:styled.button`
+  CommentButton: styled.button`
     display: inline;
     height: 36px;
-    width:90px;
+    width: 90px;
     position: absolute;
     border: 0;
-    box-shadow:  none;
+    box-shadow: none;
     right: 3%;
-    top:3%;
+    top: 3%;
   `,
-  WriteInput:styled.textarea`
+  WriteInput: styled.textarea`
     border-radius: 10px;
     width: 100%;
     min-height: 90px;
-    font-family: 'Inter';
+    font-family: "Inter";
     font-size: 15px;
     line-height: 25px;
     resize: none;
-    border:none;
+    border: none;
     ::placeholder {
-      color:black
+      color: black;
     }
   `,
-  ProfileSize:styled.img`
-    width: 35px; 
+  ProfileSize: styled.img`
+    width: 35px;
     height: 35px;
     object-fit: cover;
     border-radius: 50%;
   `,
-  HeaderUserInfo:styled.div`
-    top:35%;
-    width:100%;
+  HeaderUserInfo: styled.div`
+    top: 35%;
+    width: 100%;
     position: relative;
     height: auto;
     display: flex;
   `,
-  HeaderUserName:styled.span`
-  font-size: 15px;
-  line-height: 35px;
-  position: absolute;
-  margin-left: 40px;
+  HeaderUserName: styled.span`
+    font-size: 15px;
+    line-height: 35px;
+    position: absolute;
+    margin-left: 40px;
   `,
-  HeaderDetail2:styled.div`
+  HeaderDetail2: styled.div`
     display: inline-block;
     font-size: 15px;
     height: 35px;
@@ -199,11 +200,11 @@ export const MS = {
     display: flex;
     position: absolute;
     align-items: center;
-    left:25%;
+    left: 25%;
     width: 50%;
     justify-content: space-between;
   `,
-  DetailFeedbackButton:styled.button`
+  DetailFeedbackButton: styled.button`
     left: 0%;
     position: relative;
     width: 45%;
@@ -218,33 +219,33 @@ export const MS = {
     margin-right: 10px;
     display: inline;
   `,
-  ModalContents:styled.div`
+  ModalContents: styled.div`
     width: 100%;
     height: auto;
     position: relative;
     background-color: pink;
   `,
-  TraceBoxWrapper:styled.div`
+  TraceBoxWrapper: styled.div`
     display: flex;
     justify-content: center;
     height: auto;
     width: 100%;
   `,
-  TraceBox:styled.div`
-    border: 2px solid #FADA5E;
+  TraceBox: styled.div`
+    border: 2px solid #fada5e;
     border-radius: 10px;
     width: 123px;
     height: 53px;
-    background: #FFFFFF;
+    background: #ffffff;
     margin-bottom: 31px;
     cursor: pointer;
     line-height: 50px;
   `,
-  ContentImg:styled.img`
+  ContentImg: styled.img`
     width: 100%;
     height: 100%;
   `,
-  PdfMannage:styled.div`
+  PdfMannage: styled.div`
     overflow-y: scroll;
     width: 99%;
     overflow-x: auto;
@@ -255,15 +256,15 @@ export const MS = {
     align-items: flex-start;
     padding-top: 4px;
     padding-bottom: 4px;
-    background-color:white;
+    background-color: white;
     padding: 5% 0% 5% 0%;
-    margin-left:0.5%;
+    margin-left: 0.5%;
   `,
-  PdfWrapper:styled.div`
+  PdfWrapper: styled.div`
     width: 100%;
-    background: #FADA5E;
+    background: #fada5e;
   `,
-  PdfSet:styled.div`
+  PdfSet: styled.div`
     height: 50px;
     line-height: 50px;
     font-weight: 700;
@@ -273,79 +274,78 @@ export const MS = {
     margin-left: 40px;
     align-items: center;
   `,
-  PdfPageInput:styled.input`
+  PdfPageInput: styled.input`
     width: 95px;
     height: 30px;
-    margin-left:10px;
+    margin-left: 10px;
     font-size: 20px;
   `,
-  PdfPageButton:styled.a`
+  PdfPageButton: styled.a`
     text-decoration-line: none;
     height: 40px;
-    width:80px;
-    color:#FADA5E;
+    width: 80px;
+    color: #fada5e;
     font-weight: 700;
     font-size: 20px;
-    
   `,
-  PdfPageButtonWrapper:styled.button`
+  PdfPageButtonWrapper: styled.button`
     border: none;
     height: 40px;
-    width:100px;
-    background-color:white;
+    width: 100px;
+    background-color: white;
     margin-left: 10px;
     box-shadow: none;
   `,
-  PdfSizeWrapper:styled.div`
+  PdfSizeWrapper: styled.div`
     position: absolute;
     right: 70px;
     width: auto;
   `,
-  PdfSizeButton:styled.button`
-    border:none;
+  PdfSizeButton: styled.button`
+    border: none;
     margin-right: 10px;
     box-shadow: none;
     background-color: white;
     width: 60px;
     height: 40px;
     position: relative;
-    top:17.5px;
+    top: 17.5px;
     display: inline-block;
-    justify-content:center;
+    justify-content: center;
   `,
-  SizeIcon:styled.span`
-    color: #FADA5E;
+  SizeIcon: styled.span`
+    color: #fada5e;
     font-weight: 700;
     font-size: 50px;
     position: relative;
-    top:-20px;
+    top: -20px;
   `,
-  SizeShow:styled.div`
+  SizeShow: styled.div`
     width: 60px;
     height: 40px;
     background-color: white;
     color: black;
     line-height: 40px;
     position: absolute;
-    right:230px;
+    right: 230px;
     border: 3px solid black;
   `,
   EtcDiv: styled.div`
-    width:100px;
-    height:80px;
-    border: 1px solid #B0B0B0;
+    width: 100px;
+    height: 80px;
+    border: 1px solid #b0b0b0;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    position:absolute;
-    background-color:white;
-    top:15px;
-    right:30px;
-    display:block;
-    z-index:11;
+    position: absolute;
+    background-color: white;
+    top: 15px;
+    right: 30px;
+    display: block;
+    z-index: 11;
   `,
-  Functionp:styled.span`
+  Functionp: styled.span`
     font-size: 20px;
-    line-height:40px;
+    line-height: 40px;
     text-align: center;
-    cursor:pointer;
-  `
-}
+    cursor: pointer;
+  `,
+};

@@ -4,8 +4,8 @@ import styled from "styled-components";
 import axios from "axios";
 const Style = {
   StyledButton: styled.button`
-    width: 10rem;
-    height: 3rem;
+    width: 7.5rem; //10rem;
+    height: 2.5rem; //3rem;;
     background-color: white;
     color: #464646;
     font-size: 15px;
