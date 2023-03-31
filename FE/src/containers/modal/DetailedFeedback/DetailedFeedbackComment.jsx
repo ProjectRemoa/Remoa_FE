@@ -32,63 +32,81 @@ export default function DetailedFeedbackComment({
       navigate("/sociallogin");
     }
   };
-  const onClickModify= () => {
-    
-  }
-  const onClickDelete= (feedback_id) => {
+  const onClickModify = () => {};
+  const onClickDelete = (feedback_id) => {
     axios
-    .delete(`/BE/reference/feedback/${feedback_id}`)
-    .then((res) => {
-      console.log(res);
-      axios.get(`/BE/reference/${id3}`).then((res) => {
-        setFeedback(res.data.data.feedbacks);
+      .delete(`/BE/reference/feedback/${feedback_id}`)
+      .then((res) => {
+        console.log(res);
+        axios.get(`/BE/reference/${id3}`).then((res) => {
+          setFeedback(res.data.data.feedbacks);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch((err) => {
-      alert(err);
-    });
-  }
-  console.log(sessionStorage.getItem("nickname"))
+  };
+  console.log(sessionStorage.getItem("nickname"));
   return (
     <DF.EachFeedWrapper>
-      {feedbacks && feedbacks.map((feedbacks, index) => ( 
-        <div style={{marginBottom:"30px"}} key={index}>
-          <DF.FeedWrapperHeader>
-            <DF.ProfileSize src={feedbacks.member.profileImage} alt="" />
-            <DF.ProfileName>
-              {feedbacks.member.nickname}
-            </DF.ProfileName>
-            <DF.ButtonWrapper>
-              <DF.HeaderButton>
-                <ThumbUpIcon />
-                <DF.ThumbCount>{feedbacks.likeCount}</DF.ThumbCount>
-              </DF.HeaderButton>
-              {feedbacks.member.nickname === sessionStorage.getItem("nickname") && (
-              <>
-                <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
-                  수정
+      {feedbacks &&
+        feedbacks.map((feedbacks, index) => (
+          <div style={{ marginBottom: "30px" }} key={index}>
+            <DF.FeedWrapperHeader>
+              <DF.ProfileSize src={feedbacks.member.profileImage} alt="" />
+              <DF.ProfileName>{feedbacks.member.nickname}</DF.ProfileName>
+              <DF.ButtonWrapper>
+                <DF.HeaderButton>
+                  <ThumbUpIcon />
+                  <DF.ThumbCount>{feedbacks.likeCount}</DF.ThumbCount>
                 </DF.HeaderButton>
-                <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}
-                onClick={onClickDelete(feedbacks.feedbackId)}>
-                  삭제
-                </DF.HeaderButton></>)}
-              
-            </DF.ButtonWrapper>          
-          </DF.FeedWrapperHeader>
-            <div >
+                {feedbacks.member.nickname ===
+                  sessionStorage.getItem("nickname") && (
+                  <>
+                    <DF.HeaderButton
+                      style={{
+                        top: "-5.5px",
+                        position: "relative",
+                        marginLeft: "3px",
+                        color: "black",
+                      }}
+                    >
+                      수정
+                    </DF.HeaderButton>
+                    <DF.HeaderButton
+                      style={{
+                        top: "-5.5px",
+                        position: "relative",
+                        marginLeft: "3px",
+                        color: "black",
+                      }}
+                      onClick={() => {
+                        onClickDelete(feedbacks.feedbackId);
+                      }}
+                    >
+                      삭제
+                    </DF.HeaderButton>
+                  </>
+                )}
+              </DF.ButtonWrapper>
+            </DF.FeedWrapperHeader>
+            <div>
               <DF.FeedWrapperButton>
-                {link ? 
-                <DF.WrapperSearch>
-                  동영상
-                </DF.WrapperSearch>
-                 :
-                <DF.WrapperSearch href={`#${feedbacks.page}`}>
-                {feedbacks.page}페이지
-              </DF.WrapperSearch>
-              }
-               
+                {link ? (
+                  <DF.WrapperSearch>동영상</DF.WrapperSearch>
+                ) : (
+                  <DF.WrapperSearch href={`#${feedbacks.page}`}>
+                    {feedbacks.page}페이지
+                  </DF.WrapperSearch>
+                )}
               </DF.FeedWrapperButton>
-              <p style={{fontSize:"18px",lineHeight:"22px",textAlign:"left"}}>
+              <p
+                style={{
+                  fontSize: "18px",
+                  lineHeight: "22px",
+                  textAlign: "left",
+                }}
+              >
                 {feedbacks.feedback}
               </p>
 
