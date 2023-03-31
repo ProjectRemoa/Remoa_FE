@@ -291,7 +291,18 @@ export default function RefModal({
   };
 
   // 레퍼런스 수정
-  const onClickPut = () => {};
+  const onClickPut = () => {
+    if (
+      window.confirm(
+        "레퍼런스를 수정하게되면 표지사진, 첨부파일이 날아가게 됩니다."
+      )
+    ) {
+      alert("수정 기능은 구현 중~");
+      Navigate("/");
+      //Navigate(`/manage/put/:${id2}`);
+    } else {
+    }
+  };
 
   return (
     <MS.ModalWrapper>

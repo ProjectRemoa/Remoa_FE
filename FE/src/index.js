@@ -87,11 +87,11 @@ root.render(
             {/* 다른 사람의 작업물 목록도 보여야 함*/}
             <Route element={<AuthLayout />}>
               <Route path="/manage/list" element={<ManageList />} />
-
               <Route path="/manage/list/total" element={<ManageList />} />
               <Route path="/manage/share" element={<ManageShare />} />
+              <Route path="/manage/put/:id" element={<ManageShare />} />
+              {/* 레퍼런스 수정 */}
               <Route path="/manage/feedback" element={<ManageFeedback />} />
-
               <Route path="/mypage/profile" element={<PageProfile />} />
               <Route path="/mypage/following" element={<PageFollowing />} />
               <Route path="/mypage/scrap" element={<PageScrap />} />
