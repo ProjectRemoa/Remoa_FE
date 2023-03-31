@@ -231,8 +231,7 @@ const RefList = (props) => {
                       modalVisibleId={modalVisibleId}
                       setModalVisibleId={setModalVisibleId}
                       location={modalLocation(index + 1)}
-                      idea={idea}
-                    />*/}
+                      idea={idea}/>*/}
                   </td>
                   <td>
                     <span
