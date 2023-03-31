@@ -40,9 +40,8 @@ export default function RMCommentList({ comments, postId, setComments }) {
     //}
   };
   const onDelete = (commentId) => {
-    //const data = axios
     axios
-      .delete(`/BE/user/reference/comment/${commentId}`)
+      .delete(`/BE/user/reference/comment/${commentId}` )
       .then((response) => {
         console.log(response);
         setComments(response.data.data);
@@ -50,9 +49,8 @@ export default function RMCommentList({ comments, postId, setComments }) {
         // if (response.status === 200) alert(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
-    //return data;
   };
 
   const onClickThumb = (commentId) => {

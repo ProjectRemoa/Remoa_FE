@@ -3,69 +3,70 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const Style = {
-  Wrap: styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  `,
-  HeaderWrap: styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  `,
-  BtnWrap: styled.div`
-    width: 50%;
-    float: left;
-    display: flex;
-    flex-direction: row;
-    padding-top: 150px;
-    margin: 0 auto;
-  `,
-  FollowBtn: styled.a`
-    width: auto;
-    font-size: 25px;
-    border: none;
-    background-color: transparent;
-    color: #000000;
-    text-align: left;
-    outline: none;
-    box-shadow: none;
-  `,
-  Line: styled.div`
-    font-size: 25px;
-    color: #000000;
-    text-align: center;
-    font-weight: bold;
-    padding: 0 10px 0 10px;
-  `,
-  FollowNum: styled.div`
-    width: 50%;
-    float: left;
-    display: flex;
-    padding-top: 15px;
-    margin: 0 auto;
-  `,
-  Text: styled.span`
-    color: #fada5e;
-    font-weight: bold;
-  `,
-  FollowList: styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  `,
-  FollowWrap: styled.div`
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding-top: 60px;
-    margin: 0 auto;
-  `,
-  FollowProfileImgWrap: styled.div`
+const Style={
+    Wrap:styled.div`
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    `,
+    HeaderWrap:styled.div`
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    `,
+    BtnWrap:styled.div`
+        width: 50%;
+        float: left;
+        display: flex;
+        flex-direction: row;
+        padding-top: 150px;
+        margin: 0 auto;
+    `,
+    FollowBtn:styled.a`
+        width: auto;
+        font-size: 25px;
+        border: none;
+        background-color: transparent;
+        color: #000000;
+        text-align: left;
+        outline: none;
+        box-shadow: none;
+        cursor:pointer;
+    `,
+    Line:styled.div`
+        font-size: 25px;
+        color: #000000;
+        text-align: center;
+        font-weight: bold;
+        padding: 0 10px 0 10px;
+    `,
+    FollowNum:styled.div`
+        width: 50%;
+        float: left;
+        display: flex;
+        padding-top: 15px;
+        margin: 0 auto;
+    `,
+    Text:styled.span`
+        color: #FADA5E;
+        font-weight: bold;
+    `,
+    FollowList:styled.div`
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    `,
+    FollowWrap:styled.div`
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding-top: 60px;
+        margin: 0 auto;
+    `,
+    FollowProfileImgWrap:styled.div`
         width: 10%
         padding: 0 20px 0 0;
     `,

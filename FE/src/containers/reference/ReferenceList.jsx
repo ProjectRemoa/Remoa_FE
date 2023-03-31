@@ -142,7 +142,7 @@ const RefList = (props) => {
   const onClickFollow = (index, memberId, idea, isFollow) => {
     setModalVisibleId(0);
     setMemberId(memberId);
-    setModalVisibleId(memberId);
+    setModalVisibleId(idea.postId);
     setIndex(modalLocation(index + 1));
     setIdeaFollow(idea);
     setIsFollow(isFollow);
