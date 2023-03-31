@@ -32,6 +32,7 @@ const Style={
         text-align: left;
         outline: none;
         box-shadow: none;
+        cursor:pointer;
     `,
     Line:styled.div`
         font-size: 25px;
@@ -126,7 +127,7 @@ const Style={
 function Follow() {
     const navigate = useNavigate();
     const [userList, setUserList] = useState([]); // test: useState([temp1,temp2]);
-    const [username, setUsername] = useState('호갱');
+    const [username, setUsername] = useState("호갱");
     const [followNum, setFollowNum] = useState(10);
     const [following, setFollowing] = useState(true);
     const [followInfo, setFollowInfo] = useState({
