@@ -163,7 +163,6 @@ const RefList = (props) => {
         return 4;
       }
     }
-    //return i;
   }
 
   return (
