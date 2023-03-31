@@ -6,15 +6,13 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function RMCommentList(props) {
-  const comments = props.comments;
+export default function RMCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
   const navigate = useNavigate();
-  console.log(props);
 
   const onPutHandler = (commentId) => {
     if (isEdit) {
@@ -27,7 +25,7 @@ export default function RMCommentList(props) {
         .put(`/BE/reference/comment/${commentId}`, UploadComment)
         .then((response) => {
           console.log(response);
-          props.setComments({ comments: response.data.data });
+          setComments(response.data.data);
           alert("댓글 수정이 완료되었습니다.");
         })
         .catch((err) => {
@@ -46,7 +44,7 @@ export default function RMCommentList(props) {
       .delete(`/BE/user/reference/comment/${commentId}`)
       .then((response) => {
         console.log(response);
-        props.setComments({ comments: response.data.data });
+        setComments(response.data.data);
         alert("댓글 삭제가 완료되었습니다.");
         // if (response.status === 200) alert(response.data);
       })
@@ -129,8 +127,9 @@ export default function RMCommentList(props) {
                 <tr>
                   <td></td>
                   <td colspan="2" style={{ textAlign: "left" }}>
-                    {(isEdit && comments.member.nickname ===
-                      sessionStorage.getItem("nickname")) ? (
+                    {isEdit &&
+                    comments.member.nickname ===
+                      sessionStorage.getItem("nickname") ? (
                       <div id={comments.commentId}>
                         <MS.WriteInput
                           required
@@ -141,7 +140,10 @@ export default function RMCommentList(props) {
                         />
                         <button
                           onClick={() => {
-                            return onPutHandler(comments.commentId),setIsEdit(!isEdit);
+                            return (
+                              onPutHandler(comments.commentId),
+                              setIsEdit(!isEdit)
+                            );
                           }}
                         >
                           수정 완료하기
