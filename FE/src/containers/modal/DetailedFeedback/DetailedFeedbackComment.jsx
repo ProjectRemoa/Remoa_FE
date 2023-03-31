@@ -6,10 +6,10 @@ import DetailedFeedbackCommentAgain from './DetailedFeedbackCommentAgain';
 export default function DetailedFeedbackComment({feedbacks,link}) {
   return (
     <DF.EachFeedWrapper>
-      
-        <div key={index} style={{marginBottom:"30px"}}>
+      {feedbacks && feedbacks.map((feedbacks, index) => ( 
+        <div style={{marginBottom:"30px"}} key={index}>
           <DF.FeedWrapperHeader>
-            <DF.ProfileSize src={feedbacks.member.profileImage} />
+            <DF.ProfileSize src={feedbacks.member.profileImage} alt="" />
             <DF.ProfileName>
               {feedbacks.member.nickname}
             </DF.ProfileName>
@@ -23,30 +23,28 @@ export default function DetailedFeedbackComment({feedbacks,link}) {
               </DF.HeaderButton> */}
             </DF.ButtonWrapper>          
           </DF.FeedWrapperHeader>
-
-          {feedbacks && feedbacks.map((f, index) => (
-            <div key={index}>
+            <div >
               <DF.FeedWrapperButton>
                 {link ? 
                 <DF.WrapperSearch>
                   동영상
                 </DF.WrapperSearch>
                  :
-                <DF.WrapperSearch href={`#${f.page}`}>
-                {f.page}페이지
+                <DF.WrapperSearch href={`#${feedbacks.page}`}>
+                {feedbacks.page}페이지
               </DF.WrapperSearch>
               }
                
               </DF.FeedWrapperButton>
               <p style={{fontSize:"18px",lineHeight:"22px",textAlign:"left"}}>
-                {f.feedback}
+                {feedbacks.feedback}
               </p>
               
               {/* <DetailedFeedbackCommentAgain />*/}
           </div>
-          ))}
+          
         </div>
-      
+      ))}
   </DF.EachFeedWrapper>
   )
 }
