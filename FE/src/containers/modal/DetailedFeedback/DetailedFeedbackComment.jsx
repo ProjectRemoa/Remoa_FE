@@ -32,7 +32,23 @@ export default function DetailedFeedbackComment({
       navigate("/sociallogin");
     }
   };
-
+  const onClickModify= () => {
+    
+  }
+  const onClickDelete= (feedback_id) => {
+    axios
+    .delete(`/BE/reference/feedback/${feedback_id}`)
+    .then((res) => {
+      console.log(res);
+      axios.get(`/BE/reference/${id3}`).then((res) => {
+        setFeedback(res.data.data.feedbacks);
+      });
+    })
+    .catch((err) => {
+      alert(err);
+    });
+  }
+  console.log(sessionStorage.getItem("nickname"))
   return (
     <DF.EachFeedWrapper>
       {feedbacks && feedbacks.map((feedbacks, index) => ( 
@@ -47,9 +63,16 @@ export default function DetailedFeedbackComment({
                 <ThumbUpIcon />
                 <DF.ThumbCount>{feedbacks.likeCount}</DF.ThumbCount>
               </DF.HeaderButton>
-              {/* <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
-                답글
-              </DF.HeaderButton>*/}
+              {feedbacks.member.nickname === sessionStorage.getItem("nickname") && (
+              <>
+                <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}>
+                  수정
+                </DF.HeaderButton>
+                <DF.HeaderButton style={{top:"-5.5px",position:"relative",marginLeft:"3px",color:"black"}}
+                onClick={onClickDelete(feedbacks.feedbackId)}>
+                  삭제
+                </DF.HeaderButton></>)}
+              
             </DF.ButtonWrapper>          
           </DF.FeedWrapperHeader>
             <div >
