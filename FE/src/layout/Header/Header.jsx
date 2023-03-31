@@ -68,7 +68,7 @@ const Style = {
     display: flex;
     flex-direction: row;
     position: absolute;
-    right:0;
+    right: 0;
   `,
   BellButton: styled.button`
     border: solid 2px white;
@@ -183,11 +183,15 @@ const Header = () => {
     Navigate("/signup");
   };
 
+  const onClickLogo = () => {
+    Navigate("/");
+  };
+
   return (
     <Style.Header>
       <div className={styles.contents}>
-        <Style.Logo>
-          <img src={img} alt="로고대체" style={{width:"120px"}} />
+        <Style.Logo onClick={onClickLogo}>
+          <img src={img} alt="로고대체" style={{ width: "120px" }} />
         </Style.Logo>
         <Style.NavWrapper>
           <Style.NavItemWrapper>

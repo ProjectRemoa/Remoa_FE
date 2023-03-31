@@ -23,6 +23,7 @@ export default function RefModalFollow({
   setModalVisibleId,
   idea,
   isFollow,
+  memberId,
 }) {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ export default function RefModalFollow({
     } else {
       // follow 정보 보내고
       axios
-        .post(`/BE/follow/${id}`)
+        .post(`/BE/follow/${memberId}`)
         .then((res) => {
           console.log(res);
           if (res.status === 201) {
@@ -52,7 +53,7 @@ export default function RefModalFollow({
 
           // follow 정보 받아옴
           axios
-            .get(`/BE/follow/${id}`)
+            .get(`/BE/follow/${memberId}`)
             .then((res) => {
               setFollower(res.data.data.follower);
               setFollowing(res.data.data.following);
@@ -74,7 +75,7 @@ export default function RefModalFollow({
   };
 
   const onClickMore = () => {
-    navigate(`/user/list/${id}`);
+    navigate(`/user/list/${memberId}`);
   };
 
   const [following, setFollowing] = useState(0);
@@ -83,7 +84,7 @@ export default function RefModalFollow({
   useEffect(() => {
     console.log("==팔로잉/팔로우 확인");
     axios
-      .get(`/BE/follow/${id}`)
+      .get(`/BE/follow/${memberId}`)
       .then((res) => {
         console.log(res);
         setFollower(res.data.data.follower);
@@ -99,7 +100,7 @@ export default function RefModalFollow({
   return (
     <MS.SmallModalWrapper
       className={
-        (modalVisibleId == id) && (isItMe === false) ? "d_block" : "d_none"
+        modalVisibleId == id && isItMe === false ? "d_block" : "d_none"
       }
       location={location}
     >
@@ -108,16 +109,22 @@ export default function RefModalFollow({
       </CloseIcon>
       <MS.ModalProfile>
         <MS.ModalProfilePhoto src={idea.postMember.profileImage} />
-        <MS.ModalProfileName>{idea.postMember.nickname}</MS.ModalProfileName>
+        <MS.ModalProfileName style={{ fontSize: "70%" }}>
+          {idea.postMember.nickname}
+        </MS.ModalProfileName>
       </MS.ModalProfile>
 
       <MS.FollowingFollower>
-        <MS.ModalFollowing>Following</MS.ModalFollowing>
-        &nbsp;{following}
+        <MS.ModalFollowing style={{ fontSize: "70%" }}>
+          Following
+          <span style={{ color: "black" }}>&nbsp;&nbsp;{following}</span>
+        </MS.ModalFollowing>
+        {/*&nbsp;*/}
       </MS.FollowingFollower>
       <MS.FollowingFollower>
-        <MS.ModalFollower>Follower</MS.ModalFollower>
-        {follower}
+        <MS.ModalFollower style={{ fontSize: "70%" }}>
+          Follower<span style={{ color: "black" }}>&nbsp;&nbsp;{follower}</span>
+        </MS.ModalFollower>
       </MS.FollowingFollower>
 
       <MS.SmallModalButtonWrapper>

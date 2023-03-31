@@ -4,15 +4,14 @@ import styled from "styled-components";
 import axios from "axios";
 const Style = {
   StyledButton: styled.button`
-    width: 10rem;
-    height: 3rem;
+    width: 7.5rem; //10rem;
+    height: 2.5rem; //3rem;;
     background-color: white;
     color: #464646;
-    font-size: 15px;
+    font-size: 80%; //15px;;
     border: solid 2px white;
     cursor: pointer;
     letter-spacing: 0.1em;
-    font-weight: 550;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,6 +19,8 @@ const Style = {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
     margin-left: 10px;
+    float: left;
+    font-family: NotoSansKR-500;
   `,
 };
 
@@ -80,12 +81,20 @@ function LoginCheck() {
   const loginOnClick = () => {
     navigate("/sociallogin");
   };
+  const onClickShare = () => {
+    navigate("/manage/share");
+  };
   return (
     <div>
       {isLogin ? (
-        <Style.StyledButton onClick={logoutOnClick}>
-          로그아웃
-        </Style.StyledButton>
+        <>
+          <Style.StyledButton onClick={logoutOnClick}>
+            로그아웃
+          </Style.StyledButton>
+          <Style.StyledButton onClick={onClickShare}>
+            작업물 공유하기
+          </Style.StyledButton>
+        </>
       ) : (
         <Style.StyledButton onClick={loginOnClick}>로그인</Style.StyledButton>
       )}

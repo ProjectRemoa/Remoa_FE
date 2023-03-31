@@ -15,11 +15,9 @@ export default function RMCommentList({ comments, postId, setComments }) {
   const navigate = useNavigate();
 
   const onPutHandler = (commentId) => {
-    // if (isEdit) {
     const UploadComment = {
       comment: contents,
     };
-    //const data =
 
     axios
       .put(`/BE/reference/comment/${commentId}`, UploadComment)
@@ -40,8 +38,9 @@ export default function RMCommentList({ comments, postId, setComments }) {
     //}
   };
   const onDelete = (commentId) => {
+    console.log();
     axios
-      .delete(`/BE/user/reference/comment/${commentId}` )
+      .delete(`/BE/reference/comment/${commentId}`)
       .then((response) => {
         console.log(response);
         setComments(response.data.data);
@@ -49,21 +48,26 @@ export default function RMCommentList({ comments, postId, setComments }) {
         // if (response.status === 200) alert(response.data);
       })
       .catch((err) => {
-        alert(err);
+        console.log(err);
       });
   };
 
   const onClickThumb = (commentId) => {
-    axios
-      .post(`/BE/comment/${commentId}/like`)
-      .then((res) => {
-        console.log(res);
-        setThumb(res.data.data.LikeCount);
-        alert("댓글을 추천하였습니다.");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (sessionStorage.getItem("nickname") === null) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/sociallogin");
+    } else {
+      axios
+        .post(`/BE/comment/${commentId}/like`)
+        .then((res) => {
+          console.log(res);
+          setThumb(res.data.data.LikeCount);
+          alert("댓글을 추천하였습니다.");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const [thumb, setThumb] = useState(0);
@@ -85,10 +89,10 @@ export default function RMCommentList({ comments, postId, setComments }) {
                   <td
                     style={{ float: "left", position: "relative", top: "15px" }}
                   >
-                    <DF.HeaderButton>
-                      <ThumbUpIcon
-                        onClick={() => onClickThumb(comments.commentId)}
-                      />
+                    <DF.HeaderButton
+                      onClick={() => onClickThumb(comments.commentId)}
+                    >
+                      <ThumbUpIcon />
                       <DF.ThumbCount>{thumb}</DF.ThumbCount>
                     </DF.HeaderButton>
                     {comments.member.nickname ===
@@ -105,6 +109,7 @@ export default function RMCommentList({ comments, postId, setComments }) {
                           onClick={() => {
                             //setIsEdit(!isEdit);
                             setPutMemberId(comments.commentId);
+                            setContents(comments.comment);
                           }}
                         >
                           수정
