@@ -152,31 +152,6 @@ export default function RMCommentList({ comments, postId, setComments }) {
                     ) : (
                       comments.comment
                     )}
-                    {/*isEdit &&
-                    comments.member.nickname ===
-                      sessionStorage.getItem("nickname") ? (
-                      <div id={comments.commentId}>
-                        <MS.WriteInput
-                          required
-                          placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
-                          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
-                          onChange={onChangeContents}
-                          defaultValue={comments.comment}
-                        />
-                        <button
-                          onClick={() => {
-                            return (
-                              onPutHandler(comments.commentId),
-                              setIsEdit(!isEdit)
-                            );
-                          }}
-                        >
-                          수정 완료하기
-                        </button>
-                      </div>
-                    ) : (
-                      comments.comment
-                    )*/}
                   </td>
                 </tr>
               </tbody>
