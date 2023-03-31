@@ -554,7 +554,7 @@ function ManageShareContainer({ match }) {
         onClick={onClickRegister}
         style={{ marginTop: "30px", marginBottom: "30px" }}
       >
-        {id !== null ? "수정하기" : "등록하기"}
+        등록하기
       </Style.Button>
     </div>
   );

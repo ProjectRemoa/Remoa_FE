@@ -8,34 +8,36 @@ import { useNavigate } from "react-router-dom";
 export default function RMCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
+  const [putMemberId, setPutMemberId] = useState(0); // 수정할 member id
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
   const navigate = useNavigate();
 
   const onPutHandler = (commentId) => {
-    if (isEdit) {
-      const UploadComment = {
-        comment: contents,
-      };
-      //const data =
+    // if (isEdit) {
+    const UploadComment = {
+      comment: contents,
+    };
+    //const data =
 
-      axios
-        .put(`/BE/reference/comment/${commentId}`, UploadComment)
-        .then((response) => {
-          console.log(response);
-          setComments(response.data.data);
-          alert("댓글 수정이 완료되었습니다.");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      //navigate("/");
+    axios
+      .put(`/BE/reference/comment/${commentId}`, UploadComment)
+      .then((response) => {
+        console.log(response);
+        setComments(response.data.data);
+        alert("댓글 수정이 완료되었습니다.");
+        setPutMemberId(0);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    //navigate("/");
 
-      //return data;
-    } else {
-      console.log(isEdit);
-    }
+    //return data;
+    // } else {
+    //  console.log(isEdit);
+    //}
   };
   const onDelete = (commentId) => {
     //const data = axios
@@ -103,7 +105,8 @@ export default function RMCommentList({ comments, postId, setComments }) {
                             marginLeft: "22px",
                           }}
                           onClick={() => {
-                            setIsEdit(!isEdit);
+                            //setIsEdit(!isEdit);
+                            setPutMemberId(comments.commentId);
                           }}
                         >
                           수정
@@ -126,9 +129,7 @@ export default function RMCommentList({ comments, postId, setComments }) {
                 <tr>
                   <td></td>
                   <td colspan="2" style={{ textAlign: "left" }}>
-                    {isEdit &&
-                    comments.member.nickname ===
-                      sessionStorage.getItem("nickname") ? (
+                    {putMemberId === comments.commentId ? (
                       <div id={comments.commentId}>
                         <MS.WriteInput
                           required
