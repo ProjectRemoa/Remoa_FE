@@ -254,6 +254,7 @@ function MyPageProfile() {
         .then((res) => {
             if (res.status === 200) {
                 navigate("/");
+                sessionStorage.setItem("nickname",nickname);
             }
         })
         .catch((err) => {
