@@ -12,7 +12,6 @@ const Style = {
     border: solid 2px white;
     cursor: pointer;
     letter-spacing: 0.1em;
-    font-weight: 550;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,6 +20,7 @@ const Style = {
     border-radius: 50px;
     margin-left: 10px;
     float: left;
+    font-family: NotoSansKR-500;
   `,
 };
 
