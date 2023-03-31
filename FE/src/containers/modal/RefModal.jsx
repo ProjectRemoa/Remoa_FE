@@ -248,7 +248,7 @@ export default function RefModal({
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageScale, setPageScale] = useState(0.5); // 페이지 스케일
+  const [pageScale, setPageScale] = useState(0.5); 
 
   function onDocumentLoadSuccess({ numPages }) {
     console.log("pdf 로드 성공");
