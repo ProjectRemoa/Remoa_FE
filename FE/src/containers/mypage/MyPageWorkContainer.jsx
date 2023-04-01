@@ -71,7 +71,8 @@ function MyPageWorkContainer() {
               display: "flex",
               margin: "2%",
               width: "100%",
-              height: "25%",
+              //height: "25%",
+              maxHeight: "230px",
             }}
           >
             <div
@@ -101,13 +102,14 @@ function MyPageWorkContainer() {
                   marginLeft: "2%",
                   width: "95%",
                   height: "10%",
+                  fontFamily: "NotoSansKR-500",
+                  fontSize: "70%",
                 }}
                 onClick={() => {
                   onClickModal(data.postId);
                 }}
               >
-                {" "}
-                작업물 뷰어 보기{" "}
+                작업물 뷰어 보기
               </button>
               <button
                 style={{
@@ -118,6 +120,9 @@ function MyPageWorkContainer() {
                   marginLeft: "2%",
                   width: "95%",
                   height: "10%",
+                  fontFamily: "NotoSansKR-500",
+
+                  fontSize: "70%",
                 }}
                 onClick={() => {
                   onClickModal(data.postId);
@@ -254,11 +259,12 @@ function MyPageWorkContainer() {
         alignItems: "center",
         margin: "0 auto",
         borderRadius: "30px",
-        width: "90%",
+        width: "100%",
       }}
     >
       <div
         style={{
+          width: "90%",
           textAlign: "left",
           fontFamily: "NotoSansKR-700",
           margin: "30px auto",
@@ -266,31 +272,43 @@ function MyPageWorkContainer() {
         }}
       >
         코멘트 및 피드백을 단 작업물
-      </div>
-      {allComments == 0 ? <NullData /> : <FeedBackPage data={data} />}
-      {allComments < 2 ? null : (
-        <div style={{ margin: "0 auto" }}>
-          <Line />
-          <div style={{ width: "100%" }}>
-            <Button
-              onClick={() => {
-                navigate("/mypage/myfeedback");
+        {allComments == 0 ? (
+          <NullData />
+        ) : (
+          <FeedBackPage style={{ maxHeight: "200px" }} data={data} />
+        )}
+        {allComments < 2 ? null : (
+          <>
+            {/*<div style={{ margin: "0 auto" }}>*/}
+            <Line />
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              더보기 &gt;
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {modalVisibleId !== "" && (
-        <RefModal
-          id2={postId}
-          modalVisibleId2={modalVisibleId}
-          setModalVisibleId2={setModalVisibleId}
-        />
-      )}
-
+              <Button
+                style={{ margin: "0 auto" }}
+                onClick={() => {
+                  navigate("/mypage/myfeedback");
+                }}
+              >
+                더보기 &gt;
+              </Button>
+              {/*  </div>*/}
+            </div>
+          </>
+        )}
+        {modalVisibleId !== "" && (
+          <RefModal
+            id2={postId}
+            modalVisibleId2={modalVisibleId}
+            setModalVisibleId2={setModalVisibleId}
+          />
+        )}
+      </div>
       <Line />
       <MyPageScrapContainer from={"work"} />
       <div style={{ margin: "60px auto" }}>
