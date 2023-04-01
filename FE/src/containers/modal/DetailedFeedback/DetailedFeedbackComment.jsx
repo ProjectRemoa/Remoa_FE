@@ -15,7 +15,7 @@ export default function DetailedFeedbackComment({
   console.log(feedbacks);
 
   const [contents, setContents] = useState("");
-  const [putMemberId, setPutMemberId] = useState(0); // 수정할 member id
+  const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
