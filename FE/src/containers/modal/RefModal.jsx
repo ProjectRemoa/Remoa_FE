@@ -467,7 +467,7 @@ export default function RefModal({
           >
             <FavoriteOutlinedIcon
               className={
-                likeBoolean ? classes.afterClick1 : classes.beforeClick
+                !likeBoolean ? classes.afterClick1 : classes.beforeClick
               }
             />
             {top.likeCount}
@@ -476,7 +476,7 @@ export default function RefModal({
           <MS.TraceBox onClick={() => handleScrap()}>
             <StarIcon
               className={
-                scrapBoolean ? classes.afterClick2 : classes.beforeClick
+                !scrapBoolean ? classes.afterClick2 : classes.beforeClick
               }
             />
             {top.scrapCount}

@@ -46,6 +46,7 @@ const Style={
         font-weight: bold;
         font-family: 'Inter';
         margin-top: 22px;
+        cursor:pointer;
         &:focus,
         &:hover {
             background-color: #FFBE0A;

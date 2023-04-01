@@ -60,11 +60,11 @@ function ManageFeedbackContainer(){
                 
                 <div style={{display:"flex", flexDirection: "column", width: "30%", maxHeight:"100%"}}>
                     <img src={data.thumbnail} style={{ margin: "2%", maxWidth: "100%", minHeight: "70%", maxHeight: "80%"}}/>
-                    <div style={{background: "#FADASE", background: "#FADA5E", color: "#464646", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%"}}
+                    <div style={{background: "#FADASE", background: "#FADA5E", color: "#464646", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%",cursor:"pointer"}}
                     onClick = {()=>{
                         onClickModal(data.postId)
                     }}> 작업물 뷰어 보기 </div>
-                    <div style={{background: "#FADASE", background: "#FADA5E", color: "#464646", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%"}}
+                    <div style={{background: "#FADASE", background: "#FADA5E", color: "#464646", border: "1px solid #B0B0B0", borderRadius: "10px", margin: "1%", marginLeft: "2%", width: "95%", height: "10%",cursor:"pointer"}}
                     onClick = {()=>{
                         onClickModal(data.postId)
                     }}> 상세 피드백  </div>
