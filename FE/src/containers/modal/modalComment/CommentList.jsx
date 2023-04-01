@@ -61,8 +61,17 @@ export default function RMCommentList({ comments, postId, setComments }) {
         .post(`/BE/comment/${commentId}/like`)
         .then((res) => {
           console.log(res);
-          setThumb(res.data.data.LikeCount);
-          alert("댓글을 추천하였습니다.");
+          //setThumb(res.data.data.LikeCount);
+          axios
+            .get(`/BE/reference/${postId}`)
+            .then((res) => {
+              console.log(res);
+              setComments(res.data.data.comments);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          //alert("댓글을 추천하였습니다.");
         })
         .catch((err) => {
           console.log(err);
@@ -93,7 +102,7 @@ export default function RMCommentList({ comments, postId, setComments }) {
                       onClick={() => onClickThumb(comments.commentId)}
                     >
                       <ThumbUpIcon />
-                      <DF.ThumbCount>{thumb}</DF.ThumbCount>
+                      <DF.ThumbCount>{comments.likeCount}</DF.ThumbCount>
                     </DF.HeaderButton>
                     {comments.member.nickname ===
                       // 내가 해당 댓글 작성자여야만 수정 버튼이 보여야 함

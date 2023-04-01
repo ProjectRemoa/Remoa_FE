@@ -205,7 +205,12 @@ const RefList = (props) => {
                       onMouseEnter={() => {
                         /*onModalHandler(idea.postId);
                         modalLocation(index + 1);*/
-                        onClickFollow(index, idea.postMember.memberId, idea);
+                        onClickFollow(
+                          index,
+                          idea.postMember.memberId,
+                          idea,
+                          idea.postMember.isFollow
+                        );
                       }}
                       onClick={() => {
                         onClickFollow(

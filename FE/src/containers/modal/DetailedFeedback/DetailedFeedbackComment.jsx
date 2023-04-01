@@ -12,7 +12,6 @@ export default function DetailedFeedbackComment({
   id,
 }) {
   const navigate = useNavigate();
-  console.log(feedbacks);
 
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
@@ -100,7 +99,6 @@ export default function DetailedFeedbackComment({
         alert(err);
       });
   };
-  console.log(sessionStorage.getItem("nickname"));
   return (
     <DF.EachFeedWrapper>
       {feedbacks &&

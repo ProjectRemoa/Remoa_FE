@@ -119,7 +119,12 @@ function ManageList(props) {
                       src={mywork.postMember.profileImage}
                       alt=" "
                       onMouseEnter={() => {
-                        onClickFollow(index, mywork.postMember.memberId, idea);
+                        onClickFollow(
+                          index,
+                          mywork.postMember.memberId,
+                          mywork,
+                          mywork.postMember.isFollow
+                        );
                       }}
                       onClick={() => {
                         onClickFollow(
@@ -130,6 +135,19 @@ function ManageList(props) {
                         );
                       }}
                     />
+
+                    {modalVisibleId !== "" &&
+                      (props.from === "work" || props.from === "scrap") && (
+                        <RefModalFollow
+                          id={otherMemberId}
+                          modalVisibleId={modalVisibleId}
+                          setModalVisibleId={setModalVisibleId}
+                          location={modalLocation(index + 1)}
+                          idea={ideaFollow}
+                          isFollow={isFollow}
+                          memberId={mywork.postember.memberId}
+                        />
+                      )}
                   </td>
                   <td>
                     <span
@@ -165,17 +183,18 @@ function ManageList(props) {
           idea={idea}
         />
       )}
+      {/*
       {modalVisibleId !== "" &&
         (props.from === "work" || props.from === "scrap") && (
           <RefModalFollow
             id={otherMemberId}
             modalVisibleId={modalVisibleId}
             setModalVisibleId={setModalVisibleId}
-            location={modalLocation(index + 1) /*index*/}
+            location={modalLocation(index + 1)}
             idea={ideaFollow}
             isFollow={isFollow}
           />
-        )}
+        )}*/}
     </div>
   );
 }
