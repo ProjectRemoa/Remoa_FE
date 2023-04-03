@@ -37,12 +37,8 @@ function SocialLoginContainer() {
     alert("이미 로그인 되어있습니다.");
     navigate("/");
   };
-  /*const showModal = (e) => {
-    modalOpen = true;
-  };*/
 
   useEffect(() => {
-    // 수정 부분
     if (
       sessionStorage.getItem("nickname") != null &&
       sessionStorage.getItem("new") === null

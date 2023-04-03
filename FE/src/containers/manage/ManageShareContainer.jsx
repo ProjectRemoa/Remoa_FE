@@ -57,20 +57,6 @@ function ManageShareContainer({ match }) {
 
   const navigate = useNavigate();
 
-  // 수정인데 없애자
-  /*useEffect(() => {
-    if (id != null) {
-      // postId가 들어왔을 경우 == 수정을 하는 경우
-      axios.post(`/BE/reference/${id}`).then((res) => {
-        console.log(res);
-        setName(res.data.data.title);
-        setComp(res.data.data.contestName);
-        setCompRes(res.data.data.contestAwardType);
-        setCategory(res.data.data.category);
-        setYoutubeLink(res.data.data.youtubeLink);
-      });
-    }
-  });*/
   /* 작품명 */
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -352,14 +338,6 @@ function ManageShareContainer({ match }) {
                   참가작
                 </option>
               </select>
-              {/*<input
-                  required
-                  type="text"
-                  className="input"
-                  placeholder="수상 결과를 선택해주세요"
-                  onChange={onChangeRes}
-    />*/}
-              {/*</td>*/}
             </tr>
             {/* 카테고리 */}
             <tr>

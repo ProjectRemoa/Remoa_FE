@@ -4,12 +4,13 @@ import ManageList from "../manage/ManageList";
 import "../manage/ManageListContainer.scss";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import { Style } from "../../layout/ReferenceListStyle";
+
 const Line = styled.hr`
   width: 90%;
   border: none;
   margin: 0 auto;
 `;
+
 const Button = styled.button`
   width: 12%;
   height: 40px;
@@ -33,8 +34,6 @@ function MyPageScrapContainer({ from }) {
 
   const [pageNumber, setPageNumber] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링

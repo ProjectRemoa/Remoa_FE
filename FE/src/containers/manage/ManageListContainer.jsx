@@ -75,12 +75,7 @@ function ManageListContainer() {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
     console.log("카테고리, 또는 정렬을 바꿀 때마다 렌더링");
     let endpoint;
-    //if (id !== undefined) {
-    //endpoint = `/BE/user/reference/${id}/?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    //  endpoint = `/BE/user/reference/${id}`;
-    //} else {
     endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    //}
     getWork(endpoint, false);
   }, [categoryName, sortOption]);
 
@@ -143,18 +138,8 @@ function ManageListContainer() {
   const loadMoreItems = () => {
     setCurrentPage(currentPage + 1);
     let endpoint;
-    //if (id !== undefined) {
-    //  endpoint = `/BE/user/reference/${id}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    //} else {
     endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    //}
     getWork(endpoint, true);
-  };
-
-  const [nick, setNick] = useState("");
-
-  const getData = (nick) => {
-    setNick(nick);
   };
 
   const onClickRegister = () => {

@@ -39,18 +39,9 @@ function ManageList(props) {
   // 받아온 data 가공 필요
   let data = props.data;
   console.log(data);
-  let tar = props.TAR;
-  let tpe = props.TPE;
-  let tp = props.TP;
-
-  let memberId = data[0].postMember.memberId;
-  let nickname = data[0].postMember.nickname;
-  let profileImage = data[0].postMember.profileImage;
 
   const [modalVisibleId, setModalVisibleId] = useState("");
-  const onModalHandler = (id) => {
-    setModalVisibleId(id);
-  };
+
   const [modalVisibleId2, setModalVisibleId2] = useState(false);
   const onModalHandler2 = (id) => {
     setModalVisibleId2(id);
@@ -183,18 +174,6 @@ function ManageList(props) {
           idea={idea}
         />
       )}
-      {/*
-      {modalVisibleId !== "" &&
-        (props.from === "work" || props.from === "scrap") && (
-          <RefModalFollow
-            id={otherMemberId}
-            modalVisibleId={modalVisibleId}
-            setModalVisibleId={setModalVisibleId}
-            location={modalLocation(index + 1)}
-            idea={ideaFollow}
-            isFollow={isFollow}
-          />
-        )}*/}
     </div>
   );
 }

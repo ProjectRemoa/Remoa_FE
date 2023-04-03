@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import axios from "axios";
+
 const Style = {
   StyledButton: styled.button`
     width: 7.5rem; //10rem;
@@ -29,19 +30,6 @@ function LoginCheck() {
 
   const [isLogin, setIsLogin] = useState(false);
 
-  /*const cookies = new Cookies();
-  const authCheck = () => {
-    // 페이지에 들어올 때 쿠키로 사용자 체크
-    // httpOnly가 true로 설정되어있어서 접근하지 못했음
-    // cookie가 존재하면 logout 버튼, 존재하지 않으면 login 버튼
-    const cookie = cookies.get("JSESSIONID");
-    if (cookie !== undefined) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  };*/
-
   // cookie로 진행하면 보안 문제에 매우 취약
   // localStorage나 sessionStorage를 권장
 
@@ -64,14 +52,11 @@ function LoginCheck() {
         alert("로그아웃 되었습니다.");
         window.location.replace("/"); // 새로고침
         navigate("/");
-        // 여기서 JSESSIONID가 삭제되어야 되는데 안되고 있다.
-        // 원래 삭제는 안되고, 대신 JSESSIONID는 무효화된다
+        // JSESSIONID가 삭제는 안되고, 대신 무효화된다
       })
       .catch((err) => {
         console.log(err);
       });
-    //cookies.remove("JSESSIONID", { path: "/" });
-    //localStorage.removeItem("id");
     sessionStorage.removeItem("nickname");
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("new");

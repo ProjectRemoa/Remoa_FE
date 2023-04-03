@@ -42,7 +42,7 @@ const Category = styled.div`
 
 function OtherManageListConatiner({ match }) {
   // match ; params
-  const { id } = useParams(); // member가 다르면 get도 달라야겠네..
+  const { id } = useParams();
   const [mywork, setMywork] = useState([]);
   const [totalOfAllReferences, setTotalOfAllReferences] = useState(0); // 전체 레퍼런스 수
   const [totalOfPageElements, setTotalOfPageElements] = useState(0); // 현재 페이지의 레퍼런스 수
@@ -52,8 +52,6 @@ function OtherManageListConatiner({ match }) {
   const [sortOption, setSortOption] = useState("newest");
   const [categoryName, setCategoryName] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const [selectedSortIndex, setSekectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
 
   const [name, setName] = useState(""); // 해당 유저의 이름
 
@@ -65,8 +63,7 @@ function OtherManageListConatiner({ match }) {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
     console.log("카테고리, 또는 정렬을 바꿀 때마다 렌더링");
     let endpoint;
-    endpoint = `/BE/user/reference/${id}`; //?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    //endpoint = `/BE/user/reference/${id}`;
+    endpoint = `/BE/user/reference/${id}`;
 
     getWork(endpoint, false);
   }, [categoryName, sortOption]);
@@ -74,31 +71,6 @@ function OtherManageListConatiner({ match }) {
   useEffect(() => {
     setTotalPages((totalPages) => totalPages);
   }, [totalPages]);
-
-  const onChangeCategory = (category) => {
-    setCategoryName(category);
-    setSekectedSortIndex(0);
-    setPageNumber(1);
-    setTotalPages(1);
-    setCurrentPage(1);
-    setSortOption("newest");
-  };
-
-  const handleSortClick = (index) => {
-    setSekectedSortIndex(index);
-    if (index === 0) {
-      setSortOption("newest");
-    } else if (index === 1) {
-      setSortOption("view");
-    } else if (index === 2) {
-      setSortOption("like");
-    } else {
-      setSortOption("scrap");
-    }
-    setPageNumber(1);
-    setTotalPages(1);
-    setCurrentPage(1);
-  };
 
   const getWork = (endpoint, isLoad) => {
     console.log("========");
@@ -136,11 +108,6 @@ function OtherManageListConatiner({ match }) {
     getWork(endpoint, true);
   };
 
-  const [nick, setNick] = useState("");
-
-  const getData = (nick) => {
-    setNick(nick);
-  };
   return (
     <div className="ManageListContainer">
       <div
@@ -153,109 +120,6 @@ function OtherManageListConatiner({ match }) {
       >
         <span style={{ color: "#FADA5E" }}>{name}</span>
         님의 작업물 목록
-      </div>
-      <div
-        align="center"
-        style={{
-          paddingBottom: "30px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {/*
-        <Category
-          state="all"
-          onClick={() => onChangeCategory("all")}
-          style={{
-            backgroundColor: categoryName === "all" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "all"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "all" ? "white" : "#B0B0B0",
-          }}
-        >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            전체
-          </span>
-        </Category>
-        <Category
-          onClick={() => onChangeCategory("idea")}
-          style={{
-            backgroundColor: categoryName === "idea" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "idea"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "idea" ? "white" : "#B0B0B0",
-          }}
-        >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            기획/아이디어
-          </span>
-        </Category>
-        <Category
-          onClick={() => onChangeCategory("marketing")}
-          style={{
-            backgroundColor:
-              categoryName === "marketing" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "marketing"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "marketing" ? "white" : "#B0B0B0",
-          }}
-        >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            광고/마케팅
-          </span>
-        </Category>
-        <Category
-          onClick={() => onChangeCategory("video")}
-          style={{
-            backgroundColor: categoryName === "video" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "video"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "video" ? "white" : "#B0B0B0",
-          }}
-        >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            영상
-          </span>
-        </Category>
-        <Category
-          onClick={() => onChangeCategory("design")}
-          style={{
-            backgroundColor: categoryName === "design" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "design"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "design" ? "white" : "#B0B0B0",
-          }}
-        >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            디자인/사진
-          </span>
-        </Category>
-        <Category
-          onClick={() => onChangeCategory("etc")}
-          style={{
-            backgroundColor: categoryName === "etc" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "etc"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "etc" ? "white" : "#B0B0B0",
-          }}
-        >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            기타 아이디어
-          </span>
-        </Category>*/}
       </div>
 
       <div>
@@ -273,46 +137,6 @@ function OtherManageListConatiner({ match }) {
           </div>
         ) : (
           <div>
-            {/* 정렬순 */}
-            {/*
-            <div style={{ float: "right", margin: "5px 10px 15px 0px" }}>
-              <Style.Sort
-                onClick={() => handleSortClick(0)}
-                style={{
-                  backgroundColor:
-                    selectedSortIndex === 0 ? "#FADA5E" : "white",
-                }}
-              >
-                최신순
-              </Style.Sort>
-              <Style.Sort
-                onClick={() => handleSortClick(1)}
-                style={{
-                  backgroundColor:
-                    selectedSortIndex === 1 ? "#FADA5E" : "white",
-                }}
-              >
-                조회수순
-              </Style.Sort>
-              <Style.Sort
-                onClick={() => handleSortClick(2)}
-                style={{
-                  backgroundColor:
-                    selectedSortIndex === 2 ? "#FADA5E" : "white",
-                }}
-              >
-                좋아요순
-              </Style.Sort>
-              <Style.Sort
-                onClick={() => handleSortClick(3)}
-                style={{
-                  backgroundColor:
-                    selectedSortIndex === 3 ? "#FADA5E" : "white",
-                }}
-              >
-                스크랩순
-              </Style.Sort>
-              </div>*/}
             <Line />
             <ManageList
               data={mywork}
