@@ -26,3 +26,4 @@
 ## 주요 기능
 
 ## UI/UX
+[Figma](https://www.figma.com/file/afTvihibzwDCoa5oJZBJE1/%EB%A0%88%EB%AA%A8%EC%95%84_GUI_230111?node-id=0-1&t=U9zbbPGCBEqYvbmx-0)
