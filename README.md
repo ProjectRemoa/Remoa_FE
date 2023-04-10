@@ -21,9 +21,9 @@
 ### 💫 Back-end
 
 
-## 화면 구성
+## 💻 화면 구성
 
-## 주요 기능
+## ⚙︎ 주요 기능
 
-## UI/UX
+## 〰 UI/UX
 [Figma](https://www.figma.com/file/afTvihibzwDCoa5oJZBJE1/%EB%A0%88%EB%AA%A8%EC%95%84_GUI_230111?node-id=0-1&t=U9zbbPGCBEqYvbmx-0)
