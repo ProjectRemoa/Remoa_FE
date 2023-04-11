@@ -2,17 +2,21 @@
 
 <img width="277" alt="image" src="https://user-images.githubusercontent.com/64712993/231049615-8a412245-9438-4a6f-85c3-a8f9b71e8f1e.png">
 
+
 ## ❓배경
 <img width="377" alt="image" src="https://user-images.githubusercontent.com/64712993/231049643-69cf0e59-400e-4e8d-ad32-2454c5cf9f8f.png">
 <img width="362" alt="image" src="https://user-images.githubusercontent.com/64712993/231049674-7c117edf-daab-43a8-a908-2aca2bb5b697.png">
+
 
 
 ## 👥 대상
 수상에 실패한 사람이나, 수상하였어도 피드백을 원하는 사람들
 
 
+
 ## 📖 프로젝트 소개
 <img width="456" alt="image" src="https://user-images.githubusercontent.com/64712993/231049896-d5c813d1-b173-4736-8f35-2f7c8a852caf.png">
+
 
 
 ## 🧑‍💻 팀원 소개
@@ -41,6 +45,8 @@
   </tbody>
 </table>
 
+
+
 ## ⌨️ 기술 스택
 ### Environment
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
@@ -49,11 +55,14 @@
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 
 
+
 ### 💫 Front-end
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 
+
 ### 💫 Back-end
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+
 
 
 ## 💻 화면 구성
@@ -73,6 +82,7 @@
    <td align="center"><img width="100%" alt="image" src="https://user-images.githubusercontent.com/64712993/231055275-7e8efa06-1a7f-4d86-afa6-261d09996cb5.png">
 </td>
 </table>
+
 
 
 ## 〰 UI/UX
