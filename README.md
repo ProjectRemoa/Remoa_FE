@@ -1,11 +1,11 @@
 # Remoa
 
-<img width="277" alt="image" src="https://user-images.githubusercontent.com/64712993/231049615-8a412245-9438-4a6f-85c3-a8f9b71e8f1e.png">
+<img width="50%" alt="image" src="https://user-images.githubusercontent.com/64712993/231049615-8a412245-9438-4a6f-85c3-a8f9b71e8f1e.png">
 
 
 ## ❓배경
-<img width="377" alt="image" src="https://user-images.githubusercontent.com/64712993/231049643-69cf0e59-400e-4e8d-ad32-2454c5cf9f8f.png">
-<img width="362" alt="image" src="https://user-images.githubusercontent.com/64712993/231049674-7c117edf-daab-43a8-a908-2aca2bb5b697.png">
+<img width="70%" alt="image" src="https://user-images.githubusercontent.com/64712993/231049643-69cf0e59-400e-4e8d-ad32-2454c5cf9f8f.png">
+<img width="70%" alt="image" src="https://user-images.githubusercontent.com/64712993/231049674-7c117edf-daab-43a8-a908-2aca2bb5b697.png">
 
 
 
@@ -15,7 +15,7 @@
 
 
 ## 📖 프로젝트 소개
-<img width="456" alt="image" src="https://user-images.githubusercontent.com/64712993/231049896-d5c813d1-b173-4736-8f35-2f7c8a852caf.png">
+<img width="100%" alt="image" src="https://user-images.githubusercontent.com/64712993/231049896-d5c813d1-b173-4736-8f35-2f7c8a852caf.png">
 
 
 
