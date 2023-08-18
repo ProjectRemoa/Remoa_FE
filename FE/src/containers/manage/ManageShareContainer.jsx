@@ -284,7 +284,7 @@ function ManageShareContainer({ match }) {
     <div
       style={{
         width: "100%",
-        marginTop: "100px",
+        marginTop: "50px",//"100px",
         fontFamily: "NotoSansKR-400",
       }}
     >

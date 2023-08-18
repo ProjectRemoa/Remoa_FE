@@ -184,7 +184,7 @@ const Header = () => {
   };
 
   const onClickLogo = () => {
-    Navigate("/");
+    window.location.replace("/"); // 페이지 새로고침 수정
   };
 
   return (
@@ -218,24 +218,6 @@ const Header = () => {
 
           <Style.ButtonWrapper>
             <LoginCheck />
-            {/*{loginYN ? (
-              <>
-                <Style.BellButton onClick={noticeOnClick}>
-                  <NotificationsNoneIcon
-                    style={{ color: "B0B0B0", fontSize: "35px" }}
-                    onClick={bellOnClick}
-                  />
-                  <Style.BellNotice />
-                </Style.BellButton>
-                <Style.StyledButton onClick={shareOnClick}>
-                  작업물 공유하기
-                </Style.StyledButton>
-              </>
-            ) : (
-              <>
-                <LoginCheck />
-              </>
-            )}*/}
           </Style.ButtonWrapper>
         </Style.NavWrapper>
       </div>

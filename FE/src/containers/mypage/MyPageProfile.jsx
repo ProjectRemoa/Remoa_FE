@@ -146,19 +146,19 @@ const Style={
 
 function MyPageProfile() {
     const navigate = useNavigate();
-    const [profileImage, setProfileImage] = useState(defaultImage);
-    const [previewImage, setPreviewImage] = useState(defaultImage);
+    const [profileImage, setProfileImage] = useState()//defaultImage);
+    const [previewImage, setPreviewImage] = useState()//defaultImage);
     const [idcheck, setIdcheck] = useState();
     const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     const imgInput = useRef();
 
     const [input, setInput] = useState({
-        email: 'maninhat@kakao.com',
-        nickname: '호갱',
-        phoneNumber: '01012345678',
-        university: '한국대학교',
-        oneLineIntroduction: '안녕하세요 만나서 반갑습니다! 좋은 자료 많이 공유할게요!'
+        email: '',//'maninhat@kakao.com',
+        nickname: '',//'호갱',
+        phoneNumber: '',//'01012345678',
+        university: '',//'한국대학교',
+        oneLineIntroduction: '',//'안녕하세요 만나서 반갑습니다! 좋은 자료 많이 공유할게요!'
     });
 
     const { email, nickname, phoneNumber, university, oneLineIntroduction } = input;
@@ -242,8 +242,9 @@ function MyPageProfile() {
         axios
         .get(`/BE/user/img`)
         .then((res) => {
-        if (res.status === 200) {
-            setProfileImage(res.data.data);
+            console.log(res);
+            if (res.status === 200) {
+                setProfileImage(res.data.data);
         }
         })
         .catch((err) => {
@@ -303,6 +304,7 @@ function MyPageProfile() {
             if (res.status === 200) {
                 setInput(res.data.data);
             }
+            console.log(res);
         })
         .catch((err) => {
             console.log(err);

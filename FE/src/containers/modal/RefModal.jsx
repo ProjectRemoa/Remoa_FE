@@ -1,3 +1,4 @@
+import Loading from "../../styles/Loading";
 import { MS } from "../../layout/ModalStyle";
 import React, { useEffect, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -74,6 +75,8 @@ export default function RefModal({
 }) {
   const classes = useStyles();
   const Navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
 
   const [top, setTop] = useState({
     title: "",
@@ -182,6 +185,13 @@ export default function RefModal({
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    },2500)
+  }, [loading])
+  
   let Lo = window.location.href;
 
   const onCloseHandler2 = () => {
@@ -294,7 +304,7 @@ export default function RefModal({
   const onClickPut = () => {
     if (
       window.confirm(
-        "레퍼런스를 수정하게되면 표지사진, 첨부파일이 날아가게 됩니다."
+        "레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다."
       )
     ) {
       alert("수정 기능은 구현 중~");
@@ -307,7 +317,9 @@ export default function RefModal({
   return (
     <MS.ModalWrapper>
       {/*className={modalVisibleId2 == id2 ? "d_block" : "d_none"}*/}
+      
       <MS.MobalBox>
+        {loading && <Loading />}
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         {postMember.nickname === sessionStorage.getItem("nickname") && (
           <>
