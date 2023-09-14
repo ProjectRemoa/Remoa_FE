@@ -95,14 +95,13 @@ function LoginContainer() {
   const onClickLogin = () => {
     if (validation()) {
       // 유효성 검사를 통과했다면
-      // alert("통과");
       const LoginForm = {
         email: inputEmail,
         password: inputPw,
       };
       const config = { "Conteny-Type": "application/json" };
       axios
-        .post("http://localhost:8080/login", LoginForm, config)
+        .post(`BE/login`, LoginForm, config)
         .then((result) => {
           console.log(result);
           if (result.status === 200) {
