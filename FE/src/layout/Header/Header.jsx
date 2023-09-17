@@ -1,137 +1,12 @@
-import styles from "./Header.module.css";
-import styled from "styled-components";
+import { S } from "./Header.styles";
 import { useNavigate } from "react-router-dom";
 import img from "../../images/LEMOA_TEXT_MARK.png";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import LoginCheck from "../../containers/sociallogin/LoginCheck";
-const Style = {
-  Header: styled.div`
-    position: fixed;
-    width: 100vw;
-    height: 80px;
-    background-color: #fada5e;
-    z-index: 3;
-  `,
-  Wrapper: styled.div`
-    width: 100vw;
-    height: 80px;
-    display: flex;
-    position: fixed;
-    top: 0;
-    justify-content: space-between;
-    background-color: #fff48c;
-  `,
-  Logo: styled.div`
-    width: 135px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    margin-left: 45px;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    margin-right: 0px;
-    @media ${(props) => props.theme.desktop} {
-    }
-    @media ${(props) => props.theme.mobile} {
-    }
-  `,
-  NavWrapper: styled.div`
-    width: 1550px;
-    display: flex;
-    align-items: center;
-    margin-right: 75px;
-    height: 80px;
-    gap: 85px;
-    position: relative;
-  `,
-  NavItemWrapper: styled.div`
-    position: relative;
-    left: 5%;
-    @media ${(props) => props.theme.desktop} {
-    }
-    @media ${(props) => props.theme.mobile} {
-      display: none;
-    }
-  `,
-  NavItem: styled.span`
-    color: black;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    margin-right: 30px;
-  `,
-  ButtonWrapper: styled.div`
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    right: 0;
-  `,
-  BellButton: styled.button`
-    border: solid 2px white;
-    width: 3rem;
-    height: 3rem;
-    background: #ffffff;
-    border-radius: 50px;
-    cursor: pointer;
-    position: relative;
-  `,
-  BellNotice: styled.div`
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #f27a7a;
-    border-radius: 50%;
-    border: solid 0.5px white;
-    left: 28px;
-    top: 7px;
-  `,
-  StyledButton: styled.button`
-    width: 10rem;
-    height: 3rem;
-    background-color: white;
-    color: #464646;
-    font-size: 15px;
-    border: solid 2px white;
-    cursor: pointer;
-    letter-spacing: 0.1em;
-    font-weight: 550;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 50px;
-    margin-left: 10px;
-  `,
-  HoverlineUnder1: styled.div`
-    width: 75px;
-    border: 2px solid #ffffff;
-    position: absolute;
-    top: 33px;
-    left: 3px;
-  `,
-  HoverlineUnder2: styled.div`
-    width: 100px;
-    border: 2px solid #ffffff;
-    position: absolute;
-    top: 33px;
-    left: 114px;
-  `,
-  HoverlineUnder3: styled.div`
-    width: 95px;
-    border: 2px solid #ffffff;
-    position: absolute;
-    top: 33px;
-    left: 249px;
-  `,
-};
 
 const Header = () => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
@@ -143,19 +18,19 @@ const Header = () => {
   });
 
   const refOnClick = () => {
-    Navigate("/");
+    navigate("/");
   };
   const taskOnClick = () => {
-    Navigate("/manage/list");
+    navigate("/manage/list");
   };
   const myOnClick = () => {
-    Navigate("/mypage/profile");
+    navigate("/mypage/profile");
   };
 
   const noticeOnClick = () => {};
 
   const loginOnClick = () => {
-    Navigate("/login");
+    navigate("/login");
   };
 
   const logoutOnClick = () => {
@@ -172,7 +47,7 @@ const Header = () => {
         console.log(err);
       });
     sessionStorage.removeItem("id");
-    Navigate("/");
+    navigate("/");
   };
 
   const bellOnClick = () => {};
@@ -180,48 +55,43 @@ const Header = () => {
   const shareOnClick = () => {};
 
   const signupOnClick = () => {
-    Navigate("/signup");
-  };
-
-  const onClickLogo = () => {
-    window.location.replace("/"); // 페이지 새로고침 수정
+    navigate("/signup");
   };
 
   return (
-    <Style.Header>
-      <div className={styles.contents}>
-        <Style.Logo onClick={onClickLogo}>
-          <img src={img} alt="로고대체" style={{ width: "120px" }} />
-        </Style.Logo>
-        <Style.NavWrapper>
-          <Style.NavItemWrapper>
-            <Style.NavItem onClick={refOnClick}>레퍼런스</Style.NavItem>
-            <Style.NavItem onClick={taskOnClick}>작업물 관리</Style.NavItem>
-            <Style.NavItem onClick={myOnClick}>마이페이지</Style.NavItem>
+    <S.Header>
+      <S.Contents>
+        <S.Logo href="/">
+          <img src={img} alt="로고대체" />
+        </S.Logo>
+        <S.NavWrapper>
+          <S.NavItemWrapper>
+            <S.NavItem onClick={refOnClick}>레퍼런스</S.NavItem>
+            <S.NavItem onClick={taskOnClick}>작업물 관리</S.NavItem>
+            <S.NavItem onClick={myOnClick}>마이페이지</S.NavItem>
             {window.location.pathname.includes("/ref") ||
             window.location.pathname == "/" ? (
-              <Style.HoverlineUnder1 />
+              <S.HoverlineUnder1 />
             ) : (
               ""
             )}
             {window.location.pathname.includes("/manage") ? (
-              <Style.HoverlineUnder2 />
+              <S.HoverlineUnder2 />
             ) : (
               ""
             )}
             {window.location.pathname.includes("/mypage") ? (
-              <Style.HoverlineUnder3 />
+              <S.HoverlineUnder3 />
             ) : (
               ""
             )}
-          </Style.NavItemWrapper>
-
-          <Style.ButtonWrapper>
+          </S.NavItemWrapper>
+          <S.ButtonWrapper>
             <LoginCheck />
-          </Style.ButtonWrapper>
-        </Style.NavWrapper>
-      </div>
-    </Style.Header>
+          </S.ButtonWrapper>
+        </S.NavWrapper>
+      </S.Contents>
+    </S.Header>
   );
 };
 
