@@ -90,13 +90,13 @@ root.render(
               <Route path="/manage/list/total" element={<ManageList />} />
               <Route path="/manage/share" element={<ManageShare />} />
               <Route path="/manage/put/:id" element={<ManageShare />} />
-              {/* 레퍼런스 수정 */}
               <Route path="/manage/feedback" element={<ManageFeedback />} />
+              {/* 레퍼런스 수정 */}
               <Route path="/mypage/profile" element={<PageProfile />} />
               <Route path="/mypage/following" element={<PageFollowing />} />
+              <Route path="/mypage/work" element={<PageWork />} />
               <Route path="/mypage/scrap" element={<PageScrap />} />
               <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
-              <Route path="/mypage/work" element={<PageWork />} />
               <Route path="/mypage/faq" element={<PageFAQ />} />
             </Route>
             <Route path="*" element={<UnknownPage />} />
