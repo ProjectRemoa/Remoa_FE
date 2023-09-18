@@ -4,7 +4,7 @@ import kakao_login from "../../images/kakao_login_large.png";
 import { KAKAO_AUTH_URL } from "./kakaodata";
 import { useEffect } from "react";
 import Modal from "./Modal";
-import S from "./SocialLoginContainer.module.css"
+import S from "./SocialLoginContainer.module.css";
 
 function SocialLoginContainer() {
   const navigate = useNavigate();
@@ -26,8 +26,7 @@ function SocialLoginContainer() {
 
   return (
     <>
-      <><Modal />
-        {/*sessionStorage.getItem("new") && <Modal />*/}</>
+      {sessionStorage.getItem("new") && <Modal />}
       <div className={S.Container}>
         <div className={S.OuterBox}>
           <div className={S.TextBox}>
