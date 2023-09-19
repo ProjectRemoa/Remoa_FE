@@ -1,17 +1,15 @@
 import styled from "styled-components";
 const UnderHeader = styled.div`
-  box-sizing: border-box;
   position: absolute;
   border: 1px solid #b0b0b0;
   border-radius: 20px;
-  width: 803px;
+  width: 891px;
   height: 59px;
-  top: 90px;
+  top: 99px;
   display: flex;
-  align-items: center;
-  padding-left: 20px;
-  padding-right: 20px;
   justify-content: space-around;
+  align-items: center;
+  padding: 0px 110px 0px;
   @media ${(props) => props.theme.desktop} {
     width: 700px;
   }
@@ -25,7 +23,7 @@ const UnderHeader = styled.div`
 const Sort = styled.div`
   font-family: "Noto Sans KR";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 18px;
   line-height: 26px;
   text-align: center;
