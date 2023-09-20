@@ -1,13 +1,14 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import MyPageContainer from "../../containers/mypage/MyPageContainer";
-import MyPageFAQ from "../../containers/mypage/MyPageFAQ";
-function PageFAQ() {
+import MyPageProfile from "../../containers/mypage/MyPageProfile";
+
+function MyPageProfilePage() {
   return (
     <Layout>
       <MyPageContainer />
-      <MyPageFAQ></MyPageFAQ>
+      <MyPageProfile />
     </Layout>
-  )
+  );
 }
-export default PageFAQ;
+export default MyPageProfilePage;

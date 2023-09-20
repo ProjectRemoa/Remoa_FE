@@ -1,13 +1,13 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import MyPageContainer from "../../containers/mypage/MyPageContainer";
-import Follow from "../../containers/mypage/Follow"
-function PageFollowing() {
+import MyPageFAQ from "../../containers/mypage/MyPageFAQ";
+function MyPageFAQPage() {
   return (
     <Layout>
       <MyPageContainer />
-      <Follow></Follow>
+      <MyPageFAQ></MyPageFAQ>
     </Layout>
-  )
+  );
 }
-export default PageFollowing;
+export default MyPageFAQPage;

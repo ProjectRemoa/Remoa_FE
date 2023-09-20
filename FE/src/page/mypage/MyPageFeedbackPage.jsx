@@ -1,14 +1,13 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import MyPageContainer from "../../containers/mypage/MyPageContainer";
-import MyPageProfile from "../../containers/mypage/MyPageProfile";
-
-function PageProfile() {
+import MyPageFeedback from "../../containers/mypage/MyPageFeedback";
+function MyPageFeedbackPage() {
   return (
     <Layout>
       <MyPageContainer />
-      <MyPageProfile />
+      <MyPageFeedback />
     </Layout>
-  )
+  );
 }
-export default PageProfile;
+export default MyPageFeedbackPage;

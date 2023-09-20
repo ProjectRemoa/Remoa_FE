@@ -1,13 +1,13 @@
 import Layout from "../../layout/Layout";
 import React from "react";
 import MyPageContainer from "../../containers/mypage/MyPageContainer";
-import MyPageScrapContainer from '../../containers/mypage/MyPageScrapContainer'
-function PageScrap() {
+import Follow from "../../containers/mypage/Follow";
+function MyPageFollowingPage() {
   return (
     <Layout>
       <MyPageContainer />
-      <MyPageScrapContainer />
+      <Follow></Follow>
     </Layout>
   );
 }
-export default PageScrap;
+export default MyPageFollowingPage;

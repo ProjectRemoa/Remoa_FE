@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import styled from "styled-components";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./page/login/LoginPage";
 import SocialLoginPage from "./page/sociallogin/SocialLoginPage";
 import UnknownPage from "./page/UnknownPage";
@@ -19,13 +19,14 @@ import ManageList from "./page/management/ManageList";
 import ManageShare from "./page/management/ManageShare";
 import ManageFeedback from "./page/management/ManageFeedback";
 
-import PageProfile from "./page/mypage/PageProfile";
-import PageFollowing from "./page/mypage/PageFollowing";
-import PageScrap from "./page/mypage/PageScrap";
-import PageMyFeedback from "./page/mypage/PageMyFeedback";
-import PageFAQ from "./page/mypage/PageFAQ";
-import SignUpPage from "./page/SignUpPage";
+import MyPageProfilePage from "./page/mypage/MyPageProfilePage";
+import MyPageFollowingPage from "./page/mypage/MyPageFollowingPage";
+import MyPageWorkPage from "./page/mypage/MyPageWorkPage";
+import MyPageScrapPage from "./page/mypage/MyPageScrapPage";
+import MyPageFeedbackPage from "./page/mypage/MyPageFeedbackPage";
+import MyPageFAQPage from "./page/mypage/MyPageFAQPage";
 
+import SignUpPage from "./page/SignUpPage";
 import EmailFind from "./page/findinfo/EmailFind";
 import PasswordFind from "./page/findinfo/PasswordFind";
 import KakaoLogin from "./containers/sociallogin/KakaoLogin";
@@ -40,7 +41,6 @@ import RefSearchPage from "./page/reference/RefSearchPage";
 
 import Auth from "./Auth";
 import AuthLayout from "./layout/AuthLayout";
-import PageWork from "./page/mypage/PageWork";
 import OtherManageList from "./page/management/OtherManageList";
 
 axios.defaults.withCredentials = true;
@@ -92,12 +92,18 @@ root.render(
               <Route path="/manage/put/:id" element={<ManageShare />} />
               <Route path="/manage/feedback" element={<ManageFeedback />} />
               {/* 레퍼런스 수정 */}
-              <Route path="/mypage/profile" element={<PageProfile />} />
-              <Route path="/mypage/following" element={<PageFollowing />} />
-              <Route path="/mypage/work" element={<PageWork />} />
-              <Route path="/mypage/scrap" element={<PageScrap />} />
-              <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
-              <Route path="/mypage/faq" element={<PageFAQ />} />
+              <Route path="/mypage/profile" element={<MyPageProfilePage />} />
+              <Route
+                path="/mypage/following"
+                element={<MyPageFollowingPage />}
+              />
+              <Route path="/mypage/work" element={<MyPageWorkPage />} />
+              <Route path="/mypage/scrap" element={<MyPageScrapPage />} />
+              <Route
+                path="/mypage/myfeedback"
+                element={<MyPageFeedbackPage />}
+              />
+              <Route path="/mypage/faq" element={<MyPageFAQPage />} />
             </Route>
             <Route path="*" element={<UnknownPage />} />
           </Routes>
