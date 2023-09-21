@@ -38,7 +38,8 @@ const Sort = styled.div`
   a {
     text-decoration: none;
   }
-  a:active {
+  a:active,
+  a:visited {
     color: inherit;
   }
 `;
