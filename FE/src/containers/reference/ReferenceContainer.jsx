@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import styled from "styled-components";
-import FirstModal from "../modal/FirstModal";
-import RefSearch from "./RefSearch";
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import FirstModal from '../modal/FirstModal';
+import RefSearch from './RefSearchBar';
+import { pageLinks } from './constants';
+
 const Style = {
   UnderHeader: styled.div`
     box-sizing: border-box;
@@ -17,6 +19,12 @@ const Style = {
     padding-left: 20px;
     padding-right: 20px;
     justify-content: space-around;
+
+    // TODO : reset.css
+    a {
+      color: inherit;
+    }
+
     @media ${(props) => props.theme.desktop} {
       width: 650px;
     }
@@ -27,7 +35,7 @@ const Style = {
     }
   `,
   Sort: styled.div`
-    font-family: "Noto Sans KR";
+    font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
@@ -56,8 +64,8 @@ function ReferenceContainer() {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    console.log(typeof sessionStorage.getItem("new"));
-    if (sessionStorage.getItem("new") === "true") {
+    console.log(typeof sessionStorage.getItem('new'));
+    if (sessionStorage.getItem('new') === 'true') {
       // type이 string
       setModalOpen(true);
       //console.log("First Modal");
@@ -65,13 +73,13 @@ function ReferenceContainer() {
     }
   }, []);
 
-  const pageLinks = [
-    { path: "/", text: "기획/아이디어" },
-    { path: "/ref/marketing", text: "광고/마케팅" },
-    { path: "/ref/video", text: "영상" },
-    { path: "/ref/design", text: "디자인/사진" },
-    { path: "/ref/etc", text: "기타아이디어" },
-  ];
+  // const pageLinks = [
+  //   { path: '/', text: '기획/아이디어' },
+  //   { path: '/ref/marketing', text: '광고/마케팅' },
+  //   { path: '/ref/video', text: '영상' },
+  //   { path: '/ref/design', text: '디자인/사진' },
+  //   { path: '/ref/etc', text: '기타아이디어' },
+  // ];
 
   return (
     <>
