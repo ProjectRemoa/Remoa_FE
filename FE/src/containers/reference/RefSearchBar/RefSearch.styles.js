@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 const SearchDiv = styled.div`
-  position: absolute;
-  top: 181px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 86vw;
+  margin-top: 23px;
 `;
 
 const Title = styled.div`

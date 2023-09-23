@@ -19,6 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
+// TODO : react-hook-form으로 성능 개선 적용, 컴포넌트 재활용을 위해 RefListWrapper로 바로 넘기지 않도록 분리
 function RefSearch() {
   const searchRef = useRef(null);
   const classes = useStyles();
@@ -41,7 +42,6 @@ function RefSearch() {
     setSearchTerm(searchKeyword);
   };
 
-  // TODO : 서버 구동 후 검색어 결과 처리
   return (
     <SearchDiv>
       <Title>공모전 이름이나 종류를 검색해보세요</Title>
