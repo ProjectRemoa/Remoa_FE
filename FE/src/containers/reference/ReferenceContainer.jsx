@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import FirstModal from "../modal/FirstModal";
 import RefSearch from "./RefSearch";
@@ -7,7 +7,6 @@ const Style = {
   UnderHeader: styled.div`
     box-sizing: border-box;
     position: absolute;
-    background: #ffffff;
     border: 1px solid #b0b0b0;
     border-radius: 20px;
     width: 803px;
@@ -40,13 +39,20 @@ const Style = {
       font-size: 15px;
       font-weight: 900;
     }
+    a {
+      text-decoration: none;
+    }
+    a:active {
+      color: inherit;
+    }
   `,
   PageStyle: styled.div`
     color: #fada5e;
   `,
 };
+
 function ReferenceContainer() {
-  const Navigate = useNavigate();
+  const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -59,25 +65,13 @@ function ReferenceContainer() {
     }
   }, []);
 
-  const ideaOnClick = () => {
-    Navigate("/");
-  };
-
-  const marketingOnClick = () => {
-    Navigate("/ref/marketing");
-  };
-
-  const videoOnClick = () => {
-    Navigate("/ref/video");
-  };
-
-  const designOnClick = () => {
-    Navigate("/ref/design");
-  };
-
-  const etcOnClick = () => {
-    Navigate("/ref/etc");
-  };
+  const pageLinks = [
+    { path: "/", text: "기획/아이디어" },
+    { path: "/ref/marketing", text: "광고/마케팅" },
+    { path: "/ref/video", text: "영상" },
+    { path: "/ref/design", text: "디자인/사진" },
+    { path: "/ref/etc", text: "기타아이디어" },
+  ];
 
   return (
     <>
@@ -87,41 +81,17 @@ function ReferenceContainer() {
         )}
       </>
       <Style.UnderHeader>
-        <Style.Sort onClick={ideaOnClick}>
-          {window.location.pathname === "/" ? (
-            <Style.PageStyle>기획/아이디어</Style.PageStyle>
-          ) : (
-            "기획/아이디어"
-          )}
-        </Style.Sort>
-        <Style.Sort onClick={marketingOnClick}>
-          {window.location.pathname === "/ref/marketing" ? (
-            <Style.PageStyle>광고/마케팅</Style.PageStyle>
-          ) : (
-            "광고/마케팅"
-          )}
-        </Style.Sort>
-        <Style.Sort onClick={videoOnClick}>
-          {window.location.pathname === "/ref/video" ? (
-            <Style.PageStyle>영상</Style.PageStyle>
-          ) : (
-            "영상"
-          )}
-        </Style.Sort>
-        <Style.Sort onClick={designOnClick}>
-          {window.location.pathname === "/ref/design" ? (
-            <Style.PageStyle>디자인</Style.PageStyle>
-          ) : (
-            "디자인"
-          )}
-        </Style.Sort>
-        <Style.Sort onClick={etcOnClick}>
-          {window.location.pathname === "/ref/etc" ? (
-            <Style.PageStyle>기타아이디어</Style.PageStyle>
-          ) : (
-            "기타아이디어"
-          )}
-        </Style.Sort>
+        {pageLinks.map((link) => (
+          <Style.Sort key={link.path}>
+            <Link to={link.path}>
+              {location.pathname === link.path ? (
+                <Style.PageStyle>{link.text}</Style.PageStyle>
+              ) : (
+                link.text
+              )}
+            </Link>
+          </Style.Sort>
+        ))}
       </Style.UnderHeader>
       <RefSearch />
     </>
