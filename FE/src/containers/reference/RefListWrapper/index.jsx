@@ -7,6 +7,7 @@ import { pageLinks, filterOptions } from '../constants';
 // import RefList from '../ReferenceList';
 import RefCard from '../RefCard';
 import StyledComponents from './RefListWrapper.styles';
+import RefModal from '../../modal/RefModal';
 const {
   RefListWrapper,
   RefListHeader,
@@ -24,7 +25,15 @@ export default function RefListContainer({ search: searchKeyword }) {
   const [filter, setFilter] = useState(filterOptions[0].key); // 필터
   const [referenceList, setReferenceList] = useState([]); // 레퍼런스 리스트
 
-  const [page, setPage] = useState(1); // 페이지
+  const [page, setPage] = useState(1); // 페이지네이션
+
+  const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
+  const [selectedData, setSelectedData] = useState(null);
+
+  const handleSelectData = (data) => {
+    setSelectedData(data);
+    setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
+  };
 
   // let kindSend = 'idea';
   // let kind = '기획/아이디어';
@@ -60,9 +69,13 @@ export default function RefListContainer({ search: searchKeyword }) {
           },
         });
 
-        const { data } = response;
+        const {
+          data: {
+            data: { references },
+          },
+        } = response;
 
-        setReferenceList(data.data.references);
+        setReferenceList(references);
       } catch (err) {
         console.log(err);
       }
@@ -100,10 +113,26 @@ export default function RefListContainer({ search: searchKeyword }) {
       {/* 레퍼런스 */}
       {/* <RefList kind={kindSend} name={searchKeyword} /> */}
       <RefList>
-        {referenceList.map((reference, index) => {
-          return <RefCard data={reference} key={index} />;
+        {referenceList.map((reference) => {
+          return (
+            <RefCard
+              data={reference}
+              key={reference.postId}
+              onSelectedData={handleSelectData}
+            />
+          );
         })}
       </RefList>
+
+      {/* 상세 페이지 모달 */}
+      {/* TODO : props 이름 변경 및 모달 리팩토링 후 isRefModal 조건 삭제 */}
+      {selectedData && isRefModal !== '' && (
+        <RefModal
+          id2={selectedData.postId}
+          setData={selectedData}
+          setModalVisibleId2={setIsRefModal}
+        />
+      )}
     </RefListWrapper>
   );
 }
