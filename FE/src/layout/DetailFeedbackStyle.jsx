@@ -2,13 +2,13 @@ import styled from "styled-components";
 
 export const DF = {
   ModalWrapper: styled.div`
-    position: absolute;
-    top: 30vh;
-    right: 5px;
+    cursor: move;
+    position:absolute;
+    top:-100vh;
     width: 490px;
+    z-index: 9;
     height: 800px;
     background-color: white;
-    z-index: 6;
     box-shadow: 0 0 0 5px #fada5e inset;
   `,
   ModalHeader: styled.div`

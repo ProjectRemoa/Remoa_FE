@@ -17,6 +17,8 @@ import YouTube from "react-youtube";
 import useWindowSize from "./pdfView/useWindowSize";
 import DetailedFeedback from "./DetailedFeedback/DetailedFeedback";
 import { pdfjs, Document, Page } from "react-pdf";
+import Draggable from "react-draggable";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const useStyles = makeStyles({
@@ -67,12 +69,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RefModal({
-  id2,
-  modalVisibleId2,
-  setModalVisibleId2,
-  setData,
-}) {
+export default function RefModal({ id2, setModalVisibleId2 }) {
   const classes = useStyles();
   const Navigate = useNavigate();
 
@@ -107,12 +104,12 @@ export default function RefModal({
     setShowSel(!showSel);
   };
   const [category, setCategory] = useState("");
+
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
     axios
       .get(endpoint)
       .then((res) => {
-        console.log(res);
         // top : 제목, 콘테스트 이름, 작성일자, 카테고리, 조회수, 좋아요수, 스크랩 수
         setTop({
           postId: res.data.data.postId,
@@ -153,7 +150,7 @@ export default function RefModal({
 
         setMiddle({
           fileNames: res.data.data.fileNames.filter(
-            (item, index) => index !== 0
+            (item, index) => index !== 0,
           ),
           likeCount: res.data.data.likeCount,
           scrapCount: res.data.data.scrapCount,
@@ -188,10 +185,10 @@ export default function RefModal({
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false)
-    },2500)
-  }, [loading])
-  
+      setLoading(false);
+    }, 2500);
+  }, [loading]);
+
   let Lo = window.location.href;
 
   const onCloseHandler2 = () => {
@@ -235,7 +232,9 @@ export default function RefModal({
           likeCount: res.data.data.likeCount,
           scrapCount: top.scrapCount,
         });
-        setLikeBoolean(!likeBoolean);
+        if (res.data.data.isLiked === true) {
+          setLikeBoolean(!likeBoolean);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -258,7 +257,9 @@ export default function RefModal({
           likeCount: top.likeCount,
           scrapCount: res.data.data.scrapCount,
         });
-        setscrapBoolean(!scrapBoolean);
+        if (res.data.data.isScraped === true) {
+          setscrapBoolean(!scrapBoolean);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -303,9 +304,7 @@ export default function RefModal({
   // 레퍼런스 수정
   const onClickPut = () => {
     if (
-      window.confirm(
-        "레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다."
-      )
+      window.confirm("레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다.")
     ) {
       alert("수정 기능은 구현 중~");
       Navigate("/");
@@ -314,10 +313,25 @@ export default function RefModal({
     }
   };
 
+  const checkPage = () => {
+    if (show > numPages) {
+      alert("페이지를 제대로 입력해주세요!");
+      window.history.back();
+      let el = document.getElementById("pageInput");
+      el.value = "";
+    }
+  };
+
+  const [position, setPosition] = useState({ x: 0, y: 0 }); // box의 포지션 값
+  // 업데이트 되는 값을 set 해줌
+  const trackPos = (data) => {
+    setPosition({ x: data.x, y: data.y });
+  };
+
   return (
     <MS.ModalWrapper>
       {/*className={modalVisibleId2 == id2 ? "d_block" : "d_none"}*/}
-      
+
       <MS.MobalBox>
         {loading && <Loading />}
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
@@ -370,16 +384,6 @@ export default function RefModal({
             <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
               상세피드백 보기
             </MS.DetailFeedbackButton>
-            <DetailedFeedback
-              id3={id2}
-              modalVisibleId3={modalVisibleId3}
-              setModalVisibleId3={setModalVisibleId3}
-              numPages={numPages}
-              media={middle.fileNames}
-              link={middle.youtubeLink}
-              feedbacks={feedback} // 피드백 전체 넘겼습니다.
-              setFeedback={setFeedback} // 혹시 몰라 피드백을 수정할 수 있는 setFeedback도 같이 넘깁니다.
-            />
           </MS.HeaderDiv2>
         </MS.MobalHeader>
         <MS.Line />
@@ -415,9 +419,10 @@ export default function RefModal({
                       onChange={changePageNum}
                       placeholder={`1P부터 ${numPages}P까지`}
                       defaultValue={1}
+                      id="pageInput"
                     />
                     <MS.PdfPageButtonWrapper>
-                      <MS.PdfPageButton href={`#${show}`}>
+                      <MS.PdfPageButton href={`#${show}`} onClick={checkPage}>
                         이동하기
                       </MS.PdfPageButton>
                     </MS.PdfPageButtonWrapper>
@@ -434,7 +439,7 @@ export default function RefModal({
                   <MS.PdfSizeButton
                     onClick={() => {
                       setPageScale(
-                        pageScale - 0.25 < 0.25 ? 0.25 : pageScale - 0.25
+                        pageScale - 0.25 < 0.25 ? 0.25 : pageScale - 0.25,
                       );
                     }}
                   >
@@ -471,6 +476,22 @@ export default function RefModal({
             </MS.PdfWrapper>
           )}
         </MS.MobalContents>
+
+        {/* 움직이는 모달 */}
+        <Draggable onDrag={ (_, data) => trackPos(data) }>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <DetailedFeedback
+              id3={id2}
+              modalVisibleId3={modalVisibleId3}
+              setModalVisibleId3={setModalVisibleId3}
+              numPages={numPages}
+              media={middle.fileNames}
+              link={middle.youtubeLink}
+              feedbacks={feedback} // 피드백 전체 넘겼습니다.
+              setFeedback={setFeedback} // 혹시 몰라 피드백을 수정할 수 있는 setFeedback도 같이 넘깁니다.
+            />
+          </div>
+        </Draggable>
 
         <MS.TraceBoxWrapper>
           <MS.TraceBox

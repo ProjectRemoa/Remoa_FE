@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FM = {
+export const S = {
   ModalWrapper:styled.div`
     position: fixed;
     top: 0;
