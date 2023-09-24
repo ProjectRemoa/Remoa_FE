@@ -17,6 +17,7 @@ const RefCardThumbnailWrapper = styled.div`
   padding-top: 56.36%;
   background-color: #fafafa;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const RefCardThumbnail = styled.img`

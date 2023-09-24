@@ -11,8 +11,8 @@ const {
   RefCardFunctionWrapper,
 } = StyledComponents;
 
-function RefCard({
-  data: {
+function RefCard({ data, onSelectedData }) {
+  const {
     likeCount,
     postId,
     postMember,
@@ -20,11 +20,11 @@ function RefCard({
     scrapCount,
     title,
     views,
-  },
-}) {
+  } = data;
+
   return (
     <RefCardWrapper>
-      <RefCardThumbnailWrapper>
+      <RefCardThumbnailWrapper onClick={() => onSelectedData(data)}>
         <RefCardThumbnail src={postThumbnail} />
       </RefCardThumbnailWrapper>
 
