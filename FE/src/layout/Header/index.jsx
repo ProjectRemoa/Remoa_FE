@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import img from "../../images/LEMOA_TEXT_MARK.png";
-import LoginCheck from "../../containers/sociallogin/LoginCheck/LoginCheck";
+import LoginCheck from "../../containers/sociallogin/LoginCheck/LoginCheck.jsx";
 import S from "./Header.styles";
 
 function Header() {
