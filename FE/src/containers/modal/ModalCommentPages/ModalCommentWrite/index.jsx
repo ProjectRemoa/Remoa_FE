@@ -1,9 +1,9 @@
-import { MS } from '../../../layout/ModalStyle';
+import { S } from './ui'
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function RMCommentWrite({ postId, setComments }) {
+export default function ModalCommentWrite({ postId, setComments }) {
   const navigate = useNavigate();
   const [contents, setContents] = useState('');
 
@@ -20,7 +20,6 @@ export default function RMCommentWrite({ postId, setComments }) {
       const UploadComment = {
         comment: contents,
       };
-      //const data = axios
       axios
         .post(`/BE/reference/${postId}/comment`, UploadComment)
         .then((response) => {
@@ -38,16 +37,16 @@ export default function RMCommentWrite({ postId, setComments }) {
   };
 
   return (
-    <MS.CommentWriteWrapper>
+    <S.CommentWriteWrapper>
       <p style={{ float: 'left', fontSize: '20px' }}>Comment</p>
-      <MS.CommentButton onClick={ onSumbitHandler }>댓글 등록</MS.CommentButton>
-      <MS.WriteInput
+      <S.CommentButton onClick={onSumbitHandler}>댓글 등록</S.CommentButton>
+      <S.WriteInput
         required
         placeholder='해당 작업물에 대한 의견을 자유롭게 남겨주세요!
         욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.'
-        onChange={ onChangeContents }
-        value={ contents }
+        onChange={onChangeContents}
+        value={contents}
       />
-    </MS.CommentWriteWrapper>
+    </S.CommentWriteWrapper>
   );
 }

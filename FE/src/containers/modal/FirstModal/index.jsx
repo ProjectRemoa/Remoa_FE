@@ -1,5 +1,5 @@
 import React from 'react';
-import { S } from '../../layout/FirstModalStyle';
+import { S } from './ui';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import CheckIcon from '@mui/icons-material/Check';
 import { makeStyles } from '@material-ui/core/styles';

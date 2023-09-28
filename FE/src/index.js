@@ -35,7 +35,7 @@ import theme from "./layout/theme";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import { ThemeProvider } from "styled-components";
-import RefModal from "./containers/modal/RefModal";
+import RefModal from './containers/modal/RefModalPages/RefModal'
 import RefSearchPage from "./page/reference/RefSearchPage";
 
 import Auth from "./Auth";
