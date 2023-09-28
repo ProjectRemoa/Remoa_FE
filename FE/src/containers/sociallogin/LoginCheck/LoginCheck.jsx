@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import S from "./LoginCheck.module.css"
+import S from "./LoginCheck.module.css";
 
 function LoginCheck() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function LoginCheck() {
     }
   }, []);
 
-  const logoutOnClick = () => {
+  const onClickLogout = () => {
     axios
       .post("/BE/user/logout", {}, { withCredentials: true })
       .then((res) => {
@@ -36,25 +36,25 @@ function LoginCheck() {
     setIsLogin(false);
     navigate("/");
   };
-  const loginOnClick = () => {
+  const onClickLogin = () => {
     navigate("/sociallogin");
   };
   const onClickShare = () => {
     navigate("/manage/share");
   };
   return (
-    <div className={S.Containter}>
+    <div className={S.Container}>
       {isLogin ? (
         <>
-            <button className={S.Button} onClick={logoutOnClick}>
-              로그아웃
-            </button>
-            <button className={S.Button} onClick={onClickShare}>
-              작업물 공유하기
-            </button>
+          <button className={S.Button} onClick={onClickLogout}>
+            로그아웃
+          </button>
+          <button className={S.Button} onClick={onClickShare}>
+            작업물 공유하기
+          </button>
         </>
       ) : (
-        <button className={S.Button} onClick={loginOnClick}>
+        <button className={S.Button} onClick={onClickLogin}>
           로그인
         </button>
       )}

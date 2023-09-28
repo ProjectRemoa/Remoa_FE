@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import kakao_login from "../../images/kakao_login_large.png";
-import { KAKAO_AUTH_URL } from "./kakaodata";
+import { KAKAO_AUTH_URL } from "./KakaoLogin/kakaodata";
 import { useEffect } from "react";
-import Modal from "./Modal";
+import Modal from "./Modal/Modal";
 import S from "./SocialLoginContainer.module.css";
 
 function SocialLoginContainer() {

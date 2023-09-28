@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { CheckCircleOutlineRounded } from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Agree from "./Agree";
+import Agree from "../Agree/Agree";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import S from "./Modal.module.css"
