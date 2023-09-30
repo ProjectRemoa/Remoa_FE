@@ -7,3 +7,13 @@
   max-height: 180px;
   overflow: auto;
 }
+
+.AgreeBox::-webkit-scrollbar{
+  width: 9px;
+  border-radius: 30px;
+}
+
+.AgreeBox::-webkit-scrollbar-thumb{
+  background-color: #b0b0b0;
+  border-radius: 30px;
+}

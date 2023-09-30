@@ -26,7 +26,7 @@ function SocialLoginContainer() {
 
   return (
     <>
-      {sessionStorage.getItem("new") && <Modal />}
+      {/*sessionStorage.getItem("new") && */<Modal />}
       <div className={S.Container}>
         <div className={S.OuterBox}>
           <div className={S.TextBox}>

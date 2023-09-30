@@ -5,11 +5,10 @@ import FormControl from "@mui/material/FormControl";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { CheckCircleOutlineRounded } from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import Agree from "../Agree";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import S from "./Modal.module.css"
+import S from "./Modal.styles"
 
 const theme = createTheme({
   status: {
@@ -20,28 +19,8 @@ const theme = createTheme({
       main: "#FADA5E", // 노란색으로 커스텀
       darker: "#053e85",
     },
-    neutral: {
-      main: "#FADA5E",
-      contrastText: "#fff",
-    },
   },
 });
-
-const Button = styled.button`
-  width: 100%;
-  height: 54px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  border-radius: 10px;
-  box-shadow: none;
-  color: black;
-  font-size: 20px;
-
-  cursor: ${(props) => (props.state ? "pointer" : "default")};
-  background: ${(props) => (props.state ? "#FADA5E" : "#D9D9D9")};
-  border: 1px solid ${(props) => (props.state ? "#FADA5E" : "#D9D9D9")};
-`;
 
 function Modal({ modalOpen }) {
   const navigate = useNavigate();
@@ -51,13 +30,13 @@ function Modal({ modalOpen }) {
 
   const [detail1, setDetail1] = useState(false);
   const [detail2, setDetail2] = useState(false);
-  const [detail3, setDetail3] = useState(false);
 
   const checkAll = (e) => {
     e.target.checked
       ? setCheckList(["terms", "collect", "marketing", "age"])
       : setCheckList([]);
   };
+  
   const check = (e) => {
     e.target.checked
       ? setCheckList([...checkList, e.target.name])
@@ -75,6 +54,7 @@ function Modal({ modalOpen }) {
       setButtonColor(false);
     }
   });
+
   const closeModal = () => {
     //setModalOpen(false);
   };
@@ -84,9 +64,6 @@ function Modal({ modalOpen }) {
   };
   const onClickDetail2 = () => {
     setDetail2(!detail2);
-  };
-  const onClickDetail3 = () => {
-    setDetail3(!detail3);
   };
 
   const onClickStart = () => {
@@ -122,19 +99,19 @@ function Modal({ modalOpen }) {
   };
 
   return (
-    <div className={S.Wrapper}>
-      <div className={S.Container}>
-        <div className={S.Box}>
-          <div className={S.AgreeText}>이용약관에 동의해주세요</div>
-          <div className={S.AgreeSubText}>
+    <S.Wrapper>
+      <S.Container>
+        <S.Box>
+          <S.AgreeText>이용약관에 동의해주세요</S.AgreeText>
+          <S.AgreeLastText>
             레모아를 이용하기 위한 마지막 단계에요
-          </div>
+          </S.AgreeLastText>
           <ThemeProvider theme={theme}>
             <FormControl component="fieldset">
               <FormGroup aria-label="position" row>
                 {/* 전체 동의 */}
-                <div className={S.AgreeAllBox}>
-                  <div className={S.AgreeAllCheckBox}>
+                <S.AgreeAllBox>
+                  <S.AgreeAllCheckBox>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -149,21 +126,21 @@ function Modal({ modalOpen }) {
                       }
                       labelPlacement="start"
                     />
-                  </div>
-                  <div className={S.AgreeAllTextBox}>
+                  </S.AgreeAllCheckBox>
+                  <S.AgreeAllTextBox>
                     <label htmlFor="1">
-                      <div className={S.AgreeAllText}>전체 동의하기</div>
-                      <span className={S.AgreeAllSubText}>
+                      <S.AgreeAllText>전체 동의하기</S.AgreeAllText>
+                      <S.AgreeAllSubText>
                         전체 동의는 이벤트 및 마케팅성 홍보글 수신 동의를 포함한
-                        선택 동의 사항 및 필수 동의 사항들을 포함하고 있어요
-                      </span>
+                        <br/>선택 동의 사항 및 필수 동의 사항들을 포함하고 있어요
+                      </S.AgreeAllSubText>
                     </label>
-                  </div>
-                </div>
+                  </S.AgreeAllTextBox>
+                </S.AgreeAllBox>
 
                 {/* (필수) 레모아 이용약관 동의 */}
-                <div className={S.AgreeBox}>
-                  <div className={S.AgreeCheckBox}>
+                <S.AgreeBox>
+                  <S.AgreeCheckBox>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -179,22 +156,22 @@ function Modal({ modalOpen }) {
                       labelPlacement="start"
                     />
                     <label htmlFor="2">
-                      <span className={S.AgreeSubText}>
+                      <S.AgreeSubText>
                         (필수) 레모아 이용약관 동의
-                      </span>
+                      </S.AgreeSubText>
                     </label>
-                  </div>
-                  <div className={S.AgreeDetailBox}>
-                    <div className={S.DetailButton} onClick={onClickDetail1}>
+                  </S.AgreeCheckBox>
+                  <S.AgreeDetailBox>
+                    <S.DetailButton onClick={onClickDetail1}>
                       {detail1 === true ? "숨기기" : "자세히보기"}
-                    </div>
-                  </div>
-                </div>
+                    </S.DetailButton>
+                  </S.AgreeDetailBox>
+                </S.AgreeBox>
                 {detail1 && <Agree name={0} />}
 
                 {/*개인 정보 수집 및 처리 방침*/}
-                <div className={S.AgreeBox}>
-                  <div className={S.AgreeCheckBox}>
+                <S.AgreeBox>
+                  <S.AgreeCheckBox>
                     <FormControlLabel
                       value="개인 정보 수집"
                       control={
@@ -211,22 +188,22 @@ function Modal({ modalOpen }) {
                       labelPlacement="start"
                     />
                     <label htmlFor="3">
-                      <span className={S.AgreeSubText}>
+                      <S.AgreeSubText>
                         (필수) 개인정보 수집 및 처리에 대한 동의
-                      </span>
+                      </S.AgreeSubText>
                     </label>
-                  </div>
-                  <div className={S.AgreeDetailBox}>
-                    <div className={S.DetailButton} onClick={onClickDetail2}>
+                  </S.AgreeCheckBox>
+                  <S.AgreeDetailBox>
+                    <S.DetailButton onClick={onClickDetail2}>
                       {detail2 === true ? "숨기기" : "자세히보기"}
-                    </div>
-                  </div>
-                </div>
+                    </S.DetailButton>
+                  </S.AgreeDetailBox>
+                </S.AgreeBox>
                 {detail2 && <Agree name={1} />}
 
                 {/* (선택) E-mail 등 광고성 정보 수신 동의 */}
-                <div className={S.AgreeBox}>
-                  <div className={S.AgreeCheckBox}>
+                <S.AgreeBox>
+                  <S.AgreeCheckBox>
                     <FormControlLabel
                       value="수신 동의"
                       control={
@@ -245,22 +222,16 @@ function Modal({ modalOpen }) {
                       labelPlacement="start"
                     />
                     <label htmlFor="4">
-                      <span className={S.AgreeSubText}>
+                      <S.AgreeSubText>
                         (선택) E-mail 등 광고성 정보 수신 동의
-                      </span>
+                      </S.AgreeSubText>
                     </label>
-                  </div>
-                  <div className={S.AgreeDetailBox}>
-                    <div className={S.DetailButton} onClick={onClickDetail3}>
-                      {detail3 === true ? "숨기기" : "자세히보기"}
-                    </div>
-                  </div>
-                </div>
-                {detail3 && <Agree name={2} />}
+                  </S.AgreeCheckBox>
+                </S.AgreeBox>
 
                 {/* (필수) 본인은 만 14세 이상입니다 */}
-                <div className={S.AgreeBox}>
-                  <div className={S.AgreeCheckBox}>
+                <S.AgreeBox>
+                  <S.AgreeCheckBox>
                     <FormControlLabel
                       value="14세"
                       control={
@@ -277,27 +248,35 @@ function Modal({ modalOpen }) {
                       labelPlacement="start"
                     />
                     <label htmlFor="5">
-                        <span className={S.AgreeSubText}>
-                          (필수) 본인은 만 14세 이상입니다
-                          <br />
-                          <p style={{ fontSize: "13px", paddingLeft : "50px" , marginTop:"-8px"}}> 만 14세 이하 청소년은 본 서비스를 이용할 수 없습니다</p>
-                        </span>
+                      <S.AgreeSubText>
+                        (필수) 본인은 만 14세 이상입니다
+                        <br />
+                        <p
+                          style={{
+                            fontSize: "13px",
+                            paddingLeft: "50px",
+                            marginTop: "-8px",
+                          }}
+                        >
+                          만 14세 이하 청소년은 본 서비스를 이용할 수 없습니다
+                        </p>
+                      </S.AgreeSubText>
                     </label>
-                  </div>
-                </div>
+                  </S.AgreeCheckBox>
+                </S.AgreeBox>
               </FormGroup>
             </FormControl>
           </ThemeProvider>
-        </div>
-        <Button
+        </S.Box>
+        <S.Button
           disabled={!buttonColor}
           state={buttonColor}
           onClick={onClickStart}
         >
           레모아 시작하기
-        </Button>
-      </div>
-    </div>
+        </S.Button>
+      </S.Container>
+    </S.Wrapper>
   );
 }
 
