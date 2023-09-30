@@ -1,8 +1,10 @@
-.Container {
-  margin-right: 100px;
-}
+import styled from "styled-components"
 
-.Button{
+const Container =styled.div`
+  margin-right: 100px;
+`
+
+const Button = styled.button`
   width: 180px;
   height: 50px;
   background-color: white;
@@ -15,4 +17,11 @@
   &:nth-child(2) {
     margin-left: 5px;
   }
+`
+
+const S = {
+  Container,
+  Button
 }
+
+export default S;

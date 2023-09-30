@@ -1,6 +1,6 @@
 import React from "react";
 import AgreeList from "./AgreeList";
-import S from "./Agree.module.css";
+import S from "./Agree.styles";
 
 const Item = ({ text }) => {
   return (
@@ -17,9 +17,9 @@ const Item = ({ text }) => {
 
 function Agree(props) {
   return (
-    <div className={S.AgreeBox}>
+    <S.AgreeBox>
       <Item text={AgreeList[props.name].summary} />
-    </div>
+    </S.AgreeBox>
   );
 }
 
