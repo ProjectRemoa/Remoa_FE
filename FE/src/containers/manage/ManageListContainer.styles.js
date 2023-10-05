@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import "./ManageListContainer.module.css"
 
 const ManageListContainer = styled.div`
   max-width: 1270px;
