@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../../layout/Layout";
-import ManageContainer from "../../containers/manage/ManageContainer";
-import ManageListContainer from "../../containers/manage/ManageListContainer";
+import ManageContainer from "../../containers/manage/managecontainer";
+import ManageListContainer from "../../containers/manage/managelistcontainer";
 
 function ManageList() {
   return (

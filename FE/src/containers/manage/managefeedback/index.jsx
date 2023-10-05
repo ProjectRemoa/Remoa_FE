@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import {Link} from "react-router-dom";
-import styles from "./ManageFeedbackContainer.module.css";
-import imgCommentPagTest from "../../images/imgCommentPageTest.png";
-import imgMyProfile from "../../images/imgMyProfile.png";
 import axios from "axios";
 import styled from "styled-components";
 import { width } from "@mui/system";
 import { useNavigate } from "react-router-dom";
-import RefModal from "../modal/RefModalPages/RefModal"
+import RefModal from "../../modal/RefModalPages/RefModal"
 
 const Category = styled.div`
   width: 15.65%;

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import "./ManageShareContainer.scss";
+import "./ManageShareContainer.module.css";
 
 const Style = {
   Container: styled.div`

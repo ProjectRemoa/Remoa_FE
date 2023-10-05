@@ -15,9 +15,9 @@ import RefVideoPage from "./page/reference/RefVideoPage";
 import RefDesignPage from "./page/reference/RefDesignPage";
 import RefEtcPage from "./page/reference/RefEtcPage";
 
-import ManageList from "./page/management/ManageList";
-import ManageShare from "./page/management/ManageShare";
-import ManageFeedback from "./page/management/ManageFeedback";
+import ManageList from "./page/manage/ManageList";
+import ManageShare from "./page/manage/ManageShare";
+import ManageFeedback from "./page/manage/ManageFeedback";
 
 import PageProfile from "./page/mypage/PageProfile";
 import PageFollowing from "./page/mypage/PageFollowing";

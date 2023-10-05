@@ -1,8 +1,8 @@
 import Layout from "../../layout/Layout";
 import React, { useEffect, useState } from "react";
-import ManageContainer from "../../containers/manage/ManageContainer";
-import ManageShareContainer from "../../containers/manage/ManageShareContainer";
-import { useNavigate } from "react-router";
+import ManageContainer from "../../containers/manage/managecontainer";
+import ManageShareContainer from "../../containers/manage/manageshare";
+
 function ManageShare() {
   return (
     <Layout>
