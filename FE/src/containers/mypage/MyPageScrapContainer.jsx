@@ -1,7 +1,7 @@
 import { React, useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import ManageList from "../manage/ManageList";
-import "../manage/ManageListContainer.scss";
+//import "../manage/ManageListContainer.scss";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Style } from "../../layout/ReferenceListStyle";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,31 +8,11 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import RefModalFollow from "../modal/RefModalFollow";
+import S from "./ManageList.styles"
 
-const useStyles = makeStyles({
-  home: {
-    fontSize: "25px",
-  },
-  home2: {
-    fontSize: "22.5px",
-    color: "red",
-  },
-  arrow: {
-    fontSize: "25px",
-    color: "#FADA5E",
-    float: "left",
-    cursor: "pointer",
-    display: "block",
-    marginLeft: "20px",
-    fontWeight: "700",
-  },
-  star: {
-    color: "#FADA5E",
-  },
-});
 
 function ManageList(props) {
-  const classes = useStyles();
+  const classes = S.useStyles();
   const navigate = useNavigate();
 
   // 받아온 data 가공 필요
@@ -87,7 +66,9 @@ function ManageList(props) {
   }
 
   return (
-    <div>
+    <div style={{
+      width:"1780px"
+    }}>
       {data.map((mywork, index) => (
         <Style.ContestItem key={mywork.postId}>
           <Style.ContestImgCrop onClick={() => onModalHandler2(mywork.postId)}>

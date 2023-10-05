@@ -1,8 +1,6 @@
-@import "../../styles/utils.scss";
 
 .ManageListContainer {
   box-sizing: border-box;
-  //display: flex;
   align-items: center;
   margin: 0 auto;
   border-radius: 30px;
@@ -18,12 +16,11 @@
   }
 
   .form_radio_btn {
-    width: 15.65%; // 이건 6개의 카테고리일 때
-    //width: 19%; // 이건 5개의 카테고리일 때
+    width: 15.65%; /* 이건 6개의 카테고리일 때*/
     border: 1px solid #b0b0b0;
     border-radius: 10px;
     display: inline-block;
-    margin: 0 0.4% 10px 0.4%; // 크기에 따라 margin 조절되게 설정
+    margin: 0 0.4% 10px 0.4%; /* 크기에 따라 margin 조절되게 설정 */
   }
 
   .form_radio_btn input[type="radio"] {

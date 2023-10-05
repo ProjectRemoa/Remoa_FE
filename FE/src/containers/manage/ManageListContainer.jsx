@@ -1,60 +1,10 @@
 import { React, useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import ManageList from "./ManageList";
-import "./ManageListContainer.scss";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { Style } from "../../layout/ReferenceListStyle";
-
-const Button = styled.button`
-  width: 12%;
-  height: 40px;
-  margin: 0 auto;
-  border-radius: 10px;
-  border: 1px solid #b0b0b0;
-  box-shadow: none;
-  color: #464646;
-  font-size: 78%;
-
-  cursor: pointer;
-  background: #fada5e;
-  font-family: NotoSansKR-700;
-`;
-
-const ButtonRegister = styled.button`
-  width: 15%;
-  min-width: 280px;
-
-  height: 50px;
-  margin: 0 auto;
-  border: none;
-  border-radius: 30px;
-  box-shadow: none;
-  color: #010101;
-
-  cursor: pointer;
-  background: #fada5e;
-  font-family: NotoSansKR-700;
-`;
-
-const Line = styled.hr`
-  width: 90%;
-  border: none;
-  margin: 0 auto;
-`;
-
-const Category = styled.div`
-  width: 15.65%;
-  height: 43px;
-  border: 1px solid #b0b0b0;
-  border-radius: 10px;
-  display: inline-block;
-
-  margin: 0 0.4% 0 0.4%; // 크기에 따라 margin 조절되게 설정
-  vertical-align: middle;
-  font-size: 80%;
-  cursor: pointer;
-`;
+import S from "./ManageListContainer.styles"
 
 function ManageListContainer() {
   const [mywork, setMywork] = useState([]);
@@ -69,6 +19,7 @@ function ManageListContainer() {
 
   const [selectedSortIndex, setSekectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
 
+  const [checkIdx, setCheckIdx] = useState([1,0,0,0,0,0]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -85,6 +36,13 @@ function ManageListContainer() {
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
+    if (category === "all") setCheckIdx([1,0,0,0,0,0]);
+    if (category === "idea") setCheckIdx([0,1,0,0,0,0]);
+    if (category === "marketing") setCheckIdx([0,0,1,0,0,0]);
+    if (category === "video") setCheckIdx([0,0,0,1,0,0]);
+    if (category === "design") setCheckIdx([0,0,0,0,1,0]);
+    if (category === "etc") setCheckIdx([0,0,0,0,0,1]);
+
     setSekectedSortIndex(0);
     setPageNumber(1);
     setTotalPages(1);
@@ -146,145 +104,67 @@ function ManageListContainer() {
     navigate("/manage/share");
   };
   return (
-    <div className="ManageListContainer">
-      <div
-        align="left"
-        style={{
-          fontFamily: "NotoSansKR-700",
-          margin: "30px auto",
-          fontSize: "1.8vw",
-        }}
-      >
-        <span style={{ color: "#FADA5E" }}>
+    <S.ManageListContainer>
+      <S.ManageTextBox>
+        <S.ManageNameText>
           {sessionStorage.getItem("nickname")}
-        </span>
+        </S.ManageNameText>
         님의 내 작업물 목록
-      </div>
-      <div
-        align="center"
-        style={{
-          paddingBottom: "30px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Category
-          state="all"
+      </S.ManageTextBox>
+      <S.CategoryBox>
+        <S.Category
           onClick={() => onChangeCategory("all")}
-          style={{
-            backgroundColor: categoryName === "all" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "all"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "all" ? "white" : "#B0B0B0",
-          }}
+          checked={checkIdx[0]}
         >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            전체
-          </span>
-        </Category>
-        <Category
+          <S.CategoryText>전체</S.CategoryText>
+        </S.Category>
+        <S.Category
           onClick={() => onChangeCategory("idea")}
-          style={{
-            backgroundColor: categoryName === "idea" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "idea"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "idea" ? "white" : "#B0B0B0",
-          }}
+          checked={checkIdx[1]}
         >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            기획/아이디어
-          </span>
-        </Category>
-        <Category
+          <S.CategoryText>기획/아이디어</S.CategoryText>
+        </S.Category>
+        <S.Category
           onClick={() => onChangeCategory("marketing")}
-          style={{
-            backgroundColor:
-              categoryName === "marketing" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "marketing"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "marketing" ? "white" : "#B0B0B0",
-          }}
+          checked={checkIdx[2]}
         >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            광고/마케팅
-          </span>
-        </Category>
-        <Category
+          <S.CategoryText>광고/마케팅</S.CategoryText>
+        </S.Category>
+        <S.Category
           onClick={() => onChangeCategory("video")}
-          style={{
-            backgroundColor: categoryName === "video" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "video"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "video" ? "white" : "#B0B0B0",
-          }}
+          checked={checkIdx[3]}
         >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            영상
-          </span>
-        </Category>
-        <Category
+          <S.CategoryText>영상</S.CategoryText>
+        </S.Category>
+        <S.Category
           onClick={() => onChangeCategory("design")}
-          style={{
-            backgroundColor: categoryName === "design" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "design"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "design" ? "white" : "#B0B0B0",
-          }}
+          checked={checkIdx[4]}
         >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            디자인/사진
-          </span>
-        </Category>
-        <Category
+          <S.CategoryText>디자인/사진</S.CategoryText>
+        </S.Category>
+        <S.Category
           onClick={() => onChangeCategory("etc")}
-          style={{
-            backgroundColor: categoryName === "etc" ? "#fada5e" : "#f9fafc",
-            boxShadow:
-              categoryName === "etc"
-                ? "none"
-                : "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            color: categoryName === "etc" ? "white" : "#B0B0B0",
-          }}
+          checked={checkIdx[5]}
         >
-          <span style={{ display: "inline-block", marginTop: "10px" }}>
-            기타 아이디어
-          </span>
-        </Category>
-      </div>
+          <S.CategoryText>기타 아이디어</S.CategoryText>
+        </S.Category>
+      </S.CategoryBox>
 
-      <div>
+      <>
         {!totalOfAllReferences ? (
-          <div style={{ marginTop: "50px" }}>
-            <p
-              style={{
-                fontSize: "2vw",
-                color: "#464646",
-                fontFamily: "NotoSansKR-700",
-                marginBottom: "5px",
-              }}
-            >
-              아직 작업물이 없어요
-            </p>
-            <p style={{ fontSize: "1.2vw" }}>
+          <S.ManageListNo>
+            <S.NoManageText>아직 작업물이 없어요</S.NoManageText>
+            <S.NoManageSubText>
               작업물을 업로드해 다른 사람들의 피드백을 받아보세요
-            </p>
-            <ButtonRegister onClick={onClickRegister}>등록하기</ButtonRegister>
-          </div>
+            </S.NoManageSubText>
+            <S.ButtonRegister onClick={onClickRegister}>
+              등록하기
+            </S.ButtonRegister>
+          </S.ManageListNo>
         ) : (
-          <div>
+          <S.ManageListBox>
             {/* 정렬순 */}
-            <div style={{ float: "right", margin: "5px 10px 15px 0px" }}>
+            <S.SortBox>
               <Style.Sort
                 onClick={() => handleSortClick(0)}
                 style={{
@@ -321,8 +201,8 @@ function ManageListContainer() {
               >
                 스크랩순
               </Style.Sort>
-            </div>
-            <Line />
+            </S.SortBox>
+            <S.Line />
             <ManageList
               data={mywork}
               TAR={totalOfAllReferences}
@@ -334,17 +214,17 @@ function ManageListContainer() {
                 margin: "0 auto",
               }}
             >
-              <Line />
+              <S.Line />
               {currentPage !== totalPages && (
                 <div style={{ width: "100%" }}>
-                  <Button onClick={loadMoreItems}>더 보기 &gt;</Button>
+                  <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
                 </div>
               )}
             </div>
-          </div>
+          </S.ManageListBox>
         )}
-      </div>
-    </div>
+      </>
+    </S.ManageListContainer>
   );
 }
 
