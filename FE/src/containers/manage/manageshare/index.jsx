@@ -2,40 +2,8 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import "./ManageShareContainer.module.css";
+import S from './ManageShareContainer.styles'
 
-const Style = {
-  Container: styled.div`
-    box-sizing: border-box;
-    background: #ffffff;
-    border: 1px solid #d0d0d0;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
-    min-width: 480px;
-    max-width: 1440px;
-    width: 85%;
-    //padding: 0 20%;
-  `,
-  Button: styled.button`
-    width: 60%;
-    max-width: 1200px;
-    height: 60px;
-    background: ${(props) => (props.state ? "#FADA5E" : "#C8D1E0")};
-    color: ${(props) => (props.state ? "#010101" : "white")};
-
-    border-radius: 30px;
-    border: #fff48c;
-    font-family: "NotoSansKR-700";
-    font-size: 1rem;
-    text-align: center;
-    cursor: ${(props) => (props.state ? "pointer" : "default")};
-    box-shadow: none;
-
-    margin: 0 auto;
-  `,
-};
 
 /* byte 수 세는 알고리즘 */
 function getByteLength(s, b, i, c) {
@@ -52,6 +20,7 @@ function ManageShareContainer({ match }) {
   const [category, setCategory] = useState("");
   const [youtubeLink, setYoutubeLink] = useState("");
   const [uploads, setUploads] = useState([]);
+  const [checked, setChecked] = useState([1, 0, 0, 0, 0]);
 
   const [buttonColor, setButtonColor] = useState(false);
 
@@ -73,11 +42,16 @@ function ManageShareContainer({ match }) {
   };
 
   /* 카테고리 */
-  const onChangeCategory = (e) => {
-    setCategory(e.target.value);
-    if (e.target.value === "video") {
+  const onChangeCategory = (name) => {
+    setCategory(name);
+    if (name === "idea") setChecked([1, 0, 0, 0, 0]);    
+    if (name === "marketing") setChecked([0, 1, 0, 0, 0]);
+    if (name === "video") {
+      setChecked([0, 0, 1, 0, 0]);
       setUploads([]); // 초기화
     }
+    if (name === "design") setChecked([0, 0, 0, 1, 0]);
+    if (name === "etc") setChecked([0, 0, 0, 0, 1]);
   };
 
   const onChangeYoutubeLink = (e) => {
@@ -281,26 +255,17 @@ function ManageShareContainer({ match }) {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        marginTop: "50px",//"100px",
-        fontFamily: "NotoSansKR-400",
-      }}
-    >
-      <div className="ManageShareContainer">
-        <table className="table">
+    <S.ManageShareContainer>
+      <S.ManageShareBox>
+        <S.ManageShareTable>
           <tbody>
             {/* 작품명 */}
             <tr>
-              <th className="th">
-                <label>작품명</label>
-              </th>
-              <td className="td">
+              <th>작품명</th>
+              <td>
                 <input
                   required
                   type="email"
-                  className="input"
                   placeholder="작품명을 입력해주세요"
                   onChange={onChangeName}
                   value={name}
@@ -309,13 +274,10 @@ function ManageShareContainer({ match }) {
             </tr>
             {/* 참가 공모전 */}
             <tr>
-              <th className="th">
-                <label>참가 공모전</label>
-              </th>
-              <td className="td">
+              <th>참가 공모전</th>
+              <td>
                 <input
                   required
-                  className="input"
                   type="text"
                   placeholder="공모전을 검색하거나 등록해보세요"
                   onChange={onChangeComp}
@@ -323,91 +285,51 @@ function ManageShareContainer({ match }) {
                 />
               </td>
             </tr>
-            {/* 수상 결과 */}
-            <tr>
-              <th className="th">
-                <label>수상 결과</label>
-              </th>
-
-              {/*<td className="td">*/}
-              <select style={{ float: "left", width: "58.5%" }}>
-                <option key="수상작" value="수상작" onChange={onChangeRes}>
-                  수상작
-                </option>
-                <option key="참가작" value="참가작" onChange={onChangeRes}>
-                  참가작
-                </option>
-              </select>
-            </tr>
             {/* 카테고리 */}
             <tr>
-              <th className="th" style={{ verticalAlign: "top" }}>
-                <label>카테고리</label>
-              </th>
-              <td className="td">
-                <div style={{ width: "65%" }}>
-                  <div className="form_radio_btn" style={{ float: "left" }}>
-                    <input
-                      id="radio-1"
-                      type="radio"
-                      name="category"
-                      value="idea"
-                      onChange={onChangeCategory}
-                    />
-                    <label htmlFor="radio-1">기획/아이디어</label>
-                  </div>
-                  <div className="form_radio_btn" style={{ float: "left" }}>
-                    <input
-                      id="radio-2"
-                      type="radio"
-                      name="category"
-                      value="marketing"
-                      onChange={onChangeCategory}
-                    />
-                    <label htmlFor="radio-2">광고/마케팅</label>
-                  </div>
-                  <div className="form_radio_btn" style={{ float: "left" }}>
-                    <input
-                      id="radio-3"
-                      type="radio"
-                      name="category"
-                      value="video"
-                      onChange={onChangeCategory}
-                    />
-                    <label htmlFor="radio-3">영상</label>
-                  </div>
-                </div>
-                <div style={{ width: "65%" }}>
-                  <div className="form_radio_btn" style={{ float: "left" }}>
-                    <input
-                      id="radio-4"
-                      type="radio"
-                      name="category"
-                      value="design"
-                      onChange={onChangeCategory}
-                    />
-                    <label htmlFor="radio-4">디자인/사진</label>
-                  </div>
-                  <div className="form_radio_btn" style={{ float: "left" }}>
-                    <input
-                      id="radio-5"
-                      type="radio"
-                      name="category"
-                      value="etc"
-                      onChange={onChangeCategory}
-                    />
-                    <label htmlFor="radio-5">기타 아이디어</label>
-                  </div>
-                </div>
+              <th style={{ verticalAlign: "top" }}>카테고리</th>
+              <td>
+                <S.CategoryButtonBoxTop>
+                  <S.Category
+                    checked={checked[0]}
+                    onClick={() => onChangeCategory("idea")}
+                  >
+                    기획/아이디어
+                  </S.Category>
+                  <S.Category
+                    checked={checked[1]}
+                    onClick={() => onChangeCategory("marketing")}
+                  >
+                    광고/마케팅
+                  </S.Category>
+                  <S.Category
+                    checked={checked[2]}
+                    onClick={() => onChangeCategory("video")}
+                  >
+                    영상
+                  </S.Category>
+                </S.CategoryButtonBoxTop>
+                <S.CategoryButtonBoxBottom>
+                  <S.Category
+                    checked={checked[3]}
+                    onClick={() => onChangeCategory("design")}
+                  >
+                    디자인/사진
+                  </S.Category>
+                  <S.Category
+                    checked={checked[4]}
+                    onClick={() => onChangeCategory("etc")}
+                  >
+                    기타 아이디어
+                  </S.Category>
+                </S.CategoryButtonBoxBottom>
               </td>
             </tr>
             {/* 유튜브 링크 */}
             {category === "video" && (
               <tr>
-                <th className="th">
-                  <label>유튜브 링크</label>
-                </th>
-                <td className="td">
+                <th>유튜브 링크</th>
+                <td>
                   <input
                     required
                     type="text"
@@ -421,10 +343,8 @@ function ManageShareContainer({ match }) {
 
             {/* 표지사진 */}
             <tr>
-              <th className="th">
-                <label>표지사진</label>
-              </th>
-              <td className="td">
+              <th>표지사진</th>
+              <td>
                 <div
                   className="input"
                   style={{
@@ -465,10 +385,8 @@ function ManageShareContainer({ match }) {
             {/* 첨부파일 */}
             {category !== "video" && (
               <tr>
-                <th className="th" style={{ verticalAlign: "top" }}>
-                  <label>첨부파일</label>
-                </th>
-                <td className="td">
+                <th style={{ verticalAlign: "top" }}>첨부파일</th>
+                <td>
                   <div
                     style={{
                       width: "60%",
@@ -524,17 +442,17 @@ function ManageShareContainer({ match }) {
               </tr>
             )}
           </tbody>
-        </table>
-      </div>
-      <Style.Button
+        </S.ManageShareTable>
+      </S.ManageShareBox>
+      <S.Button
         disabled={!buttonColor}
         state={buttonColor}
         onClick={onClickRegister}
         style={{ marginTop: "30px", marginBottom: "30px" }}
       >
         등록하기
-      </Style.Button>
-    </div>
+      </S.Button>
+    </S.ManageShareContainer>
   );
 }
 

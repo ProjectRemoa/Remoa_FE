@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const ManageListContainer = styled.div`
-  max-width: 1270px;
+  width: 1270px;
 `
 
 const ManageTextBox = styled.div`
@@ -10,6 +10,7 @@ const ManageTextBox = styled.div`
   text-align: left;
   margin-top:72px;
   margin-bottom: 15px;
+  color: #464646;
 `
 const ManageNameText = styled.span`
   color: #fada5e;
@@ -75,16 +76,14 @@ const Button = styled.button`
 `;
 
 const ButtonRegister = styled.button`
-  width: 15%;
-  min-width: 280px;
-
-  height: 50px;
-  margin: 0 auto;
+  width: 446px;
+  height: 68px;
+  margin-top: 72px;
+  font-size: 20px;
   border: none;
   border-radius: 30px;
   box-shadow: none;
   color: #010101;
-
   cursor: pointer;
   background: #fada5e;
   font-family: NotoSansKR-700;
@@ -99,7 +98,7 @@ const Line = styled.hr`
 const CategoryBox = styled.div`
   display: flex;
   justify-content:space-between;
-  align-items:center;
+  //align-items:center;
   
 `
 

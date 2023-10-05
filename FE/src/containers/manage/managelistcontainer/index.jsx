@@ -23,7 +23,6 @@ function ManageListContainer() {
 
   useEffect(() => {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
-    console.log("카테고리, 또는 정렬을 바꿀 때마다 렌더링");
     let endpoint;
     endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
     getWork(endpoint, false);

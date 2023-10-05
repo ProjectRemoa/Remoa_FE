@@ -35,7 +35,7 @@
   }
 
   .form_radio_btn label {
-    display: block;
+    /*display: block;*/
     cursor: pointer;
     border-radius: 10px;
     font-size: 0.8rem;

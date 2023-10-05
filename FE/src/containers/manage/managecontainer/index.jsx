@@ -2,20 +2,19 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import S from "./ManageContainer.styles"
 
-
 function ManageContainer() {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const listOnClick = () => {
-    Navigate("/manage/list");
+    navigate("/manage/list");
   };
 
   const shareOnClick = () => {
-    Navigate("/manage/share");
+    navigate("/manage/share");
   };
 
   const feedbackOnClick = () => {
-    Navigate("/manage/feedback");
+    navigate("/manage/feedback");
   };
 
   return (
