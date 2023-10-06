@@ -63,7 +63,7 @@ function RefCard({ data, onSelectedData }) {
           <RefCardFunctionWrapper>
             {/* 조회수 */}
             <RefCardFunctionIcon>
-              <GoEye className="views" /> <span>{formatCount(views)}</span>
+              <GoEye className="views" /> {formatCount(views)}
             </RefCardFunctionIcon>
 
             {/* 좋아요 */}
