@@ -80,6 +80,28 @@ const RefCardProfileName = styled.div`
 const RefCardFunctionWrapper = styled.div`
   display: flex;
   margin-left: auto;
+  gap: 0 10px;
+`;
+
+const RefCardFunctionIcon = styled.div`
+  display: inline-flex;
+  align-items: center;
+
+  svg {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    &.views {
+      font-weight: bold;
+    }
+    &.likes {
+      fill: #f24e1e;
+    }
+    &.scrap {
+      fill: #fada5e;
+    }
+  }
 `;
 
 const StyledComponents = {
@@ -93,6 +115,7 @@ const StyledComponents = {
   RefCardInfo,
   RefCardProfileName,
   RefCardFunctionWrapper,
+  RefCardFunctionIcon,
 };
 
 export default StyledComponents;

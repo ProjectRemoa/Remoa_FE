@@ -1,3 +1,6 @@
+import { GoEye, GoStarFill } from 'react-icons/go';
+import { FaHeart } from 'react-icons/fa';
+
 import StyledComponents from './RefCard.styles';
 const {
   RefCardWrapper,
@@ -9,6 +12,7 @@ const {
   RefCardProfileName,
   RefCardInfo,
   RefCardFunctionWrapper,
+  RefCardFunctionIcon,
 } = StyledComponents;
 
 function RefCard({ data, onSelectedData }) {
@@ -22,26 +26,48 @@ function RefCard({ data, onSelectedData }) {
     views,
   } = data;
 
+  const formatCount = (count) => {
+    if (count >= 1000) {
+      return `${(count / 1000).toFixed(1)}k`;
+    }
+    return count;
+  };
+
   return (
     <RefCardWrapper>
+      {/* 썸네일  */}
       <RefCardThumbnailWrapper onClick={() => onSelectedData(data)}>
         <RefCardThumbnail src={postThumbnail} />
       </RefCardThumbnailWrapper>
 
+      {/* 타이틀 */}
       <RefCardTitle>{title}</RefCardTitle>
 
       <RefCardProfileWrapper>
+        {/* 프로필 이미지 */}
         <RefCardProfileImg>
           <img src={postMember.profileImage} alt="profile image" />
         </RefCardProfileImg>
 
+        {/*  사용자 정보 */}
         <RefCardInfo>
           <RefCardProfileName>{postMember.nickname}</RefCardProfileName>
 
           <RefCardFunctionWrapper>
-            <div>좋아요 {likeCount}</div>
-            <div>스크랩 {scrapCount}</div>
-            <div>조회수 {views}</div>
+            {/* 조회수 */}
+            <RefCardFunctionIcon>
+              <GoEye className="views" /> <span>{formatCount(views)}</span>
+            </RefCardFunctionIcon>
+
+            {/* 좋아요 */}
+            <RefCardFunctionIcon>
+              <FaHeart className="likes" /> {formatCount(likeCount)}
+            </RefCardFunctionIcon>
+
+            {/* 스크랩 */}
+            <RefCardFunctionIcon>
+              <GoStarFill className="scrap" /> {formatCount(scrapCount)}
+            </RefCardFunctionIcon>
           </RefCardFunctionWrapper>
         </RefCardInfo>
       </RefCardProfileWrapper>
