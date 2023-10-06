@@ -1,8 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import RefSearchResult from '../RefSearchResult';
-import RefListWrapper from '../RefListWrapper';
 
 // 스타일 컴포넌트
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,7 +16,7 @@ const useStyles = makeStyles({
 });
 
 // TODO : react-hook-form으로 성능 개선 적용, 컴포넌트 재활용을 위해 RefListWrapper로 바로 넘기지 않도록 분리
-function RefSearch() {
+function RefSearch({ onSearch }) {
   const searchRef = useRef(null);
   const classes = useStyles();
 
@@ -31,15 +27,15 @@ function RefSearch() {
   //   console.log('현재 검색어', searchTerm);
   // }, [searchTerm]);
 
-  const searchInput = () => {
-    const searchKeyword = searchRef.current.value;
-    setSearchTerm(searchKeyword);
+  const handleSearch = () => {
+    onSearch(searchTerm);
   };
 
   // 검색 핸들러 함수
-  const handleSearchTerm = () => {
-    const searchKeyword = searchRef.current.value;
-    setSearchTerm(searchKeyword);
+  const onKeyDownSearch = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
@@ -47,7 +43,7 @@ function RefSearch() {
       <Title>공모전 이름이나 종류를 검색해보세요</Title>
 
       <SearchBar>
-        <SearchButton onClick={searchInput}>
+        <SearchButton onClick={handleSearch}>
           <SearchIcon className={classes.home} />
         </SearchButton>
 
@@ -57,11 +53,10 @@ function RefSearch() {
           value={searchTerm}
           autocomplete="false"
           spellCheck="false"
-          onChange={handleSearchTerm}
+          onChange={() => setSearchTerm(searchRef.current.value)}
+          onKeyDown={onKeyDownSearch}
         />
       </SearchBar>
-
-      <RefListWrapper search={searchTerm} />
     </SearchDiv>
   );
 }

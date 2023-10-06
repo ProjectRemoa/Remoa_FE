@@ -5,7 +5,7 @@ const SearchDiv = styled.div`
   flex-direction: column;
   align-items: center;
   width: 86vw;
-  margin-top: 23px;
+  margin: 0 auto;
 `;
 
 const Title = styled.div`
@@ -17,7 +17,7 @@ const Title = styled.div`
   font-size: 18px;
 `;
 
-const SearchBar = styled.form`
+const SearchBar = styled.div`
   display: flex;
   gap: 0 4px;
   width: 469px;
