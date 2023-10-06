@@ -88,7 +88,9 @@ export default function RefListContainer({ search: searchKeyword }) {
     <RefListWrapper>
       <RefListHeader>
         <RefListHeading>
-          <span>{category.text}&nbsp;</span>
+          <span>
+            {searchKeyword !== '' ? searchKeyword : category.text}&nbsp;
+          </span>
           공모전의 레퍼런스를 찾아보세요
         </RefListHeading>
 

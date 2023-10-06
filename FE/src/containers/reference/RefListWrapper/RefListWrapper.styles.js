@@ -17,7 +17,6 @@ const RefListHeader = styled.div`
 const RefListHeading = styled.div`
   display: flex;
   width: 86vw;
-  height: 24px;
 
   // TODO : reset.css
   font-family: 'Noto Sans KR';
@@ -27,7 +26,11 @@ const RefListHeading = styled.div`
   line-height: 30px;
 
   span {
+    max-width: 20ch;
     color: #fada5e;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   @media ${(props) => props.theme.desktop} {
