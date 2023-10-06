@@ -1,34 +1,34 @@
-import { React, useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import { Style } from "../../layout/ReferenceListStyle";
-import RefModal from "../modal/RefModal";
-import { Link } from "react-router-dom";
-import RefModalFollow from "../modal/RefModalFollow";
-import StarIcon from "@mui/icons-material/Star";
-import axios from "axios";
+import { React, useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import { Style } from '../../layout/ReferenceListStyle';
+import RefModal from '../modal/RefModal';
+import { Link } from 'react-router-dom';
+import RefModalFollow from '../modal/RefModalFollow';
+import StarIcon from '@mui/icons-material/Star';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   home: {
-    fontSize: "25px",
+    fontSize: '25px',
   },
   home2: {
-    fontSize: "22.5px",
-    color: "red",
+    fontSize: '22.5px',
+    color: 'red',
   },
   arrow: {
-    fontSize: "22.5px",
-    color: "#FADA5E",
-    float: "left",
-    cursor: "pointer",
-    display: "block",
-    marginLeft: "20px",
-    fontWeight: "700",
+    fontSize: '22.5px',
+    color: '#FADA5E',
+    float: 'left',
+    cursor: 'pointer',
+    display: 'block',
+    marginLeft: '20px',
+    fontWeight: '700',
   },
   star: {
-    fontSize: "22.5px",
-    color: "#FADA5E",
+    fontSize: '22.5px',
+    color: '#FADA5E',
   },
 });
 
@@ -36,13 +36,13 @@ const RefList = (props) => {
   const classes = useStyles();
   /* 이 부분 ideas에 axios로 받아 온다 (전체 레퍼런스)*/
   let [data, setData] = useState([]);
-  let [name, setName] = useState("");
-  let [sort, setSort] = useState("newest");
+  let [name, setName] = useState('');
+  let [sort, setSort] = useState('newest');
   let [page, setPage] = useState(1);
-  let [category, setCatgory] = useState("etc");
+  let [category, setCatgory] = useState('etc');
 
   /* 이 부분 users에 axios로 받아 온다 (전체 유저)*/
-  let [user, setUser] = useState("");
+  let [user, setUser] = useState('');
 
   useEffect(() => {
     const endpoint = `/BE/reference?page=${page}&sort=${sort}&category=${props.kind}&title=${props.name}`;
@@ -51,7 +51,7 @@ const RefList = (props) => {
       .get(endpoint)
       .then((res) => {
         setData(res.data.data.references);
-        console.log(res.data.data);
+        console.log('현재 받아온 데이터 목록', res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -63,53 +63,53 @@ const RefList = (props) => {
 
   const onClickDate = () => {
     /*이부분에 axios*/
-    setSort("newest");
+    setSort('newest');
 
-    document.getElementById("b1").style.backgroundColor = "#FADA5E";
-    document.getElementById("b2").style.backgroundColor = "white";
-    document.getElementById("b3").style.backgroundColor = "white";
-    document.getElementById("b4").style.backgroundColor = "white";
+    document.getElementById('b1').style.backgroundColor = '#FADA5E';
+    document.getElementById('b2').style.backgroundColor = 'white';
+    document.getElementById('b3').style.backgroundColor = 'white';
+    document.getElementById('b4').style.backgroundColor = 'white';
   };
 
   const onClickHits = () => {
     /*이부분에 axios*/
-    setSort("view");
+    setSort('view');
 
-    document.getElementById("b1").style.backgroundColor = "white";
-    document.getElementById("b2").style.backgroundColor = "#FADA5E";
-    document.getElementById("b3").style.backgroundColor = "white";
-    document.getElementById("b4").style.backgroundColor = "white";
+    document.getElementById('b1').style.backgroundColor = 'white';
+    document.getElementById('b2').style.backgroundColor = '#FADA5E';
+    document.getElementById('b3').style.backgroundColor = 'white';
+    document.getElementById('b4').style.backgroundColor = 'white';
   };
 
   const onClickThumbs = () => {
     /*이부분에 axios*/
-    setSort("like");
+    setSort('like');
 
-    document.getElementById("b1").style.backgroundColor = "white";
-    document.getElementById("b2").style.backgroundColor = "white";
-    document.getElementById("b3").style.backgroundColor = "#FADA5E";
-    document.getElementById("b4").style.backgroundColor = "white";
+    document.getElementById('b1').style.backgroundColor = 'white';
+    document.getElementById('b2').style.backgroundColor = 'white';
+    document.getElementById('b3').style.backgroundColor = '#FADA5E';
+    document.getElementById('b4').style.backgroundColor = 'white';
   };
 
   const onClickScrap = () => {
-    setSort("scrap");
+    setSort('scrap');
 
-    document.getElementById("b1").style.backgroundColor = "white";
-    document.getElementById("b2").style.backgroundColor = "white";
-    document.getElementById("b3").style.backgroundColor = "white";
-    document.getElementById("b4").style.backgroundColor = "#FADA5E";
+    document.getElementById('b1').style.backgroundColor = 'white';
+    document.getElementById('b2').style.backgroundColor = 'white';
+    document.getElementById('b3').style.backgroundColor = 'white';
+    document.getElementById('b4').style.backgroundColor = '#FADA5E';
   };
 
   useEffect(() => {
     onClickDate();
   }, []);
 
-  const [modalVisibleId, setModalVisibleId] = useState("");
+  const [modalVisibleId, setModalVisibleId] = useState('');
   const onModalHandler = (id) => {
     setModalVisibleId(id);
   };
 
-  const [modalVisibleId2, setModalVisibleId2] = useState("");
+  const [modalVisibleId2, setModalVisibleId2] = useState('');
 
   const [modal, setModal] = useState(false);
   const onClickModal = (idea, postId) => {
@@ -195,9 +195,9 @@ const RefList = (props) => {
           <Style.ProfileInfo>
             <Style.ProfileFont>{idea.title}</Style.ProfileFont>
 
-            <table style={{ position: "absolute", top: "30px" }}>
+            <table style={{ position: 'absolute', top: '30px' }}>
               <tbody>
-                <tr style={{ width: "3vw" }}>
+                <tr style={{ width: '3vw' }}>
                   <td>
                     <Style.ProfileSize
                       src={idea.postMember.profileImage}
@@ -221,7 +221,7 @@ const RefList = (props) => {
                         );
                       }}
                     />
-                    {modalVisibleId !== "" && (
+                    {modalVisibleId !== '' && (
                       <RefModalFollow
                         id={idea.postId}
                         modalVisibleId={modalVisibleId}
@@ -241,15 +241,15 @@ const RefList = (props) => {
                   </td>
                   <td>
                     <span
-                      style={{ left: "6vw", position: "absolute", top: "1vw" }}
+                      style={{ left: '6vw', position: 'absolute', top: '1vw' }}
                     >
                       {idea.postMember.nickname}
                     </span>
                   </td>
                 </tr>
-                <tr style={{ width: "17vw" }}>
+                <tr style={{ width: '17vw' }}>
                   <td></td>
-                  <td style={{ position: "relative", right: "50px" }}>
+                  <td style={{ position: 'relative', right: '50px' }}>
                     <Style.ProfileInfoDetail>
                       <RemoveRedEyeOutlinedIcon className={classes.home} />
                       &nbsp;{idea.views}&nbsp; &nbsp;
@@ -265,7 +265,7 @@ const RefList = (props) => {
           </Style.ProfileInfo>
         </Style.ContestItem>
       ))}
-      {modalVisibleId2 !== "" && (
+      {modalVisibleId2 !== '' && (
         <RefModal
           id2={postId}
           modalVisibleId2={modalVisibleId2}
