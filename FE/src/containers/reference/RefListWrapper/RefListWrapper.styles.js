@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const RefListWrapper = styled.div`
   width: 86vw;
-  margin-top: 94px;
+  margin: 94px auto 0;
   display: flex;
   flex-direction: column;
 `;
