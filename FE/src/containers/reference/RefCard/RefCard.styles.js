@@ -46,6 +46,7 @@ const RefCardTitle = styled.p`
 `;
 
 const RefCardProfileWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
 

@@ -2,6 +2,7 @@ import { GoEye, GoStarFill } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 
 import StyledComponents from './RefCard.styles';
+import { useState } from 'react';
 const {
   RefCardWrapper,
   RefCardThumbnailWrapper,
@@ -26,6 +27,8 @@ function RefCard({ data, onSelectedData }) {
     views,
   } = data;
 
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
   const formatCount = (count) => {
     if (count >= 1000) {
       return `${(count / 1000).toFixed(1)}k`;
@@ -45,7 +48,11 @@ function RefCard({ data, onSelectedData }) {
 
       <RefCardProfileWrapper>
         {/* 프로필 이미지 */}
-        <RefCardProfileImg>
+        <RefCardProfileImg
+          onClick={() => {
+            setIsProfileModalOpen(!isProfileModalOpen);
+          }}
+        >
           <img src={postMember.profileImage} alt="profile image" />
         </RefCardProfileImg>
 
@@ -70,6 +77,20 @@ function RefCard({ data, onSelectedData }) {
             </RefCardFunctionIcon>
           </RefCardFunctionWrapper>
         </RefCardInfo>
+
+        {/* 프로필 모달 */}
+        {isProfileModalOpen && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '98%',
+              left: '45px',
+              zIndex: '100',
+            }}
+          >
+            프로필 모달
+          </div>
+        )}
       </RefCardProfileWrapper>
     </RefCardWrapper>
   );
