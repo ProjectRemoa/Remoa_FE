@@ -1,46 +1,20 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import styled from "styled-components";
-import MyPageScrapContainer from "./MyPageScrapContainer";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import RefModal from "../modal/RefModal";
-
-const Button = styled.button`
-  width: 12%;
-  height: 40px;
-  margin: 0 auto;
-  border-radius: 10px;
-  border: 1px solid #b0b0b0;
-  box-shadow: none;
-  color: #464646;
-  font-size: 78%;
-
-  cursor: pointer;
-  background: #fada5e;
-  font-family: NotoSansKR-700;
-`;
-
-const Line = styled.hr`
-  width: 90%;
-  border: none; //1px solid gray;
-  margin: 0 auto;
-`;
+import axios from "axios";
+import MyPageScrapContainer from "../MyPageScrapContainer";
+import RefModal from "../../modal/RefModal";
+import styledComponent from "./MyPageWorkContainer.styles";
+const { Wrapper, CommentContainer, ButtonContainer, Button, NullData } =
+  styledComponent;
 
 function MyPageWorkContainer() {
+  const navigate = useNavigate();
   const [data, setData] = useState({});
   const [allComments, setAllComments] = useState(0);
   const [myFeedback, setMyFeedback] = useState("");
   const [myScrapCount, setMyScrapCount] = useState(0);
-
   const [postId, setPostId] = useState(0);
   const [modalVisibleId, setModalVisibleId] = useState("");
-
-  const navigate = useNavigate();
-
-  const onClickMoreScrap = () => {
-    navigate("/mypage/scrap");
-  };
 
   useEffect(() => {
     axios
@@ -85,6 +59,7 @@ function MyPageWorkContainer() {
             >
               <img
                 src={data.thumbnail}
+                alt=""
                 style={{
                   filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
                   margin: "2%",
@@ -190,6 +165,7 @@ function MyPageWorkContainer() {
                 >
                   <img
                     src={data.member.profileImage}
+                    alt=""
                     style={{
                       marginTop: "2%",
                       maxWidth: "20%",
@@ -238,68 +214,27 @@ function MyPageWorkContainer() {
     setModalVisibleId(postId);
   };
 
-  const NullData = () => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "1.4em",
-        }}
-      >
-        공유 자료가 없어요.
-      </div>
-    );
+  const onClickMoreFeedback = () => {
+    navigate("/mypage/myfeedback");
   };
+
+  const onClickMoreScrap = () => {
+    navigate("/mypage/scrap");
+  };
+
   return (
-    <div
-      style={{
-        boxSizing: "border-box",
-        alignItems: "center",
-        margin: "0 auto",
-        borderRadius: "30px",
-        width: "100%",
-      }}
-    >
-      <div
-        style={{
-          width: "90%",
-          textAlign: "left",
-          fontFamily: "NotoSansKR-700",
-          margin: "30px auto",
-          fontSize: "1.8vw",
-        }}
-      >
+    <Wrapper>
+      <CommentContainer>
         코멘트 및 피드백을 단 작업물
-        {allComments == 0 ? (
-          <NullData />
+        {!allComments ? (
+          <NullData>공유 자료가 없어요.</NullData>
         ) : (
-          <FeedBackPage style={{ maxHeight: "200px" }} data={data} />
+          <FeedBackPage data={data} />
         )}
-        {allComments < 2 ? null : (
-          <>
-            {/*<div style={{ margin: "0 auto" }}>*/}
-            <Line />
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                style={{ margin: "0 auto" }}
-                onClick={() => {
-                  navigate("/mypage/myfeedback");
-                }}
-              >
-                더보기 &gt;
-              </Button>
-              {/*  </div>*/}
-            </div>
-          </>
+        {!allComments || allComments === undefined ? null : (
+          <ButtonContainer>
+            <Button onClick={onClickMoreFeedback}>더보기 &gt;</Button>
+          </ButtonContainer>
         )}
         {modalVisibleId !== "" && (
           <RefModal
@@ -308,18 +243,9 @@ function MyPageWorkContainer() {
             setModalVisibleId2={setModalVisibleId}
           />
         )}
-      </div>
-      <Line />
+      </CommentContainer>
       <MyPageScrapContainer from={"work"} />
-      <div style={{ margin: "60px auto" }}>
-        <Line />
-        {/*myScrapCount > 12 && ( // 스크랩한 작업물 12개 이상이면 보러가게*/}
-        <div style={{ width: "100%" }}>
-          <Button onClick={onClickMoreScrap}>더보기 &gt;</Button>
-        </div>
-        {/*})}*/}
-      </div>
-    </div>
+    </Wrapper>
   );
 }
 
