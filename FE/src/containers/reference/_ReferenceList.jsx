@@ -5,7 +5,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import { Style } from '../../layout/ReferenceListStyle';
 import RefModal from '../modal/RefModal';
 import { Link } from 'react-router-dom';
-import RefModalFollow from '../modal/RefModalFollow';
+import RefModalFollow from '../modal/RefModalFollow/_RefModalFollow';
 import StarIcon from '@mui/icons-material/Star';
 import axios from 'axios';
 
