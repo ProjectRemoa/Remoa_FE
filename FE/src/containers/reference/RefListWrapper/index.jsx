@@ -5,8 +5,10 @@ import { useLocation } from 'react-router-dom';
 import { pageLinks, filterOptions } from '../constants';
 
 import RefCard from '../RefCard';
-import StyledComponents from './RefListWrapper.styles';
 import RefModal from '../../modal/RefModal';
+
+import { MdArrowForwardIos } from 'react-icons/md';
+import StyledComponents from './RefListWrapper.styles';
 const {
   RefListWrapper,
   RefListHeader,
@@ -14,6 +16,7 @@ const {
   RefFilter,
   FilterButton,
   RefList,
+  LoadMoreButton,
 } = StyledComponents;
 
 export default function RefListContainer({ search: searchKeyword }) {
@@ -24,6 +27,7 @@ export default function RefListContainer({ search: searchKeyword }) {
   const [referenceList, setReferenceList] = useState([]); // 레퍼런스 리스트
 
   const [page, setPage] = useState(1); // 페이지네이션
+  const [totalPages, setTotalPages] = useState(1); // 페이지네이션
 
   const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
 
@@ -38,6 +42,12 @@ export default function RefListContainer({ search: searchKeyword }) {
   const handleProfileModal = (postId) => {
     setSelectedPostId(postId);
     console.log(selectedPostId);
+  };
+
+  const onClickLoadData = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
   };
 
   useEffect(() => {
@@ -60,17 +70,21 @@ export default function RefListContainer({ search: searchKeyword }) {
         const {
           data: {
             data: { references },
+            totalPages,
           },
         } = response;
 
+        console.log(response, 'response');
+
         setReferenceList(references);
+        setTotalPages(totalPages);
       } catch (err) {
         console.log(err);
       }
     };
 
     fetchData();
-  }, [location.pathname, searchKeyword, filter, setPage]);
+  }, [location.pathname, searchKeyword, filter, page]);
 
   return (
     <RefListWrapper>
@@ -114,6 +128,14 @@ export default function RefListContainer({ search: searchKeyword }) {
           );
         })}
       </RefList>
+
+      {/* 더 보기 버튼  */}
+      {totalPages > 1 && page < totalPages && (
+        <LoadMoreButton onClick={onClickLoadData}>
+          더 보기
+          <MdArrowForwardIos />
+        </LoadMoreButton>
+      )}
 
       {/* 상세 페이지 모달 */}
       {/* TODO : props 이름 변경 및 모달 리팩토링 후 isRefModal 조건 삭제 */}

@@ -76,6 +76,27 @@ const RefList = styled.div`
   margin-top: 20px;
 `;
 
+const LoadMoreButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 178px;
+  height: 38px;
+  margin: 48px auto 0;
+  border-radius: 10px;
+  border: 1px solid #b0b0b0;
+  background-color: #fada5e;
+  color: #464646;
+  font-weight: 700;
+  box-shadow: none;
+
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+`;
+
 const StyledComponents = {
   RefListWrapper,
   RefListHeader,
@@ -83,6 +104,7 @@ const StyledComponents = {
   RefFilter,
   FilterButton,
   RefList,
+  LoadMoreButton,
 };
 
 export default StyledComponents;
