@@ -77,12 +77,11 @@ export default function RefListContainer({ search: searchKeyword }) {
           },
         } = response;
 
-        console.log(response, 'response');
-
         setReferenceList(references);
         setTotalPages(totalPages);
       } catch (err) {
         console.log(err);
+        return err;
       }
     };
 
@@ -118,7 +117,6 @@ export default function RefListContainer({ search: searchKeyword }) {
       </RefListHeader>
 
       {/* 레퍼런스 */}
-
       {referenceList.length === 0 ? (
         <NoResultWrapper>
           <NoResultText className="emphasis">
