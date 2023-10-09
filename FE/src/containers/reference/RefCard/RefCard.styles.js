@@ -59,6 +59,8 @@ const RefCardProfileImg = styled.div`
   border-radius: 50%;
   border: 1px solid #ededed;
   overflow: hidden;
+  cursor: pointer;
+
   img {
     width: 100%;
     height: 100%;
@@ -77,6 +79,7 @@ const RefCardProfileName = styled.div`
   display: inline-block;
   font-weight: 400;
   font-size: 15px;
+  cursor: pointer;
 `;
 const RefCardFunctionWrapper = styled.div`
   display: flex;

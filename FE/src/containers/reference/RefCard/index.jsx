@@ -2,7 +2,9 @@ import { GoEye, GoStarFill } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 
 import StyledComponents from './RefCard.styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import RefModalFollow from '../../modal/RefModalFollow';
 const {
   RefCardWrapper,
   RefCardThumbnailWrapper,
@@ -16,7 +18,7 @@ const {
   RefCardFunctionIcon,
 } = StyledComponents;
 
-function RefCard({ data, onSelectedData }) {
+function RefCard({ data, onSelectedData, selectedPostId, onProfileModal }) {
   const {
     likeCount,
     postId,
@@ -36,6 +38,17 @@ function RefCard({ data, onSelectedData }) {
     return count;
   };
 
+  const handleProfileModal = () => {
+    if (postId === selectedPostId) {
+      // 같은 카드의 프로필을 클릭하면 프로필 모달 토글
+      setIsProfileModalOpen(!isProfileModalOpen);
+    } else {
+      // 다른 카드의 프로필을 클릭하면 프로필 모달을 열고 선택된 포스트 아이디를 업데이트
+      setIsProfileModalOpen(true);
+      onProfileModal(postId);
+    }
+  };
+
   return (
     <RefCardWrapper>
       {/* 썸네일  */}
@@ -50,7 +63,7 @@ function RefCard({ data, onSelectedData }) {
         {/* 프로필 이미지 */}
         <RefCardProfileImg
           onClick={() => {
-            setIsProfileModalOpen(!isProfileModalOpen);
+            handleProfileModal();
           }}
         >
           <img src={postMember.profileImage} alt="profile image" />
@@ -58,7 +71,13 @@ function RefCard({ data, onSelectedData }) {
 
         {/*  사용자 정보 */}
         <RefCardInfo>
-          <RefCardProfileName>{postMember.nickname}</RefCardProfileName>
+          <RefCardProfileName
+            onClick={() => {
+              handleProfileModal();
+            }}
+          >
+            {postMember.nickname}
+          </RefCardProfileName>
 
           <RefCardFunctionWrapper>
             {/* 조회수 */}
@@ -79,17 +98,8 @@ function RefCard({ data, onSelectedData }) {
         </RefCardInfo>
 
         {/* 프로필 모달 */}
-        {isProfileModalOpen && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '98%',
-              left: '45px',
-              zIndex: '100',
-            }}
-          >
-            프로필 모달
-          </div>
+        {isProfileModalOpen && postId === selectedPostId && (
+          <RefModalFollow member={postMember} />
         )}
       </RefCardProfileWrapper>
     </RefCardWrapper>
