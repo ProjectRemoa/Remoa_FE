@@ -5,7 +5,7 @@ const ProfileModalWrapper = styled.div`
   top: 98%;
   left: 45px;
   width: 100%;
-  max-width: 402px;
+  width: 402px;
   border-radius: 0 10px 10px 10px;
   border: 1px solid #b0b0b0;
   padding: 25px;

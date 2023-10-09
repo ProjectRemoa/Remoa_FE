@@ -18,6 +18,7 @@ const {
 
 function RefModalFollow({ member }) {
   const navigate = useNavigate();
+  const nickname = sessionStorage.getItem('nickname');
 
   const { followData, refetchFollowData } = useFollowData(member.memberId);
   const [isFollowing, setIsFollowing] = useState(member.isFollow);
@@ -27,9 +28,9 @@ function RefModalFollow({ member }) {
   };
 
   const handleMemberFollow = async () => {
-    if (!sessionStorage.getItem('nickname')) {
+    if (!nickname) {
       alert('로그인이 필요한 서비스입니다.');
-      return navigate('/sociallogin');
+      navigate('/sociallogin');
     }
 
     try {
@@ -68,18 +69,21 @@ function RefModalFollow({ member }) {
 
       <ProfileFollowButtonWrapper>
         {/* 팔로우 버튼 */}
-        {isFollowing ? (
-          <ProfileFollowButton
-            className="followed"
-            onClick={handleMemberFollow}
-          >
-            팔로우 취소
-          </ProfileFollowButton>
-        ) : (
-          <ProfileFollowButton onClick={handleMemberFollow}>
-            팔로잉하기
-          </ProfileFollowButton>
-        )}
+        {member.nickname !== nickname ? (
+          isFollowing ? (
+            <ProfileFollowButton
+              className="followed"
+              onClick={handleMemberFollow}
+            >
+              팔로우 취소
+            </ProfileFollowButton>
+          ) : (
+            <ProfileFollowButton onClick={handleMemberFollow}>
+              팔로잉하기
+            </ProfileFollowButton>
+          )
+        ) : null}
+
         {/* 유저 피드 바로가기 */}
         <ProfileFollowButton onClick={() => onClickMemberFeed(member.memberId)}>
           더 많은 작품 보기

@@ -71,7 +71,6 @@ const RefCardProfileImg = styled.div`
 
 const RefCardInfo = styled.div`
   display: flex;
-  flex-wrap: wrap;
   width: 100%;
   margin-left: 6px;
 `;
