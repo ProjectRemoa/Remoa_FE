@@ -97,6 +97,36 @@ const LoadMoreButton = styled.button`
   }
 `;
 
+const NoResultWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 446px;
+    height: 68px;
+    margin-top: 72px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #010101;
+  }
+`;
+
+const NoResultText = styled.div`
+  font-size: 20px;
+  font-weight: 400;
+
+  &.emphasis {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 70px 0 30px;
+  }
+`;
+
 const StyledComponents = {
   RefListWrapper,
   RefListHeader,
@@ -105,6 +135,8 @@ const StyledComponents = {
   FilterButton,
   RefList,
   LoadMoreButton,
+  NoResultWrapper,
+  NoResultText,
 };
 
 export default StyledComponents;

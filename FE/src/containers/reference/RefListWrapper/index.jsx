@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { React, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { pageLinks, filterOptions } from '../constants';
 
@@ -17,10 +17,13 @@ const {
   FilterButton,
   RefList,
   LoadMoreButton,
+  NoResultWrapper,
+  NoResultText,
 } = StyledComponents;
 
 export default function RefListContainer({ search: searchKeyword }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [category, setCategory] = useState(''); // 카테고리
   const [filter, setFilter] = useState(filterOptions[0].key); // 필터
@@ -115,9 +118,19 @@ export default function RefListContainer({ search: searchKeyword }) {
       </RefListHeader>
 
       {/* 레퍼런스 */}
-      <RefList>
-        {referenceList.map((reference) => {
-          return (
+
+      {referenceList.length === 0 ? (
+        <NoResultWrapper>
+          <NoResultText className="emphasis">
+            검색 결과가 없어요 😪{' '}
+          </NoResultText>
+          <NoResultText>해당 키워드의 작업물을 업로드 해주세요!</NoResultText>
+
+          <button onClick={() => navigate('/manage/share')}>등록하기</button>
+        </NoResultWrapper>
+      ) : (
+        <RefList>
+          {referenceList.map((reference) => (
             <RefCard
               data={reference}
               key={reference.postId}
@@ -125,9 +138,9 @@ export default function RefListContainer({ search: searchKeyword }) {
               onSelectedData={handleSelectData}
               onProfileModal={handleProfileModal}
             />
-          );
-        })}
-      </RefList>
+          ))}
+        </RefList>
+      )}
 
       {/* 더 보기 버튼  */}
       {totalPages > 1 && page < totalPages && (
