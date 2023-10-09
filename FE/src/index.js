@@ -31,6 +31,7 @@ import theme from './layout/theme';
 import { CookiesProvider } from 'react-cookie';
 import axios from 'axios';
 import { ThemeProvider } from 'styled-components';
+import { RecoilRoot } from 'recoil';
 import RefModal from './containers/modal/RefModal';
 
 import Auth from './Auth';
@@ -51,42 +52,44 @@ const Style = {
 root.render(
   <ThemeProvider theme={theme}>
     <CookiesProvider>
-      <BrowserRouter>
-        <Style.Wrapper>
-          <Routes>
-            <Route path="/login" element={<SocialLoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/sociallogin" element={<SocialLoginPage />} />
-            <Route path="/login/kakao" element={<KakaoLogin />} />
+      <RecoilRoot>
+        <BrowserRouter>
+          <Style.Wrapper>
+            <Routes>
+              <Route path="/login" element={<SocialLoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/sociallogin" element={<SocialLoginPage />} />
+              <Route path="/login/kakao" element={<KakaoLogin />} />
 
-            {/* 레퍼런스 페이지 */}
-            <Route path="/" element={<RefPage />} />
-            <Route path="/ref/:category" element={<RefPage />}>
-              <Route path=":id" element={<RefModal />} />
-            </Route>
-            <Route path="/ref/search/:search" element={<RefPage />} />
+              {/* 레퍼런스 페이지 */}
+              <Route path="/" element={<RefPage />} />
+              <Route path="/ref/:category" element={<RefPage />}>
+                <Route path=":id" element={<RefModal />} />
+              </Route>
+              <Route path="/ref/search/:search" element={<RefPage />} />
 
-            <Route path="/user/list/:id" element={<OtherManageList />} />
-            {/* 다른 사람의 작업물 목록도 보여야 함*/}
-            <Route element={<AuthLayout />}>
-              <Route path="/manage/list" element={<ManageList />} />
-              <Route path="/manage/list/total" element={<ManageList />} />
-              <Route path="/manage/share" element={<ManageShare />} />
-              <Route path="/manage/put/:id" element={<ManageShare />} />
-              {/* 레퍼런스 수정 */}
-              <Route path="/manage/feedback" element={<ManageFeedback />} />
-              <Route path="/mypage/profile" element={<PageProfile />} />
-              <Route path="/mypage/following" element={<PageFollowing />} />
-              <Route path="/mypage/scrap" element={<PageScrap />} />
-              <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
-              <Route path="/mypage/work" element={<PageWork />} />
-              <Route path="/mypage/faq" element={<PageFAQ />} />
-            </Route>
-            <Route path="*" element={<UnknownPage />} />
-          </Routes>
-        </Style.Wrapper>
-      </BrowserRouter>
-      <App />
+              <Route path="/user/list/:id" element={<OtherManageList />} />
+              {/* 다른 사람의 작업물 목록도 보여야 함*/}
+              <Route element={<AuthLayout />}>
+                <Route path="/manage/list" element={<ManageList />} />
+                <Route path="/manage/list/total" element={<ManageList />} />
+                <Route path="/manage/share" element={<ManageShare />} />
+                <Route path="/manage/put/:id" element={<ManageShare />} />
+                {/* 레퍼런스 수정 */}
+                <Route path="/manage/feedback" element={<ManageFeedback />} />
+                <Route path="/mypage/profile" element={<PageProfile />} />
+                <Route path="/mypage/following" element={<PageFollowing />} />
+                <Route path="/mypage/scrap" element={<PageScrap />} />
+                <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
+                <Route path="/mypage/work" element={<PageWork />} />
+                <Route path="/mypage/faq" element={<PageFAQ />} />
+              </Route>
+              <Route path="*" element={<UnknownPage />} />
+            </Routes>
+          </Style.Wrapper>
+        </BrowserRouter>
+        <App />
+      </RecoilRoot>
     </CookiesProvider>
   </ThemeProvider>
 );
