@@ -57,7 +57,7 @@ function RefCard({ data, onSelectedData, selectedPostId, onProfileModal }) {
       </RefCardThumbnailWrapper>
 
       {/* 타이틀 */}
-      <RefCardTitle>{title}</RefCardTitle>
+      <RefCardTitle onClick={() => onSelectedData(data)}>{title}</RefCardTitle>
 
       <RefCardProfileWrapper>
         {/* 프로필 이미지 */}

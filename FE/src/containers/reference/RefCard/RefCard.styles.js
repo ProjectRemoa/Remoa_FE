@@ -43,6 +43,7 @@ const RefCardTitle = styled.p`
   text-overflow: ellipsis;
   text-align: initial;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const RefCardProfileWrapper = styled.div`
