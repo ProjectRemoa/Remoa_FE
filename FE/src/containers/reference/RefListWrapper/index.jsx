@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 import { pageLinks, filterOptions } from '../constants';
 
-// import RefList from '../ReferenceList';
 import RefCard from '../RefCard';
 import StyledComponents from './RefListWrapper.styles';
 import RefModal from '../../modal/RefModal';
@@ -17,7 +16,6 @@ const {
   RefList,
 } = StyledComponents;
 
-// TODO : 검색어는 페이지에서 받아오도록 수정
 export default function RefListContainer({ search: searchKeyword }) {
   const location = useLocation();
 
@@ -28,29 +26,19 @@ export default function RefListContainer({ search: searchKeyword }) {
   const [page, setPage] = useState(1); // 페이지네이션
 
   const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
+
   const [selectedData, setSelectedData] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   const handleSelectData = (data) => {
     setSelectedData(data);
     setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
   };
 
-  // let kindSend = 'idea';
-  // let kind = '기획/아이디어';
-
-  // if (window.location.pathname == '/ref/etc') {
-  //   kind = '기타';
-  //   kindSend = 'etc';
-  // } else if (window.location.pathname == '/ref/marketing') {
-  //   kind = '광고/마케팅';
-  //   kindSend = 'marketing';
-  // } else if (window.location.pathname == '/ref/video') {
-  //   kind = '영상';
-  //   kindSend = 'video';
-  // } else if (window.location.pathname == '/ref/design') {
-  //   kind = '디자인';
-  //   kindSend = 'design';
-  // }
+  const handleProfileModal = (postId) => {
+    setSelectedPostId(postId);
+    console.log(selectedPostId);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,7 +70,7 @@ export default function RefListContainer({ search: searchKeyword }) {
     };
 
     fetchData();
-  }, [location.pathname, searchKeyword, filter]);
+  }, [location.pathname, searchKeyword, filter, setPage]);
 
   return (
     <RefListWrapper>
@@ -113,14 +101,15 @@ export default function RefListContainer({ search: searchKeyword }) {
       </RefListHeader>
 
       {/* 레퍼런스 */}
-      {/* <RefList kind={kindSend} name={searchKeyword} /> */}
       <RefList>
         {referenceList.map((reference) => {
           return (
             <RefCard
               data={reference}
               key={reference.postId}
+              selectedPostId={selectedPostId}
               onSelectedData={handleSelectData}
+              onProfileModal={handleProfileModal}
             />
           );
         })}
