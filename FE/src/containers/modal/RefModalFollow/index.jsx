@@ -31,6 +31,7 @@ function RefModalFollow({ member }) {
     if (!nickname) {
       alert('로그인이 필요한 서비스입니다.');
       navigate('/sociallogin');
+      return;
     }
 
     try {
@@ -38,7 +39,18 @@ function RefModalFollow({ member }) {
       refetchFollowData();
       setIsFollowing(!isFollowing);
     } catch (error) {
+      // TODO : 리프레쉬 토큰 로직 확인
+      if (error.response && error.response.status === 401) {
+        alert('로그인이 필요한 서비스입니다.');
+
+        sessionStorage.removeItem('nickname');
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('new');
+        navigate('/sociallogin');
+      }
+
       console.log(error);
+
       return error;
     }
   };
