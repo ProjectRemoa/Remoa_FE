@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { S } from './ui'
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import axios from "axios";
+import axios from 'axios';
+import { BsFillHandThumbsUpFill } from 'react-icons/bs'
 
 export default function DetailFeedbackComment({
   feedbacks,
@@ -9,7 +9,8 @@ export default function DetailFeedbackComment({
   setFeedback,
   id,
 }) {
-  const [contents, setContents] = useState("");
+
+  const [contents, setContents] = useState('');
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
 
   const onChangeContents = (event) => {
@@ -41,7 +42,7 @@ export default function DetailFeedbackComment({
       .post(`/BE/reference/feedback/${feedback_id}/like`)
       .then((res) => {
         console.log(res);
-        console.log("id3 : " + id);
+        console.log('id3 : ' + id);
         axios
           .get(`/BE/reference/${id}`)
           .then((res) => {
@@ -73,15 +74,16 @@ export default function DetailFeedbackComment({
     const UploadComment = {
       feedback: contents,
     };
+    
     if (!contents) {
-      alert("내용이 수정되지 않았습니다.");
+      alert('내용이 수정되지 않았습니다.');
     } else {
       axios
         .put(`/BE/reference/feedback/${feedback_id}`, UploadComment)
         .then((response) => {
           console.log(response);
           setFeedback(response.data.data);
-          alert("댓글 수정이 완료되었습니다.");
+          alert('댓글 수정이 완료되었습니다.');
           setPutMemberId(0);
         })
         .catch((err) => {
@@ -96,7 +98,7 @@ export default function DetailFeedbackComment({
       .then((response) => {
         console.log(response);
         setFeedback(response.data.data);
-        alert("댓글 삭제가 완료되었습니다.");
+        alert('댓글 삭제가 완료되었습니다.');
       })
       .catch((err) => {
         alert(err);
@@ -107,26 +109,26 @@ export default function DetailFeedbackComment({
     <S.EachFeedWrapper>
       {feedbacks &&
         feedbacks.map((feedbacks, index) => (
-          <div style={{ marginBottom: "30px" }} key={index}>
+          <div style={{ marginBottom: '30px' }} key={index}>
             <S.FeedWrapperHeader>
-              <S.ProfileSize src={feedbacks.member.profileImage} alt="" />
+              <S.ProfileSize src={feedbacks.member.profileImage} alt='' />
               <S.ProfileName>{feedbacks.member.nickname}</S.ProfileName>
               <S.ButtonWrapper>
                 <S.HeaderButton
                   onClick={() => onClickThumb(feedbacks.feedbackId)}
                 >
-                  <ThumbUpIcon />
+                  <BsFillHandThumbsUpFill />
                   <S.ThumbCount>{feedbacks.likeCount}</S.ThumbCount>
                 </S.HeaderButton>
                 {feedbacks.member.nickname ===
-                  sessionStorage.getItem("nickname") && (
+                  sessionStorage.getItem('nickname') && (
                   <>
                     <S.HeaderButton
                       style={{
-                        top: "-5.5px",
-                        position: "relative",
-                        marginLeft: "3px",
-                        color: "black",
+                        top: '-5.5px',
+                        position: 'relative',
+                        marginLeft: '3px',
+                        color: 'black',
                       }}
                       onClick={() => setPutMemberId(feedbacks.feedbackId)}
                     >
@@ -134,10 +136,10 @@ export default function DetailFeedbackComment({
                     </S.HeaderButton>
                     <S.HeaderButton
                       style={{
-                        top: "-5.5px",
-                        position: "relative",
-                        marginLeft: "3px",
-                        color: "black",
+                        top: '-5.5px',
+                        position: 'relative',
+                        marginLeft: '3px',
+                        color: 'black',
                       }}
                       onClick={() => onClickDelete(feedbacks.feedbackId)}
                     >
@@ -162,7 +164,7 @@ export default function DetailFeedbackComment({
                   <br />
                   <S.ModifyText
                     required
-                    placeholder="상세 피드백을 수정하세요."
+                    placeholder='상세 피드백을 수정하세요.'
                     onChange={onChangeContents}
                     defaultValue={feedbacks.feedback}
                   />
@@ -177,15 +179,15 @@ export default function DetailFeedbackComment({
               ) : (
                 <p
                   style={{
-                    fontSize: "18px",
-                    lineHeight: "22px",
-                    textAlign: "left",
+                    fontSize: '18px',
+                    lineHeight: '22px',
+                    textAlign: 'left',
                   }}
                 >
                   {feedbacks.feedback}
                 </p>
               )}
-              {/* <DetaileSeedbackCommentAgain />*/}
+              {/* <DetaileSeedbackCommentAgain /> */}
             </div>
           </div>
         ))}

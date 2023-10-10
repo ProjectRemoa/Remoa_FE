@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const S = {
   CommentWrapper: styled.div`
@@ -29,7 +29,7 @@ export const S = {
     border-radius: 10px;
     width: 100%;
     min-height: 90px;
-    font-family: "Inter";
+    font-family: 'Inter';
     font-size: 15px;
     line-height: 25px;
     resize: none;

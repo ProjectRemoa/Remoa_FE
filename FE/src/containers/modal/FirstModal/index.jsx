@@ -1,9 +1,9 @@
 import React from 'react';
 import { S } from './ui';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import CheckIcon from '@mui/icons-material/Check';
 import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
+import { MdPriorityHigh } from 'react-icons/md'
+import { AiOutlineCheck } from 'react-icons/ai'
 
 const useStyles = makeStyles({
   check: {
@@ -32,7 +32,7 @@ export default function FirstModal({ setModalOpen }) {
               환영합니다
             </S.Welcome>
             <S.Warn>
-              <PriorityHighIcon style={{ color: 'red' }} />
+              <MdPriorityHigh style={{ color: 'red' }} />
               잠깐!
             </S.Warn>
             <S.Guide>
@@ -47,7 +47,7 @@ export default function FirstModal({ setModalOpen }) {
           <S.Howtable>
             <tr>
               <td>
-                <CheckIcon
+                <AiOutlineCheck
                   className={ classes.check }
                   style={{ fontSize: '30px' }}
                 />
@@ -61,7 +61,7 @@ export default function FirstModal({ setModalOpen }) {
             </tr>
             <tr>
               <td>
-                <CheckIcon
+                <AiOutlineCheck
                   className={ classes.check }
                   style={{ fontSize: '30px' }}
                 />
