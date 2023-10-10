@@ -22,15 +22,17 @@ import PageMyFeedback from './page/mypage/PageMyFeedback';
 import PageFAQ from './page/mypage/PageFAQ';
 import SignUpPage from './page/SignUpPage';
 
-import EmailFind from './page/findinfo/EmailFind';
-import PasswordFind from './page/findinfo/PasswordFind';
-import KakaoLogin from './containers/sociallogin/KakaoLogin';
+import EmailFind from "./page/findinfo/EmailFind";
+import PasswordFind from "./page/findinfo/PasswordFind";
+import KakaoLogin from "./containers/sociallogin/KakaoLogin/index.jsx";
 
 import theme from './layout/theme';
 
-import { CookiesProvider } from 'react-cookie';
-import axios from 'axios';
-import { ThemeProvider } from 'styled-components';
+import { CookiesProvider } from "react-cookie";
+import axios from "axios";
+import { ThemeProvider } from "styled-components";
+import RefModal from './containers/modal/RefModalPages/RefModal'
+import RefSearchPage from "./page/reference/RefSearchPage";
 
 import RefModal from './containers/modal/RefModal';
 

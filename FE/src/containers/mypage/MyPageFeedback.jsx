@@ -7,7 +7,7 @@ import { width } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { Style } from "../../layout/ReferenceListStyle";
 import React, { useEffect, useState } from "react";
-import RefModal from "../modal/RefModal";
+import RefModal from "../modal/RefModalPages/RefModal";
 
 function MyPageFeedback(props) {
   const [작품, 작품변경] = useState([]);

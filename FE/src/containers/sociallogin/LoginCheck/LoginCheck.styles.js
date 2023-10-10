@@ -1,8 +1,9 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
-const Container = styled.div`
+const Container =styled.div`
   margin-right: 100px;
-`;
+`
+
 const Button = styled.button`
   width: 180px;
   height: 50px;
@@ -16,11 +17,11 @@ const Button = styled.button`
   &:nth-child(2) {
     margin-left: 5px;
   }
-`;
+`
 
 const S = {
   Container,
-  Button,
-};
+  Button
+}
 
 export default S;

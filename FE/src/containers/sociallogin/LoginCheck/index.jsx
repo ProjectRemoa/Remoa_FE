@@ -36,21 +36,30 @@ function LoginCheck() {
     setIsLogin(false);
     navigate("/");
   };
+
   const onClickLogin = () => {
     navigate("/sociallogin");
   };
+  
   const onClickShare = () => {
     navigate("/manage/share");
   };
+  
   return (
     <S.Container>
       {isLogin ? (
         <>
-          <S.Button onClick={onClickLogout}>로그아웃</S.Button>
-          <S.Button onClick={onClickShare}>작업물 공유하기</S.Button>
+          <S.Button onClick={onClickLogout}>
+            로그아웃
+          </S.Button>
+          <S.Button onClick={onClickShare}>
+            작업물 공유하기
+          </S.Button>
         </>
       ) : (
-        <S.Button onClick={onClickLogin}>로그인</S.Button>
+        <S.Button onClick={onClickLogin}>
+          로그인
+        </S.Button>
       )}
     </S.Container>
   );

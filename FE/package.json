@@ -27,6 +27,7 @@
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-draggable": "^4.4.5",
     "react-kakao-login": "^2.1.1",
     "react-pdf": "^6.2.2",
     "react-player": "^2.12.0",

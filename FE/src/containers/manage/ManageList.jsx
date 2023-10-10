@@ -4,7 +4,7 @@ import { Style } from "../../layout/ReferenceListStyle";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import RefModal from "../modal/RefModal";
+import RefModal from "../modal/RefModalPages/RefModal";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import StarIcon from "@mui/icons-material/Star";

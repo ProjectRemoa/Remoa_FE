@@ -1,18 +1,19 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { DF } from "../../../layout/DetailFeedbackStyle";
+import { S } from './ui'
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import React, { useState } from "react";
-import DetailedFeedbackComment from "./DetailedFeedbackComment";
+import DetailFeedbackComment from '../DetailedFeedbackComment'
 import { useNavigate } from "react-router-dom";
+
 const useStyles = makeStyles({
-  dis: {
+  display_none: {
     display: "none",
   },
-  show: {
+  display_flex: {
     display: "flex",
   },
-  close: {
+  modal_close: {
     fontSize: "25px",
     color: "white",
     cursor: "pointer",
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DetailedFeedback = ({
+export default function DetaileFeedback({
   id3,
   modalVisibleId3,
   setModalVisibleId3,
@@ -32,12 +33,10 @@ const DetailedFeedback = ({
   link,
   feedbacks,
   setFeedback,
-}) => {
+}) {
   const navigate = useNavigate();
   const classes = useStyles();
-  const onCloseHandler = () => {
-    setModalVisibleId3("");
-  };
+
   const [contents, setContents] = useState("");
 
   const onChangeContents = (event) => {
@@ -45,9 +44,11 @@ const DetailedFeedback = ({
   };
 
   const [selected, setSelected] = useState(1);
+
   const handleSelect = (e) => {
     setSelected(e.target.value);
   };
+
   const opti = Array.from({ length: numPages }, (v, i) => i + 1);
   const pageCount = Array.from({ length: media.length }, (v, i) => i + 1);
 
@@ -57,11 +58,11 @@ const DetailedFeedback = ({
       navigate("/sociallogin");
     } else {
       e.preventDefault();
-      const UploadFeedback = {
+      const UploaSeedback = {
         feedback: contents,
       };
       axios
-        .post(`/BE/reference/${id3}/${selected}`, UploadFeedback)
+        .post(`/BE/reference/${id3}/${selected}`, UploaSeedback)
         .then((response) => {
           console.log(response);
           alert("댓글 등록이 완료되었습니다.");
@@ -74,33 +75,42 @@ const DetailedFeedback = ({
     }
     setContents(""); // 입력된 피드백 초기화
   };
-  return (
-    <DF.ModalWrapper
-      className={modalVisibleId3 == id3 ? classes.show : classes.dis}
-    >
-      <DF.ModalHeader>
-        상세 피드백 뷰어
-        <CloseIcon onClick={onCloseHandler} className={classes.close} />
-      </DF.ModalHeader>
 
-      <DF.Feedback>
-        <DetailedFeedbackComment
+  return (
+    <S.ModalWrapper
+      className={modalVisibleId3 === id3 ? classes.display_flex : classes.display_none}
+    >
+      <S.ModalHeader>
+        상세 피드백 뷰어
+        <CloseIcon
+          onClick={() => {
+            setModalVisibleId3("");
+          }}
+          className={classes.modal_close}
+        />
+      </S.ModalHeader>
+
+      <S.Feedback>
+        <DetailFeedbackComment
           link={link}
           feedbacks={feedbacks}
           setFeedback={setFeedback}
           id={id3}
         />
-      </DF.Feedback>
+      </S.Feedback>
 
-      <DF.ModalWriteFeed>
-        <DF.ModalFeedReg>
-          <DF.RegTop>
-            <DF.RegExplain>
-              <span style={{ color: "#FADA5E", fontWeight: "800" }}>
+      <S.ModalWriteFeed>
+        <S.ModalFeedReg>
+          <S.RegTop>
+            <S.RegExplain>
+              <span style={{ 
+                color: "#FADA5E", 
+                fontWeight: "800", 
+              }}>
                 Feedback
               </span>
               &nbsp; 페이지 번호 &nbsp;
-            </DF.RegExplain>
+            </S.RegExplain>
             <select
               onChange={handleSelect}
               style={{
@@ -112,7 +122,7 @@ const DetailedFeedback = ({
               disabled={link ? true : false}
             >
               {opti &&
-                opti.map(function (a, index) {
+                opti.map((a, index) => {
                   return (
                     <option value={a} key={index}>
                       {a}
@@ -121,7 +131,7 @@ const DetailedFeedback = ({
                 })}
               {/* pdf  */}
               {pageCount &&
-                pageCount.map(function (a, index) {
+                pageCount.map((a, index) => {
                   return (
                     <option value={a} key={index}>
                       {a}
@@ -130,19 +140,17 @@ const DetailedFeedback = ({
                 })}
               {/* 사진*/}
             </select>
-            <DF.FeedbackSend onClick={onSumbitHandler}>등록</DF.FeedbackSend>
-          </DF.RegTop>
-          <DF.RegBottom>
-            <DF.WriteInput
+            <S.FeedbackSend onClick={onSumbitHandler}>등록</S.FeedbackSend>
+          </S.RegTop>
+          <S.RegBottom>
+            <S.WriteInput
               onChange={onChangeContents}
               value={contents}
               required
             />
-          </DF.RegBottom>
-        </DF.ModalFeedReg>
-      </DF.ModalWriteFeed>
-    </DF.ModalWrapper>
+          </S.RegBottom>
+        </S.ModalFeedReg>
+      </S.ModalWriteFeed>
+    </S.ModalWrapper>
   );
 };
-
-export default DetailedFeedback;

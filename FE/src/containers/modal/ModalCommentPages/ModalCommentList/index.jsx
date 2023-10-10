@@ -1,18 +1,19 @@
-import { DF } from "../../../layout/DetailFeedbackStyle";
+import { S } from "./ui";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import React, { useState } from "react";
-import { MS } from "../../../layout/ModalStyle";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function RMCommentList({ comments, postId, setComments }) {
+export default function ModalCommentList({ comments, postId, setComments }) {
+  const navigate = useNavigate();
+
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); // 수정할 member id
+
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
-  const navigate = useNavigate();
 
   const onPutHandler = (commentId) => {
     const UploadComment = {
@@ -30,13 +31,14 @@ export default function RMCommentList({ comments, postId, setComments }) {
       .catch((err) => {
         console.log(err);
       });
-    //navigate("/");
+    //navigate('/');
 
     //return data;
     // } else {
     //  console.log(isEdit);
     //}
   };
+  
   const onDelete = (commentId) => {
     console.log();
     axios
@@ -71,7 +73,7 @@ export default function RMCommentList({ comments, postId, setComments }) {
             .catch((err) => {
               console.log(err);
             });
-          //alert("댓글을 추천하였습니다.");
+          //alert('댓글을 추천하였습니다.');
         })
         .catch((err) => {
           console.log(err);
@@ -79,18 +81,16 @@ export default function RMCommentList({ comments, postId, setComments }) {
     }
   };
 
-  const [thumb, setThumb] = useState(0);
-
   return (
     <>
       {comments &&
         comments.map((comments, index) => (
-          <DF.AgainWrapper key={index}>
-            <DF.AgainTable>
+          <S.AgainWrapper key={index}>
+            <S.AgainTable>
               <tbody>
                 <tr>
                   <td>
-                    <DF.ProfileSize src={comments.member.profileImage} />
+                    <S.ProfileSize src={comments.member.profileImage} />
                   </td>
                   <td style={{ width: "100px", fontSize: "90%" }}>
                     {comments.member.nickname}
@@ -98,17 +98,17 @@ export default function RMCommentList({ comments, postId, setComments }) {
                   <td
                     style={{ float: "left", position: "relative", top: "15px" }}
                   >
-                    <DF.HeaderButton
+                    <S.HeaderButton
                       onClick={() => onClickThumb(comments.commentId)}
                     >
                       <ThumbUpIcon />
-                      <DF.ThumbCount>{comments.likeCount}</DF.ThumbCount>
-                    </DF.HeaderButton>
+                      <S.ThumbCount>{comments.likeCount}</S.ThumbCount>
+                    </S.HeaderButton>
                     {comments.member.nickname ===
                       // 내가 해당 댓글 작성자여야만 수정 버튼이 보여야 함
                       sessionStorage.getItem("nickname") && (
                       <>
-                        <DF.HeaderButton
+                        <S.HeaderButton
                           style={{
                             top: "-4px",
                             position: "relative",
@@ -122,8 +122,8 @@ export default function RMCommentList({ comments, postId, setComments }) {
                           }}
                         >
                           수정
-                        </DF.HeaderButton>
-                        <DF.HeaderButton
+                        </S.HeaderButton>
+                        <S.HeaderButton
                           style={{
                             top: "-4px",
                             position: "relative",
@@ -133,17 +133,17 @@ export default function RMCommentList({ comments, postId, setComments }) {
                           onClick={() => onDelete(comments.commentId)}
                         >
                           삭제
-                        </DF.HeaderButton>
+                        </S.HeaderButton>
                       </>
                     )}
                   </td>
                 </tr>
                 <tr>
                   <td></td>
-                  <td colspan="2" style={{ textAlign: "left" }}>
+                  <td colSpan="2" style={{ textAlign: "left" }}>
                     {putMemberId === comments.commentId ? (
                       <div id={comments.commentId}>
-                        <MS.WriteInput
+                        <S.WriteInput
                           required
                           placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
                           욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
@@ -167,8 +167,8 @@ export default function RMCommentList({ comments, postId, setComments }) {
                   </td>
                 </tr>
               </tbody>
-            </DF.AgainTable>
-          </DF.AgainWrapper>
+            </S.AgainTable>
+          </S.AgainWrapper>
         ))}
     </>
   );

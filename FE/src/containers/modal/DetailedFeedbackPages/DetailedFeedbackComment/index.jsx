@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react";
-import { DF } from "../../../layout/DetailFeedbackStyle";
+import { S } from './ui'
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import DetailedFeedbackCommentAgain from "./DetailedFeedbackCommentAgain";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function DetailedFeedbackComment({
+export default function DetailFeedbackComment({
   feedbacks,
   link,
   setFeedback,
   id,
 }) {
-  const navigate = useNavigate();
-
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
+
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
+
   /*const onClickFeedback = (feedbackId) => {
-    console.log("feedbackId : " + feedbackId);
-    if (sessionStorage.getItem("nickname") !== null) {
+    console.log('feedbackId : ' + feedbackId);
+    if (sessionStorage.getItem('nickname') !== null) {
       axios
         .post(`/BE/reference/feedback/${feedbackId}/like`)
         .then((res) => {
@@ -33,10 +31,11 @@ export default function DetailedFeedbackComment({
           console.log(err);
         });
     } else {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/sociallogin");
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/sociallogin');
     }
   };*/
+
   const onClickThumb = (feedback_id) => {
     axios
       .post(`/BE/reference/feedback/${feedback_id}/like`)
@@ -52,7 +51,6 @@ export default function DetailedFeedbackComment({
           .catch((err) => {
             console.log(err);
           });
-        //setFeedback(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -69,24 +67,29 @@ export default function DetailedFeedbackComment({
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [id, setFeedback]);
 
   const onPutHandler = (feedback_id) => {
     const UploadComment = {
       feedback: contents,
     };
-    axios
-      .put(`/BE/reference/feedback/${feedback_id}`, UploadComment)
-      .then((response) => {
-        console.log(response);
-        setFeedback(response.data.data);
-        alert("댓글 수정이 완료되었습니다.");
-        setPutMemberId(0);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!contents) {
+      alert("내용이 수정되지 않았습니다.");
+    } else {
+      axios
+        .put(`/BE/reference/feedback/${feedback_id}`, UploadComment)
+        .then((response) => {
+          console.log(response);
+          setFeedback(response.data.data);
+          alert("댓글 수정이 완료되었습니다.");
+          setPutMemberId(0);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
+
   const onClickDelete = (feedback_id) => {
     axios
       .delete(`/BE/reference/feedback/${feedback_id}`)
@@ -99,38 +102,37 @@ export default function DetailedFeedbackComment({
         alert(err);
       });
   };
+
   return (
-    <DF.EachFeedWrapper>
+    <S.EachFeedWrapper>
       {feedbacks &&
         feedbacks.map((feedbacks, index) => (
           <div style={{ marginBottom: "30px" }} key={index}>
-            <DF.FeedWrapperHeader>
-              <DF.ProfileSize src={feedbacks.member.profileImage} alt="" />
-              <DF.ProfileName>{feedbacks.member.nickname}</DF.ProfileName>
-              <DF.ButtonWrapper>
-                <DF.HeaderButton
+            <S.FeedWrapperHeader>
+              <S.ProfileSize src={feedbacks.member.profileImage} alt="" />
+              <S.ProfileName>{feedbacks.member.nickname}</S.ProfileName>
+              <S.ButtonWrapper>
+                <S.HeaderButton
                   onClick={() => onClickThumb(feedbacks.feedbackId)}
                 >
                   <ThumbUpIcon />
-                  <DF.ThumbCount>{feedbacks.likeCount}</DF.ThumbCount>
-                </DF.HeaderButton>
+                  <S.ThumbCount>{feedbacks.likeCount}</S.ThumbCount>
+                </S.HeaderButton>
                 {feedbacks.member.nickname ===
                   sessionStorage.getItem("nickname") && (
                   <>
-                    <DF.HeaderButton
+                    <S.HeaderButton
                       style={{
                         top: "-5.5px",
                         position: "relative",
                         marginLeft: "3px",
                         color: "black",
                       }}
-                      onClick={() => {
-                        setPutMemberId(feedbacks.feedbackId);
-                      }}
+                      onClick={() => setPutMemberId(feedbacks.feedbackId)}
                     >
                       수정
-                    </DF.HeaderButton>
-                    <DF.HeaderButton
+                    </S.HeaderButton>
+                    <S.HeaderButton
                       style={{
                         top: "-5.5px",
                         position: "relative",
@@ -140,37 +142,37 @@ export default function DetailedFeedbackComment({
                       onClick={() => onClickDelete(feedbacks.feedbackId)}
                     >
                       삭제
-                    </DF.HeaderButton>
+                    </S.HeaderButton>
                   </>
                 )}
-              </DF.ButtonWrapper>
-            </DF.FeedWrapperHeader>
+              </S.ButtonWrapper>
+            </S.FeedWrapperHeader>
             <div>
-              <DF.FeedWrapperButton>
+              <S.FeedWrapperButton>
                 {link ? (
-                  <DF.WrapperSearch>동영상</DF.WrapperSearch>
+                  <S.WrapperSearch>동영상</S.WrapperSearch>
                 ) : (
-                  <DF.WrapperSearch href={`#${feedbacks.page - 1}`}>
+                  <S.WrapperSearch href={`#${feedbacks.page - 1}`}>
                     {feedbacks.page}페이지
-                  </DF.WrapperSearch>
+                  </S.WrapperSearch>
                 )}
-              </DF.FeedWrapperButton>
+              </S.FeedWrapperButton>
               {putMemberId === feedbacks.feedbackId ? (
                 <div id={feedbacks.feedbackId}>
                   <br />
-                  <DF.ModifyText
+                  <S.ModifyText
                     required
                     placeholder="상세 피드백을 수정하세요."
                     onChange={onChangeContents}
                     defaultValue={feedbacks.feedback}
                   />
-                  <DF.ModifyFin
+                  <S.ModifyFin
                     onClick={() => {
                       return onPutHandler(feedbacks.feedbackId);
                     }}
                   >
                     수정 완료하기
-                  </DF.ModifyFin>
+                  </S.ModifyFin>
                 </div>
               ) : (
                 <p
@@ -183,11 +185,10 @@ export default function DetailedFeedbackComment({
                   {feedbacks.feedback}
                 </p>
               )}
-
-              {/* <DetailedFeedbackCommentAgain />*/}
+              {/* <DetaileSeedbackCommentAgain />*/}
             </div>
           </div>
         ))}
-    </DF.EachFeedWrapper>
+    </S.EachFeedWrapper>
   );
 }

@@ -1,12 +1,12 @@
-import Loading from "../../styles/Loading";
-import { MS } from "../../layout/ModalStyle";
+import Loading from "../../../../styles/Loading";
+import { S } from './ui'
 import React, { useEffect, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import { getDate } from "../../functions/getDate";
+import { getDate } from "../../../../functions/getDate";
 import { useNavigate } from "react-router-dom";
-import RefModalComment from "./RefModalComment";
+import RefModalComment from "../RefModalComment";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import StarIcon from "@mui/icons-material/Star";
@@ -14,9 +14,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import YouTube from "react-youtube";
-import useWindowSize from "./pdfView/useWindowSize";
-import DetailedFeedback from "./DetailedFeedback/DetailedFeedback";
+import useWindowSize from "../../../../functions/useWindowSize";
+import DetailedFeedback from '../../DetailedFeedbackPages/DetailedFeedback'
 import { pdfjs, Document, Page } from "react-pdf";
+import Draggable from "react-draggable";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const useStyles = makeStyles({
@@ -67,12 +69,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RefModal({
-  id2,
-  modalVisibleId2,
-  setModalVisibleId2,
-  setData,
-}) {
+export default function RefModal({ id2, setModalVisibleId2 }) {
   const classes = useStyles();
   const Navigate = useNavigate();
 
@@ -107,12 +104,12 @@ export default function RefModal({
     setShowSel(!showSel);
   };
   const [category, setCategory] = useState("");
+
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
     axios
       .get(endpoint)
       .then((res) => {
-        console.log(res);
         // top : 제목, 콘테스트 이름, 작성일자, 카테고리, 조회수, 좋아요수, 스크랩 수
         setTop({
           postId: res.data.data.postId,
@@ -188,10 +185,10 @@ export default function RefModal({
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false)
-    },2500)
-  }, [loading])
-  
+      setLoading(false);
+    }, 2500);
+  }, [loading]);
+
   let Lo = window.location.href;
 
   const onCloseHandler2 = () => {
@@ -235,7 +232,9 @@ export default function RefModal({
           likeCount: res.data.data.likeCount,
           scrapCount: top.scrapCount,
         });
-        setLikeBoolean(!likeBoolean);
+        if (res.data.data.isLiked === true) {
+          setLikeBoolean(!likeBoolean);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -258,7 +257,9 @@ export default function RefModal({
           likeCount: top.likeCount,
           scrapCount: res.data.data.scrapCount,
         });
-        setscrapBoolean(!scrapBoolean);
+        if (res.data.data.isScraped === true) {
+          setscrapBoolean(!scrapBoolean);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -303,9 +304,7 @@ export default function RefModal({
   // 레퍼런스 수정
   const onClickPut = () => {
     if (
-      window.confirm(
-        "레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다."
-      )
+      window.confirm("레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다.")
     ) {
       alert("수정 기능은 구현 중~");
       Navigate("/");
@@ -314,19 +313,34 @@ export default function RefModal({
     }
   };
 
+  const checkPage = () => {
+    if (show > numPages) {
+      alert("페이지를 제대로 입력해주세요!");
+      window.history.back();
+      let el = document.getElementById("pageInput");
+      el.value = "";
+    }
+  };
+
+  const [position, setPosition] = useState({ x: 0, y: 0 }); // box의 포지션 값
+  // 업데이트 되는 값을 set 해줌
+  const trackPos = (data) => {
+    setPosition({ x: data.x, y: data.y });
+  };
+
   return (
-    <MS.ModalWrapper>
+    <S.ModalWrapper>
       {/*className={modalVisibleId2 == id2 ? "d_block" : "d_none"}*/}
-      
-      <MS.MobalBox>
+
+      <S.MobalBox>
         {loading && <Loading />}
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         {postMember.nickname === sessionStorage.getItem("nickname") && (
           <>
             <MoreVertIcon className={classes.dotIcon} onClick={showSelect} />
             {showSel && (
-              <MS.EtcDiv>
-                <MS.Functionp onClick={onClickPut}>수정하기</MS.Functionp>
+              <S.EtcDiv>
+                <S.Functionp onClick={onClickPut}>수정하기</S.Functionp>
                 <div
                   style={{
                     width: "90px",
@@ -336,55 +350,45 @@ export default function RefModal({
                     left: "5px",
                   }}
                 />
-                <MS.Functionp onClick={onDelete}>삭제하기</MS.Functionp>
-              </MS.EtcDiv>
+                <S.Functionp onClick={onDelete}>삭제하기</S.Functionp>
+              </S.EtcDiv>
             )}
           </>
         )}
         <br />
-        <MS.MobalHeader>
-          <MS.HeaderDiv1>
-            <MS.DetailTitle>{top.title}</MS.DetailTitle>
-            <MS.DetailTitleInfo>
+        <S.MobalHeader>
+          <S.HeaderDiv1>
+            <S.DetailTitle>{top.title}</S.DetailTitle>
+            <S.DetailTitleInfo>
               {top.contestName}&nbsp;
               <span style={{ color: "#FADA5E" }}>{top.contestAwardType}</span>
               &nbsp;| &nbsp;{getDate(top.postingTime)}&nbsp;|&nbsp;
               {top.category}
-            </MS.DetailTitleInfo>
-          </MS.HeaderDiv1>
+            </S.DetailTitleInfo>
+          </S.HeaderDiv1>
 
-          <MS.HeaderDiv2>
-            <MS.HeaderUserInfo>
-              <MS.ProfileSize src={postMember.profileImage} />
-              <MS.HeaderUserName>{postMember.nickname}</MS.HeaderUserName>
-              <MS.HeaderDetail2>
+          <S.HeaderDiv2>
+            <S.HeaderUserInfo>
+              <S.ProfileSize src={postMember.profileImage} />
+              <S.HeaderUserName>{postMember.nickname}</S.HeaderUserName>
+              <S.HeaderDetail2>
                 <RemoveRedEyeOutlinedIcon />
                 {top.views}
                 <FavoriteOutlinedIcon className={classes.love} />
                 {top.likeCount}
                 <StarIcon className={classes.star} />
                 {top.scrapCount}
-              </MS.HeaderDetail2>
-            </MS.HeaderUserInfo>
-            <MS.DetailFeedbackButton>코멘트 바로가기</MS.DetailFeedbackButton>
-            <MS.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
+              </S.HeaderDetail2>
+            </S.HeaderUserInfo>
+            <S.DetailFeedbackButton>코멘트 바로가기</S.DetailFeedbackButton>
+            <S.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
               상세피드백 보기
-            </MS.DetailFeedbackButton>
-            <DetailedFeedback
-              id3={id2}
-              modalVisibleId3={modalVisibleId3}
-              setModalVisibleId3={setModalVisibleId3}
-              numPages={numPages}
-              media={middle.fileNames}
-              link={middle.youtubeLink}
-              feedbacks={feedback} // 피드백 전체 넘겼습니다.
-              setFeedback={setFeedback} // 혹시 몰라 피드백을 수정할 수 있는 setFeedback도 같이 넘깁니다.
-            />
-          </MS.HeaderDiv2>
-        </MS.MobalHeader>
-        <MS.Line />
+            </S.DetailFeedbackButton>
+          </S.HeaderDiv2>
+        </S.MobalHeader>
+        <S.Line />
 
-        <MS.MobalContents>
+        <S.MobalContents>
           {category === "video" ? (
             <YouTube
               videoId={middle.youtubeLink}
@@ -403,47 +407,48 @@ export default function RefModal({
             middle.fileType === "jpeg" ||
             middle.fileType === "png" ? (
             middle.fileNames.map((srcLink, index) => {
-              return <MS.ContentImg src={srcLink} key={srcLink} id={index} />;
+              return <S.ContentImg src={srcLink} key={srcLink} id={index} />;
             })
           ) : (
-            <MS.PdfWrapper>
-              <MS.PdfSet>
+            <S.PdfWrapper>
+              <S.PdfSet>
                 페이지 입력
                 {numPages > 1 && (
                   <>
-                    <MS.PdfPageInput
+                    <S.PdfPageInput
                       onChange={changePageNum}
                       placeholder={`1P부터 ${numPages}P까지`}
                       defaultValue={1}
+                      id="pageInput"
                     />
-                    <MS.PdfPageButtonWrapper>
-                      <MS.PdfPageButton href={`#${show}`}>
+                    <S.PdfPageButtonWrapper>
+                      <S.PdfPageButton href={`#${show}`} onClick={checkPage}>
                         이동하기
-                      </MS.PdfPageButton>
-                    </MS.PdfPageButtonWrapper>
+                      </S.PdfPageButton>
+                    </S.PdfPageButtonWrapper>
                   </>
                 )}
-                <MS.PdfSizeWrapper>
-                  <MS.PdfSizeButton
+                <S.PdfSizeWrapper>
+                  <S.PdfSizeButton
                     onClick={() => {
                       setPageScale(pageScale === 1.5 ? 1.5 : pageScale + 0.25);
                     }}
                   >
-                    <MS.SizeIcon>+</MS.SizeIcon>
-                  </MS.PdfSizeButton>
-                  <MS.PdfSizeButton
+                    <S.SizeIcon>+</S.SizeIcon>
+                  </S.PdfSizeButton>
+                  <S.PdfSizeButton
                     onClick={() => {
                       setPageScale(
                         pageScale - 0.25 < 0.25 ? 0.25 : pageScale - 0.25
                       );
                     }}
                   >
-                    <MS.SizeIcon>-</MS.SizeIcon>
-                  </MS.PdfSizeButton>
-                </MS.PdfSizeWrapper>
-                <MS.SizeShow>{pageScale * 100 + "%"}</MS.SizeShow>
-              </MS.PdfSet>
-              <MS.PdfMannage
+                    <S.SizeIcon>-</S.SizeIcon>
+                  </S.PdfSizeButton>
+                </S.PdfSizeWrapper>
+                <S.SizeShow>{pageScale * 100 + "%"}</S.SizeShow>
+              </S.PdfSet>
+              <S.PdfMannage
                 onContextMenu={(e) => e.preventDefault()}
                 style={{
                   maxHeight: windowSize.height / 1.5,
@@ -466,14 +471,30 @@ export default function RefModal({
                     </div>
                   ))}
                 </Document>
-              </MS.PdfMannage>
+              </S.PdfMannage>
               <div style={{ height: "50px", width: "auto" }} />
-            </MS.PdfWrapper>
+            </S.PdfWrapper>
           )}
-        </MS.MobalContents>
+        </S.MobalContents>
 
-        <MS.TraceBoxWrapper>
-          <MS.TraceBox
+        {/* 움직이는 모달 */}
+        <Draggable onDrag={(_, data) => trackPos(data)}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <DetailedFeedback
+              id3={id2}
+              modalVisibleId3={modalVisibleId3}
+              setModalVisibleId3={setModalVisibleId3}
+              numPages={numPages}
+              media={middle.fileNames}
+              link={middle.youtubeLink}
+              feedbacks={feedback} // 피드백 전체 넘겼습니다.
+              setFeedback={setFeedback} // 혹시 몰라 피드백을 수정할 수 있는 setFeedback도 같이 넘깁니다.
+            />
+          </div>
+        </Draggable>
+
+        <S.TraceBoxWrapper>
+          <S.TraceBox
             style={{ background: "#FFFFFF" }}
             onClick={() => handleLike()}
           >
@@ -483,24 +504,24 @@ export default function RefModal({
               }
             />
             {top.likeCount}
-          </MS.TraceBox>
+          </S.TraceBox>
           <div style={{ width: "26px" }}></div>
-          <MS.TraceBox onClick={() => handleScrap()}>
+          <S.TraceBox onClick={() => handleScrap()}>
             <StarIcon
               className={
                 !scrapBoolean ? classes.afterClick2 : classes.beforeClick
               }
             />
             {top.scrapCount}
-          </MS.TraceBox>
-        </MS.TraceBoxWrapper>
+          </S.TraceBox>
+        </S.TraceBoxWrapper>
 
         <RefModalComment
           postId={id2}
           comments={comments}
           setComments={setComments}
         />
-      </MS.MobalBox>
-    </MS.ModalWrapper>
+      </S.MobalBox>
+    </S.ModalWrapper>
   );
 }

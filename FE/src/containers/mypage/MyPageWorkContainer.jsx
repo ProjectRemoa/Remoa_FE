@@ -4,7 +4,7 @@ import styled from "styled-components";
 import MyPageScrapContainer from "./MyPageScrapContainer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import RefModal from "../modal/RefModal";
+import RefModal from "../modal/RefModalPages/RefModal";
 
 const Button = styled.button`
   width: 12%;

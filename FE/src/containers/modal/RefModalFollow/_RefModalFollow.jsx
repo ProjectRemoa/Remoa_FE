@@ -1,3 +1,4 @@
+<<<<<<<< HEAD:FE/src/containers/modal/RefModalFollow/_RefModalFollow.jsx
 import { MS } from '../../../layout/ModalStyle';
 import '../../../src/App.css';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,6 +7,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
+========
+import { S } from "./ui";
+import "../../../../src/App.css"
+import { makeStyles } from "@material-ui/core/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+>>>>>>>> 442546cb4b77a996dbff06f85ede316601b774b3:FE/src/containers/modal/RefModalFollow/index.jsx
 
 const useStyles = makeStyles({
   close: {
@@ -28,12 +39,20 @@ export default function RefModalFollow({
 }) {
   const classes = useStyles();
   const navigate = useNavigate();
+<<<<<<<< HEAD:FE/src/containers/modal/RefModalFollow/_RefModalFollow.jsx
   const onCloseHandler = () => {
     setModalVisibleId('');
   };
+========
+
+>>>>>>>> 442546cb4b77a996dbff06f85ede316601b774b3:FE/src/containers/modal/RefModalFollow/index.jsx
   const [stateFollow, setStateFollow] = useState(false);
+
   const onClickFollow = () => {
+<<<<<<<< HEAD:FE/src/containers/modal/RefModalFollow/_RefModalFollow.jsx
     console.log('===팔로잉하기 클릭');
+========
+>>>>>>>> 442546cb4b77a996dbff06f85ede316601b774b3:FE/src/containers/modal/RefModalFollow/index.jsx
     //setStatestateFollow(!stateFollow);
     if (!sessionStorage.getItem('nickname')) {
       alert('로그인이 필요한 서비스입니다.');
@@ -75,15 +94,16 @@ export default function RefModalFollow({
     }
   };
 
-  const onClickMore = () => {
-    navigate(`/user/list/${memberId}`);
-  };
-
   const [following, setFollowing] = useState(0);
   const [follower, setFollower] = useState(0);
   const [isItMe, setIsItMe] = useState(false);
+
   useEffect(() => {
+<<<<<<<< HEAD:FE/src/containers/modal/RefModalFollow/_RefModalFollow.jsx
     console.log('==팔로잉/팔로우 확인');
+========
+    console.log("팔로잉/팔로우 확인");
+>>>>>>>> 442546cb4b77a996dbff06f85ede316601b774b3:FE/src/containers/modal/RefModalFollow/index.jsx
     axios
       .get(`/BE/follow/${memberId}`)
       .then((res) => {
@@ -96,18 +116,28 @@ export default function RefModalFollow({
       });
 
     setStateFollow(isFollow);
-  }, [modalVisibleId]);
+  }, [isFollow, memberId, modalVisibleId]);
 
   return (
-    <MS.SmallModalWrapper
+    <S.SmallModalWrapper
       className={
+<<<<<<<< HEAD:FE/src/containers/modal/RefModalFollow/_RefModalFollow.jsx
         modalVisibleId == id && isItMe === false ? 'd_block' : 'd_none'
+========
+        modalVisibleId === id && isItMe === false ? "d_block" : "d_none"
+>>>>>>>> 442546cb4b77a996dbff06f85ede316601b774b3:FE/src/containers/modal/RefModalFollow/index.jsx
       }
       location={location}
     >
-      <CloseIcon onClick={onCloseHandler} className={classes.close}>
+      <CloseIcon
+        onClick={() => {
+          setModalVisibleId("");
+        }}
+        className={classes.close}
+      >
         닫기
       </CloseIcon>
+<<<<<<<< HEAD:FE/src/containers/modal/RefModalFollow/_RefModalFollow.jsx
       <MS.ModalProfile>
         <MS.ModalProfilePhoto src={idea.postMember.profileImage} />
         <MS.ModalProfileName style={{ fontSize: '70%' }}>
@@ -135,10 +165,42 @@ export default function RefModalFollow({
         <MS.SmallModalButton
           style={{ marginLeft: '7px', cursor: 'pointer' }}
           onClick={onClickMore}
+========
+
+      <S.ModalProfile>
+        <S.ModalProfilePhoto src={idea.postMember.profileImage} />
+        <S.ModalProfileName style={{ fontSize: "70%" }}>
+          {idea.postMember.nickname}
+        </S.ModalProfileName>
+      </S.ModalProfile>
+
+      <S.FollowingFollower>
+        <S.ModalFollowing style={{ fontSize: "70%" }}>
+          Following
+          <span style={{ color: "black" }}>&nbsp;&nbsp;{following}</span>
+        </S.ModalFollowing>
+      </S.FollowingFollower>
+
+      <S.FollowingFollower>
+        <S.ModalFollower style={{ fontSize: "70%" }}>
+          Follower<span style={{ color: "black" }}>&nbsp;&nbsp;{follower}</span>
+        </S.ModalFollower>
+      </S.FollowingFollower>
+
+      <S.SmallModalButtonWrapper>
+        <S.SmallModalButton onClick={onClickFollow}>
+          {stateFollow ? "언팔로잉하기" : "팔로잉하기"}
+        </S.SmallModalButton>
+        <S.SmallModalButton
+          style={{ marginLeft: "7px", cursor: "pointer" }}
+          onClick={() => {
+            navigate(`/user/list/${memberId}`);
+          }}
+>>>>>>>> 442546cb4b77a996dbff06f85ede316601b774b3:FE/src/containers/modal/RefModalFollow/index.jsx
         >
           더 많은 작품 보기
-        </MS.SmallModalButton>
-      </MS.SmallModalButtonWrapper>
-    </MS.SmallModalWrapper>
+        </S.SmallModalButton>
+      </S.SmallModalButtonWrapper>
+    </S.SmallModalWrapper>
   );
 }

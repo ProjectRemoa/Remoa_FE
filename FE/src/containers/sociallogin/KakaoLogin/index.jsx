@@ -45,6 +45,7 @@ function KakaoLogin() {
   useEffect(() => {
     sendToken();
   }, []);
+  
   return <div></div>;
 }
 
