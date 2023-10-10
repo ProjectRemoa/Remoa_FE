@@ -1,15 +1,17 @@
-import { S } from "./ui";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { S } from './ui';
+import { BsFillHandThumbsUpFill } from 'react-icons/bs'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function ModalCommentList({ comments, postId, setComments }) {
   const navigate = useNavigate();
 
   const [isEdit, setIsEdit] = useState(false);
-  const [contents, setContents] = useState("");
-  const [putMemberId, setPutMemberId] = useState(0); // 수정할 member id
+  const [contents, setContents] = useState('');
+
+  // 수정할 member id
+  const [putMemberId, setPutMemberId] = useState(0);
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
@@ -25,7 +27,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
       .then((response) => {
         console.log(response);
         setComments(response.data.data);
-        alert("댓글 수정이 완료되었습니다.");
+        alert('댓글 수정이 완료되었습니다.');
         setPutMemberId(0);
       })
       .catch((err) => {
@@ -46,7 +48,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
       .then((response) => {
         console.log(response);
         setComments(response.data.data);
-        alert("댓글 삭제가 완료되었습니다.");
+        alert('댓글 삭제가 완료되었습니다.');
         // if (response.status === 200) alert(response.data);
       })
       .catch((err) => {
@@ -55,9 +57,9 @@ export default function ModalCommentList({ comments, postId, setComments }) {
   };
 
   const onClickThumb = (commentId) => {
-    if (sessionStorage.getItem("nickname") === null) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/sociallogin");
+    if (sessionStorage.getItem('nickname') === null) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/sociallogin');
     } else {
       axios
         .post(`/BE/comment/${commentId}/like`)
@@ -92,28 +94,27 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                   <td>
                     <S.ProfileSize src={comments.member.profileImage} />
                   </td>
-                  <td style={{ width: "100px", fontSize: "90%" }}>
+                  <td style={{ width: '100px', fontSize: '90%' }}>
                     {comments.member.nickname}
                   </td>
                   <td
-                    style={{ float: "left", position: "relative", top: "15px" }}
+                    style={{ float: 'left', position: 'relative', top: '15px' }}
                   >
                     <S.HeaderButton
                       onClick={() => onClickThumb(comments.commentId)}
                     >
-                      <ThumbUpIcon />
+                      <BsFillHandThumbsUpFill />
                       <S.ThumbCount>{comments.likeCount}</S.ThumbCount>
                     </S.HeaderButton>
-                    {comments.member.nickname ===
-                      // 내가 해당 댓글 작성자여야만 수정 버튼이 보여야 함
-                      sessionStorage.getItem("nickname") && (
+                    { // 내가 해당 댓글 작성자여야만 수정 버튼이 보여야 함
+                    comments.member.nickname === sessionStorage.getItem('nickname') && (
                       <>
                         <S.HeaderButton
                           style={{
-                            top: "-4px",
-                            position: "relative",
-                            color: "black",
-                            marginLeft: "22px",
+                            top: '-4px',
+                            position: 'relative',
+                            color: 'black',
+                            marginLeft: '22px',
                           }}
                           onClick={() => {
                             //setIsEdit(!isEdit);
@@ -125,10 +126,10 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                         </S.HeaderButton>
                         <S.HeaderButton
                           style={{
-                            top: "-4px",
-                            position: "relative",
-                            color: "black",
-                            marginLeft: "22px",
+                            top: '-4px',
+                            position: 'relative',
+                            color: 'black',
+                            marginLeft: '22px',
                           }}
                           onClick={() => onDelete(comments.commentId)}
                         >
@@ -140,13 +141,13 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                 </tr>
                 <tr>
                   <td></td>
-                  <td colSpan="2" style={{ textAlign: "left" }}>
+                  <td colSpan='2' style={{ textAlign: 'left' }}>
                     {putMemberId === comments.commentId ? (
                       <div id={comments.commentId}>
                         <S.WriteInput
                           required
-                          placeholder="해당 작업물에 대한 의견을 자유롭게 남겨주세요!
-                          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
+                          placeholder='해당 작업물에 대한 의견을 자유롭게 남겨주세요!
+                          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.'
                           onChange={onChangeContents}
                           defaultValue={comments.comment}
                         />

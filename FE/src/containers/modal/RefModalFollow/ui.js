@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const S = {
   SmallModalWrapper: styled.div`
@@ -6,19 +6,19 @@ export const S = {
     position: absolute;
     width: 401px;
     height: 128px;
-    left: ${(props) => (props.location == 4 ? "-20vw" : "5vw")};
+    left: ${(props) => (props.location === 4 ? '-20vw' : '5vw')};
     @media ${(props) => props.theme.desktop} {
-      left: ${(props) => (props.location == 3 ? "-40vw" : "5vw")};
+      left: ${(props) => (props.location === 3 ? '-40vw' : '5vw')};
       top: 5.5vw;
     }
     @media ${(props) => props.theme.mobile} {
-      left: ${(props) => (props.location == 2 ? "-50vw" : "5.5vw")};
+      left: ${(props) => (props.location === 2 ? '-50vw' : '5.5vw')};
       top: 7vw;
     }
     background: #ffffff;
     border: 0.5px solid #b0b0b0;
     border-radius: ${(props) =>
-      props.location >= 1 ? "10px 0px 10px 10px" : "0px 10px 10px 10px"};
+      props.location >= 1 ? '10px 0px 10px 10px' : '0px 10px 10px 10px'};
     z-index: 4;
     top: 4vw;
   `,
