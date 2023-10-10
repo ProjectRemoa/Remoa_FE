@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { pageLinks, filterOptions } from '../constants';
 
 import RefCard from '../RefCard';
-import RefModal from '../../modal/RefModal';
+import RefModal from '../../modal/RefModalPages/RefModal';
 
 import { MdArrowForwardIos } from 'react-icons/md';
 import StyledComponents from './RefListWrapper.styles';
