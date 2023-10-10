@@ -1,5 +1,5 @@
 import Loading from '../../../../styles/Loading';
-import { S } from './ui'
+import { S } from './ui';
 import React, { useEffect, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +15,7 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import YouTube from 'react-youtube';
 import useWindowSize from '../../../../functions/useWindowSize';
-import DetailedFeedback from '../../DetailedFeedbackPages/DetailedFeedback'
+import DetailedFeedback from '../../DetailedFeedbackPages/DetailedFeedback';
 import { pdfjs, Document, Page } from 'react-pdf';
 import Draggable from 'react-draggable';
 

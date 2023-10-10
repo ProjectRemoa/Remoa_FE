@@ -1,7 +1,7 @@
 import { S } from './ui';
-import '../../../../src/App.css'
+import '../../../../src/App.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { AiOutlineClose } from 'react-icons/ai'
+import { AiOutlineClose } from 'react-icons/ai';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';

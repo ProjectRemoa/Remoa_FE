@@ -2,8 +2,8 @@ import React from 'react';
 import { S } from './ui';
 import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
-import { MdPriorityHigh } from 'react-icons/md'
-import { AiOutlineCheck } from 'react-icons/ai'
+import { MdPriorityHigh } from 'react-icons/md';
+import { AiOutlineCheck } from 'react-icons/ai';
 
 const useStyles = makeStyles({
   check: {

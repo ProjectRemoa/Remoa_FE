@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { S } from './ui'
+import { S } from './ui';
 import axios from 'axios';
-import { BsFillHandThumbsUpFill } from 'react-icons/bs'
+import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 
 export default function DetailFeedbackComment({
   feedbacks,

@@ -1,7 +1,7 @@
 import React from 'react';
-import { S } from './ui'
-import { BsFillHandThumbsUpFill } from 'react-icons/bs'
-import { BiCommentAdd } from 'react-icons/bi'
+import { S } from './ui';
+import { BsFillHandThumbsUpFill } from 'react-icons/bs';
+import { BiCommentAdd } from 'react-icons/bi';
 
 const again = [
   {
