@@ -6,7 +6,7 @@ function MyPageFAQPage() {
   return (
     <Layout>
       <MyPageContainer />
-      <MyPageFAQ></MyPageFAQ>
+      <MyPageFAQ />
     </Layout>
   );
 }
