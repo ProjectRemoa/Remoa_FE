@@ -22,12 +22,9 @@ function MyPageScrapContainer({ from }) {
   }, []);
 
   const getWork = (endpoint, isLoad) => {
-    console.log("========");
-    console.log(endpoint);
     axios
       .get(endpoint)
       .then((res) => {
-        console.log(res);
         if (isLoad === true)
           // 이어서 받으려면
           setMywork([...mywork, ...res.data.data.posts]);
@@ -50,7 +47,7 @@ function MyPageScrapContainer({ from }) {
   return (
     <Wrapper>
       <Title>스크랩한 작업물</Title>
-      {totalElements ? (
+      {!totalElements ? (
         <Content>아직 스크랩한 작업물이 없어요.</Content>
       ) : (
         <Content>
