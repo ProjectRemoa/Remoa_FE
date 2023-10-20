@@ -28,7 +28,6 @@ function MyPageWorkContainer() {
     axios
       .get(`/BE/user/comment?page=${1}`)
       .then((res) => {
-        console.log(res.data.data.contents);
         setData(...res.data.data.contents);
         setAllPage(Array.from({ length: res.data.data.totalPages }));
         setAllComments(res.data.data.totalAllComments);
