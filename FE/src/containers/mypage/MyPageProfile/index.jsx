@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import defaultImage from "../../../images/profile_img.png";
-import PopupContent from "../MyPageProfilePopupContent";
+import MyPageProfilePopupContent from "../MyPageProfilePopupContent";
 import styledComponent from "./MyPageProfile.styles";
 const {
   Wrapper,
@@ -299,8 +299,8 @@ function MyPageProfile() {
           <ItemButton type="button" id="popupDom" onClick={openPopup}>
             검색하기
           </ItemButton>
-          {isOpenPopup && (
-            <PopupContent
+          {!isOpenPopup && (
+            <MyPageProfilePopupContent
               changeUniversity={changeUniversity}
               close={closePopup}
             />

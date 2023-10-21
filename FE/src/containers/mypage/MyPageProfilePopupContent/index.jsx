@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import { useState } from "react";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { data } from "./temporary/university";
+import { data } from "../temporary/university";
 
 const Style = {
   FullLayer: styled.div`
@@ -11,7 +11,7 @@ const Style = {
     top: 50%;
     left: 50%;
     z-index: 300;
-    transform: translate(-50%, -50%);
+    /* transform: translate(-50%, -50%); */
   `,
   CommonAlert: styled.div`
     text-align: left;
@@ -121,7 +121,7 @@ const Style = {
   `,
 };
 
-const PopupContent = (props) => {
+const MyPageProfilePopupContent = (props) => {
   const [input, setInput] = useState("한국대학교");
   const { changeUniversity, close } = props;
   const [info, setInfo] = useState([
@@ -142,12 +142,12 @@ const PopupContent = (props) => {
   const clickTableEvent = (target) => {
     let targeting = document.getElementById(target);
     let tableRow = document.getElementsByClassName("Tr");
-    let targetName = document.getElementById(target+"universityName");
+    let targetName = document.getElementById(target + "universityName");
     if (targeting) {
-        for (let i = 0; i < tableRow.length; i++)
-            tableRow[i].style.backgroundColor = "#FFFFFF";
-        targeting.style.backgroundColor = "#FADA5E";
-        changeUniversity(targetName.innerText);
+      for (let i = 0; i < tableRow.length; i++)
+        tableRow[i].style.backgroundColor = "#FFFFFF";
+      targeting.style.backgroundColor = "#FADA5E";
+      changeUniversity(targetName.innerText);
     }
   };
 
@@ -168,7 +168,9 @@ const PopupContent = (props) => {
             onClick={() => clickTableEvent(i.toString())}
           >
             <Style.TbodyValue>{data[i]["address"]}</Style.TbodyValue>
-            <Style.TbodyValue id={i.toString()+"universityName"}>{data[i]["name"]}</Style.TbodyValue>
+            <Style.TbodyValue id={i.toString() + "universityName"}>
+              {data[i]["name"]}
+            </Style.TbodyValue>
           </Style.Trow>
         );
         newInfo.push(universityValue);
@@ -178,59 +180,57 @@ const PopupContent = (props) => {
   };
 
   return (
-    <>
-      <Style.FullLayer>
-        <Style.CommonAlert>
-          <Style.ContentWrap>
-            <Style.Title>내 학교 찾기</Style.Title>
-            <a onClick={close}>
-              <FontAwesomeIcon icon={faXmark} color="#FADA5E" size="2x" />
-            </a>
-          </Style.ContentWrap>
-          <Style.DetailContent>
-            학교 명을 검색해보세요. 키워드 형으로 입력하면 쉽게 찾을 수 있어요.
-            (ex. 한국, 한국대)
-          </Style.DetailContent>
+    <Style.FullLayer>
+      <Style.CommonAlert>
+        <Style.ContentWrap>
+          <Style.Title>내 학교 찾기</Style.Title>
+          <a onClick={close}>
+            <FontAwesomeIcon icon={faXmark} color="#FADA5E" size="2x" />
+          </a>
+        </Style.ContentWrap>
+        <Style.DetailContent>
+          학교 명을 검색해보세요. 키워드 형으로 입력하면 쉽게 찾을 수 있어요.
+          (ex. 한국, 한국대)
+        </Style.DetailContent>
 
-          <Style.SearchWrap>
-            <Style.SearchBtnWrap>
-              <Style.SearchBtn
-                type="button"
-                onClick={() => searchUniversity(input)}
-              >
-                <FontAwesomeIcon
-                  icon={faMagnifyingGlass}
-                  color="white"
-                  size="2x"
-                />
-              </Style.SearchBtn>
-            </Style.SearchBtnWrap>
-            <Style.InputWrap>
-              <Style.Input onChange={(e) => inputHandler(e)}></Style.Input>
-            </Style.InputWrap>
-          </Style.SearchWrap>
+        <Style.SearchWrap>
+          <Style.SearchBtnWrap>
+            <Style.SearchBtn
+              type="button"
+              onClick={() => searchUniversity(input)}
+            >
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                color="white"
+                size="2x"
+              />
+            </Style.SearchBtn>
+          </Style.SearchBtnWrap>
+          <Style.InputWrap>
+            <Style.Input onChange={(e) => inputHandler(e)}></Style.Input>
+          </Style.InputWrap>
+        </Style.SearchWrap>
 
-          <Style.TableWrap>
-            <Style.Table>
-              <Style.Thead>
-                <Style.Trow>
-                  <Style.TheadValue scope="col">소재지</Style.TheadValue>
-                  <Style.TheadValue scope="col">대학명</Style.TheadValue>
-                </Style.Trow>
-              </Style.Thead>
-              <Style.Tbody>{info ? info : null}</Style.Tbody>
-            </Style.Table>
-          </Style.TableWrap>
+        <Style.TableWrap>
+          <Style.Table>
+            <Style.Thead>
+              <Style.Trow>
+                <Style.TheadValue scope="col">소재지</Style.TheadValue>
+                <Style.TheadValue scope="col">대학명</Style.TheadValue>
+              </Style.Trow>
+            </Style.Thead>
+            <Style.Tbody>{info ? info : null}</Style.Tbody>
+          </Style.Table>
+        </Style.TableWrap>
 
-          <Style.SelectBtnWrap>
-            <Style.SelectBtn type="button" onClick={close}>
-              선택
-            </Style.SelectBtn>
-          </Style.SelectBtnWrap>
-        </Style.CommonAlert>
-      </Style.FullLayer>
-    </>
+        <Style.SelectBtnWrap>
+          <Style.SelectBtn type="button" onClick={close}>
+            선택
+          </Style.SelectBtn>
+        </Style.SelectBtnWrap>
+      </Style.CommonAlert>
+    </Style.FullLayer>
   );
 };
 
-export default PopupContent;
+export default MyPageProfilePopupContent;
