@@ -299,7 +299,7 @@ function MyPageProfile() {
           <ItemButton type="button" id="popupDom" onClick={openPopup}>
             검색하기
           </ItemButton>
-          {!isOpenPopup && (
+          {isOpenPopup && (
             <MyPageProfilePopupContent
               changeUniversity={changeUniversity}
               close={closePopup}
