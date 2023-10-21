@@ -1,50 +1,50 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import styled from "styled-components";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
-import LoginPage from "./page/login/LoginPage";
-import SocialLoginPage from "./page/sociallogin/SocialLoginPage";
-import UnknownPage from "./page/UnknownPage";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import styled from 'styled-components';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import LoginPage from './page/login/LoginPage';
+import SocialLoginPage from './page/sociallogin/SocialLoginPage';
+import UnknownPage from './page/UnknownPage';
 
-import RefIdeaPage from "./page/reference/RefIdeaPage";
-import RefMarketingPage from "./page/reference/RefMarketingPage";
-import RefVideoPage from "./page/reference/RefVideoPage";
-import RefDesignPage from "./page/reference/RefDesignPage";
-import RefEtcPage from "./page/reference/RefEtcPage";
+import RefPage from './page/reference/RefPage';
 
 import ManageList from "./page/manage/ManageList";
 import ManageShare from "./page/manage/ManageShare";
 import ManageFeedback from "./page/manage/ManageFeedback";
 
-import PageProfile from "./page/mypage/PageProfile";
-import PageFollowing from "./page/mypage/PageFollowing";
-import PageScrap from "./page/mypage/PageScrap";
-import PageMyFeedback from "./page/mypage/PageMyFeedback";
-import PageFAQ from "./page/mypage/PageFAQ";
-import SignUpPage from "./page/SignUpPage";
+import PageProfile from './page/mypage/PageProfile';
+import PageFollowing from './page/mypage/PageFollowing';
+import PageScrap from './page/mypage/PageScrap';
+import PageMyFeedback from './page/mypage/PageMyFeedback';
+import PageFAQ from './page/mypage/PageFAQ';
+import SignUpPage from './page/SignUpPage';
 
-import EmailFind from "./page/findinfo/EmailFind";
-import PasswordFind from "./page/findinfo/PasswordFind";
-import KakaoLogin from "./containers/sociallogin/KakaoLogin/index.jsx";
+import EmailFind from './page/findinfo/EmailFind';
+import PasswordFind from './page/findinfo/PasswordFind';
+import KakaoLogin from './containers/sociallogin/KakaoLogin/index.jsx';
 
-import theme from "./layout/theme";
+import theme from './layout/theme';
 
-import { CookiesProvider } from "react-cookie";
-import axios from "axios";
-import { ThemeProvider } from "styled-components";
-import RefModal from './containers/modal/RefModalPages/RefModal'
-import RefSearchPage from "./page/reference/RefSearchPage";
+import { CookiesProvider } from 'react-cookie';
+import axios from 'axios';
+import { ThemeProvider } from 'styled-components';
+import RefModal from './containers/modal/RefModalPages/RefModal';
 
-import Auth from "./Auth";
-import AuthLayout from "./layout/AuthLayout";
-import PageWork from "./page/mypage/PageWork";
-import OtherManageList from "./page/management/OtherManageList";
+import Auth from './Auth';
+import AuthLayout from './layout/AuthLayout';
+import PageWork from './page/mypage/PageWork';
+import OtherManageList from './page/management/OtherManageList';
+
+import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 axios.defaults.withCredentials = true;
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
   Wrapper: styled.div`
     width: 100vw;
@@ -56,54 +56,49 @@ const Style = {
 root.render(
   <ThemeProvider theme={theme}>
     <CookiesProvider>
-      <BrowserRouter>
-        <Style.Wrapper>
-          <Routes>
-            <Route path="/login" element={<SocialLoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/sociallogin" element={<SocialLoginPage />} />
-            <Route path="/login/kakao" element={<KakaoLogin />} />
-            <Route path="/" element={<RefIdeaPage />} />
-            <Route path="/" element={<RefIdeaPage />}>
-              <Route path=":id" element={<RefModal />} />
-            </Route>
-            <Route path="/ref/idea" element={<RefIdeaPage />}>
-              <Route path=":id" element={<RefModal />} />
-            </Route>
-            <Route path="/ref/marketing" element={<RefMarketingPage />}>
-              <Route path=":id" element={<RefModal />} />
-            </Route>
-            <Route path="/ref/video" element={<RefVideoPage />}>
-              <Route path=":id" element={<RefModal />} />
-            </Route>
-            <Route path="/ref/design" element={<RefDesignPage />}>
-              <Route path=":id" element={<RefModal />} />
-            </Route>
-            <Route path="/ref/etc" element={<RefEtcPage />}>
-              <Route path=":id" element={<RefModal />} />
-            </Route>
-            <Route path="/ref/search/:search" element={<RefSearchPage />} />
-            <Route path="/user/list/:id" element={<OtherManageList />} />
-            {/* 다른 사람의 작업물 목록도 보여야 함*/}
-            <Route element={<AuthLayout />}>
-              <Route path="/manage/list" element={<ManageList />} />
-              <Route path="/manage/list/total" element={<ManageList />} />
-              <Route path="/manage/share" element={<ManageShare />} />
-              <Route path="/manage/put/:id" element={<ManageShare />} />
-              <Route path="/manage/feedback" element={<ManageFeedback />} />
-              {/* 레퍼런스 수정 */}
-              <Route path="/mypage/profile" element={<PageProfile />} />
-              <Route path="/mypage/following" element={<PageFollowing />} />
-              <Route path="/mypage/scrap" element={<PageScrap />} />
-              <Route path="/mypage/myfeedback" element={<PageMyFeedback />} />
-              <Route path="/mypage/work" element={<PageWork />} />
-              <Route path="/mypage/faq" element={<PageFAQ />} />
-            </Route>
-            <Route path="*" element={<UnknownPage />} />
-          </Routes>
-        </Style.Wrapper>
-      </BrowserRouter>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <BrowserRouter>
+            <Style.Wrapper>
+              <Routes>
+                <Route path="/login" element={<SocialLoginPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/sociallogin" element={<SocialLoginPage />} />
+                <Route path="/login/kakao" element={<KakaoLogin />} />
+
+                {/* 레퍼런스 페이지 */}
+                <Route path="/" element={<RefPage />} />
+                <Route path="/ref/:category" element={<RefPage />}>
+                  <Route path=":id" element={<RefModal />} />
+                </Route>
+                <Route path="/ref/search/:search" element={<RefPage />} />
+
+                <Route path="/user/list/:id" element={<OtherManageList />} />
+                {/* 다른 사람의 작업물 목록도 보여야 함*/}
+                <Route element={<AuthLayout />}>
+                  <Route path="/manage/list" element={<ManageList />} />
+                  <Route path="/manage/list/total" element={<ManageList />} />
+                  <Route path="/manage/share" element={<ManageShare />} />
+                  <Route path="/manage/put/:id" element={<ManageShare />} />
+                  {/* 레퍼런스 수정 */}
+                  <Route path="/manage/feedback" element={<ManageFeedback />} />
+                  <Route path="/mypage/profile" element={<PageProfile />} />
+                  <Route path="/mypage/following" element={<PageFollowing />} />
+                  <Route path="/mypage/scrap" element={<PageScrap />} />
+                  <Route
+                    path="/mypage/myfeedback"
+                    element={<PageMyFeedback />}
+                  />
+                  <Route path="/mypage/work" element={<PageWork />} />
+                  <Route path="/mypage/faq" element={<PageFAQ />} />
+                </Route>
+                <Route path="*" element={<UnknownPage />} />
+              </Routes>
+            </Style.Wrapper>
+          </BrowserRouter>
+          <App />
+        </RecoilRoot>
+      </QueryClientProvider>
     </CookiesProvider>
   </ThemeProvider>
 );

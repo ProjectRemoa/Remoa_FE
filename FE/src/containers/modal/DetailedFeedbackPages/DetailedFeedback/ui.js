@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const S = {
   ModalWrapper: styled.div`
@@ -48,7 +48,7 @@ export const S = {
   WriteInput: styled.textarea`
     width: 98%;
     height: 100px;
-    font-family: "Inter";
+    font-family: 'Inter';
     resize: none;
   `,
   FeedbackSend: styled.button`

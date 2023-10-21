@@ -1,26 +1,23 @@
-import { makeStyles } from "@material-ui/core/styles";
-import { S } from './ui'
-import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
-import React, { useState } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import { S } from './ui';
+import axios from 'axios';
+import React, { useState } from 'react';
 import DetailFeedbackComment from '../DetailedFeedbackComment'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const useStyles = makeStyles({
   display_none: {
-    display: "none",
-  },
-  display_flex: {
-    display: "flex",
+    display: 'none',
   },
   modal_close: {
-    fontSize: "25px",
-    color: "white",
-    cursor: "pointer",
-    display: "block",
-    fontWeight: "700",
-    position: "relative",
-    left: "165px",
+    fontSize: '25px',
+    color: 'white',
+    cursor: 'pointer',
+    display: 'block',
+    fontWeight: '700',
+    position: 'relative',
+    left: '165px',
   },
 });
 
@@ -37,7 +34,7 @@ export default function DetaileFeedback({
   const navigate = useNavigate();
   const classes = useStyles();
 
-  const [contents, setContents] = useState("");
+  const [contents, setContents] = useState('');
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
@@ -53,9 +50,9 @@ export default function DetaileFeedback({
   const pageCount = Array.from({ length: media.length }, (v, i) => i + 1);
 
   const onSumbitHandler = (e) => {
-    if (sessionStorage.getItem("nickname") === null) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/sociallogin");
+    if (sessionStorage.getItem('nickname') === null) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/sociallogin');
     } else {
       e.preventDefault();
       const UploaSeedback = {
@@ -65,26 +62,30 @@ export default function DetaileFeedback({
         .post(`/BE/reference/${id3}/${selected}`, UploaSeedback)
         .then((response) => {
           console.log(response);
-          alert("댓글 등록이 완료되었습니다.");
-          setFeedback(response.data.data); // 새로운 피드백 배열
+          alert('댓글 등록이 완료되었습니다.');
+
+           // 새로운 피드백 배열
+          setFeedback(response.data.data);
         })
         .catch((err) => {
-          alert("통신 오류");
+          alert('통신 오류');
           console.log(err);
         });
     }
-    setContents(""); // 입력된 피드백 초기화
+
+    // 입력된 피드백 초기화
+    setContents('');
   };
 
   return (
     <S.ModalWrapper
-      className={modalVisibleId3 === id3 ? classes.display_flex : classes.display_none}
+      className={modalVisibleId3 !== id3 && classes.display_none }
     >
       <S.ModalHeader>
         상세 피드백 뷰어
-        <CloseIcon
+        <AiOutlineClose
           onClick={() => {
-            setModalVisibleId3("");
+            setModalVisibleId3('');
           }}
           className={classes.modal_close}
         />
@@ -104,8 +105,8 @@ export default function DetaileFeedback({
           <S.RegTop>
             <S.RegExplain>
               <span style={{ 
-                color: "#FADA5E", 
-                fontWeight: "800", 
+                color: '#FADA5E', 
+                fontWeight: '800', 
               }}>
                 Feedback
               </span>
@@ -114,12 +115,12 @@ export default function DetaileFeedback({
             <select
               onChange={handleSelect}
               style={{
-                width: "55px",
-                height: "24px",
-                position: "relative",
-                bottom: "7px",
+                width: '55px',
+                height: '24px',
+                position: 'relative',
+                bottom: '7px',
               }}
-              disabled={link ? true : false}
+              disabled={link}
             >
               {opti &&
                 opti.map((a, index) => {
@@ -129,6 +130,7 @@ export default function DetaileFeedback({
                     </option>
                   );
                 })}
+                
               {/* pdf  */}
               {pageCount &&
                 pageCount.map((a, index) => {
@@ -138,6 +140,7 @@ export default function DetaileFeedback({
                     </option>
                   );
                 })}
+
               {/* 사진*/}
             </select>
             <S.FeedbackSend onClick={onSumbitHandler}>등록</S.FeedbackSend>

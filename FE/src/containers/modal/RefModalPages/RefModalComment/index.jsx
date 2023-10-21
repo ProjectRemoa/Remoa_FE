@@ -1,7 +1,7 @@
-import { S } from "../../ModalCommentPages/ModalCommentWrite/ui";
-import ModalCommentList from "../../ModalCommentPages/ModalCommentList";
-import ModalCommentWrite from "../../ModalCommentPages/ModalCommentWrite";
-import React from "react";
+import { S } from '../../ModalCommentPages/ModalCommentWrite/ui';
+import ModalCommentList from '../../ModalCommentPages/ModalCommentList';
+import ModalCommentWrite from '../../ModalCommentPages/ModalCommentWrite';
+import React from 'react';
 
 export default function RefModalComment({ comments, setComments, postId }) {
   return (
