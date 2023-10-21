@@ -36,7 +36,7 @@ import RefModal from './containers/modal/RefModalPages/RefModal';
 import Auth from './Auth';
 import AuthLayout from './layout/AuthLayout';
 import PageWork from './page/mypage/PageWork';
-import OtherManageList from './page/management/OtherManageList';
+import OtherManageList from './page/manage/OtherManageList';
 
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
