@@ -27,31 +27,29 @@ function SocialLoginContainer() {
   return (
     <>
       {sessionStorage.getItem("new") && <Modal />}
-      <S.Container>
-        <S.OuterBox>
-          <S.TextBox>
-            간단한 로그인으로 <br /> 공모전 관련 자료를 자유롭게 찾아보세요
-          </S.TextBox>
-          <S.InnerBox>
-            <S.CommentBox>
-              <p>
-                📚 공모전 수상작을 포함한 참가 작품들을 자유롭게 열람
-              </p>
-            </S.CommentBox>
-            <S.CommentBox>
-              <p>💡 참가작 공유를 통한 다양한 피드백 및 코멘트 수령</p>
-            </S.CommentBox>
-          </S.InnerBox>
-          <S.LoginBox>
-            <S.LoginInfoBox>
-              카카오 계정으로 3초만에 가입하기
-            </S.LoginInfoBox>
-            <a href={KAKAO_AUTH_URL}>
-              <img src={kakao_login} alt="kakaologin" />
-            </a>
-          </S.LoginBox>
-        </S.OuterBox>
-      </S.Container>
+      <S.Wrapper>
+        <S.Container>
+          <S.OuterBox>
+            <S.TextBox>
+              간단한 로그인으로 <br /> 공모전 관련 자료를 자유롭게 찾아보세요
+            </S.TextBox>
+            <S.InnerBox>
+              <S.CommentBox>
+                <p>📚 공모전 수상작을 포함한 참가 작품들을 자유롭게 열람</p>
+              </S.CommentBox>
+              <S.CommentBox>
+                <p>💡 참가작 공유를 통한 다양한 피드백 및 코멘트 수령</p>
+              </S.CommentBox>
+            </S.InnerBox>
+            <S.LoginBox>
+              <S.LoginInfoBox>카카오 계정으로 3초만에 가입하기</S.LoginInfoBox>
+              <a href={KAKAO_AUTH_URL}>
+                <img src={kakao_login} alt="kakaologin" />
+              </a>
+            </S.LoginBox>
+          </S.OuterBox>
+        </S.Container>
+      </S.Wrapper>
     </>
   );
 }

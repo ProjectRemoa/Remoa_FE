@@ -9,8 +9,8 @@ const Button = styled.button`
   height: 34px;
   background-color: white;
   color: #464646;
-  font-family: NotoSansKR-400;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 15px;
   border: 1px solid #464646;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 50px;
