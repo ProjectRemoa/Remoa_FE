@@ -2,25 +2,15 @@ import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import { createTheme, ThemeProvider } from "@mui/material";
-import { CheckCircleOutlineRounded } from "@mui/icons-material";
+import { ThemeProvider } from "@mui/material";
+import { CheckCircleOutlineRounded , CheckCircleRounded} from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
 import Agree from "../Agree";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import line from "../../../images/line.png"
 import S from "./Modal.styles"
 
-const theme = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#FADA5E", // 노란색으로 커스텀
-      darker: "#053e85",
-    },
-  },
-});
 
 function Modal({ modalOpen }) {
   const navigate = useNavigate();
@@ -106,7 +96,7 @@ function Modal({ modalOpen }) {
           <S.AgreeLastText>
             레모아를 이용하기 위한 마지막 단계에요
           </S.AgreeLastText>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={S.Theme}>
             <FormControl component="fieldset">
               <FormGroup aria-label="position" row>
                 {/* 전체 동의 */}
@@ -117,7 +107,7 @@ function Modal({ modalOpen }) {
                         <Checkbox
                           color="primary"
                           icon={<CheckCircleOutlineRounded />}
-                          checkedIcon={<CheckCircleOutlineRounded />}
+                          checkedIcon={<CheckCircleRounded />}
                           id="1"
                           name="all"
                           onChange={checkAll}
@@ -132,12 +122,13 @@ function Modal({ modalOpen }) {
                       <S.AgreeAllText>전체 동의하기</S.AgreeAllText>
                       <S.AgreeAllSubText>
                         전체 동의는 이벤트 및 마케팅성 홍보글 수신 동의를 포함한
-                        <br/>선택 동의 사항 및 필수 동의 사항들을 포함하고 있어요
+                        <br />
+                        선택 동의 사항 및 필수 동의 사항들을 포함하고 있어요
                       </S.AgreeAllSubText>
                     </label>
                   </S.AgreeAllTextBox>
                 </S.AgreeAllBox>
-
+                <img src={line} alt="line" width="404px" />
                 {/* (필수) 레모아 이용약관 동의 */}
                 <S.AgreeBox>
                   <S.AgreeCheckBox>
@@ -146,7 +137,7 @@ function Modal({ modalOpen }) {
                         <Checkbox
                           color="primary"
                           icon={<CheckCircleOutlineRounded />}
-                          checkedIcon={<CheckCircleOutlineRounded />}
+                          checkedIcon={<CheckCircleRounded />}
                           id="2"
                           name="terms"
                           onChange={check}
@@ -162,7 +153,7 @@ function Modal({ modalOpen }) {
                     </label>
                   </S.AgreeCheckBox>
                   <S.AgreeDetailBox>
-                    <S.DetailButton onClick={onClickDetail1}>
+                    <S.DetailButton onClick={onClickDetail1} state={detail1}>
                       {detail1 === true ? "숨기기" : "자세히보기"}
                     </S.DetailButton>
                   </S.AgreeDetailBox>
@@ -178,7 +169,7 @@ function Modal({ modalOpen }) {
                         <Checkbox
                           color="primary"
                           icon={<CheckCircleOutlineRounded />}
-                          checkedIcon={<CheckCircleOutlineRounded />}
+                          checkedIcon={<CheckCircleRounded />}
                           id="3"
                           name="collect"
                           onChange={check}
@@ -194,7 +185,7 @@ function Modal({ modalOpen }) {
                     </label>
                   </S.AgreeCheckBox>
                   <S.AgreeDetailBox>
-                    <S.DetailButton onClick={onClickDetail2}>
+                    <S.DetailButton onClick={onClickDetail2} state={detail2}>
                       {detail2 === true ? "숨기기" : "자세히보기"}
                     </S.DetailButton>
                   </S.AgreeDetailBox>
@@ -210,7 +201,7 @@ function Modal({ modalOpen }) {
                         <Checkbox
                           color="primary"
                           icon={<CheckCircleOutlineRounded />}
-                          checkedIcon={<CheckCircleOutlineRounded />}
+                          checkedIcon={<CheckCircleRounded />}
                           id="4"
                           name="marketing"
                           onChange={check}
@@ -238,7 +229,7 @@ function Modal({ modalOpen }) {
                         <Checkbox
                           color="primary"
                           icon={<CheckCircleOutlineRounded />}
-                          checkedIcon={<CheckCircleOutlineRounded />}
+                          checkedIcon={<CheckCircleRounded />}
                           id="5"
                           name="age"
                           onChange={check}
@@ -253,7 +244,8 @@ function Modal({ modalOpen }) {
                         <br />
                         <p
                           style={{
-                            fontSize: "13px",
+                            fontSize: "12px",
+                            color: "#A7A7A7",
                             paddingLeft: "50px",
                             marginTop: "-8px",
                           }}
@@ -268,13 +260,15 @@ function Modal({ modalOpen }) {
             </FormControl>
           </ThemeProvider>
         </S.Box>
-        <S.Button
-          disabled={!buttonColor}
-          state={buttonColor}
-          onClick={onClickStart}
-        >
-          레모아 시작하기
-        </S.Button>
+        <S.ButtonBox>
+          <S.Button
+            disabled={!buttonColor}
+            state={buttonColor}
+            onClick={onClickStart}
+          >
+            레모아 시작하기
+          </S.Button>
+        </S.ButtonBox>
       </S.Container>
     </S.Wrapper>
   );

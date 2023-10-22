@@ -1,7 +1,17 @@
 import styled from "styled-components"
+import { createTheme } from "@mui/material";
 import "./Modal.module.css"
 
+const Theme = createTheme({
+  palette: {
+    primary: {
+      main: "#FADA5E", // 노란색으로 커스텀
+    },
+  },
+});
+
 const Wrapper = styled.div`
+  font-family: Pretendard-Medium;
   position: fixed;
   top: 0;
   left: 0;
@@ -16,9 +26,9 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   width: 460px;
+  height: 624px;
   background: #ffffff;
-  border: 0.5px solid #b0b0b0;
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: left;
   z-index: 4;
   /* 중앙 배치 */
@@ -29,53 +39,63 @@ const Container = styled.div`
 `;
 
 const Box = styled.div`
-  height: 461px;
+  height: 485px;
   overflow-y: scroll;
-  padding: 25px;
+  padding: 28px;
   ::-webkit-scrollbar{
     display:none;
   }
 `;
 
 const AgreeText = styled.div`
-  font-family: NotoSansKR-700;
-  font-size: 30px;
+  font-weight: 700;
+  font-size: 24px;
 `;
 
 const AgreeLastText = styled.div`
-  font-family: NotoSansKR-400;
-  font-size: 16px;
+font-weight: 500;
+  font-size: 15px;
   padding-left: 3px;
   margin-top: 9px;
-  margin-bottom: 15px;
+  margin-bottom:  26px;
+  color : #727272;
 `;
 
 const AgreeAllBox = styled.div`
-  background-color: rgba(250, 218, 94, 0.5);
+  background-color:#FEF5D2;
+  width:404px;
+  height: 114px;
   display: flex;
-  min-width: 410px;
-  padding:5px 0px;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  margin-bottom: 14px;
 `;
 
 const AgreeAllCheckBox = styled.div`
-  margin-left:-16px;
+  margin-left: -15px;//-16px;
   margin-right: 4px;
-  margin-top: -6px;
+  margin-top: 11px;//-6px;
+  padding-right: 5px;
 `
 
 const AgreeAllTextBox = styled.div`
+display: flex;
+justify-content: center;
+align-items:center; 
+flex-direction:column;
   
 `
 
 const AgreeAllText = styled.div`
-  font-family: NotoSansKR-500;
-  font-size: 20px;
-`
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin-bottom: 12px;
+`;
 
 const AgreeAllSubText = styled.span`
-  font-family: NotoSansKR-400;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight:500;
+  color : #464646;
 `
 
 const AgreeBox =styled.div`
@@ -99,48 +119,56 @@ const AgreeDetailBox = styled.div`
 `
 
 const AgreeSubText = styled.span`
-  font-family: NotoSansKR-400;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight:500;
+  color: #464646;
   margin-left: 5px;
   padding-top: 5px;
-`
+`;
 
 const DetailButton = styled.div`
-  width:85px; 
-  height:27px;
+  width: ${(props) => (props.state ? "60px" : "80px")};
+  height: 26px;
+  border: 1px solid #e1e2e5;
   cursor: pointer;
   align-items: center;
   justify-content: center;
   display: flex;
-  background: #fada5e;
   border-radius: 10px;
-  font-family: NotoSansKR-500;
-  font-size:13px;
-`
+  font-weight: 500;
+  font-size: 12px;
+  color: ${(props) => (props.state ? "#727272" : "black")};
+`;
 
 const DetailChildBox = styled.div`
   display: flex;
   justify-content: center;
 `
 
+const ButtonBox = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`;
+
 const Button = styled.button`
-  width: 100%;
+  width: 404px;
   height: 54px;
   align-items: center;
   justify-content: center;
   display: flex;
-  border-radius: 10px;
+  border-radius: 12px;
+  color: ${(props) => (props.state ? "#1E1E1E" : "#6c6c6c")};
+  font-size: 16px;
+  font-weight: 600;
   box-shadow: none;
-  color: black;
-  font-size: 20px;
-  font-family:NotoSansKR-400;
-
+  border: none;
   cursor: ${(props) => (props.state ? "pointer" : "default")};
-  background: ${(props) => (props.state ? "#FADA5E" : "#D9D9D9")};
-  border: 1px solid ${(props) => (props.state ? "#FADA5E" : "#D9D9D9")};
+  background: ${(props) => (props.state ? "#FADA5E" : "#EDEDED")};
 `;
 
 const S = {
+  Theme,
   Wrapper,
   Container,
   Box,
@@ -157,7 +185,8 @@ const S = {
   AgreeDetailBox,
   DetailButton,
   DetailChildBox,
+  ButtonBox,
   Button,
-}
+};
 
 export default S; 
