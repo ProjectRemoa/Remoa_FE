@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ManageList from "../../manage/ManageList";
+import ManageList from "../../manage/managelist";
 import styledComponent from "./MyPageScrapContainer.styles";
 const { Wrapper, Title, Content, Button } = styledComponent;
 

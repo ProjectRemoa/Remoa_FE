@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MyPageScrapContainer from "../MyPageScrapContainer";
-import RefModal from "../../modal/RefModal";
+import RefModal from "../../modal/RefModalPages/RefModal";
 import styledComponent from "./MyPageWorkContainer.styles";
 import FeedBackComponent from "../../../Components/FeedBackComponent";
 const { Wrapper, CommentContainer } = styledComponent;
