@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 const Wrapper = styled.div`
+  font-family: Pretendard-Medium;
   width: 100%;
   height: calc(100vh - 80px);
   background-color: #f6f6f5;
