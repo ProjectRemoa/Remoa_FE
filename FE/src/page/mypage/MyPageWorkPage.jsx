@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../../layout/Layout";
 import MyPageContainer from "../../containers/mypage/MyPageContainer";
 import MyPageWorkContainer from "../../containers/mypage/MyPageWorkContainer";
-function PageWork() {
+function MyPageWorkPage() {
   return (
     <Layout>
       <MyPageContainer />
@@ -11,4 +11,4 @@ function PageWork() {
   );
 }
 
-export default PageWork;
+export default MyPageWorkPage;

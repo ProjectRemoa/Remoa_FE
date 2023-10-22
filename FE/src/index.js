@@ -1,50 +1,50 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import styled from 'styled-components';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
-import LoginPage from './page/login/LoginPage';
-import SocialLoginPage from './page/sociallogin/SocialLoginPage';
-import UnknownPage from './page/UnknownPage';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import styled from "styled-components";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import LoginPage from "./page/login/LoginPage";
+import SocialLoginPage from "./page/sociallogin/SocialLoginPage";
+import UnknownPage from "./page/UnknownPage";
 
-import RefPage from './page/reference/RefPage';
+import RefPage from "./page/reference/RefPage";
 
 import ManageList from "./page/manage/ManageList";
 import ManageShare from "./page/manage/ManageShare";
 import ManageFeedback from "./page/manage/ManageFeedback";
 
-import PageProfile from './page/mypage/PageProfile';
-import PageFollowing from './page/mypage/PageFollowing';
-import PageScrap from './page/mypage/PageScrap';
-import PageMyFeedback from './page/mypage/PageMyFeedback';
-import PageFAQ from './page/mypage/PageFAQ';
-import SignUpPage from './page/SignUpPage';
+import MyPageProfilePage from "./page/mypage/MyPageProfilePage";
+import MyPageFollowingPage from "./page/mypage/MyPageFollowingPage";
+import MyPageWorkPage from "./page/mypage/MyPageWorkPage";
+import MyPageScrapPage from "./page/mypage/MyPageScrapPage";
+import MyPageFeedbackPage from "./page/mypage/MyPageFeedbackPage";
+import MyPageFAQPage from "./page/mypage/MyPageFAQPage";
 
-import EmailFind from './page/findinfo/EmailFind';
-import PasswordFind from './page/findinfo/PasswordFind';
-import KakaoLogin from './containers/sociallogin/KakaoLogin/index.jsx';
+import SignUpPage from "./page/SignUpPage";
+import EmailFind from "./page/findinfo/EmailFind";
+import PasswordFind from "./page/findinfo/PasswordFind";
+import KakaoLogin from "./containers/sociallogin/KakaoLogin/index.jsx";
 
-import theme from './layout/theme';
+import theme from "./layout/theme";
 
-import { CookiesProvider } from 'react-cookie';
-import axios from 'axios';
-import { ThemeProvider } from 'styled-components';
-import RefModal from './containers/modal/RefModalPages/RefModal';
+import { CookiesProvider } from "react-cookie";
+import axios from "axios";
+import { ThemeProvider } from "styled-components";
+import RefModal from "./containers/modal/RefModalPages/RefModal";
 
-import Auth from './Auth';
-import AuthLayout from './layout/AuthLayout';
-import PageWork from './page/mypage/PageWork';
-import OtherManageList from './page/manage/OtherManageList';
+import Auth from "./Auth";
+import AuthLayout from "./layout/AuthLayout";
+import OtherManageList from "./page/manage/OtherManageList";
 
-import { RecoilRoot } from 'recoil';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
 
 axios.defaults.withCredentials = true;
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 const Style = {
   Wrapper: styled.div`
     width: 100vw;
@@ -80,17 +80,23 @@ root.render(
                   <Route path="/manage/list/total" element={<ManageList />} />
                   <Route path="/manage/share" element={<ManageShare />} />
                   <Route path="/manage/put/:id" element={<ManageShare />} />
-                  {/* 레퍼런스 수정 */}
                   <Route path="/manage/feedback" element={<ManageFeedback />} />
-                  <Route path="/mypage/profile" element={<PageProfile />} />
-                  <Route path="/mypage/following" element={<PageFollowing />} />
-                  <Route path="/mypage/scrap" element={<PageScrap />} />
+                  {/* 레퍼런스 수정 */}
+                  <Route
+                    path="/mypage/profile"
+                    element={<MyPageProfilePage />}
+                  />
+                  <Route
+                    path="/mypage/following"
+                    element={<MyPageFollowingPage />}
+                  />
+                  <Route path="/mypage/scrap" element={<MyPageScrapPage />} />
                   <Route
                     path="/mypage/myfeedback"
-                    element={<PageMyFeedback />}
+                    element={<MyPageFeedbackPage />}
                   />
-                  <Route path="/mypage/work" element={<PageWork />} />
-                  <Route path="/mypage/faq" element={<PageFAQ />} />
+                  <Route path="/mypage/work" element={<MyPageWorkPage />} />
+                  <Route path="/mypage/faq" element={<MyPageFAQPage />} />
                 </Route>
                 <Route path="*" element={<UnknownPage />} />
               </Routes>
