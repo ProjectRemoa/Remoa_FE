@@ -75,13 +75,14 @@ root.render(
 
                 <Route path="/user/list/:id" element={<OtherManageList />} />
                 {/* 다른 사람의 작업물 목록도 보여야 함*/}
+
+                <Route path="/manage/list" element={<ManageList />} />
+                <Route path="/manage/list/total" element={<ManageList />} />
+                <Route path="/manage/share" element={<ManageShare />} />
+                <Route path="/manage/put/:id" element={<ManageShare />} />
+                <Route path="/manage/feedback" element={<ManageFeedback />} />
                 <Route element={<AuthLayout />}>
-                  <Route path="/manage/list" element={<ManageList />} />
-                  <Route path="/manage/list/total" element={<ManageList />} />
-                  <Route path="/manage/share" element={<ManageShare />} />
-                  <Route path="/manage/put/:id" element={<ManageShare />} />
-                  <Route path="/manage/feedback" element={<ManageFeedback />} />
-                  {/* 레퍼런스 수정 
+                  {/* 레퍼런스 수정 */}
                   <Route
                     path="/mypage/profile"
                     element={<MyPageProfilePage />}
@@ -96,7 +97,7 @@ root.render(
                     element={<MyPageFeedbackPage />}
                   />
                   <Route path="/mypage/work" element={<MyPageWorkPage />} />
-                  <Route path="/mypage/faq" element={<MyPageFAQPage />} />*/}
+                  <Route path="/mypage/faq" element={<MyPageFAQPage />} />
                 </Route>
                 <Route path="*" element={<UnknownPage />} />
               </Routes>
