@@ -1,15 +1,14 @@
 import styled from "styled-components";
+
 const UnderHeader = styled.div`
-  position: absolute;
   border: 1px solid #b0b0b0;
   border-radius: 20px;
   width: 891px;
   height: 59px;
-  top: 99px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0px 110px 0px;
+  margin-top: 44px;
   @media ${(props) => props.theme.desktop} {
     width: 700px;
   }
@@ -20,12 +19,11 @@ const UnderHeader = styled.div`
     height: 79px;
   }
 `;
+
 const Sort = styled.div`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 18px;
-  line-height: 26px;
+  line-height: 21.48px;
   text-align: center;
   color: #464646;
   @media ${(props) => props.theme.desktop} {
@@ -43,10 +41,11 @@ const Sort = styled.div`
     color: inherit;
   }
 `;
+
 const PageStyle = styled.div`
-  color: #fada5e;
+  font-weight: 700;
 `;
 
-const S = { UnderHeader, Sort, PageStyle };
+const styledComponent = { UnderHeader, Sort, PageStyle };
 
-export default S;
+export default styledComponent;

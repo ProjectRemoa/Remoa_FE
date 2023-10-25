@@ -6,8 +6,10 @@ import MyPageProfile from "../../containers/mypage/MyPageProfile";
 function MyPageProfilePage() {
   return (
     <Layout>
-      <MyPageContainer />
-      <MyPageProfile />
+      <div style={{ flexDirection: "column" }}>
+        <MyPageContainer />
+        <MyPageProfile />
+      </div>
     </Layout>
   );
 }

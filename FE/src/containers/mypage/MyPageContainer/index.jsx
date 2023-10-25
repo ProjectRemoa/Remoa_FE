@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import S from "./MyPageContainer.styles";
+import styledComponent from "./MyPageContainer.styles";
+const { UnderHeader, Sort, PageStyle } = styledComponent;
+
 function MyPageContainer() {
   const location = useLocation();
 
@@ -19,21 +21,19 @@ function MyPageContainer() {
   ];
 
   return (
-    <>
-      <S.UnderHeader>
-        {pageLinks.map((link) => (
-          <S.Sort key={link.path}>
-            <Link to={link.path}>
-              {location.pathname === link.path ? (
-                <S.PageStyle>{link.text}</S.PageStyle>
-              ) : (
-                link.text
-              )}
-            </Link>
-          </S.Sort>
-        ))}
-      </S.UnderHeader>
-    </>
+    <UnderHeader>
+      {pageLinks.map((link) => (
+        <Sort key={link.path}>
+          <Link to={link.path}>
+            {location.pathname === link.path ? (
+              <PageStyle>{link.text}</PageStyle>
+            ) : (
+              link.text
+            )}
+          </Link>
+        </Sort>
+      ))}
+    </UnderHeader>
   );
 }
 
