@@ -1,13 +1,14 @@
 import Layout from "../../layout/Layout";
-import React from "react";
 import MyPageContainer from "../../containers/mypage/MyPageContainer";
 import MyPageFollow from "../../containers/mypage/MyPageFollow";
 
 function MyPageFollowingPage() {
   return (
     <Layout>
-      <MyPageContainer />
-      <MyPageFollow />
+      <div style={{ flexDirection: "column" }}>
+        <MyPageContainer />
+        <MyPageFollow />
+      </div>
     </Layout>
   );
 }

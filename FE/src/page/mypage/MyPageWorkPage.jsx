@@ -5,8 +5,10 @@ import MyPageWorkContainer from "../../containers/mypage/MyPageWorkContainer";
 function MyPageWorkPage() {
   return (
     <Layout>
-      <MyPageContainer />
-      <MyPageWorkContainer />
+      <div style={{ flexDirection: "column" }}>
+        <MyPageContainer />
+        <MyPageWorkContainer />
+      </div>
     </Layout>
   );
 }
