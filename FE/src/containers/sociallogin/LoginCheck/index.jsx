@@ -52,7 +52,7 @@ function LoginCheck() {
           <S.Button onClick={onClickLogout}>
             로그아웃
           </S.Button>
-          <S.Button onClick={onClickShare}>
+          <S.Button onClick={onClickShare} style={{width: "128px"}}>
             작업물 공유하기
           </S.Button>
         </>
