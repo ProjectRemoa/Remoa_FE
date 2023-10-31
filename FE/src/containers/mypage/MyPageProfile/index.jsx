@@ -9,59 +9,83 @@ const {
   ProfileImg,
   ProfileImgIntro,
   ProfileImgBtnWrapper,
-  ProfileImageBtn,
+  ProfileImgBtn,
   HorizonLine,
-  DirectionTxt,
   ProfileWrapper,
   ProfileItemWrapper,
   Title,
   Input,
   University,
   ItemButton,
+  OneLineIntroduction,
   ModifyButton,
 } = styledComponent;
 
 function MyPageProfile() {
   const navigate = useNavigate();
+  const imgRef = useRef();
+  const [userData, setUserData] = useState({});
   const [profileImage, setProfileImage] = useState();
-  const [previewImage, setPreviewImage] = useState(); //defaultImage);
-  const [idcheck, setIdcheck] = useState();
+  const [previewImage, setPreviewImage] = useState();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
-
-  const imgInput = useRef();
-
-  const [input, setInput] = useState({
-    email: "", //'maninhat@kakao.com',
-    nickname: "", //'호갱',
-    phoneNumber: "", //'01012345678',
-    university: "", //'한국대학교',
-    oneLineIntroduction: "", //'안녕하세요 만나서 반갑습니다! 좋은 자료 많이 공유할게요!'
-  });
+  const [idcheck, setIdcheck] = useState();
+  const [introNickname, setIntroNickname] = useState("");
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
-    input;
+    userData;
 
-  const editProfileImg = () => {
-    imgInput.current.click();
+  // /BE/user에서 유저 정보 받아오기
+
+  const getProfile = async () => {
+    try {
+      const res = await axios.get("/BE/user", { withCredentials: true });
+      if (res.status === 200) {
+        setUserData(res.data.data);
+        setIntroNickname(res.data.data.nickname);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onChangeImg = (e) => {
+  // /BE/user/img에서 프로필 사진 받아오기
+
+  const getProfileImg = async () => {
+    try {
+      const res = await axios.get("/BE/user/img");
+      if (res.status === 200) setProfileImage(res.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+    getProfileImg();
+  }, []);
+
+  // 프로필 사진 변경
+
+  const handleClickImg = () => {
+    imgRef.current.click();
+  };
+
+  const handleChangeProfileImgFile = () => {
+    const file = imgRef.current.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setProfileImage(reader.result);
-        setPreviewImage(e.target.files[0]);
-        resolve();
-      };
-    });
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setProfileImage(reader.result);
+      setPreviewImage(imgRef.current.files[0]);
+    };
   };
 
-  const deleteProfileImg = () => {
+  // 기본 사진으로 변경
+
+  const handleChangeDefaultImg = () => {
     axios
       .delete(`/BE/user/img`)
       .then(() => {
-        console.log("프로필 이미지 삭제 완료");
         window.location.reload();
       })
       .catch((err) => {
@@ -69,31 +93,17 @@ function MyPageProfile() {
       });
   };
 
-  const onChangeInput = (e) => {
+  // 닉네임 변경
+
+  const handleChangeNickname = (e) => {
     const { name, value } = e.target;
-    setInput({
-      ...input,
+    setUserData({
+      ...userData,
       [name]: value,
     });
   };
 
-  const changePhone = (e) => {
-    let phone = e.target.value
-      .replace(/[^0-9]/g, "")
-      .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-
-    setInput({
-      ...input,
-      //   ["phoneNumber"]: phone, 일단 주석 처리 230918
-    });
-  };
-
-  const changeUniversity = (name) => {
-    setInput({
-      ...input,
-      //   ["university"]: name, 일단 주석 처리 230918
-    });
-  };
+  // 닉네임 중복체크
 
   const nicknameOverlapCheck = (nickname) => {
     axios
@@ -137,6 +147,28 @@ function MyPageProfile() {
       });
   };
 
+  // 휴대전화 변경
+
+  const handleChangePhone = (e) => {
+    let phone = e.target.value
+      .replace(/[^0-9]/g, "")
+      .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+
+    setUserData({
+      ...userData,
+      //   ["phoneNumber"]: phone, 일단 주석 처리 230918
+    });
+  };
+
+  // 대학명 변경
+
+  const handleChangeUniversity = (name) => {
+    setUserData({
+      ...userData,
+      //   ["university"]: name, 일단 주석 처리 230918
+    });
+  };
+
   const openPopup = () => {
     setIsOpenPopup(true);
   };
@@ -145,21 +177,24 @@ function MyPageProfile() {
     setIsOpenPopup(false);
   };
 
-  const getProfileImg = () => {
-    axios
-      .get(`/BE/user/img`)
-      .then((res) => {
-        // console.log(res);
-        if (res.status === 200) {
-          setProfileImage(res.data.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  // 한줄 소개 변경
+
+  const handleChangeIntro = (e) => {
+    const { name, value } = e.target;
+    if (value.length > 30) {
+      alert("한줄 소개는 30자를 초과하면 안돼요.");
+      return;
+    }
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
   };
 
-  const changeProfile = () => {
+  // 수정완료 handleSumbit
+
+  const changeProfile = (event) => {
+    event.preventDefault();
     axios
       .put(
         `/BE/user`,
@@ -199,19 +234,7 @@ function MyPageProfile() {
       });
   };
 
-  const getProfile = () => {
-    axios
-      .get("/BE/user", { withCredentials: true })
-      .then((res) => {
-        if (res.status === 200) {
-          setInput(res.data.data);
-        }
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // 아이디 정규식
 
   const checkUserId = (id) => {
     if (id === "") return false;
@@ -224,45 +247,34 @@ function MyPageProfile() {
     return true;
   };
 
-  useEffect(() => {
-    getProfile();
-    getProfileImg();
-  }, []);
-
   return (
     <Wrapper>
-      <ProfileImg src={profileImage} />
+      <ProfileImg src={profileImage} alt="preview-img" />
       <ProfileImgIntro>
-        <span>{nickname}</span>님
+        <span>{introNickname}</span>님
         <br />
         <span>오늘은 어떤 공모전에 참여하시나요?</span>
       </ProfileImgIntro>
 
       <ProfileImgBtnWrapper>
-        <ProfileImageBtn onClick={editProfileImg}>
-          프로필 사진 변경
-        </ProfileImageBtn>
+        <ProfileImgBtn onClick={handleClickImg}>프로필 사진 변경</ProfileImgBtn>
         <input
           type="file"
-          ref={imgInput}
+          ref={imgRef}
           id="ProfileImg"
           name="file"
           accept="image/*"
           style={{ display: "none" }}
-          onChange={(e) => onChangeImg(e)}
+          onChange={handleChangeProfileImgFile}
         />
-        <ProfileImageBtn onClick={deleteProfileImg}>
+        <ProfileImgBtn onClick={handleChangeDefaultImg}>
           기본 사진으로 변경
-        </ProfileImageBtn>
+        </ProfileImgBtn>
       </ProfileImgBtnWrapper>
 
       <HorizonLine />
 
-      <DirectionTxt>
-        프로필 수정 후 수정 완료 버튼을 반드시 눌러주세요
-      </DirectionTxt>
-
-      <ProfileWrapper>
+      <ProfileWrapper onSubmit={changeProfile}>
         <ProfileItemWrapper>
           <Title>계정</Title>
           {email}
@@ -271,9 +283,9 @@ function MyPageProfile() {
         <ProfileItemWrapper>
           <Title>닉네임</Title>
           <Input
-            placeholder={nickname}
+            value={nickname}
             name="nickname"
-            onChange={onChangeInput}
+            onChange={(e) => handleChangeNickname(e)}
           />
           <ItemButton
             type="button"
@@ -281,7 +293,7 @@ function MyPageProfile() {
           >
             중복 확인
           </ItemButton>
-          <div>{idcheck}</div>
+          {idcheck}
         </ProfileItemWrapper>
 
         <ProfileItemWrapper>
@@ -289,7 +301,7 @@ function MyPageProfile() {
           <Input
             placeholder={phoneNumber}
             name="phoneNumber"
-            onChange={changePhone}
+            onChange={handleChangePhone}
           />
         </ProfileItemWrapper>
 
@@ -301,7 +313,7 @@ function MyPageProfile() {
           </ItemButton>
           {isOpenPopup && (
             <MyPageProfilePopupContent
-              changeUniversity={changeUniversity}
+              changeUniversity={handleChangeUniversity}
               close={closePopup}
             />
           )}
@@ -309,19 +321,14 @@ function MyPageProfile() {
 
         <ProfileItemWrapper>
           <Title>한줄 소개</Title>
-          <Input
-            placeholder={oneLineIntroduction}
+          <OneLineIntroduction
+            value={oneLineIntroduction}
             name="oneLineIntroduction"
-            onChange={onChangeInput}
-            style={{
-              width: "675px",
-              height: "90px",
-            }}
+            onChange={(e) => handleChangeIntro(e)}
           />
         </ProfileItemWrapper>
+        <ModifyButton type="submit">수정 완료</ModifyButton>
       </ProfileWrapper>
-
-      <ModifyButton onClick={changeProfile}>수정 완료</ModifyButton>
     </Wrapper>
   );
 }
