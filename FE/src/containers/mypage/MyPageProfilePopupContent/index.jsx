@@ -6,7 +6,6 @@ import { data } from "../temporary/university";
 import styledComponent from "./MyPageProfilePopupContent.styles";
 const {
   FullLayer,
-  CommonAlert,
   ContentWrapper,
   Title,
   DetailContent,
@@ -87,51 +86,46 @@ const MyPageProfilePopupContent = (props) => {
 
   return (
     <FullLayer>
-      <CommonAlert>
-        <ContentWrapper>
-          <Title>내 학교 찾기</Title>
-          <span onClick={close}>
-            <FontAwesomeIcon icon={faXmark} color="#FADA5E" size="2x" />
-          </span>
-        </ContentWrapper>
-        <DetailContent>
-          학교 명을 검색해보세요. 키워드 형으로 입력하면 쉽게 찾을 수 있어요.
-          (ex. 한국, 한국대)
-        </DetailContent>
+      <ContentWrapper>
+        <Title>내 학교 찾기</Title>
+        <span onClick={close}>
+          <FontAwesomeIcon icon={faXmark} color="#FADA5E" size="2x" />
+        </span>
+      </ContentWrapper>
 
-        <SearchWrapper>
-          <SearchBtnWrapper>
-            <SearchBtn type="button" onClick={() => searchUniversity(input)}>
-              <FontAwesomeIcon
-                icon={faMagnifyingGlass}
-                color="white"
-                size="2x"
-              />
-            </SearchBtn>
-          </SearchBtnWrapper>
-          <InputWrapper>
-            <Input onChange={(e) => inputHandler(e)}></Input>
-          </InputWrapper>
-        </SearchWrapper>
+      <DetailContent>
+        학교 명을 검색해보세요. 키워드 형으로 입력하면 쉽게 찾을 수 있어요. (ex.
+        한국, 한국대)
+      </DetailContent>
 
-        <TableWrapper>
-          <Table>
-            <Thead>
-              <Trow>
-                <TheadValue scope="col">소재지</TheadValue>
-                <TheadValue scope="col">대학명</TheadValue>
-              </Trow>
-            </Thead>
-            <Tbody>{info ? info : null}</Tbody>
-          </Table>
-        </TableWrapper>
+      <SearchWrapper>
+        <SearchBtnWrapper>
+          <SearchBtn onClick={() => searchUniversity(input)}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} color="white" size="2x" />
+          </SearchBtn>
+        </SearchBtnWrapper>
+        <InputWrapper>
+          <Input onChange={(e) => inputHandler(e)}></Input>
+        </InputWrapper>
+      </SearchWrapper>
 
-        <SelectBtnWrapper>
-          <SelectBtn type="button" onClick={close}>
-            선택
-          </SelectBtn>
-        </SelectBtnWrapper>
-      </CommonAlert>
+      <TableWrapper>
+        <Table>
+          <Thead>
+            <Trow>
+              <TheadValue scope="col">소재지</TheadValue>
+              <TheadValue scope="col">대학명</TheadValue>
+            </Trow>
+          </Thead>
+          <Tbody>{info ? info : null}</Tbody>
+        </Table>
+      </TableWrapper>
+
+      <SelectBtnWrapper>
+        <SelectBtn type="button" onClick={close}>
+          선택
+        </SelectBtn>
+      </SelectBtnWrapper>
     </FullLayer>
   );
 };

@@ -6,20 +6,12 @@ const FullLayer = styled.div`
   left: 50%;
   z-index: 300;
   transform: translate(-50%, -50%);
-`;
-const CommonAlert = styled.div`
-  text-align: left;
   background-color: #ffffff;
   border: 2px solid #cdcdcd;
-  color: black;
   border-radius: 10px;
   padding: 40px;
-  margin: auto;
-  box-sizing: border-box;
-  font-size: 16px;
 `;
 const ContentWrapper = styled.div`
-  width: 100%;
   text-align: left;
   display: flex;
   flex-direction: row;
@@ -37,13 +29,12 @@ const DetailContent = styled.div`
 const SearchWrapper = styled.div`
   height: 43px;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
   margin-bottom: 30px;
 `;
 const SearchBtnWrapper = styled.div`
   background-color: #fada5e;
   padding: 0px 20px 8px 20px;
+  margin-right: 6px;
   border-radius: 25px 0px 0px 25px;
 `;
 const SearchBtn = styled.button`
@@ -61,7 +52,7 @@ const InputWrapper = styled.div`
 const Input = styled.input`
   width: 90%;
   height: 90%;
-  text-align: center;
+  /* text-align: center; */
   font-size: 20px;
   border: none;
   line-height: 43px;
@@ -117,7 +108,6 @@ const Trow = styled.tr`
 
 const styledComponent = {
   FullLayer,
-  CommonAlert,
   ContentWrapper,
   Title,
   DetailContent,
