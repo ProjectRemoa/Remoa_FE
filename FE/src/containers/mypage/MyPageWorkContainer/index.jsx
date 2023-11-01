@@ -9,6 +9,7 @@ const { Wrapper, CommentContainer } = styledComponent;
 function MyPageWorkContainer() {
   const [myFeedback, setMyFeedback] = useState("");
   const [myScrapCount, setMyScrapCount] = useState(0);
+  const [scrapData, setScrapData] = useState([]);
   const [postId, setPostId] = useState(0);
   const [modalVisibleId, setModalVisibleId] = useState("");
 
@@ -22,6 +23,10 @@ function MyPageWorkContainer() {
       .catch((err) => {
         console.log("error");
       });
+    axios.get(`/BE/user/scrap?page=${1}`).then((res) => {
+      console.log(res.data.data.posts);
+      setScrapData(res.data.data.posts);
+    });
   }, []);
 
   return (
@@ -37,7 +42,35 @@ function MyPageWorkContainer() {
           />
         )}
       </CommentContainer>
-      <MyPageScrapContainer from={"work"} />
+      {/* <div
+        style={{
+          fontSize: "25px",
+          fontWeight: "700",
+          textAlign: "left",
+          marginTop: "68px",
+        }}
+      >
+        스크랩한 작업물
+        <div>
+          {scrapData.map((data) => {
+            console.log(data);
+            return (
+              <img
+                src={data.thumbnail}
+                alt=""
+                style={{ width: "291px", height: "164px" }}
+              />
+            );
+          })}
+        </div>
+      </div> */}
+
+      <div style={{ display: "grid", gap: "20px 26px" }}>
+        {scrapData.map((data) => (
+          <div></div>
+        ))}
+      </div>
+      {/* <MyPageScrapContainer from={"work"} /> */}
     </Wrapper>
   );
 }
