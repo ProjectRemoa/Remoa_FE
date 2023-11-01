@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import RefModal from "../../modal/RefModalPages/RefModal";
-import FeedBackComponent from "../../../Components/FeedBackComponent";
+import FeedBackComponent from "../../../components/common/FeedBackComponent";
 import styledComponent from "./MyPageFeedback.styles";
 const { Wrapper, CommentContainer } = styledComponent;
 

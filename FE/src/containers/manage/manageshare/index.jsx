@@ -346,21 +346,29 @@ function ManageShareContainer({ match }) {
               <th>표지사진</th>
               <td>
                 <div
-                  className="input"
+                  onClick={onClickUpload_}
                   style={{
-                    color: "#B0B0B0",
-                    fontSize: "70%",
+                    height: "43px",
+                    border: "1px solid #b0b0b0",
+                    borderRadius: "10px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     cursor: "pointer",
                   }}
-                  onClick={onClickUpload_}
                 >
                   {thumbnail === null ? (
-                    <span>목록에 노출될 표시 사진을 업로드해주세요</span>
+                    <span
+                      style={{
+                        fontFamily: "NotoSansKR-400",
+                        color: "#B0B0B0",
+                        fontSize: "15px",
+                      }}
+                    >
+                      목록에 노출될 표시 사진을 업로드해주세요
+                    </span>
                   ) : (
-                    <div>
+                    <div style={{ fontSize: "15px" }}>
                       <span>{thumbnail.name}&nbsp;</span>
                       <span
                         onClick={(e) => {
@@ -372,14 +380,14 @@ function ManageShareContainer({ match }) {
                       </span>
                     </div>
                   )}
+                  <input
+                    type="file"
+                    ref={fileThumbnail}
+                    onChange={handleFileChange_}
+                    style={{ display: "none" }}
+                    accept=".jpeg, .png, .jpg"
+                  />
                 </div>
-                <input
-                  type="file"
-                  ref={fileThumbnail}
-                  onChange={handleFileChange_}
-                  style={{ display: "none" }}
-                  accept=".jpeg, .png, .jpg"
-                />
               </td>
             </tr>
             {/* 첨부파일 */}
@@ -387,32 +395,17 @@ function ManageShareContainer({ match }) {
               <tr>
                 <th style={{ verticalAlign: "top" }}>첨부파일</th>
                 <td>
-                  <div
-                    style={{
-                      width: "60%",
-                      height: "100px",
-                      fontSize: "70%",
-                      border: "1px solid #b0b0b0",
-                      background: "#ffffff",
-                      borderRadius: "10px",
-                      textAlign: "left",
-                      color: "#B0B0B0",
-                      padding: "3px",
-                      cursor: "pointer",
-                      overflow: "auto",
-                    }}
-                    onClick={onClickUpload}
-                  >
+                  <S.FileWrapper onClick={onClickUpload}>
                     {uploads.length === 0 ? (
-                      <span style={{ fontSize: "80%" }}>
+                      <S.FileContainer>
                         PDF/JPEG/PNG/JPG 파일만 업로드 가능하며, PDF 파일을 1개
                         이상 올릴 시 다른 파일을 추가로 업로드할 수 없습니다.
                         <br />
                         (이미지 파일의 경우 복수 업로드 가능하며 파일 제목의
                         가나다순, 숫자의 경우 오름차순으로 업로드됩니다.)
-                      </span>
+                      </S.FileContainer>
                     ) : (
-                      <div>
+                      <S.FileContainer>
                         {uploads.map((upload) => (
                           <span key={upload.name}>
                             {upload.name}&nbsp;
@@ -427,9 +420,9 @@ function ManageShareContainer({ match }) {
                             <br />
                           </span>
                         ))}
-                      </div>
+                      </S.FileContainer>
                     )}
-                  </div>
+                  </S.FileWrapper>
                   <input
                     type="file"
                     ref={fileInput}
@@ -448,7 +441,6 @@ function ManageShareContainer({ match }) {
         disabled={!buttonColor}
         state={buttonColor}
         onClick={onClickRegister}
-        style={{ marginTop: "30px", marginBottom: "30px" }}
       >
         등록하기
       </S.Button>

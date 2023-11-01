@@ -2,8 +2,10 @@ import { React, useEffect,  useState } from "react";
 import axios from "axios";
 import ManageList from "../managelist";
 import { useNavigate } from "react-router";
-import { Style } from "../../../layout/ReferenceListStyle";
 import S from "./ManageListContainer.styles"
+import { filterOptions } from "../../reference/constants"
+import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles"
+const { RefFilter, FilterButton } = StyledComponents;
 
 function ManageListContainer() {
   const [mywork, setMywork] = useState([]);
@@ -16,9 +18,11 @@ function ManageListContainer() {
   const [categoryName, setCategoryName] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [filter, setFilter] = useState(filterOptions[0].key); // 필터
+
   const [selectedSortIndex, setSekectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
 
-  const [checkIdx, setCheckIdx] = useState([1,0,0,0,0,0]);
+  const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,18 +38,19 @@ function ManageListContainer() {
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
-    if (category === "all") setCheckIdx([1,0,0,0,0,0]);
-    if (category === "idea") setCheckIdx([0,1,0,0,0,0]);
-    if (category === "marketing") setCheckIdx([0,0,1,0,0,0]);
-    if (category === "video") setCheckIdx([0,0,0,1,0,0]);
-    if (category === "design") setCheckIdx([0,0,0,0,1,0]);
-    if (category === "etc") setCheckIdx([0,0,0,0,0,1]);
+    if (category === "all") setCheckIdx([1, 0, 0, 0, 0, 0]);
+    if (category === "idea") setCheckIdx([0, 1, 0, 0, 0, 0]);
+    if (category === "marketing") setCheckIdx([0, 0, 1, 0, 0, 0]);
+    if (category === "video") setCheckIdx([0, 0, 0, 1, 0, 0]);
+    if (category === "design") setCheckIdx([0, 0, 0, 0, 1, 0]);
+    if (category === "etc") setCheckIdx([0, 0, 0, 0, 0, 1]);
 
     setSekectedSortIndex(0);
     setPageNumber(1);
     setTotalPages(1);
     setCurrentPage(1);
-    setSortOption("newest");
+    //setSortOption("newest");
+    setFilter(filterOptions[0].key);
   };
 
   const handleSortClick = (index) => {
@@ -149,7 +154,7 @@ function ManageListContainer() {
       </S.CategoryBox>
 
       <>
-        {!totalOfAllReferences ? (
+        {/*!totalOfAllReferences ? (
           <S.ManageListNo>
             <S.NoManageText>아직 작업물이 없어요</S.NoManageText>
             <S.NoManageSubText>
@@ -159,68 +164,52 @@ function ManageListContainer() {
               등록하기
             </S.ButtonRegister>
           </S.ManageListNo>
-        ) : (
-          <S.ManageListBox>
-            {/* 정렬순 */}
-            <S.SortBox>
-              <Style.Sort
-                onClick={() => handleSortClick(0)}
-                style={{
-                  backgroundColor:
-                    selectedSortIndex === 0 ? "#FADA5E" : "white",
-                }}
-              >
-                최신순
-              </Style.Sort>
-              <Style.Sort
-                onClick={() => handleSortClick(1)}
-                style={{
-                  backgroundColor:
-                    selectedSortIndex === 1 ? "#FADA5E" : "white",
-                }}
-              >
-                조회수순
-              </Style.Sort>
-              <Style.Sort
-                onClick={() => handleSortClick(2)}
-                style={{
-                  backgroundColor:
-                    selectedSortIndex === 2 ? "#FADA5E" : "white",
-                }}
-              >
-                좋아요순
-              </Style.Sort>
-              <Style.Sort
-                onClick={() => handleSortClick(3)}
-                style={{
-                  backgroundColor:
-                    selectedSortIndex === 3 ? "#FADA5E" : "white",
-                }}
-              >
-                스크랩순
-              </Style.Sort>
-            </S.SortBox>
+        ) : (*/}
+        <S.ManageListBox>
+          {/* 선택 글 삭제 */}
+          <S.SelectBox>
+            <S.SelectButton>전체 작품 삭제</S.SelectButton>
+            <S.SelectButton>삭제할 작품 선택</S.SelectButton>
+          </S.SelectBox>
+          {/* 정렬순 */}
+          <S.SortBox>
+            <RefFilter>
+              {filterOptions.map((option, index) => {
+                return (
+                  <FilterButton
+                    key={index}
+                    className={filter === option.key ? "active" : ""}
+                    onClick={() => {
+                      setFilter(option.key);
+                    }}
+                  >
+                    {option.value}
+                  </FilterButton>
+                );
+              })}
+            </RefFilter>
+          </S.SortBox>
+          <S.Line />
+          <ManageList
+            data={mywork}
+            TAR={totalOfAllReferences}
+            TPE={totalOfPageElements}
+            TP={totalPages}
+          />
+          <div
+            style={{
+              margin: "0 auto",
+            }}
+          >
             <S.Line />
-            <ManageList
-              data={mywork}
-              TAR={totalOfAllReferences}
-              TPE={totalOfPageElements}
-              TP={totalPages}
-            />
-            <div
-              style={{
-                margin: "0 auto",
-              }}
-            >
-              <S.Line />
-              {currentPage !== totalPages && (
-                <div style={{ width: "100%" }}>
-                  <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
-                </div>
-              )}
-            </div>
-          </S.ManageListBox>
-        )}
+            {currentPage !== totalPages && (
+              <div style={{ width: "100%" }}>
+                <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
+              </div>
+            )}
+          </div>
+        </S.ManageListBox>
+        {/*} )*/}
       </>
     </S.ManageListContainer>
   );
