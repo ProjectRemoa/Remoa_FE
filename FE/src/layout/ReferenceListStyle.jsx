@@ -122,7 +122,12 @@ export const Style = {
     box-sizing: border-box;
     position: relative;
     width: 86px;
-    display: inline-block;
+    height: 25px;
+    font-size: 15px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    //display: inline-block;
     border: 0.5px solid #000000;
     border-radius: 10px;
     margin-right: 8px;

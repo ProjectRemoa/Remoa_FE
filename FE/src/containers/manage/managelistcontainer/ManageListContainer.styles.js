@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const ManageListContainer = styled.div`
   width: 1270px;
+  margin-top: 72px;
 `
 
 const ManageTextBox = styled.div`
@@ -18,7 +19,7 @@ const ManageNameText = styled.span`
 
 const Category = styled.div`
   width: 183.09px;
-  height: 43px;
+  height: 41px;
   border: 1px solid #b0b0b0;
   border-radius: 10px;
   cursor: pointer;
@@ -29,6 +30,10 @@ const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right:27px;
+  :last-child{
+    margin-right: 0px;
+  }
 `;
 
 const CategoryText = styled.span`
@@ -38,6 +43,28 @@ const CategoryText = styled.span`
 const ManageListBox = styled.div`
   margin-top:30px;
 `
+
+const SelectBox = styled.div`
+margin-left: -19px;
+  float:left;
+`
+const SelectButton = styled.button`
+  width: 173px;
+  height: 25px;
+  font-family: NotoSansKR-400;
+  font-size: 15px;
+  color: #000000;
+  background-color: #fada5e;
+  box-shadow: none;
+  border-radius: 10px;
+  border: 0.5px solid #000000;
+  margin-right: 7px;
+  /*
+  display: flex;
+  justify-content: center;
+  align-items:center;
+*/
+`;
 
 const SortBox = styled.div`
   float:right;
@@ -97,10 +124,11 @@ const Line = styled.hr`
 
 const CategoryBox = styled.div`
   display: flex;
-  justify-content:space-between;
+  //justify-content:space-between;
   //align-items:center;
   
 `
+
 
 
 const S = {
@@ -118,6 +146,8 @@ const S = {
   NoManageText,
   NoManageSubText,
   SortBox,
+  SelectBox,
+  SelectButton,
 };
 
 export default S;
