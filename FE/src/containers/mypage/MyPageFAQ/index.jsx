@@ -1,4 +1,4 @@
-import TableComponent from "../../../components/TableComponent";
+import TableComponent from "../../../components/common/TableComponent";
 import styledComponent from "./MyPageFAQ.styles";
 const { Wrapper } = styledComponent;
 

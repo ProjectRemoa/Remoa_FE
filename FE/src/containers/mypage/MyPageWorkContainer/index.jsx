@@ -3,7 +3,7 @@ import axios from "axios";
 import MyPageScrapContainer from "../MyPageScrapContainer";
 import RefModal from "../../modal/RefModalPages/RefModal";
 import styledComponent from "./MyPageWorkContainer.styles";
-import FeedBackComponent from "../../../components/FeedBackComponent";
+import FeedBackComponent from "../../../components/common/FeedBackComponent";
 const { Wrapper, CommentContainer } = styledComponent;
 
 function MyPageWorkContainer() {
