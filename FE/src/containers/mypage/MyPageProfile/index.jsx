@@ -169,12 +169,8 @@ function MyPageProfile() {
     });
   };
 
-  const openPopup = () => {
-    setIsOpenPopup(true);
-  };
-
-  const closePopup = () => {
-    setIsOpenPopup(false);
+  const togglepopup = () => {
+    setIsOpenPopup((prev) => !prev);
   };
 
   // 한줄 소개 변경
@@ -308,13 +304,13 @@ function MyPageProfile() {
         <ProfileItemWrapper>
           <Title>재학 중 대학</Title>
           <Input id="profileUniversity" placeholder={university} disabled />
-          <ItemButton type="button" id="popupDom" onClick={openPopup}>
+          <ItemButton type="button" id="popupDom" onClick={togglepopup}>
             검색하기
           </ItemButton>
           {isOpenPopup && (
             <MyPageProfilePopupContent
               changeUniversity={handleChangeUniversity}
-              close={closePopup}
+              close={togglepopup}
             />
           )}
         </ProfileItemWrapper>
