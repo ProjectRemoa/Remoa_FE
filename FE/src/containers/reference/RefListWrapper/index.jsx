@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { React, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { React, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { pageLinks, filterOptions } from '../constants';
+import { pageLinks, filterOptions } from "../constants";
 
-import RefCard from '../RefCard';
-import RefModal from '../../modal/RefModalPages/RefModal';
+import RefCard from "../RefCard";
+import RefModal from "../../modal/RefModalPages/RefModal";
 
-import { MdArrowForwardIos } from 'react-icons/md';
-import StyledComponents from './RefListWrapper.styles';
+import { MdArrowForwardIos } from "react-icons/md";
+import StyledComponents from "./RefListWrapper.styles";
 const {
   RefListWrapper,
   RefListHeader,
@@ -25,7 +25,7 @@ export default function RefListContainer({ search: searchKeyword }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [category, setCategory] = useState(''); // 카테고리
+  const [category, setCategory] = useState(""); // 카테고리
   const [filter, setFilter] = useState(filterOptions[0].key); // 필터
   const [referenceList, setReferenceList] = useState([]); // 레퍼런스 리스트
 
@@ -40,6 +40,11 @@ export default function RefListContainer({ search: searchKeyword }) {
   const handleSelectData = (data) => {
     setSelectedData(data);
     setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
+    if (category.path === "/") {
+      navigate(`/${data.postId}`);
+    } else {
+      navigate(`${category.path}/${data.postId}`);
+    }
   };
 
   const handleProfileModal = (postId) => {
@@ -93,7 +98,7 @@ export default function RefListContainer({ search: searchKeyword }) {
       <RefListHeader>
         <RefListHeading>
           <span>
-            {searchKeyword !== '' ? searchKeyword : category.text}&nbsp;
+            {searchKeyword !== "" ? searchKeyword : category?.text}&nbsp;
           </span>
           공모전의 레퍼런스를 찾아보세요
         </RefListHeading>
@@ -104,7 +109,7 @@ export default function RefListContainer({ search: searchKeyword }) {
             return (
               <FilterButton
                 key={index}
-                className={filter === option.key ? 'active' : ''}
+                className={filter === option.key ? "active" : ""}
                 onClick={() => {
                   setFilter(option.key);
                 }}
@@ -120,11 +125,11 @@ export default function RefListContainer({ search: searchKeyword }) {
       {referenceList.length === 0 ? (
         <NoResultWrapper>
           <NoResultText className="emphasis">
-            검색 결과가 없어요 😪{' '}
+            검색 결과가 없어요 😪{" "}
           </NoResultText>
           <NoResultText>해당 키워드의 작업물을 업로드 해주세요!</NoResultText>
 
-          <button onClick={() => navigate('/manage/share')}>등록하기</button>
+          <button onClick={() => navigate("/manage/share")}>등록하기</button>
         </NoResultWrapper>
       ) : (
         <RefList>
@@ -150,7 +155,7 @@ export default function RefListContainer({ search: searchKeyword }) {
 
       {/* 상세 페이지 모달 */}
       {/* TODO : props 이름 변경 및 모달 리팩토링 후 isRefModal 조건 삭제 */}
-      {selectedData && isRefModal !== '' && (
+      {selectedData && isRefModal !== "" && (
         <RefModal
           id2={selectedData.postId}
           setData={selectedData}

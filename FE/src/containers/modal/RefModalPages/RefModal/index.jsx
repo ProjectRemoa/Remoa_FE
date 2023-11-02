@@ -5,7 +5,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { getDate } from '../../../../functions/getDate';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import RefModalComment from '../RefModalComment';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
@@ -521,7 +521,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           setComments={setComments}
         />
       </S.MobalBox>
-      <Outlet />
     </S.ModalWrapper>
   );
 }
