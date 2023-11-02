@@ -5,7 +5,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { getDate } from '../../../../functions/getDate';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import RefModalComment from '../RefModalComment';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
@@ -24,12 +24,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const useStyles = makeStyles({
   arrow: {
     fontSize: '25px',
-    color: '#FADA5E',
-    float: 'left',
     cursor: 'pointer',
-    display: 'block',
     marginLeft: '20px',
     fontWeight: '700',
+    float:'left'
   },
   dis: {
     display: 'none',
@@ -37,12 +35,7 @@ const useStyles = makeStyles({
   show: {
     display: 'flex',
   },
-  love: {
-    color: 'red',
-  },
-  star: {
-    color: '#FADA5E',
-  },
+
   beforeClick: {
     color: '#B0B0B0',
     float: 'left',
@@ -63,9 +56,6 @@ const useStyles = makeStyles({
   },
   dotIcon: {
     cursor: 'pointer',
-    position: 'absolute',
-    top: '10px',
-    right: '10px',
   },
 });
 
@@ -191,7 +181,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   let Lo = window.location.href;
 
+  // /mypage/feedback /manage/feedback /user/list
   const onCloseHandler2 = () => {
+    // if (Lo.includes('age/')) {
+    //   Navigate(`${d}`);
+    // } else if (Lo.includes('user/')) {
+    //   Navigate(`${d}`);
+    // }
+
     if (Lo.includes('marketing')) {
       Navigate('/ref/marketing');
     } else if (Lo.includes('video')) {
@@ -336,36 +333,34 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
       <S.MobalBox>
         {loading && <Loading />}
+        <S.ModalRealTop>
         <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
         {postMember.nickname === sessionStorage.getItem('nickname') && (
-          <>
+          <div style={{float:'right'}}>
             <MoreVertIcon className={classes.dotIcon} onClick={showSelect} />
             {showSel && (
               <S.EtcDiv>
                 <S.Functionp onClick={onClickPut}>수정하기</S.Functionp>
                 <div
                   style={{
-                    width: '90px',
+                    width: '138px',
                     height: '0px',
-                    border: '0.5px solid #B0B0B0',
+                    border: '0.2px solid #B0B0B0',
                     position: 'relative',
-                    left: '5px',
                   }}
                 />
                 <S.Functionp onClick={onDelete}>삭제하기</S.Functionp>
               </S.EtcDiv>
             )}
-          </>
+          </div>
         )}
-        <br />
+        </S.ModalRealTop>
+
         <S.MobalHeader>
           <S.HeaderDiv1>
             <S.DetailTitle>{top.title}</S.DetailTitle>
             <S.DetailTitleInfo>
-              {top.contestName}&nbsp;
-              <span style={{ color: '#FADA5E' }}>{top.contestAwardType}</span>
-              &nbsp;| &nbsp;{getDate(top.postingTime)}&nbsp;|&nbsp;
-              {top.category}
+              {top.contestName}&nbsp;|&nbsp;{getDate(top.postingTime)}&nbsp;|&nbsp;{top.category}
             </S.DetailTitleInfo>
           </S.HeaderDiv1>
 
@@ -376,9 +371,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
               <S.HeaderDetail2>
                 <RemoveRedEyeOutlinedIcon />
                 {top.views}
-                <FavoriteOutlinedIcon className={classes.love} />
+                <FavoriteOutlinedIcon />
                 {top.likeCount}
-                <StarIcon className={classes.star} />
+                <StarIcon />
                 {top.scrapCount}
               </S.HeaderDetail2>
             </S.HeaderUserInfo>
@@ -388,7 +383,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
             </S.DetailFeedbackButton>
           </S.HeaderDiv2>
         </S.MobalHeader>
-        <S.Line />
 
         <S.MobalContents>
           {category === 'video' ? (
@@ -527,6 +521,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           setComments={setComments}
         />
       </S.MobalBox>
+      <Outlet />
     </S.ModalWrapper>
   );
 }

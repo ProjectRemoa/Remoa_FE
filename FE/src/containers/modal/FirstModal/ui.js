@@ -19,7 +19,7 @@ export const S = {
     box-sizing: border-box;
     position: absolute;
     width: 460px;
-    height: 520px;
+    height: 448px;
     background: #FFFFFF;
     border: 0.5px solid #B0B0B0;
     border-radius: 10px;
@@ -28,23 +28,15 @@ export const S = {
     font-style: normal;
     font-weight: 700;
   `,
-  Line:styled.hr`
-    width: auto;
-    border: 1px solid #B0B0B0;
-    position: relative;
-    margin: 0px 40px 0px 40px;
-    top:0%;
-    margin-bottom: 18px;
-  `,
   Welcome:styled.div`
-    font-size: 25px;
+    font-size: 20px;
     line-height: 43px;
     margin-top:42px;
     margin-bottom: 18px;
   `,
   Warn:styled.div`
-    font-size: 18px;
-    line-height: 36px;
+    font-size: 15px;
+    line-height: 24px;
     margin-bottom: 18px;
   `,
   Guide:styled.div`
@@ -60,6 +52,10 @@ export const S = {
     font-size: 17px;
     line-height: 25px;
     color: #000000;
+  `,
+  InfoDiv:styled.div`
+    background-color: lightgray;
+    border-radius: 10px;
   `,
   HowWrapper:styled.td`
     width: 322;
@@ -90,5 +86,6 @@ export const S = {
     color: #B0B0B0;
     margin-top: 5px;
     cursor: pointer;
+    text-decoration: underline;
   `
 }

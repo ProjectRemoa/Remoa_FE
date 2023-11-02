@@ -18,11 +18,12 @@ export const S = {
   MobalBox: styled.div`
     position: absolute;
     background-color: #fff;
-    width: 86vw;
+    width: 1260px;
     height: auto;
     top: 106px;
+    display: block;
     justify-content: center;
-    padding: 15px 15px 0px 15px;
+    padding: 30px;
     border-radius: 1vw / 1vw;
   `,
   MobalContents: styled.div`
@@ -30,20 +31,22 @@ export const S = {
     height: auto;
     margin: 20px;
   `,
-  Line: styled.hr`
-    width: auto;
-    border: 1px solid #b0b0b0;
-    margin: 30px 0 30px 0;
+  ModalRealTop:styled.div`
+  display: block;
   `,
   MobalHeader: styled.div`
+    margin-top: 50px;
     width: auto;
-    height: auto;
+    background-color: pink;
+    height: 150px;
     display: flex;
+    padding-top: 40px;
   `,
   HeaderDiv1: styled.div`
     height: auto;
     width: 65%;
     text-align: left;
+    background-color: yellow;
   `,
   HeaderDiv2: styled.div`
     height: auto;
@@ -51,13 +54,14 @@ export const S = {
   `,
   DetailTitle: styled.div`
     font-weight: 700;
-    font-size: 25px;
+    font-size: 28px;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   `,
   DetailTitleInfo: styled.div`
     font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
+    color: #959595;
   `,
   ProfileSize: styled.img`
     width: 35px;
@@ -211,20 +215,17 @@ export const S = {
     border: 3px solid black;
   `,
   EtcDiv: styled.div`
-    width: 100px;
-    height: 80px;
-    border: 1px solid #b0b0b0;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 140px;
+    height: 100px;
+    border: 1px solid #a7a7a7;
     position: absolute;
     background-color: white;
-    top: 15px;
+    z-index: 12;
     right: 30px;
-    display: block;
-    z-index: 11;
   `,
   Functionp: styled.span`
-    font-size: 20px;
-    line-height: 40px;
+    font-size: 17px;
+    line-height: 50px;
     text-align: center;
     cursor: pointer;
   `,

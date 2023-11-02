@@ -2,8 +2,8 @@ import React from 'react';
 import { S } from './ui';
 import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
-import { MdPriorityHigh } from 'react-icons/md';
 import { AiOutlineCheck } from 'react-icons/ai';
+import { RiAlarmWarningFill } from 'react-icons/ri'
 
 const useStyles = makeStyles({
   check: {
@@ -28,22 +28,14 @@ export default function FirstModal({ setModalOpen }) {
         <S.Modal>
           <S.Up>
             <S.Welcome>
-              <span style={{ color: '#FADA5E' }}>레모아</span>에 오신 것을
-              환영합니다
+              레모아에 오신 것을 환영합니다
             </S.Welcome>
             <S.Warn>
-              <MdPriorityHigh style={{ color: 'red' }} />
-              잠깐!
+              <RiAlarmWarningFill style={{ color: 'red' }} />
+              잠깐! 시작하시기 전에 프로필 정보를 추가해보세요
             </S.Warn>
-            <S.Guide>
-              시작하시기 전에
-              <br />
-              프로필 정보를 추가해보세요
-            </S.Guide>
           </S.Up>
-
-          <S.Line />
-
+          <S.InfoDiv>
           <S.Howtable>
             <tr>
               <td>
@@ -75,6 +67,7 @@ export default function FirstModal({ setModalOpen }) {
               </S.HowWrapper>
             </tr>
           </S.Howtable>
+          </S.InfoDiv>
 
           <S.ChangeProfile
             style={{ cursor: 'pointer' }}
