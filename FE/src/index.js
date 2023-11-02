@@ -67,7 +67,9 @@ root.render(
                 <Route path="/login/kakao" element={<KakaoLogin />} />
 
                 {/* 레퍼런스 페이지 */}
-                <Route path="/" element={<RefPage />} />
+                <Route path="/" element={<RefPage />}>
+                  <Route path=":id" element={<RefModal />} />
+                </Route>
                 <Route path="/ref/:category" element={<RefPage />}>
                   <Route path=":id" element={<RefModal />} />
                 </Route>
