@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
 const UnderHeader = styled.div`
-  border: 1px solid #b0b0b0;
-  border-radius: 20px;
-  width: 891px;
-  height: 59px;
+  width: 684px;
+  height: 51px;
+  /* border: 1px solid #b0b0b0; */
+  border-radius: 40px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 44px;
+  margin-top: 43px;
+  background-color: #f7f6f5;
   @media ${(props) => props.theme.desktop} {
     width: 700px;
   }
