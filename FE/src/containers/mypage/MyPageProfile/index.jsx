@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import defaultImage from "../../../images/profile_img.png";
 import MyPageProfilePopupContent from "../MyPageProfilePopupContent";
 import styledComponent from "./MyPageProfile.styles";
 const {
@@ -17,14 +15,12 @@ const {
   Title,
   NicknameWrapper,
   Input,
-  University,
   ItemButton,
   OneLineIntroduction,
   ModifyButton,
 } = styledComponent;
 
 function MyPageProfile() {
-  const navigate = useNavigate();
   const imgRef = useRef();
   const [userData, setUserData] = useState({});
   const [profileImage, setProfileImage] = useState("");
@@ -203,17 +199,6 @@ function MyPageProfile() {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  // 아이디 정규식
-
-  const checkUserId = (id) => {
-    const idRegExp = /^[가-힣]{1,6}$|^[a-zA-Z]{1,12}$/;
-    if (!idRegExp.test(id)) {
-      alert("닉네임은 한글, 영문 대소문자, 숫자 2~8자리로 입력해야합니다!");
-      return false;
-    }
-    return true;
   };
 
   return (
