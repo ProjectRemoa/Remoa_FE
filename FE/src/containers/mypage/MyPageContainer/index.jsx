@@ -17,7 +17,7 @@ function MyPageContainer() {
         : "/mypage/work",
       text: "내 활동 관리",
     },
-    { path: "/mypage/faq", text: "공지사항 / FAQ" },
+    { path: "/mypage/faq", text: "공지사항 및 문의" },
   ];
 
   return (

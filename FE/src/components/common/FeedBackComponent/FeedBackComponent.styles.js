@@ -9,7 +9,7 @@ const NullData = styled.div`
 
 const ContentsContainer = styled.div`
   display: flex;
-  align-content: center;
+  align-items: center;
   margin-top: 19px;
 `;
 

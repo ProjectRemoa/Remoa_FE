@@ -1,21 +1,27 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  margin: 44px 0px 127px;
+  margin: 53px 0px 90px;
 `;
 const ProfileImg = styled.img`
   width: 222px;
   height: 222px;
-  border-radius: 70%;
-  overflow: hidden;
+  border-radius: 50%;
 `;
-const ProfileImgIntro = styled.div`
-  color: #464234;
-  font-size: 18px;
+const ProfileImgIntroWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #464646;
+  font-size: 14px;
   font-weight: 600;
   margin-top: 22px;
-  span {
-    color: #000000;
+`;
+const ProfileImgIntro = styled.span`
+  &:first-child {
+    color: #1e1e1e;
+    font-size: 24px;
+    margin-bottom: 5px;
   }
 `;
 const ProfileImgBtnWrapper = styled.form`
@@ -25,50 +31,69 @@ const ProfileImgBtnWrapper = styled.form`
   margin-top: 19px;
 `;
 const ProfileImgBtn = styled.label`
+  width: 140px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #fada5e;
   color: #000000;
-  border-radius: 10px;
-  padding: 12px 40px;
+  border-radius: 12px;
   margin: 0px 8px;
-  font-weight: 600;
-  &:focus,
-  &:hover {
-    background-color: #ffbe0a;
-    color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+  &:nth-child(3) {
+    border: 1px solid #a7a7a7;
+    background-color: white;
   }
 `;
 const HorizonLine = styled.hr`
-  width: 891px;
-  color: #b0b0b0;
-  margin-top: 19.35px;
+  width: 832px;
+  height: 1px;
+  background: #e7e7e7;
+  border: 0;
+  margin-top: 13px;
+  &:first-child {
+    background: #464646;
+    margin-top: 30px;
+  }
 `;
 const ProfileWrapper = styled.form`
-  width: 891px;
+  width: 832px;
   text-align: left;
 `;
 const ProfileItemWrapper = styled.div`
   margin-top: 22px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
 `;
 const Title = styled.span`
   width: 200px;
   font-size: 20px;
   font-weight: bold;
 `;
+const NicknameWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const Input = styled.input`
-  width: 264px;
+  box-sizing: border-box;
+  width: 271px;
   height: 42px;
+  font-family: Pretendard-Medium;
   color: #1f1f1f;
   border: 1px solid #b0b0b0;
   border-radius: 10px;
+  padding-left: 13px;
   &::placeholder {
     color: #1f1f1f;
   }
   &:focus {
     outline: none;
-    border: 1px solid #fada5e;
+    border: 1px solid #b0b0b0;
+  }
+  &:disabled {
+    background-color: inherit;
   }
 `;
 const University = styled.div`
@@ -79,26 +104,24 @@ const University = styled.div`
   border-radius: 10px;
 `;
 const ItemButton = styled.button`
-  width: 142px;
+  width: 100px;
   height: 42px;
-  background-color: #fada5e;
-  color: #464646;
-  border-radius: 10px;
-  border: 1px solid #b0b0b0;
-  line-height: 40px;
-  font-size: 15px;
-  font-weight: bold;
-  &:hover {
-    background-color: #ffbe0a;
-    color: #ffffff;
-  }
+  background-color: white;
+  color: #1e1e1e;
+  border-radius: 12px;
+  border: 1px solid #a7a7a7;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: Pretendard-Medium;
+  margin-left: 11px;
 `;
 const OneLineIntroduction = styled.textarea`
-  width: 701px;
-  height: 92px;
+  width: 654px;
+  height: 108px;
   color: #1f1f1f;
   border: 1px solid #b0b0b0;
   border-radius: 10px;
+  box-sizing: border-box;
   padding: 12px 9px;
   resize: none;
   font-weight: 500;
@@ -113,25 +136,21 @@ const OneLineIntroduction = styled.textarea`
   }
 `;
 const ModifyButton = styled.button`
-  width: 906px;
-  height: 68px;
+  width: 194px;
+  height: 56px;
   background: #fada5e;
   border: 1px solid #d0d0d0;
   border-radius: 30px;
-  margin-top: 48px;
   font-size: 20px;
+  margin-top: 16px;
   color: #010101;
   font-weight: bold;
-  font-family: "Noto Sans KR";
-  &:hover {
-    background-color: #ffbe0a;
-    color: #ffffff;
-  }
 `;
 
 const styledComponent = {
   Wrapper,
   ProfileImg,
+  ProfileImgIntroWrapper,
   ProfileImgIntro,
   ProfileImgBtnWrapper,
   ProfileImgBtn,
@@ -139,6 +158,7 @@ const styledComponent = {
   ProfileWrapper,
   ProfileItemWrapper,
   Title,
+  NicknameWrapper,
   Input,
   University,
   ItemButton,
