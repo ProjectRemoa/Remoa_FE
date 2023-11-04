@@ -72,7 +72,7 @@ const Title = styled.span`
   font-size: 20px;
   font-weight: bold;
 `;
-const NicknameWrapper = styled.form`
+const NicknameWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -136,19 +136,15 @@ const OneLineIntroduction = styled.textarea`
   }
 `;
 const ModifyButton = styled.button`
-  width: 906px;
-  height: 68px;
+  width: 194px;
+  height: 56px;
   background: #fada5e;
   border: 1px solid #d0d0d0;
   border-radius: 30px;
-  margin-top: 48px;
   font-size: 20px;
+  margin-top: 16px;
   color: #010101;
   font-weight: bold;
-  &:hover {
-    background-color: #ffbe0a;
-    color: #ffffff;
-  }
 `;
 
 const styledComponent = {

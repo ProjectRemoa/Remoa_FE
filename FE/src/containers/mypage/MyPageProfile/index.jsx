@@ -27,12 +27,13 @@ function MyPageProfile() {
   const navigate = useNavigate();
   const imgRef = useRef();
   const [userData, setUserData] = useState({});
-  const [profileImage, setProfileImage] = useState();
-  const [previewImage, setPreviewImage] = useState();
+  const [profileImage, setProfileImage] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [idCheckMessage, setIdCheckMessage] = useState("");
   const [idCheckColor, setIdCheckColor] = useState("");
   const [introNickname, setIntroNickname] = useState("");
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
     userData;
@@ -172,43 +173,36 @@ function MyPageProfile() {
 
   const changeProfile = (event) => {
     event.preventDefault();
-    axios
-      .put(
-        `/BE/user`,
-        {
-          nickname: nickname,
-          phoneNumber: phoneNumber,
-          university: university,
-          oneLineIntroduction: oneLineIntroduction,
-        },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("/");
-          sessionStorage.setItem("nickname", nickname);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
     const formData = new FormData();
     formData.append("file", previewImage);
 
-    axios
-      .put(`/BE/user/img`, formData, {
+    const profileData = {
+      nickname,
+      phoneNumber,
+      university,
+      oneLineIntroduction,
+    };
+
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    try {
+      const res = axios.put("/BE/user", profileData, {
         withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        console.error(err);
       });
+      if (res.status === 200) sessionStorage.setItem("nickname", nickname);
+      if (previewImage) axios.put(`/BE/user/img`, formData, config);
+      setSubmitMessage("수정이 완료되었습니다");
+      setTimeout(() => {
+        setSubmitMessage("");
+      }, 3000);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // 아이디 정규식
@@ -246,7 +240,7 @@ function MyPageProfile() {
         </ProfileImgBtn>
       </ProfileImgBtnWrapper>
 
-      <ProfileWrapper onSubmit={changeProfile}>
+      <ProfileWrapper>
         <HorizonLine />
 
         <ProfileItemWrapper>
@@ -325,8 +319,19 @@ function MyPageProfile() {
             onChange={(e) => handleChangeIntro(e)}
           />
         </ProfileItemWrapper>
-        <ModifyButton type="submit">수정 완료</ModifyButton>
       </ProfileWrapper>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "39px",
+        }}
+      >
+        <span style={{ height: "17px" }}>{submitMessage}</span>
+        <ModifyButton onClick={changeProfile}>수정 완료</ModifyButton>
+      </div>
     </Wrapper>
   );
 }
