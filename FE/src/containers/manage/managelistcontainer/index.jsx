@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import S from "./ManageListContainer.styles"
 import { filterOptions } from "../../reference/constants"
 import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles"
+import Filter from "../../../components/common/Filter";
 const { RefFilter, FilterButton } = StyledComponents;
 
 function ManageListContainer() {
@@ -173,6 +174,9 @@ function ManageListContainer() {
           </S.SelectBox>
           {/* 정렬순 */}
           <S.SortBox>
+            <Filter/>
+
+            {/*
             <RefFilter>
               {filterOptions.map((option, index) => {
                 return (
@@ -188,6 +192,7 @@ function ManageListContainer() {
                 );
               })}
             </RefFilter>
+            */}
           </S.SortBox>
           <S.Line />
           <ManageList

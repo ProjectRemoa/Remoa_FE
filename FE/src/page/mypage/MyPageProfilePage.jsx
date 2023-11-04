@@ -5,7 +5,14 @@ import MyPageProfile from "../../containers/mypage/MyPageProfile";
 function MyPageProfilePage() {
   return (
     <Layout>
-      <div style={{ flexDirection: "column" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <MyPageContainer />
         <MyPageProfile />
       </div>
