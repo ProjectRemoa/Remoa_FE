@@ -19,9 +19,7 @@ function Filter() {
   return (
     <S.FilterBox>
       <li>
-        <div
-          onClick={onChangeFilter}
-        >
+        <div onClick={onChangeFilter}>
           최신순&nbsp;
           <img src={arrow} alt="arrow" />
         </div>
@@ -34,7 +32,7 @@ function Filter() {
                   setFilter(option.index);
                 }}
               >
-                {option.value}
+                <S.FilterEach>{option.value}</S.FilterEach>
               </li>
             );
           })}

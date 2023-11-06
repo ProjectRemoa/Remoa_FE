@@ -6,33 +6,37 @@ const ManageListContainer = styled.div`
 `
 
 const ManageTextBox = styled.div`
-  font-family: NotoSansKR-700;
-  font-size: 25px;
+  font-size: 24px;
   text-align: left;
-  margin-top:72px;
+  margin-top: 72px;
   margin-bottom: 15px;
-  color: #464646;
-`
+  font-weight: 700;
+  color: #1e1e1e;
+`;
 const ManageNameText = styled.span`
-  color: #fada5e;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e1e1e; //#fada5e;
 `;
 
 const Category = styled.div`
-  width: 183.09px;
-  height: 41px;
-  border: 1px solid #b0b0b0;
+  width: 200px; //183.09px;
+  height: 44px;
+  border: 1px solid ${(props) => (props.checked ? "black" : "#CECECE")}; // #cecece;
   border-radius: 10px;
   cursor: pointer;
-  background-color: ${(props) => (props.checked ? "#fada5e" : "#f9fafc")};
-  color: ${(props) => (props.checked ? "white" : "#B0B0B0")};
-  font-family: ${(props) =>
-    props.checked ? "NotoSansKR-700" : "NotoSansKR-400"};
+  background-color: ${(props) => (props.checked ? "#FADA5E" : "white")};
+  color: ${(props) => (props.checked ? "#464234" : "#1e1e1e")};
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right:27px;
-  :last-child{
+  margin-right: 12px;
+  :last-child {
     margin-right: 0px;
+  }
+  :hover {
+    background-color: ${(props) => (props.checked ? "#FADA5E" : "#f0f0f0")};
   }
 `;
 
@@ -49,16 +53,19 @@ margin-left: -19px;
   float:left;
 `
 const SelectButton = styled.button`
-  width: 173px;
-  height: 25px;
-  font-family: NotoSansKR-400;
+  width: 104px;
+  height: 24px;
   font-size: 15px;
-  color: #000000;
-  background-color: #fada5e;
+  color: #464646;
+  background-color: white;
   box-shadow: none;
   border-radius: 10px;
-  border: 0.5px solid #000000;
+  border: 0.5px solid #e1e2e5;
   margin-right: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  
   /*
   display: flex;
   justify-content: center;
@@ -72,54 +79,55 @@ const SortBox = styled.div`
 `;
 
 const ManageListNo = styled.div`
-  margin-top: 180px;
+  margin-top: 88px;
 `
 
 const NoManageText = styled.p`
-  font-size: 30px;
-  font-family: NotoSansKR-700;
+  font-size: 24px;
+  font-weight: 700;
 `
 
 const NoManageSubText = styled.p`
-  font-size: 20px;
-  font-family: NotoSansKR-400;
-`
+  font-size: 16px;
+  color: #4e4e4e;
+  font-weight: 500;
+`;
 
 
 
 const Button = styled.button`
-  width: 178.75px;
-  height: 37px;
-  margin: 0 auto;
+  width: 320px;
+  height: 54px;
+  //margin: 0 auto;
+  margin-top: 58px;
   border-radius: 10px;
   border: 1px solid #b0b0b0;
   box-shadow: none;
   color: #464646;
-  font-size: 15px;
-
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   background: #fada5e;
-  font-family: NotoSansKR-700;
 `;
 
 const ButtonRegister = styled.button`
-  width: 446px;
-  height: 68px;
-  margin-top: 72px;
-  font-size: 20px;
+  width: 320px;
+  height: 54px;
+  margin-top: 58px;
+  font-size: 16px;
   border: none;
-  border-radius: 30px;
+  border-radius: 50px;
   box-shadow: none;
-  color: #010101;
+  color: #1e1e1e;
   cursor: pointer;
   background: #fada5e;
-  font-family: NotoSansKR-700;
+  font-weight: 600;
 `;
 
 const Line = styled.hr`
-  width: 90%;
-  border: none;
-  margin: 0 auto;
+  width: 100%;
+  border: 1px solid #e7e7e7;
+  margin: 10px;
 `;
 
 const CategoryBox = styled.div`

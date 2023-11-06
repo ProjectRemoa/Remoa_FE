@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import S from './ManageShareContainer.styles'
-
+import Loading from "../../../styles/Loading";
 
 /* byte 수 세는 알고리즘 */
 function getByteLength(s, b, i, c) {
@@ -21,6 +21,7 @@ function ManageShareContainer({ match }) {
   const [youtubeLink, setYoutubeLink] = useState("");
   const [uploads, setUploads] = useState([]);
   const [checked, setChecked] = useState([1, 0, 0, 0, 0]);
+  //const [loading, setLoading] = useState(false);
 
   const [buttonColor, setButtonColor] = useState(false);
 
@@ -171,6 +172,7 @@ function ManageShareContainer({ match }) {
     setUploads(uploads.filter((upload) => upload.name !== name));
   };
 
+
   /* 검사 */
   useEffect(() => {
     // 하나라도 비어있으면 버튼이 클릭되지 않게
@@ -203,9 +205,15 @@ function ManageShareContainer({ match }) {
       }
     }
   }, [name, comp, compRes, category, uploads, thumbnail, youtubeLink]);
-
+/*
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, [loading])*/
   /* 등록하기 */
   const onClickRegister = () => {
+    //setLoading(true);
     const formdata = new FormData();
 
     // json 파일은 따로 Blob에 담음
@@ -256,6 +264,7 @@ function ManageShareContainer({ match }) {
 
   return (
     <S.ManageShareContainer>
+      {/*loading && <Loading/>*/}
       <S.ManageShareBox>
         <S.ManageShareTable>
           <tbody>

@@ -150,7 +150,7 @@ function ManageListContainer() {
           onClick={() => onChangeCategory("etc")}
           checked={checkIdx[5]}
         >
-          <S.CategoryText>기타 아이디어</S.CategoryText>
+          <S.CategoryText>기타아이디어</S.CategoryText>
         </S.Category>
       </S.CategoryBox>
 
@@ -167,16 +167,28 @@ function ManageListContainer() {
           </S.ManageListNo>
         ) : (*/}
         <S.ManageListBox>
-          {/* 선택 글 삭제 */}
-          <S.SelectBox>
-            <S.SelectButton>전체 작품 삭제</S.SelectButton>
-            <S.SelectButton>삭제할 작품 선택</S.SelectButton>
-          </S.SelectBox>
-          {/* 정렬순 */}
-          <S.SortBox>
-            <Filter/>
+          {!totalOfAllReferences ? (
+            <S.ManageListNo>
+              <S.NoManageText>아직 작업물이 없어요 😪</S.NoManageText>
+              <S.NoManageSubText>
+                작업물을 업로드해 다른 사람들의 피드백을 받아보세요
+              </S.NoManageSubText>
+              <S.ButtonRegister onClick={onClickRegister}>
+                등록하기
+              </S.ButtonRegister>
+            </S.ManageListNo>
+          ) : (
+            <>
+              {/* 선택 글 삭제 */}
+              <S.SelectBox>
+                <S.SelectButton>내 작품 삭제</S.SelectButton>
+                <S.SelectButton>삭제할 작품 선택</S.SelectButton>
+              </S.SelectBox>
+              {/* 정렬순 */}
+              <S.SortBox>
+                <Filter />
 
-            {/*
+                {/*
             <RefFilter>
               {filterOptions.map((option, index) => {
                 return (
@@ -193,26 +205,27 @@ function ManageListContainer() {
               })}
             </RefFilter>
             */}
-          </S.SortBox>
-          <S.Line />
-          <ManageList
-            data={mywork}
-            TAR={totalOfAllReferences}
-            TPE={totalOfPageElements}
-            TP={totalPages}
-          />
-          <div
-            style={{
-              margin: "0 auto",
-            }}
-          >
-            <S.Line />
-            {currentPage !== totalPages && (
-              <div style={{ width: "100%" }}>
-                <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
+              </S.SortBox>
+              <S.Line />
+              <ManageList
+                data={mywork}
+                TAR={totalOfAllReferences}
+                TPE={totalOfPageElements}
+                TP={totalPages}
+              />
+              <div
+                style={{
+                  margin: "0 auto",
+                }}
+              >
+                {currentPage !== totalPages && (
+                  <div style={{ width: "100%" }}>
+                    <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </S.ManageListBox>
         {/*} )*/}
       </>
