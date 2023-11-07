@@ -41,7 +41,7 @@ function RefPage() {
       </div>
 
       {/* 첫 로그인 모달 */}
-      {modalOpen && ( 
+      {modalOpen && (
         <FirstModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
       )}
     </Layout>

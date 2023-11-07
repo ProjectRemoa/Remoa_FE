@@ -2,8 +2,6 @@ import React from 'react';
 import { S } from './ui';
 import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineCheck } from 'react-icons/ai';
-import { RiAlarmWarningFill } from 'react-icons/ri'
 
 const useStyles = makeStyles({
   check: {
@@ -31,33 +29,22 @@ export default function FirstModal({ setModalOpen }) {
               레모아에 오신 것을 환영합니다
             </S.Welcome>
             <S.Warn>
-              <RiAlarmWarningFill style={{ color: 'red' }} />
-              잠깐! 시작하시기 전에 프로필 정보를 추가해보세요
+              🚨잠깐! 시작하시기 전에 프로필 정보를 추가해보세요
             </S.Warn>
           </S.Up>
           <S.InfoDiv>
           <S.Howtable>
             <tr>
-              <td>
-                <AiOutlineCheck
-                  className={ classes.check }
-                  style={{ fontSize: '30px' }}
-                />
-              </td>
+              <td>✔️</td>
               <S.HowWrapper>
-                <S.How style={{ marginLeft: '-35px' }}>
+                <S.How>
                   기본으로 설정된 프로필 사진을 변경하고
                   <br />한 줄 소개 등 추가 정보를 입력해보세요
                 </S.How>
               </S.HowWrapper>
             </tr>
             <tr>
-              <td>
-                <AiOutlineCheck
-                  className={ classes.check }
-                  style={{ fontSize: '30px' }}
-                />
-              </td>
+              <td>✔️</td>
               <S.HowWrapper>
                 <S.How>
                   개성 넘치는 프로필로 작품을 등록하고

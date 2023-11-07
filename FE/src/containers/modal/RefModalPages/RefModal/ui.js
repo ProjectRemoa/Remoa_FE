@@ -30,100 +30,136 @@ export const S = {
     width: auto;
     height: auto;
     margin: 20px;
+    margin-bottom: 46px;
   `,
   ModalRealTop:styled.div`
   display: block;
   `,
   MobalHeader: styled.div`
-    margin-top: 50px;
+    margin-top: 58px;
     width: auto;
-    background-color: pink;
-    height: 150px;
+    height: auto;
     display: flex;
-    padding-top: 40px;
+    padding-top: 30px;
+    padding-bottom: 50px;
   `,
   HeaderDiv1: styled.div`
     height: auto;
     width: 65%;
     text-align: left;
-    background-color: yellow;
   `,
   HeaderDiv2: styled.div`
     height: auto;
     width: 35%;
   `,
   DetailTitle: styled.div`
-    font-weight: 700;
+    color: var(--black, #1E1E1E);
+    font-family: Pretendard;
     font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.84px;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   `,
   DetailTitleInfo: styled.div`
-    font-weight: 400;
+    color: var(--gray, #959595);
+    font-family: Pretendard;
     font-size: 16px;
-    color: #959595;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.32px;
   `,
   ProfileSize: styled.img`
-    width: 35px;
-    height: 35px;
+    width: 24px;
+    height: 24px;
     object-fit: cover;
     border-radius: 50%;
   `,
   HeaderUserInfo: styled.div`
-    top: 35%;
     width: 100%;
     position: relative;
-    height: auto;
+    height: 24px;
     display: flex;
+    width: 297px;
+    float: right;
+    margin-right:15px;
   `,
   HeaderUserName: styled.span`
-    font-size: 15px;
-    line-height: 35px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.28px;
     position: absolute;
-    margin-left: 40px;
+    margin-left: 30px; // 24 + 6
   `,
   HeaderDetail2: styled.div`
-    display: inline-block;
-    font-size: 15px;
-    height: 35px;
-    margin-left: 40px;
+    color: #a7a7a7;
     display: flex;
-    position: absolute;
-    align-items: center;
-    left: 25%;
-    width: 50%;
+    height: 18px;
+    flex-shrink: 0;
+    width: 145px;
     justify-content: space-between;
+    position: absolute;
+    right: 0;
+    top: 3px;
+  `,
+  eachIcon:styled.span`
+    line-height: 18px;
+    font-size: 18px;
+  `,
+  eachText:styled.span`
+    position: relative;
+    top: -3px;
+  `,
+  DetailFeedbackButtonWrapper:styled.div`
+    display: flex;
+    position: relative;
+    width: auto;
+    height: auto;
+    float: right;
+    padding-top: 19px;
+    padding-right: 13px;
+    gap: 8px;
   `,
   DetailFeedbackButton: styled.button`
-    left: 0%;
-    position: relative;
-    width: 45%;
-    top: 40%;
-    height: 40px;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 26px;
-    text-align: center;
-    box-shadow: none;
-    border: none;
-    margin-right: 10px;
-    display: inline;
-  `,
-  TraceBoxWrapper: styled.div`
-    display: flex;
+    width: 180px;
+    height: 47px;
+    font-size: 16px;
+    font-weight: 600;
     justify-content: center;
-    height: auto;
-    width: 100%;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--loyal-yellow, #FADA5E);
+    line-height: normal;
+    letter-spacing: -0.32px;
+    color: #1E1E1E;
+    border: none;
+  `,
+  TraceBoxLike: styled.span`
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.36px;
+  `,
+  TraceBoxAlign: styled.div`
+    padding: 16px 32px;
   `,
   TraceBox: styled.div`
-    border: 2px solid #fada5e;
-    border-radius: 10px;
-    width: 123px;
-    height: 53px;
-    background: #ffffff;
-    margin-bottom: 31px;
-    cursor: pointer;
-    line-height: 50px;
+    display: inline-flex;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 12px;
+    border: 1px solid var(--gray, #A7A7A7);
+    background: #FFF;
+    width: 115px;
+    height: 56px;
+    margin-bottom: 46px;
   `,
   ContentImg: styled.img`
     width: 100%;

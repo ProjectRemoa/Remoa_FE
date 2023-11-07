@@ -1,16 +1,18 @@
 import Loading from '../../../../styles/Loading';
 import { S } from './ui';
 import React, { useEffect, useState } from 'react';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { AiOutlineLeft } from 'react-icons/ai'
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { getDate } from '../../../../functions/getDate';
 import { useNavigate } from 'react-router-dom';
 import RefModalComment from '../RefModalComment';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import StarIcon from '@mui/icons-material/Star';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { AiTwotoneEye } from 'react-icons/ai'
+import { AiFillHeart } from 'react-icons/ai'
+import { AiOutlineHeart } from 'react-icons/ai'
+import { BsFillBookmarkFill } from 'react-icons/bs'
+import { BsBookmark } from 'react-icons/bs'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import YouTube from 'react-youtube';
@@ -18,6 +20,7 @@ import useWindowSize from '../../../../functions/useWindowSize';
 import DetailedFeedback from '../../DetailedFeedbackPages/DetailedFeedback';
 import { pdfjs, Document, Page } from 'react-pdf';
 import Draggable from 'react-draggable';
+import AuthLayout from '../../../../layout/AuthLayout';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -25,7 +28,7 @@ const useStyles = makeStyles({
   arrow: {
     fontSize: '25px',
     cursor: 'pointer',
-    marginLeft: '20px',
+    marginLeft: '5px',
     fontWeight: '700',
     float:'left'
   },
@@ -38,28 +41,31 @@ const useStyles = makeStyles({
 
   beforeClick: {
     color: '#B0B0B0',
-    float: 'left',
-    marginLeft: '25px',
-    marginTop: '13.5px',
   },
-  afterClick1: {
+  afterClick: {
     color: 'red',
-    float: 'left',
-    marginLeft: '25px',
-    marginTop: '13.5px',
-  },
-  afterClick2: {
-    color: '#FADA5E',
-    float: 'left',
-    marginLeft: '25px',
-    marginTop: '13.5px',
   },
   dotIcon: {
     cursor: 'pointer',
   },
+  headerIcon: {
+    lineHeight:'18px',
+    width:'18px',
+    height:'18px',
+  },
+  scrapButton: {
+    borderRadius: '12px',
+    border: '1px solid var(--gray, #A7A7A7)',
+    backgroundColor: '#FFF',
+    color:'#464646',
+    fontSize: '16px',
+    fontWeight: '600',
+    letterSpacing: '-0.32px',
+  },
 });
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
+  AuthLayout()
   const classes = useStyles();
   const Navigate = useNavigate();
 
@@ -89,6 +95,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     nickname: '',
     profileImage: '',
   });
+  
+  // 좋아요, 스크랩
+  const [likeBoolean, setLikeBoolean] = useState(false);
+  const [scrapBoolean, setscrapBoolean] = useState(false);
+
   const [showSel, setShowSel] = useState(false);
   const showSelect = () => {
     setShowSel(!showSel);
@@ -150,7 +161,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
         // bottom : 댓글
         setComments(res.data.data.comments);
-
         // 내가 좋아요/스크랩했는지?
         setLikeBoolean(res.data.data.isLiked);
         setscrapBoolean(res.data.data.isScraped);
@@ -181,13 +191,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   let Lo = window.location.href;
 
-  // /mypage/feedback /manage/feedback /user/list
   const onCloseHandler2 = () => {
-    // if (Lo.includes('age/')) {
-    //   Navigate(`${d}`);
-    // } else if (Lo.includes('user/')) {
-    //   Navigate(`${d}`);
-    // }
 
     if (Lo.includes('marketing')) {
       Navigate('/ref/marketing');
@@ -209,9 +213,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setModalVisibleId2('');
   };
 
-  // 좋아요, 스크랩
-  const [likeBoolean, setLikeBoolean] = useState(false);
-  const [scrapBoolean, setscrapBoolean] = useState(false);
 
   const handleLike = () => {
     axios
@@ -229,9 +230,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           likeCount: res.data.data.likeCount,
           scrapCount: top.scrapCount,
         });
-        if (res.data.data.isLiked === true) {
-          setLikeBoolean(!likeBoolean);
-        }
+        setLikeBoolean(!likeBoolean);
       })
       .catch((err) => {
         console.log(err);
@@ -328,19 +327,19 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
 
   return (
-    <S.ModalWrapper>
+    <S.ModalWrapper onClick={onCloseHandler2}>
       {/*className={modalVisibleId2 == id2 ? 'd_block' : 'd_none'}*/}
 
-      <S.MobalBox>
+      <S.MobalBox onClick={(e) => e.stopPropagation()}> {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
         <S.ModalRealTop>
-        <ArrowBackIosIcon className={classes.arrow} onClick={onCloseHandler2} />
+        <AiOutlineLeft className={classes.arrow} onClick={onCloseHandler2} />
         {postMember.nickname === sessionStorage.getItem('nickname') && (
           <div style={{float:'right'}}>
-            <MoreVertIcon className={classes.dotIcon} onClick={showSelect} />
+            <BsThreeDotsVertical className={classes.dotIcon} onClick={showSelect} />
             {showSel && (
               <S.EtcDiv>
-                <S.Functionp onClick={onClickPut}>수정하기</S.Functionp>
+                <S.Functionp onClick={onDelete}>삭제하기</S.Functionp>
                 <div
                   style={{
                     width: '138px',
@@ -348,8 +347,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     border: '0.2px solid #B0B0B0',
                     position: 'relative',
                   }}
-                />
-                <S.Functionp onClick={onDelete}>삭제하기</S.Functionp>
+                />       
+                <S.Functionp onClick={onClickPut}>수정하기</S.Functionp>
               </S.EtcDiv>
             )}
           </div>
@@ -369,18 +368,29 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
               <S.ProfileSize src={postMember.profileImage} />
               <S.HeaderUserName>{postMember.nickname}</S.HeaderUserName>
               <S.HeaderDetail2>
-                <RemoveRedEyeOutlinedIcon />
-                {top.views}
-                <FavoriteOutlinedIcon />
-                {top.likeCount}
-                <StarIcon />
-                {top.scrapCount}
+                <S.eachIcon>
+                  <AiTwotoneEye className={classes.headerIcon} />
+                  <S.eachText>{top.views}</S.eachText>
+                </S.eachIcon>
+                <S.eachIcon>
+                  <AiFillHeart className={classes.headerIcon} />
+                  <S.eachText>{top.likeCount}</S.eachText>
+                </S.eachIcon>
+                <S.eachIcon>
+                  <BsFillBookmarkFill className={classes.headerIcon} />
+                  <S.eachText>{top.scrapCount}</S.eachText>
+                </S.eachIcon>
               </S.HeaderDetail2>
             </S.HeaderUserInfo>
-            <S.DetailFeedbackButton>코멘트 바로가기</S.DetailFeedbackButton>
+            <S.DetailFeedbackButtonWrapper>
+            <S.DetailFeedbackButton className={classes.scrapButton} onClick={() => handleScrap()}>
+              <BsBookmark /> &nbsp;
+              스크랩하기
+            </S.DetailFeedbackButton>
             <S.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
               상세피드백 보기
             </S.DetailFeedbackButton>
+            </S.DetailFeedbackButtonWrapper>
           </S.HeaderDiv2>
         </S.MobalHeader>
 
@@ -492,28 +502,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           </div>
         </Draggable>
 
-        <S.TraceBoxWrapper>
-          <S.TraceBox
-            style={{ background: '#FFFFFF' }}
-            onClick={() => handleLike()}
-          >
-            <FavoriteOutlinedIcon
-              className={
-                !likeBoolean ? classes.afterClick1 : classes.beforeClick
-              }
-            />
-            {top.likeCount}
-          </S.TraceBox>
-          <div style={{ width: '26px' }}></div>
-          <S.TraceBox onClick={() => handleScrap()}>
-            <StarIcon
-              className={
-                !scrapBoolean ? classes.afterClick2 : classes.beforeClick
-              }
-            />
-            {top.scrapCount}
-          </S.TraceBox>
-        </S.TraceBoxWrapper>
+        <S.TraceBox onClick={() => handleLike()}>
+          <S.TraceBoxAlign>
+            <AiOutlineHeart className={ likeBoolean ? classes.beforeClick : classes.afterClick } />
+            <S.TraceBoxLike> &nbsp;{top.likeCount}</S.TraceBoxLike>
+          </S.TraceBoxAlign>
+        </S.TraceBox>
 
         <RefModalComment
           postId={id2}
