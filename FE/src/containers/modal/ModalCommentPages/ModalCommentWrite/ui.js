@@ -2,12 +2,13 @@ import styled from 'styled-components';
 
 export const S = {
   CommentWrapper: styled.div`
-    background-color: #f5f5f5;
     width: 100%;
     padding: 0px 15px 50px 15px;
     height: auto;
     border-radius: 0px 0px 10px 10px;
     position: relative;
+    display: block;
+    justify-content: center;
     left: -15px;
   `,
   CommentWriteWrapper: styled.form`

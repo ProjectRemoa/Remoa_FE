@@ -21,6 +21,7 @@ import DetailedFeedback from '../../DetailedFeedbackPages/DetailedFeedback';
 import { pdfjs, Document, Page } from 'react-pdf';
 import Draggable from 'react-draggable';
 import AuthLayout from '../../../../layout/AuthLayout';
+import ModalDelete from '../RefModalDelete';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -287,10 +288,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     axios
       .delete(`/BE/user/reference/${id2}`)
       .then((response) => {
-        console.log(response);
-        //setData({ data: response.data.data });
-        alert('레퍼런스 삭제가 완료되었습니다.');
-        Navigate('/');
+        window.location.reload();
+        Navigate('/manage/list');
       })
       .catch((err) => {
         console.log(err);
@@ -326,6 +325,15 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setPosition({ x: data.x, y: data.y });
   };
 
+  // 모달창 삭제하기
+
+  const [modalOpenDelete, setModalOpenDelete] = useState(false);
+
+  // 모달창 노출
+  const showModalDelete = () => {
+    setModalOpenDelete(true);
+  };
+
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
       {/*className={modalVisibleId2 == id2 ? 'd_block' : 'd_none'}*/}
@@ -339,7 +347,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
             <BsThreeDotsVertical className={classes.dotIcon} onClick={showSelect} />
             {showSel && (
               <S.EtcDiv>
-                <S.Functionp onClick={onDelete}>삭제하기</S.Functionp>
+                <S.Functionp onClick={showModalDelete}>삭제하기</S.Functionp>
+                {modalOpenDelete && <ModalDelete setModalOpenDelete={setModalOpenDelete} onDelete={onDelete} />}
                 <div
                   style={{
                     width: '138px',
