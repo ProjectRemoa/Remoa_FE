@@ -34,6 +34,11 @@ function MyPageProfile() {
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
     userData;
 
+  useEffect(() => {
+    getProfile();
+    getProfileImg();
+  }, []);
+
   // /BE/user에서 유저 정보 받아오기
 
   const getProfile = async () => {
@@ -58,11 +63,6 @@ function MyPageProfile() {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    getProfile();
-    getProfileImg();
-  }, []);
 
   // 프로필 사진 변경
 
@@ -97,17 +97,21 @@ function MyPageProfile() {
 
   const handleChangeNickname = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
+    const isOnlyEng = /^[a-zA-Z0-9]*$/g.test(value);
+    const isKorOrEng = /[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]/g.test(value) && !isOnlyEng;
+    const isSpecialChar = /[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-]/g.test(value);
+    const nicknameRegExp =
+      (isOnlyEng && value.length > 12) ||
+      (isKorOrEng && value.length > 6) ||
+      isSpecialChar;
+
+    return nicknameRegExp ? null : setUserData({ ...userData, [name]: value });
   };
 
   // 닉네임 중복체크
 
-  const nicknameOverlapCheck = async (nickname) => {
-    const idRegExp = /^[가-힣]{1,6}$|^[a-zA-Z]{1,12}$/;
-    if (!nickname || !idRegExp.test(nickname)) return;
+  const handleNicknameDuplicationCheck = async (nickname) => {
+    if (!nickname) return;
     try {
       const res = await axios.get(`/BE/nickname?nickname=${nickname}`);
 
@@ -246,7 +250,7 @@ function MyPageProfile() {
             <span
               style={{ fontSize: "12px", color: "#727272", marginTop: "10px" }}
             >
-              닉네임은 한글 6글자, 영어 12글자까지 가능합니다
+              닉네임은 최대 6글자까지 가능합니다.
             </span>
             <span
               style={{
@@ -261,7 +265,7 @@ function MyPageProfile() {
           </NicknameWrapper>
           <ItemButton
             type="button"
-            onClick={() => nicknameOverlapCheck(nickname)}
+            onClick={() => handleNicknameDuplicationCheck(nickname)}
           >
             중복확인
           </ItemButton>
