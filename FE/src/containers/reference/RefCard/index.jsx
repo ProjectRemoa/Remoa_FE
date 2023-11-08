@@ -18,7 +18,7 @@ const {
   RefCardFunctionIcon,
 } = StyledComponents;
 
-function RefCard({ data, onSelectedData, selectedPostId, onProfileModal }) {
+function RefCard({ data, onSelectedData, selectedPostId, onProfileModal,location }) {
   const {
     likeCount,
     postId,
@@ -48,6 +48,7 @@ function RefCard({ data, onSelectedData, selectedPostId, onProfileModal }) {
       onProfileModal(postId);
     }
   };
+
 
   return (
     <RefCardWrapper>
@@ -99,7 +100,7 @@ function RefCard({ data, onSelectedData, selectedPostId, onProfileModal }) {
 
         {/* 프로필 모달 */}
         {isProfileModalOpen && postId === selectedPostId && (
-          <RefModalFollow member={postMember} />
+          <RefModalFollow member={postMember} location={location} />
         )}
       </RefCardProfileWrapper>
     </RefCardWrapper>

@@ -22,6 +22,7 @@ import { pdfjs, Document, Page } from 'react-pdf';
 import Draggable from 'react-draggable';
 import AuthLayout from '../../../../layout/AuthLayout';
 import ModalDelete from '../RefModalDelete';
+import { formatCount } from '../../../../functions/formatCount';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -190,6 +191,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     }, 2500);
   }, [loading]);
 
+  // 모달 닫으면 보이는 페이지 설정하기 !
   let Lo = window.location.href;
 
   const onCloseHandler2 = () => {
@@ -379,15 +381,15 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
               <S.HeaderDetail2>
                 <S.eachIcon>
                   <AiTwotoneEye className={classes.headerIcon} />
-                  <S.eachText>{top.views}</S.eachText>
+                  <S.eachText>{formatCount(top.views)}</S.eachText>
                 </S.eachIcon>
                 <S.eachIcon>
                   <AiFillHeart className={classes.headerIcon} />
-                  <S.eachText>{top.likeCount}</S.eachText>
+                  <S.eachText>{formatCount(top.likeCount)}</S.eachText>
                 </S.eachIcon>
                 <S.eachIcon>
                   <BsFillBookmarkFill className={classes.headerIcon} />
-                  <S.eachText>{top.scrapCount}</S.eachText>
+                  <S.eachText>{formatCount(top.scrapCount)}</S.eachText>
                 </S.eachIcon>
               </S.HeaderDetail2>
             </S.HeaderUserInfo>
@@ -514,7 +516,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         <S.TraceBox onClick={() => handleLike()}>
           <S.TraceBoxAlign>
             <AiOutlineHeart className={ likeBoolean ? classes.beforeClick : classes.afterClick } />
-            <S.TraceBoxLike> &nbsp;{top.likeCount}</S.TraceBoxLike>
+            <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
           </S.TraceBoxAlign>
         </S.TraceBox>
 

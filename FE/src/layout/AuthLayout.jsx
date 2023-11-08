@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 function AuthLayout() {
   const navigate = useNavigate();

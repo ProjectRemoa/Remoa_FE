@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-
 import StyledComponents from './RefModalFollow.styles';
 import { useNavigate } from 'react-router-dom';
 import { useFollowData } from '../../../apis/references/follow';
 import axios from 'axios';
+import { formatCount } from '../../../functions/formatCount';
+
 const {
   ProfileModalWrapper,
   ProfileModalHeader,
@@ -16,7 +17,7 @@ const {
   ProfileFollowButton,
 } = StyledComponents;
 
-function RefModalFollow({ member }) {
+function RefModalFollow({ member, location }) {
   const navigate = useNavigate();
   const nickname = sessionStorage.getItem('nickname');
 
@@ -56,7 +57,7 @@ function RefModalFollow({ member }) {
   };
 
   return (
-    <ProfileModalWrapper>
+    <ProfileModalWrapper location={location}>
       <ProfileModalHeader>
         {/* 프로필 이미지 */}
         <ProfileImg>
@@ -69,11 +70,11 @@ function RefModalFollow({ member }) {
           <ProfileFollowViewWrapper>
             <ProfileFollowView>
               <span>Follower</span>
-              {followData?.follower}
+              {formatCount(followData?.follower)}
             </ProfileFollowView>
             <ProfileFollowView>
               <span>Following</span>
-              {followData?.following}
+              {formatCount(followData?.following)}
             </ProfileFollowView>
           </ProfileFollowViewWrapper>
         </ProfileInfoWrapper>

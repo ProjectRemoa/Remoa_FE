@@ -1,10 +1,9 @@
 import { S } from './ui';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import AuthLayout from '../../../../layout/AuthLayout';
 
 export default function ModalCommentWrite({ postId, setComments }) {
-  const navigate = useNavigate();
   const [contents, setContents] = useState('');
 
   const onChangeContents = (event) => {
@@ -12,10 +11,8 @@ export default function ModalCommentWrite({ postId, setComments }) {
   };
 
   const onSumbitHandler = (e) => {
-    if (sessionStorage.getItem('nickname') === null) {
-      alert('로그인이 필요한 서비스입니다.');
-      navigate('/sociallogin');
-    } else {
+    AuthLayout()
+    if (contents) {
       e.preventDefault();
       const UploadComment = {
         comment: contents,
@@ -32,16 +29,20 @@ export default function ModalCommentWrite({ postId, setComments }) {
           alert('통신 오류');
           console.log(err);
         });
+    } else {
+      e.preventDefault()
+      alert('내용을 입력하세요!')
     }
     setContents('');
   };
 
   return (
     <S.CommentWriteWrapper>
-      <p style={{ float: 'left', fontSize: '20px' }}>Comment</p>
-      <S.CommentButton onClick={onSumbitHandler}>댓글 등록</S.CommentButton>
+      <S.CommentWriteHeader>
+        <S.CommentTitle>Comment</S.CommentTitle>
+        <S.CommentButton onClick={onSumbitHandler}>등록</S.CommentButton>
+      </S.CommentWriteHeader>
       <S.WriteInput
-        required
         placeholder='해당 작업물에 대한 의견을 자유롭게 남겨주세요!
         욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.'
         onChange={onChangeContents}
