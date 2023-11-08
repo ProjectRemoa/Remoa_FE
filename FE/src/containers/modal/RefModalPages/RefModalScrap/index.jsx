@@ -22,4 +22,5 @@ function ModalDelete({ setModalOpenDelete }) {
     </div>
   );
 }
+
 export default ModalDelete;
