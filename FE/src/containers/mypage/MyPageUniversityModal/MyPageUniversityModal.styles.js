@@ -42,7 +42,7 @@ const SelectBtn = styled.button`
   font-family: Pretendard-Medium;
   font-weight: 500;
   font-size: 14px;
-  color: #727272;
+  color: ${(props) => (props.clicked ? "#1e1e1e" : "#727272")};
   padding: 0;
 `;
 const TableWrapper = styled.div`
