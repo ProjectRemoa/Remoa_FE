@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import MyPageProfilePopupContent from "../MyPageProfilePopupContent";
+import MyPageUniversityModal from "../MyPageUniversityModal";
 import styledComponent from "./MyPageProfile.styles";
 const {
   Wrapper,
@@ -145,7 +145,7 @@ function MyPageProfile() {
   const handleChangeUniversity = (name) => {
     setUserData({
       ...userData,
-      //   ["university"]: name, 일단 주석 처리 230918
+      university: name,
     });
   };
 
@@ -286,12 +286,12 @@ function MyPageProfile() {
 
         <ProfileItemWrapper>
           <Title>재학 중 대학</Title>
-          <Input id="profileUniversity" placeholder={university} disabled />
+          <Input id="profileUniversity" value={university} disabled />
           <ItemButton type="button" id="popupDom" onClick={togglepopup}>
             검색하기
           </ItemButton>
           {isOpenPopup && (
-            <MyPageProfilePopupContent
+            <MyPageUniversityModal
               changeUniversity={handleChangeUniversity}
               close={togglepopup}
             />
