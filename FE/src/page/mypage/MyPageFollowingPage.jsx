@@ -5,7 +5,14 @@ import MyPageFollow from "../../containers/mypage/MyPageFollow";
 function MyPageFollowingPage() {
   return (
     <Layout>
-      <div style={{ flexDirection: "column" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <MyPageContainer />
         <MyPageFollow />
       </div>

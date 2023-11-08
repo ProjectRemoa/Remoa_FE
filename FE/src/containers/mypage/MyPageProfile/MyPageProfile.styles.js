@@ -42,10 +42,15 @@ const ProfileImgBtn = styled.label`
   margin: 0px 8px;
   font-weight: 500;
   font-size: 14px;
+  cursor: pointer;
   &:nth-child(3) {
     border: 1px solid #a7a7a7;
     background-color: white;
   }
+`;
+const ProfileWrapper = styled.form`
+  width: 832px;
+  text-align: left;
 `;
 const HorizonLine = styled.hr`
   width: 832px;
@@ -57,10 +62,6 @@ const HorizonLine = styled.hr`
     background: #464646;
     margin-top: 30px;
   }
-`;
-const ProfileWrapper = styled.form`
-  width: 832px;
-  text-align: left;
 `;
 const ProfileItemWrapper = styled.div`
   margin-top: 22px;
@@ -90,18 +91,20 @@ const Input = styled.input`
   }
   &:focus {
     outline: none;
-    border: 1px solid #b0b0b0;
   }
   &:disabled {
     background-color: inherit;
   }
 `;
-const University = styled.div`
-  width: 264px;
-  height: 42px;
-  color: #1f1f1f;
-  border: 1px solid #b0b0b0;
-  border-radius: 10px;
+const NicknameWarningText = styled.span`
+  font-size: 12px;
+  color: #727272;
+  margin-top: 10px;
+`;
+const NicknameDuplicationText = styled.span`
+  font-size: 12px;
+  margin-top: 6px;
+  height: 14.4px;
 `;
 const ItemButton = styled.button`
   width: 100px;
@@ -132,10 +135,19 @@ const OneLineIntroduction = styled.textarea`
   }
   &:focus {
     outline: none;
-    border: 1px solid #fada5e;
   }
 `;
-const ModifyButton = styled.button`
+const ProfileEditWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 39px;
+`;
+const EditMessage = styled.span`
+  height: 17px;
+`;
+const EditButton = styled.button`
   width: 194px;
   height: 56px;
   background: #fada5e;
@@ -160,10 +172,13 @@ const styledComponent = {
   Title,
   NicknameWrapper,
   Input,
-  University,
+  NicknameWarningText,
+  NicknameDuplicationText,
   ItemButton,
   OneLineIntroduction,
-  ModifyButton,
+  ProfileEditWrapper,
+  EditMessage,
+  EditButton,
 };
 
 export default styledComponent;
