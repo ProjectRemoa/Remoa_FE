@@ -61,7 +61,7 @@ function RefModalFollow({ member, location }) {
       <ProfileModalHeader>
         {/* 프로필 이미지 */}
         <ProfileImg>
-          <img src={member.profileImage} alt="image" />
+          <img src={member.profileImage} alt="img" />
         </ProfileImg>
 
         {/* 프로필 정보 */}
