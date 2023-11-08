@@ -15,9 +15,13 @@ const {
   Title,
   NicknameWrapper,
   Input,
+  NicknameWarningText,
+  NicknameDuplicationText,
   ItemButton,
   OneLineIntroduction,
-  ModifyButton,
+  ProfileEditWrapper,
+  EditMessage,
+  EditButton,
 } = styledComponent;
 
 function MyPageProfile() {
@@ -29,7 +33,7 @@ function MyPageProfile() {
   const [idCheckMessage, setIdCheckMessage] = useState("");
   const [idCheckColor, setIdCheckColor] = useState("");
   const [introNickname, setIntroNickname] = useState("");
-  const [submitMessage, setSubmitMessage] = useState("");
+  const [editMessage, setEditMessage] = useState("");
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
     userData;
@@ -127,17 +131,16 @@ function MyPageProfile() {
     }
   };
 
-  // 휴대전화 변경
-
   const handleChangePhone = (e) => {
-    let phone = e.target.value
-      .replace(/[^0-9]/g, "")
-      .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-
-    setUserData({
-      ...userData,
-      //   ["phoneNumber"]: phone, 일단 주석 처리 230918
-    });
+    const { name, value } = e.target;
+    const isOnlyNum = /^[0-9]*$/g.test(value);
+    const phoneRegExp = !isOnlyNum || (isOnlyNum && value.length > 11);
+    return phoneRegExp
+      ? null
+      : setUserData({
+          ...userData,
+          [name]: value,
+        });
   };
 
   // 대학명 변경
@@ -151,9 +154,7 @@ function MyPageProfile() {
 
   // 대학 모달창 열기 닫기
 
-  const togglepopup = () => {
-    setIsOpenPopup((prev) => !prev);
-  };
+  const togglepopup = () => setIsOpenPopup((prev) => !prev);
 
   // 한줄 소개 변경
 
@@ -169,9 +170,9 @@ function MyPageProfile() {
     });
   };
 
-  // 수정완료 handleSumbit
+  // 수정완료 handleEdit
 
-  const changeProfile = (event) => {
+  const handleEdit = (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("file", previewImage);
@@ -196,9 +197,9 @@ function MyPageProfile() {
       });
       if (res.status === 200) sessionStorage.setItem("nickname", nickname);
       if (previewImage) axios.put(`/BE/user/img`, formData, config);
-      setSubmitMessage("수정이 완료되었습니다");
+      setEditMessage("수정이 완료되었습니다");
       setTimeout(() => {
-        setSubmitMessage("");
+        setEditMessage("");
       }, 3000);
     } catch (err) {
       console.log(err);
@@ -247,21 +248,16 @@ function MyPageProfile() {
               name="nickname"
               onChange={(e) => handleChangeNickname(e)}
             />
-            <span
-              style={{ fontSize: "12px", color: "#727272", marginTop: "10px" }}
-            >
+            <NicknameWarningText>
               닉네임은 최대 6글자까지 가능합니다.
-            </span>
-            <span
+            </NicknameWarningText>
+            <NicknameDuplicationText
               style={{
-                fontSize: "12px",
                 color: idCheckColor,
-                marginTop: "6px",
-                height: "14.4px",
               }}
             >
               {idCheckMessage}
-            </span>
+            </NicknameDuplicationText>
           </NicknameWrapper>
           <ItemButton
             type="button"
@@ -276,9 +272,9 @@ function MyPageProfile() {
         <ProfileItemWrapper>
           <Title>휴대전화</Title>
           <Input
-            placeholder={phoneNumber}
+            value={phoneNumber}
             name="phoneNumber"
-            onChange={handleChangePhone}
+            onChange={(e) => handleChangePhone(e)}
           />
         </ProfileItemWrapper>
 
@@ -309,18 +305,10 @@ function MyPageProfile() {
           />
         </ProfileItemWrapper>
       </ProfileWrapper>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "39px",
-        }}
-      >
-        <span style={{ height: "17px" }}>{submitMessage}</span>
-        <ModifyButton onClick={changeProfile}>수정 완료</ModifyButton>
-      </div>
+      <ProfileEditWrapper>
+        <EditMessage>{editMessage}</EditMessage>
+        <EditButton onClick={handleEdit}>수정 완료</EditButton>
+      </ProfileEditWrapper>
     </Wrapper>
   );
 }
