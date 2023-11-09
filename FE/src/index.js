@@ -93,12 +93,12 @@ root.render(
                     path="/mypage/following"
                     element={<MyPageFollowingPage />}
                   />
-                  <Route path="/mypage/scrap" element={<MyPageScrapPage />} />
+                  <Route path="/mypage/work" element={<MyPageWorkPage />} />
                   <Route
                     path="/mypage/myfeedback"
                     element={<MyPageFeedbackPage />}
                   />
-                  <Route path="/mypage/work" element={<MyPageWorkPage />} />
+                  <Route path="/mypage/scrap" element={<MyPageScrapPage />} />
                   <Route path="/mypage/faq" element={<MyPageFAQPage />} />
                 </Route>
                 <Route path="*" element={<UnknownPage />} />
