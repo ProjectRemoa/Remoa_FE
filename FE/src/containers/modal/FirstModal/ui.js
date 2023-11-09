@@ -19,7 +19,7 @@ export const S = {
     box-sizing: border-box;
     position: absolute;
     width: 460px;
-    height: 520px;
+    height: 448px;
     background: #FFFFFF;
     border: 0.5px solid #B0B0B0;
     border-radius: 10px;
@@ -28,24 +28,22 @@ export const S = {
     font-style: normal;
     font-weight: 700;
   `,
-  Line:styled.hr`
-    width: auto;
-    border: 1px solid #B0B0B0;
-    position: relative;
-    margin: 0px 40px 0px 40px;
-    top:0%;
-    margin-bottom: 18px;
-  `,
   Welcome:styled.div`
-    font-size: 25px;
-    line-height: 43px;
-    margin-top:42px;
+    letter-spacing: -0.48px;
+    font-size: 24px;
+    line-height: 100%;
+    margin-top: 50px;
     margin-bottom: 18px;
+    font-weight: 700;
+    color: #1e1e1e;
   `,
   Warn:styled.div`
-    font-size: 18px;
-    line-height: 36px;
+    letter-spacing: -0.28px;
+    font-size: 14px;
+    line-height: 16px;
     margin-bottom: 18px;
+    font-weight: 500;
+    color: #727272;
   `,
   Guide:styled.div`
     font-size: 20px;
@@ -57,38 +55,54 @@ export const S = {
     position: relative;
   `,
   How:styled.div`
-    font-size: 17px;
-    line-height: 25px;
-    color: #000000;
+    text-align: left;
+    font-size: 13px;
+    line-height: 140%;
+    font-weight: 600;
+    color: #464646;
+    padding-left: 6px;
+  `,
+  InfoDiv:styled.div`
+    background-color: #F7F6F5;
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
+    width:340px;
+    height: 160px;
+    margin: 33px 60px 34px 60px;
   `,
   HowWrapper:styled.td`
-    width: 322;
-    display: inline-block;
-    text-align:left;
-    position: relative;
   `,
   Howtable:styled.table`
     position: relative;
-    left: 30px;
+    padding-left: 10px;
   `,
   ChangeProfile:styled.button`
-    margin-top: 20px;
-    width: 367px;
-    height: 68px;
-    color: #464646;
-    font-weight: 700;
-    font-size: 20px;
+    width: 404px;
+    height: 54px;
     border: 1px solid #D0D0D0;
-    border-radius: 30px;
-    box-shadow: none;
+    border-radius: 12px;
+    background: #FADA5E;
+    color: var(--black, #1E1E1E);
+    text-align: center;
+    /* button */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.32px;
   `,
   Close:styled.div`
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 15px;
-    text-align: center;
-    color: #B0B0B0;
-    margin-top: 5px;
+    margin-top: 16px;
     cursor: pointer;
-  `
+    text-decoration: underline;
+    color: var(--gray, #A7A7A7);
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.28px;
+  `,
 }

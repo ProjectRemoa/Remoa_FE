@@ -2,10 +2,9 @@ import { S } from './ui';
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import AuthLayout from '../../../../layout/AuthLayout'
 
 export default function ModalCommentList({ comments, postId, setComments }) {
-  const navigate = useNavigate();
 
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState('');
@@ -57,10 +56,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
   };
 
   const onClickThumb = (commentId) => {
-    if (sessionStorage.getItem('nickname') === null) {
-      alert('로그인이 필요한 서비스입니다.');
-      navigate('/sociallogin');
-    } else {
+      AuthLayout()
       axios
         .post(`/BE/comment/${commentId}/like`)
         .then((res) => {
@@ -80,8 +76,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
         .catch((err) => {
           console.log(err);
         });
-    }
-  };
+    };
 
   return (
     <>
@@ -91,14 +86,14 @@ export default function ModalCommentList({ comments, postId, setComments }) {
             <S.AgainTable>
               <tbody>
                 <tr>
-                  <td>
+                  <td style={{ backgroundColor:'pink', width: '40px' }}>
                     <S.ProfileSize src={comments.member.profileImage} />
                   </td>
-                  <td style={{ width: '100px', fontSize: '90%' }}>
+                  <td  style={{ backgroundColor:'green' }}>
                     {comments.member.nickname}
                   </td>
                   <td
-                    style={{ float: 'left', position: 'relative', top: '15px' }}
+                    style={{ backgroundColor:'yellow', display: 'flex' }}
                   >
                     <S.HeaderButton
                       onClick={() => onClickThumb(comments.commentId)}
@@ -141,11 +136,10 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                 </tr>
                 <tr>
                   <td></td>
-                  <td colSpan='2' style={{ textAlign: 'left' }}>
+                  <td colSpan='2' style={{ backgroundColor:'pink' }}>
                     {putMemberId === comments.commentId ? (
                       <div id={comments.commentId}>
                         <S.WriteInput
-                          required
                           placeholder='해당 작업물에 대한 의견을 자유롭게 남겨주세요!
                           욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.'
                           onChange={onChangeContents}

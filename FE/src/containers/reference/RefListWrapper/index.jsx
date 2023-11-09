@@ -28,7 +28,6 @@ export default function RefListContainer({ search: searchKeyword }) {
   const [category, setCategory] = useState(""); // 카테고리
   const [filter, setFilter] = useState(filterOptions[0].key); // 필터
   const [referenceList, setReferenceList] = useState([]); // 레퍼런스 리스트
-
   const [page, setPage] = useState(1); // 페이지네이션
   const [totalPages, setTotalPages] = useState(1); // 페이지네이션
 
@@ -91,7 +90,25 @@ export default function RefListContainer({ search: searchKeyword }) {
     };
 
     fetchData();
+    modalLocation()
   }, [location.pathname, searchKeyword, filter, page]);
+
+  // 요거 그 팔로잉 모달창 설정을 위해서 필요한 부분입니다 좀 이상해보일지 몰라도 지우지 말하주세효,,,
+  function modalLocation(i) {
+    if (window.innerWidth <= 1023) {
+      if (i % 2 === 0) {
+        return 2;
+      } else return 0;
+    } else if (window.innerWidth <= 1439) {
+      if (i % 3 === 0) {
+        return 3;
+      } else return 0;
+    } else {
+      if (i % 4 === 0) {
+        return 4;
+      } else return 0;
+    }
+  }
 
   return (
     <RefListWrapper>
@@ -133,9 +150,10 @@ export default function RefListContainer({ search: searchKeyword }) {
         </NoResultWrapper>
       ) : (
         <RefList>
-          {referenceList.map((reference) => (
+          {referenceList.map((reference, index) => (
             <RefCard
               data={reference}
+              location={modalLocation(index + 1)}
               key={reference.postId}
               selectedPostId={selectedPostId}
               onSelectedData={handleSelectData}

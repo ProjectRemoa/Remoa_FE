@@ -4,13 +4,23 @@ const ProfileModalWrapper = styled.div`
   position: absolute;
   top: 98%;
   left: 45px;
-  width: 100%;
-  width: 402px;
+  width: 296px;
+  height: 110px;
   border-radius: 0 10px 10px 10px;
   border: 1px solid #b0b0b0;
   padding: 25px;
   background-color: #fff;
-  z-index: 3;
+  z-index: 5;
+  left: ${(props) => (props.location === 4 ? "-20vw" : "5vw")};
+    @media ${(props) => props.theme.desktop} {
+      left: ${(props) => (props.location === 3 ? "-40vw" : "5vw")};
+      top: 5.5vw;
+    }
+    @media ${(props) => props.theme.mobile} {
+      left: ${(props) => (props.location === 2 ? "-50vw" : "5.5vw")};
+      top: 7vw;
+    }
+  border-radius: ${(props) => props.location >= 1 ? '10px 0px 10px 10px' : '0px 10px 10px 10px'};
 `;
 
 const ProfileModalHeader = styled.div`

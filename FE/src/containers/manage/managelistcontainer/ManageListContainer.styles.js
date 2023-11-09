@@ -130,7 +130,6 @@ const CategoryBox = styled.div`
 `
 
 
-
 const S = {
   ManageListContainer,
   ManageTextBox,

@@ -2,40 +2,66 @@ import styled from 'styled-components';
 
 export const S = {
   CommentWrapper: styled.div`
-    background-color: #f5f5f5;
     width: 100%;
     padding: 0px 15px 50px 15px;
     height: auto;
     border-radius: 0px 0px 10px 10px;
     position: relative;
+    display: block;
+    justify-content: center;
     left: -15px;
   `,
   CommentWriteWrapper: styled.form`
-    margin: 0px 10px 25px 10px;
-    justify-content: center;
+    display: block;
     height: auto;
   `,
-  CommentButton: styled.button`
-    display: inline;
-    height: 36px;
-    width: 90px;
+  CommentTitle: styled.span`
+    color: var(--black, #1E1E1E);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 130%;
+    letter-spacing: -0.4px;
     position: absolute;
-    border: 0;
-    box-shadow: none;
-    right: 3%;
-    top: 3%;
+    left: 30px;
+  `,
+  CommentButton: styled.button`
+    border-radius: 12px;
+    border: 1px solid #A7A7A7;
+    background: #FFF;
+    color: #464646;
+    font-size: 16px;
+    font-weight: 600;
+    width: 72px;
+    height: 40px;
+    letter-spacing: -0.32px;
+    position: absolute;
+    right: 30px;
   `,
   WriteInput: styled.textarea`
     border-radius: 10px;
-    width: 100%;
-    min-height: 90px;
+    background: var(--light-gray, #F0F0F0);
+    width: 1196px;
+    height: 132px;
     font-family: 'Inter';
     font-size: 15px;
     line-height: 25px;
     resize: none;
     border: none;
+    padding: 20px;
     ::placeholder {
-      color: black;
+      color: var(--gray, #A7A7A7);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 150%;
+      letter-spacing: -0.32px;
     }
+  `,
+  CommentWriteHeader: styled.div`
+    width: auto;
+    height: 40px;
+    margin-top: 32px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
   `,
 };
