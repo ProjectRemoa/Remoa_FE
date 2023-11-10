@@ -15,7 +15,7 @@ import ManageList from "./page/manage/ManageList";
 import ManageShare from "./page/manage/ManageShare";
 import ManageFeedback from "./page/manage/ManageFeedback";
 
-import MyPage from "./page/mypage/index.jsx";
+import MyPage from "./page/mypage/MyPage/";
 
 import SignUpPage from "./page/SignUpPage";
 import EmailFind from "./page/findinfo/EmailFind";
