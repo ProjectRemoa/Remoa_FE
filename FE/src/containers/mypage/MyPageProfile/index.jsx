@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import MyPageProfilePopupContent from "../MyPageProfilePopupContent";
+import MyPageUniversityModal from "../MyPageUniversityModal";
 import styledComponent from "./MyPageProfile.styles";
 const {
   Wrapper,
@@ -15,9 +15,13 @@ const {
   Title,
   NicknameWrapper,
   Input,
+  NicknameWarningText,
+  NicknameDuplicationText,
   ItemButton,
   OneLineIntroduction,
-  ModifyButton,
+  ProfileEditWrapper,
+  EditMessage,
+  EditButton,
 } = styledComponent;
 
 function MyPageProfile() {
@@ -29,10 +33,15 @@ function MyPageProfile() {
   const [idCheckMessage, setIdCheckMessage] = useState("");
   const [idCheckColor, setIdCheckColor] = useState("");
   const [introNickname, setIntroNickname] = useState("");
-  const [submitMessage, setSubmitMessage] = useState("");
+  const [editMessage, setEditMessage] = useState("");
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
     userData;
+
+  useEffect(() => {
+    getProfile();
+    getProfileImg();
+  }, []);
 
   // /BE/user에서 유저 정보 받아오기
 
@@ -58,11 +67,6 @@ function MyPageProfile() {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    getProfile();
-    getProfileImg();
-  }, []);
 
   // 프로필 사진 변경
 
@@ -97,17 +101,21 @@ function MyPageProfile() {
 
   const handleChangeNickname = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
+    const isOnlyEng = /^[a-zA-Z0-9]*$/g.test(value);
+    const isKorOrEng = /[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]/g.test(value) && !isOnlyEng;
+    const isSpecialChar = /[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-]/g.test(value);
+    const nicknameRegExp =
+      (isOnlyEng && value.length > 12) ||
+      (isKorOrEng && value.length > 6) ||
+      isSpecialChar;
+
+    return nicknameRegExp ? null : setUserData({ ...userData, [name]: value });
   };
 
   // 닉네임 중복체크
 
-  const nicknameOverlapCheck = async (nickname) => {
-    const idRegExp = /^[가-힣]{1,6}$|^[a-zA-Z]{1,12}$/;
-    if (!nickname || !idRegExp.test(nickname)) return;
+  const handleNicknameDuplicationCheck = async (nickname) => {
+    if (!nickname) return;
     try {
       const res = await axios.get(`/BE/nickname?nickname=${nickname}`);
 
@@ -123,17 +131,16 @@ function MyPageProfile() {
     }
   };
 
-  // 휴대전화 변경
-
   const handleChangePhone = (e) => {
-    let phone = e.target.value
-      .replace(/[^0-9]/g, "")
-      .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-
-    setUserData({
-      ...userData,
-      //   ["phoneNumber"]: phone, 일단 주석 처리 230918
-    });
+    const { name, value } = e.target;
+    const isOnlyNum = /^[0-9]*$/g.test(value);
+    const phoneRegExp = !isOnlyNum || (isOnlyNum && value.length > 11);
+    return phoneRegExp
+      ? null
+      : setUserData({
+          ...userData,
+          [name]: value,
+        });
   };
 
   // 대학명 변경
@@ -141,15 +148,13 @@ function MyPageProfile() {
   const handleChangeUniversity = (name) => {
     setUserData({
       ...userData,
-      //   ["university"]: name, 일단 주석 처리 230918
+      university: name,
     });
   };
 
   // 대학 모달창 열기 닫기
 
-  const togglepopup = () => {
-    setIsOpenPopup((prev) => !prev);
-  };
+  const togglepopup = () => setIsOpenPopup((prev) => !prev);
 
   // 한줄 소개 변경
 
@@ -165,9 +170,9 @@ function MyPageProfile() {
     });
   };
 
-  // 수정완료 handleSumbit
+  // 수정완료 handleEdit
 
-  const changeProfile = (event) => {
+  const handleEdit = (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("file", previewImage);
@@ -192,9 +197,9 @@ function MyPageProfile() {
       });
       if (res.status === 200) sessionStorage.setItem("nickname", nickname);
       if (previewImage) axios.put(`/BE/user/img`, formData, config);
-      setSubmitMessage("수정이 완료되었습니다");
+      setEditMessage("수정이 완료되었습니다");
       setTimeout(() => {
-        setSubmitMessage("");
+        setEditMessage("");
       }, 3000);
     } catch (err) {
       console.log(err);
@@ -243,25 +248,20 @@ function MyPageProfile() {
               name="nickname"
               onChange={(e) => handleChangeNickname(e)}
             />
-            <span
-              style={{ fontSize: "12px", color: "#727272", marginTop: "10px" }}
-            >
-              닉네임은 한글 6글자, 영어 12글자까지 가능합니다
-            </span>
-            <span
+            <NicknameWarningText>
+              닉네임은 최대 6글자까지 가능합니다.
+            </NicknameWarningText>
+            <NicknameDuplicationText
               style={{
-                fontSize: "12px",
                 color: idCheckColor,
-                marginTop: "6px",
-                height: "14.4px",
               }}
             >
               {idCheckMessage}
-            </span>
+            </NicknameDuplicationText>
           </NicknameWrapper>
           <ItemButton
             type="button"
-            onClick={() => nicknameOverlapCheck(nickname)}
+            onClick={() => handleNicknameDuplicationCheck(nickname)}
           >
             중복확인
           </ItemButton>
@@ -272,9 +272,9 @@ function MyPageProfile() {
         <ProfileItemWrapper>
           <Title>휴대전화</Title>
           <Input
-            placeholder={phoneNumber}
+            value={phoneNumber}
             name="phoneNumber"
-            onChange={handleChangePhone}
+            onChange={(e) => handleChangePhone(e)}
           />
         </ProfileItemWrapper>
 
@@ -282,12 +282,12 @@ function MyPageProfile() {
 
         <ProfileItemWrapper>
           <Title>재학 중 대학</Title>
-          <Input id="profileUniversity" placeholder={university} disabled />
+          <Input id="profileUniversity" value={university} disabled />
           <ItemButton type="button" id="popupDom" onClick={togglepopup}>
             검색하기
           </ItemButton>
           {isOpenPopup && (
-            <MyPageProfilePopupContent
+            <MyPageUniversityModal
               changeUniversity={handleChangeUniversity}
               close={togglepopup}
             />
@@ -305,18 +305,10 @@ function MyPageProfile() {
           />
         </ProfileItemWrapper>
       </ProfileWrapper>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "39px",
-        }}
-      >
-        <span style={{ height: "17px" }}>{submitMessage}</span>
-        <ModifyButton onClick={changeProfile}>수정 완료</ModifyButton>
-      </div>
+      <ProfileEditWrapper>
+        <EditMessage>{editMessage}</EditMessage>
+        <EditButton onClick={handleEdit}>수정 완료</EditButton>
+      </ProfileEditWrapper>
     </Wrapper>
   );
 }

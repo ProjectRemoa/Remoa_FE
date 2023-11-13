@@ -2,8 +2,6 @@ import React from 'react';
 import { S } from './ui';
 import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
-import { MdPriorityHigh } from 'react-icons/md';
-import { AiOutlineCheck } from 'react-icons/ai';
 
 const useStyles = makeStyles({
   check: {
@@ -28,44 +26,25 @@ export default function FirstModal({ setModalOpen }) {
         <S.Modal>
           <S.Up>
             <S.Welcome>
-              <span style={{ color: '#FADA5E' }}>레모아</span>에 오신 것을
-              환영합니다
+              레모아에 오신 것을 환영합니다
             </S.Welcome>
             <S.Warn>
-              <MdPriorityHigh style={{ color: 'red' }} />
-              잠깐!
+              🚨잠깐! 시작하시기 전에 프로필 정보를 추가해보세요
             </S.Warn>
-            <S.Guide>
-              시작하시기 전에
-              <br />
-              프로필 정보를 추가해보세요
-            </S.Guide>
           </S.Up>
-
-          <S.Line />
-
+          <S.InfoDiv>
           <S.Howtable>
             <tr>
-              <td>
-                <AiOutlineCheck
-                  className={ classes.check }
-                  style={{ fontSize: '30px' }}
-                />
-              </td>
+              <td>✔️</td>
               <S.HowWrapper>
-                <S.How style={{ marginLeft: '-35px' }}>
+                <S.How>
                   기본으로 설정된 프로필 사진을 변경하고
                   <br />한 줄 소개 등 추가 정보를 입력해보세요
                 </S.How>
               </S.HowWrapper>
             </tr>
             <tr>
-              <td>
-                <AiOutlineCheck
-                  className={ classes.check }
-                  style={{ fontSize: '30px' }}
-                />
-              </td>
+              <td>✔️</td>
               <S.HowWrapper>
                 <S.How>
                   개성 넘치는 프로필로 작품을 등록하고
@@ -75,6 +54,7 @@ export default function FirstModal({ setModalOpen }) {
               </S.HowWrapper>
             </tr>
           </S.Howtable>
+          </S.InfoDiv>
 
           <S.ChangeProfile
             style={{ cursor: 'pointer' }}

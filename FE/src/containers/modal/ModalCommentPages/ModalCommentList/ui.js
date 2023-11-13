@@ -8,8 +8,8 @@ export const S = {
     resize: none;
   `,
   ProfileSize: styled.img`
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
     border-radius: 50%;
   `,
@@ -29,10 +29,10 @@ export const S = {
   AgainWrapper: styled.div`
     width: 100%;
     height: auto;
+    background-color: aliceblue;
   `,
   AgainTable: styled.table`
     width: 100%;
     position: relative;
-    right: 10px;
   `,
 };

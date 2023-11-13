@@ -3,42 +3,42 @@
   src: url("./fonts/Pretendard-Medium.otf");
 }
 
-@font-face {  
+@font-face {
   font-family: "Pretendard-Black";
   src: url("./fonts/Pretendard-Black.otf");
 }
 
-@font-face {  
+@font-face {
   font-family: "Pretendard-Bold";
   src: url("./fonts/Pretendard-Bold.otf");
 }
 
-@font-face {  
+@font-face {
   font-family: "Pretendard-ExtraBold";
   src: url("./fonts/Pretendard-ExtraBold.otf");
 }
 
-@font-face {  
+@font-face {
   font-family: "Pretendard-ExtraLight";
   src: url("./fonts/Pretendard-ExtraLight.otf");
 }
 
-@font-face {  
+@font-face {
   font-family: "Pretendard-Light";
   src: url("./fonts/Pretendard-Light.otf");
 }
 
-@font-face {  
+@font-face {
   font-family: "Pretendard-Regular";
   src: url("./fonts/Pretendard-Regular.otf");
 }
 
-@font-face {  
+@font-face {
   font-family: "Pretendard-SemiBold";
   src: url("./fonts/Pretendard-SemiBold.otf");
 }
 
-@font-face {  
+@font-face {
   font-family: "Pretendard-Thin";
   src: url("./fonts/Pretendard-Thin.otf");
 }
@@ -48,4 +48,8 @@ body {
   font-family: Pretendard-Medium;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  cursor: pointer;
 }

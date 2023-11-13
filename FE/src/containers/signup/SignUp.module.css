@@ -92,7 +92,7 @@ select {
 }
 
 /* table  */
-table {
+.table {
   justify-content: center;
   align-items: center;
   /*display: flex;*/
@@ -103,11 +103,11 @@ table {
   margin: 10px;
 }
 
-tbody {
+.tbody {
   width: 80%;
 }
 
-th {
+.th {
   width: 20%;
   text-align: right;
 }
