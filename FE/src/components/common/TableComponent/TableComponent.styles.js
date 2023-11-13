@@ -1,15 +1,13 @@
 import styled from "styled-components";
 
-const Title = styled.div`
-  width: 100%;
-  height: 60px;
-  font-size: 25px;
-  font-weight: bold;
-  text-align: left;
+const Title = styled.span`
+  font-size: 24px;
+  font-weight: 700;
 `;
 const TableWrapper = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 `;
 const Table = styled.table`
   width: 100%;
@@ -17,29 +15,27 @@ const Table = styled.table`
   border-collapse: collapse;
 `;
 const Thead = styled.thead`
-  text-align: center;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 600;
+`;
+const TheadValue = styled.td`
+  height: 56px;
+  border-top: 3px solid #1e1e1e;
+  border-bottom: 1px solid #b0b0b0;
 `;
 const Tbody = styled.tbody`
   text-align: center;
-`;
-const TheadValue = styled.td`
-  border-top: 3px solid #000000;
-  border-bottom: 1px solid #b0b0b0;
-  height: 50px;
+  cursor: pointer;
 `;
 const TbodyValue = styled.td`
   border-bottom: 1px solid #b0b0b0;
   height: 50px;
+  &:nth-child(2) {
+    text-align: left;
+    padding-left: 56px;
+  }
 `;
 const Trow = styled.tr``;
-
-const F = styled.div`
-  padding: 0 0 30px 0;
-`;
-const QA = styled.div`
-  padding: 0 0 30px 0;
-`;
 
 const styledComponent = {
   Title,

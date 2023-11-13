@@ -35,6 +35,8 @@ import OtherManageList from "./page/manage/OtherManageList";
 
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
+import MyPageFAQNew from "./containers/mypage/MyPageFAQNew/index.jsx";
+import MyPageFAQDetail from "./containers/mypage/MyPageFAQDetail/index.jsx";
 
 const queryClient = new QueryClient();
 
@@ -82,7 +84,13 @@ root.render(
                   {/* 레퍼런스 수정 */}
 
                   {/* 마이페이지 */}
-                  <Route path="/mypage/:id" element={<MyPage />} />
+                  <Route path="/mypage/:id" element={<MyPage />}>
+                    <Route path=":category/new" element={<MyPageFAQNew />} />
+                    <Route
+                      path=":category/:detailId"
+                      element={<MyPageFAQDetail />}
+                    />
+                  </Route>
                 </Route>
                 <Route path="*" element={<UnknownPage />} />
               </Routes>
