@@ -15,7 +15,9 @@ import ManageList from "./page/manage/ManageList";
 import ManageShare from "./page/manage/ManageShare";
 import ManageFeedback from "./page/manage/ManageFeedback";
 
-import MyPage from "./page/mypage/MyPage/";
+import MyPage from "./page/mypage/MyPage";
+import MyPageFAQNew from "./containers/mypage/MyPageFAQNew";
+import MyPageFAQDetail from "./containers/mypage/MyPageFAQDetail";
 
 import SignUpPage from "./page/SignUpPage";
 import EmailFind from "./page/findinfo/EmailFind";
@@ -35,8 +37,6 @@ import OtherManageList from "./page/manage/OtherManageList";
 
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
-import MyPageFAQNew from "./containers/mypage/MyPageFAQNew/index.jsx";
-import MyPageFAQDetail from "./containers/mypage/MyPageFAQDetail/index.jsx";
 
 const queryClient = new QueryClient();
 
