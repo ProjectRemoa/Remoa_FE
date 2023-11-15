@@ -55,17 +55,21 @@ margin-left: -19px;
 const SelectButton = styled.button`
   width: 104px;
   height: 24px;
-  font-size: 15px;
+  font-size: 12px;
   color: #464646;
-  background-color: white;
+  background-color: ${(props) => (props.state ? "#fada5e" : "white")};
   box-shadow: none;
   border-radius: 10px;
-  border: 0.5px solid #e1e2e5;
+  border: ${(props) =>
+    props.state ? "1px solid #727272" : "1px solid #e1e2e5"};
   margin-right: 7px;
-  font-size: 12px;
   font-weight: 500;
+  white-space: nowrap;
   cursor: pointer;
-  
+
+  :first-child {
+    margin-left: 19px;
+  }
   /*
   display: flex;
   justify-content: center;

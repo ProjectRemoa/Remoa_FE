@@ -24,6 +24,9 @@ function ManageListContainer() {
   const [selectedSortIndex, setSekectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
 
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
+
+  const [buttonColor, setButtonColor] = useState([0,0]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -107,6 +110,16 @@ function ManageListContainer() {
   const onClickRegister = () => {
     navigate("/manage/share");
   };
+
+  const onClickSelectButton = (value) => {
+    if (value.detail === 0) {
+      setButtonColor((buttonColor[0]===0 ? 1: 0, buttonColor[1]))
+    }
+    if (value.detail === 1) {
+      setButtonColor((buttonColor[0], buttonColor[1] === 0 ? 1 : 0));
+    }
+    console.log(value)
+  }
   return (
     <S.ManageListContainer>
       <S.ManageTextBox>
@@ -153,19 +166,8 @@ function ManageListContainer() {
           <S.CategoryText>기타아이디어</S.CategoryText>
         </S.Category>
       </S.CategoryBox>
-
+      <S.Line />
       <>
-        {/*!totalOfAllReferences ? (
-          <S.ManageListNo>
-            <S.NoManageText>아직 작업물이 없어요</S.NoManageText>
-            <S.NoManageSubText>
-              작업물을 업로드해 다른 사람들의 피드백을 받아보세요
-            </S.NoManageSubText>
-            <S.ButtonRegister onClick={onClickRegister}>
-              등록하기
-            </S.ButtonRegister>
-          </S.ManageListNo>
-        ) : (*/}
         <S.ManageListBox>
           {!totalOfAllReferences ? (
             <S.ManageListNo>
@@ -181,8 +183,21 @@ function ManageListContainer() {
             <>
               {/* 선택 글 삭제 */}
               <S.SelectBox>
-                <S.SelectButton>내 작품 삭제</S.SelectButton>
-                <S.SelectButton>삭제할 작품 선택</S.SelectButton>
+                총 52개
+                <S.SelectButton
+                    onClick={onClickSelectButton}
+                    state={buttonColor[0]}
+                    value={0}
+                >
+                  내 작품 전체 삭제
+                </S.SelectButton>
+                <S.SelectButton
+                    onClick={onClickSelectButton}
+                    state={buttonColor[1]}
+                    value={1}
+                >
+                  삭제할 작품 선택
+                </S.SelectButton>
               </S.SelectBox>
               {/* 정렬순 */}
               <S.SortBox>
@@ -206,7 +221,8 @@ function ManageListContainer() {
             </RefFilter>
             */}
               </S.SortBox>
-              <S.Line />
+              <S.Line style={{ border: "1px solid white" }} />
+
               <ManageList
                 data={mywork}
                 TAR={totalOfAllReferences}
