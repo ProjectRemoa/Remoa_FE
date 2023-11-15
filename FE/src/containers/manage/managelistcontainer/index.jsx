@@ -6,7 +6,8 @@ import S from "./ManageListContainer.styles"
 import { filterOptions } from "../../reference/constants"
 import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles"
 import Filter from "../../../components/common/Filter";
-const { RefFilter, FilterButton } = StyledComponents;
+import RefCard from "../../reference/RefCard";
+const { RefFilter, FilterButton, RefList } = StyledComponents;
 
 function ManageListContainer() {
   const [mywork, setMywork] = useState([]);
@@ -33,7 +34,7 @@ function ManageListContainer() {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
     let endpoint;
     endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint, false);
+    getWork(endpoint);
   }, [categoryName, sortOption]);
 
   useEffect(() => {
@@ -73,18 +74,36 @@ function ManageListContainer() {
     setCurrentPage(1);
   };
 
-  const getWork = (endpoint, isLoad) => {
-    console.log("========");
+  const getWork = (endpoint) => {
     console.log(endpoint);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(endpoint);
+        const {
+          data: {
+            data: { references,totalOfAllReferences, totalOfPageElements,  totalPages },
+          },
+        } = response;
+        console.log(references);
+
+        setMywork(references);
+        setTotalOfAllReferences(totalOfAllReferences);
+        setTotalOfPageElements(totalOfPageElements);
+        setTotalPages(totalPages);
+      }
+      catch (err) {
+        console.log(err);
+        return err;
+      }
+    }
+
+    fetchData();
+    /*
     axios
       .get(endpoint)
       .then((res) => {
         console.log(res);
-        if (isLoad === true)
-          // 이어서 받으려면
-          setMywork([...mywork, ...res.data.data.references]);
-        // 카테고리를 바꾸거나 정렬순을 바꾸거나
-        else setMywork(...[res.data.data.references]);
+        setMywork(...[res.data.data.references]);
         setTotalOfAllReferences(res.data.data.totalOfAllReferences);
         setTotalOfPageElements(res.data.data.totalOfPageElements);
         setTotalPages(res.data.data.totalPages);
@@ -93,10 +112,13 @@ function ManageListContainer() {
       .catch((err) => {
         console.log(err);
       });
-
+      */
     console.log(
-      "pageNumber : " + pageNumber + ", totalPages : " + totalPages,
-      ", currentPage : " + currentPage
+      "totalOfAllReferences : " +
+        totalOfAllReferences +
+        ", totalOfPageElements : " +
+        totalOfPageElements,
+      ", totalPages : " + totalPages
     );
   };
 
@@ -104,7 +126,7 @@ function ManageListContainer() {
     setCurrentPage(currentPage + 1);
     let endpoint;
     endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint, true);
+    getWork(endpoint);
   };
 
   const onClickRegister = () => {
@@ -185,16 +207,16 @@ function ManageListContainer() {
               <S.SelectBox>
                 총 52개
                 <S.SelectButton
-                    onClick={onClickSelectButton}
-                    state={buttonColor[0]}
-                    value={0}
+                  onClick={onClickSelectButton}
+                  state={buttonColor[0]}
+                  value={0}
                 >
                   내 작품 전체 삭제
                 </S.SelectButton>
                 <S.SelectButton
-                    onClick={onClickSelectButton}
-                    state={buttonColor[1]}
-                    value={1}
+                  onClick={onClickSelectButton}
+                  state={buttonColor[1]}
+                  value={1}
                 >
                   삭제할 작품 선택
                 </S.SelectButton>
@@ -202,33 +224,17 @@ function ManageListContainer() {
               {/* 정렬순 */}
               <S.SortBox>
                 <Filter />
-
-                {/*
-            <RefFilter>
-              {filterOptions.map((option, index) => {
-                return (
-                  <FilterButton
-                    key={index}
-                    className={filter === option.key ? "active" : ""}
-                    onClick={() => {
-                      setFilter(option.key);
-                    }}
-                  >
-                    {option.value}
-                  </FilterButton>
-                );
-              })}
-            </RefFilter>
-            */}
               </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
 
-              <ManageList
-                data={mywork}
-                TAR={totalOfAllReferences}
-                TPE={totalOfPageElements}
-                TP={totalPages}
-              />
+                <RefList>
+                  {mywork.map((reference, index) => (
+                    <RefCard
+                      data={reference}
+                      key={reference.postId}
+                    />
+                  ))}
+                </RefList>
               <div
                 style={{
                   margin: "0 auto",
