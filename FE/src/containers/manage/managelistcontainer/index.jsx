@@ -11,14 +11,17 @@ const { RefFilter, FilterButton, RefList } = StyledComponents;
 
 function ManageListContainer() {
   const [mywork, setMywork] = useState([]);
-  const [totalOfAllReferences, setTotalOfAllReferences] = useState(0); // 전체 레퍼런스 수
-  const [totalOfPageElements, setTotalOfPageElements] = useState(0); // 현재 페이지의 레퍼런스 수
-  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
+  const [toar, setTOAR] = useState(0); // 전체 레퍼런스 수
+  const [tope, setTOPE] = useState(0); // 현재 페이지의 레퍼런스 수
+  const [tp, setTP] = useState(1); // 전체 페이지 수
 
   const [pageNumber, setPageNumber] = useState(1);
   const [sortOption, setSortOption] = useState("newest");
   const [categoryName, setCategoryName] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedData, setSelectedData] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
 
   const [filter, setFilter] = useState(filterOptions[0].key); // 필터
 
@@ -26,9 +29,24 @@ function ManageListContainer() {
 
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
 
-  const [buttonColor, setButtonColor] = useState([0,0]);
+  const [buttonColor, setButtonColor] = useState([0, 0]);
 
   const navigate = useNavigate();
+
+  const handleSelectData = (data) => {
+    setSelectedData(data);
+    setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
+    console.log("data ", data);
+    if (data.categoryName === "idea") {
+      navigate(`/${data.postId}`)
+    }
+    else navigate(`/ref/${data.categoryName}/${data.postId}`);
+  };
+
+    const handleProfileModal = (postId) => {
+      setSelectedPostId(postId);
+      console.log(selectedPostId);
+    };
 
   useEffect(() => {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
@@ -38,8 +56,8 @@ function ManageListContainer() {
   }, [categoryName, sortOption]);
 
   useEffect(() => {
-    setTotalPages((totalPages) => totalPages);
-  }, [totalPages]);
+    setTP((tp) => tp);
+  }, [tp]);
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
@@ -52,7 +70,7 @@ function ManageListContainer() {
 
     setSekectedSortIndex(0);
     setPageNumber(1);
-    setTotalPages(1);
+    setTP(1);
     setCurrentPage(1);
     //setSortOption("newest");
     setFilter(filterOptions[0].key);
@@ -70,7 +88,7 @@ function ManageListContainer() {
       setSortOption("scrap");
     }
     setPageNumber(1);
-    setTotalPages(1);
+    setTP(1);
     setCurrentPage(1);
   };
 
@@ -81,21 +99,25 @@ function ManageListContainer() {
         const response = await axios.get(endpoint);
         const {
           data: {
-            data: { references,totalOfAllReferences, totalOfPageElements,  totalPages },
+            data: {
+              references,
+              totalOfAllReferences,
+              totalOfPageElements,
+              totalPages,
+            },
           },
         } = response;
-        console.log(references);
+        console.log(response);
 
         setMywork(references);
-        setTotalOfAllReferences(totalOfAllReferences);
-        setTotalOfPageElements(totalOfPageElements);
-        setTotalPages(totalPages);
-      }
-      catch (err) {
+        setTOAR(totalOfAllReferences);
+        setTOPE(totalOfPageElements);
+        setTP(totalPages);
+      } catch (err) {
         console.log(err);
         return err;
       }
-    }
+    };
 
     fetchData();
     /*
@@ -115,10 +137,10 @@ function ManageListContainer() {
       */
     console.log(
       "totalOfAllReferences : " +
-        totalOfAllReferences +
+        toar +
         ", totalOfPageElements : " +
-        totalOfPageElements,
-      ", totalPages : " + totalPages
+        tope,
+      ", totalPages : " + tp
     );
   };
 
@@ -135,13 +157,13 @@ function ManageListContainer() {
 
   const onClickSelectButton = (value) => {
     if (value.detail === 0) {
-      setButtonColor((buttonColor[0]===0 ? 1: 0, buttonColor[1]))
+      setButtonColor((buttonColor[0] === 0 ? 1 : 0, buttonColor[1]));
     }
     if (value.detail === 1) {
       setButtonColor((buttonColor[0], buttonColor[1] === 0 ? 1 : 0));
     }
-    console.log(value)
-  }
+    console.log(value);
+  };
   return (
     <S.ManageListContainer>
       <S.ManageTextBox>
@@ -191,7 +213,7 @@ function ManageListContainer() {
       <S.Line />
       <>
         <S.ManageListBox>
-          {!totalOfAllReferences ? (
+          {!toar ? (
             <S.ManageListNo>
               <S.NoManageText>아직 작업물이 없어요 😪</S.NoManageText>
               <S.NoManageSubText>
@@ -205,7 +227,7 @@ function ManageListContainer() {
             <>
               {/* 선택 글 삭제 */}
               <S.SelectBox>
-                총 52개
+                  총 {toar}개
                 <S.SelectButton
                   onClick={onClickSelectButton}
                   state={buttonColor[0]}
@@ -227,20 +249,20 @@ function ManageListContainer() {
               </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
 
-                <RefList>
-                  {mywork.map((reference, index) => (
-                    <RefCard
-                      data={reference}
-                      key={reference.postId}
-                    />
-                  ))}
-                </RefList>
+              <RefList>
+                {mywork.map((reference, index) => (
+                  <RefCard data={reference}
+                    key={reference.postId}
+                    selectedPostId={selectedPostId}
+                    onSelectedData={handleSelectData} />
+                ))}
+              </RefList>
               <div
                 style={{
                   margin: "0 auto",
                 }}
               >
-                {currentPage !== totalPages && (
+                {currentPage !== tp && (
                   <div style={{ width: "100%" }}>
                     <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
                   </div>

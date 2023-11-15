@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import S from "./ManageContainer.styles"
+import { useEffect } from "react";
 
 function ManageContainer() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function ManageContainer() {
   const feedbackOnClick = () => {
     navigate("/manage/feedback");
   };
+  
 
   return (
     <>
@@ -36,9 +38,9 @@ function ManageContainer() {
         </S.Sort>
         <S.Sort onClick={feedbackOnClick}>
           {window.location.pathname === "/manage/feedback" ? (
-            <S.PageStyle>받은 피드백 관리</S.PageStyle>
+            <S.PageStyle>받은 코멘트 관리</S.PageStyle>
           ) : (
-            "받은 피드백 관리"
+            "받은 코멘트 관리"
           )}
         </S.Sort>
       </S.UnderHeader>
