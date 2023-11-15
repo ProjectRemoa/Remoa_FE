@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import S from "./ManageContainer.styles"
-import { useEffect } from "react";
 
 function ManageContainer() {
   const navigate = useNavigate();
