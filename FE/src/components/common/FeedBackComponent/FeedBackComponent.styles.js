@@ -1,16 +1,21 @@
 import styled from "styled-components";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+`;
 
 const NullData = styled.div`
-  text-align: center;
-  font-size: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 86px;
 `;
 
 const ContentsContainer = styled.div`
   display: flex;
-  align-items: center;
-  margin-top: 19px;
+  align-items: end;
+  margin-top: 40px;
 `;
 
 const AsideContainer = styled.div`
@@ -19,109 +24,87 @@ const AsideContainer = styled.div`
 `;
 
 const Img = styled.img`
-  width: 264px;
-  height: 150px;
+  width: 297px;
+  height: 167px;
 `;
 
 const Button = styled.button`
+  width: 146px;
+  height: 40px;
   background-color: #fada5e;
-  border: 1px solid #b0b0b0;
-  border-radius: 10px;
-  width: 264px;
-  height: 27px;
-  margin-top: 7px;
+  border: none;
+  border-radius: 8px;
+  font-family: Pretendard-Medium;
+  font-size: 13px;
 `;
 
 const SectionContainer = styled.div`
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  margin-left: 13px;
+  width: 100%;
+  height: 100%;
+  margin-left: 24px;
 `;
 
-const Title = styled.div`
-  text-align: left;
-  font-size: 23px;
-  font-weight: 500;
-  margin-bottom: 9px;
-`;
+const Title = styled.span``;
 
+const HorizonLine = styled.hr`
+  height: 1px;
+  background: #e7e7e7;
+  border: 0;
+`;
 const Contents = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #fada5e;
-  border-radius: 10px;
-  padding: 20px 31px;
+  /* display: flex;
+  flex-direction: column; */
 `;
 
 const CommentsContainer = styled.div`
-  width: 100%;
-  height: 35%;
+  height: 60px;
+  display: flex;
+  align-items: center;
 `;
 
 const MyCommentTitle = styled.div`
-  text-align: left;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
 `;
 
 const OneComment = styled.div`
-  text-align: left;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 14px;
+  font-family: Pretendard-SemiBold;
+  color: #727272;
+  margin-left: 12px;
 `;
 
 const ProfileContainer = styled.div`
   display: flex;
-  margin-top: 24px;
+  align-items: center;
+  height: 104px;
+  box-sizing: border-box;
+  padding: 28px 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: #f7f6f5;
 `;
 
 const ProfileImg = styled.img`
-  width: 46px;
-  height: 46px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 1px solid black;
-  margin-right: 12px;
 `;
 
 const ProfileContents = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: left;
-  font-weight: 700;
+  justify-content: space-between;
+  margin-left: 12px;
+  font-size: 16px;
 `;
 
 const ProfileNickname = styled.div`
-  text-align: left;
-  font-size: 18px;
-`;
-
-const LikeCount = styled.span`
-  margin-left: 23px;
+  font-family: Pretendard-Bold;
 `;
 
 const MyComment = styled.div`
-  text-align: left;
-  font-size: 16px;
-  margin-top: 4px;
-`;
-
-const MoreButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 26px;
-`;
-
-const MoreButton = styled.button`
-  width: 12%;
-  height: 40px;
-  border-radius: 10px;
-  border: 1px solid #b0b0b0;
+  font-family: Pretendard-SemiBold;
   color: #464646;
-  font-size: 78%;
-  background: #fada5e;
-  font-family: NotoSansKR-700;
 `;
 
 const styledComponent = {
@@ -133,6 +116,7 @@ const styledComponent = {
   Button,
   SectionContainer,
   Title,
+  HorizonLine,
   Contents,
   CommentsContainer,
   MyCommentTitle,
@@ -141,10 +125,7 @@ const styledComponent = {
   ProfileImg,
   ProfileContents,
   ProfileNickname,
-  LikeCount,
   MyComment,
-  MoreButtonContainer,
-  MoreButton,
 };
 
 export default styledComponent;
