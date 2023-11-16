@@ -1,8 +1,24 @@
 import styled from "styled-components";
 
+const Wrapper = styled.div`
+  &:nth-child(2) {
+    margin: 68px 0 186px;
+  }
+`;
+
 const Title = styled.span`
   font-size: 24px;
   font-weight: 700;
+`;
+const WriteButton = styled.button`
+  width: 85px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid #cecece;
+  border-radius: 12px;
+  font-family: Pretendard-SemiBold;
+  font-size: 16px;
+  padding: 0;
 `;
 const TableWrapper = styled.div`
   display: flex;
@@ -38,7 +54,9 @@ const TbodyValue = styled.td`
 const Trow = styled.tr``;
 
 const styledComponent = {
+  Wrapper,
   Title,
+  WriteButton,
   TableWrapper,
   Table,
   Thead,

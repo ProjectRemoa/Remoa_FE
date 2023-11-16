@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styledComponent from "./TableComponent.styles";
 const {
+  Wrapper,
   Title,
+  WriteButton,
   TableWrapper,
   Table,
   Thead,
@@ -14,12 +16,12 @@ const {
 function TableComponent({ title, data, category }) {
   const navigate = useNavigate();
 
-  const handle = (category) => {
+  const handleWriteButton = (category) => {
     navigate(`/mypage/faq/${category}/new`);
   };
 
   return (
-    <div>
+    <Wrapper>
       <div
         style={{
           display: "flex",
@@ -28,21 +30,9 @@ function TableComponent({ title, data, category }) {
         }}
       >
         <Title>{title}</Title>
-        <button
-          style={{
-            width: "85px",
-            height: "40px",
-            backgroundColor: "transparent",
-            border: "1px solid #cecece",
-            borderRadius: "12px",
-            fontFamily: "Pretendard-SemiBold",
-            fontSize: "16px",
-            padding: 0,
-          }}
-          onClick={() => handle(category)}
-        >
+        <WriteButton onClick={() => handleWriteButton(category)}>
           글쓰기
-        </button>
+        </WriteButton>
       </div>
       <TableWrapper>
         <Table>
@@ -55,16 +45,18 @@ function TableComponent({ title, data, category }) {
               <TheadValue>조회수</TheadValue>
             </Trow>
           </Thead>
-          {data.map((item, index) => (
+          {data?.map((item, index) => (
             <Tbody key={index}>
               <Trow
-                onClick={() => navigate(`/mypage/faq/${category}/${item.id}`)}
+                onClick={() =>
+                  navigate(`/mypage/faq/${category}/${item.noticeId}`)
+                }
               >
-                <TbodyValue>{item.id}</TbodyValue>
+                <TbodyValue>{item.noticeId}</TbodyValue>
                 <TbodyValue>{item.title}</TbodyValue>
                 <TbodyValue>{item.author}</TbodyValue>
-                <TbodyValue>{item.date}</TbodyValue>
-                <TbodyValue>{item.views}</TbodyValue>
+                <TbodyValue>{item.postingTime}</TbodyValue>
+                <TbodyValue>{item.view}</TbodyValue>
               </Trow>
             </Tbody>
           ))}
@@ -75,7 +67,7 @@ function TableComponent({ title, data, category }) {
               )} */}
         </Table>
       </TableWrapper>
-    </div>
+    </Wrapper>
   );
 }
 
