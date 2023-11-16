@@ -140,6 +140,9 @@ export const S = {
     letter-spacing: -0.32px;
     color: #1E1E1E;
     border: none;
+    :hover {
+      background: #DFB71C;
+    }
   `,
   TraceBoxLike: styled.span`
     font-size: 18px;
@@ -258,11 +261,15 @@ export const S = {
     background-color: white;
     z-index: 12;
     right: 30px;
+    padding: 6px;
   `,
-  Functionp: styled.span`
+  Functionp: styled.div`
     font-size: 17px;
     line-height: 50px;
     text-align: center;
     cursor: pointer;
+    :hover {
+      background: #F0F0F0;
+    }
   `,
 };

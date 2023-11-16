@@ -61,7 +61,7 @@ function RefModalFollow({ member, location }) {
       <ProfileModalHeader>
         {/* 프로필 이미지 */}
         <ProfileImg>
-          <img src={member.profileImage} alt="image" />
+          <img src={member.profileImage} alt="img" />
         </ProfileImg>
 
         {/* 프로필 정보 */}
@@ -69,11 +69,11 @@ function RefModalFollow({ member, location }) {
           <ProfileName>{member.nickname}</ProfileName>
           <ProfileFollowViewWrapper>
             <ProfileFollowView>
-              <span>Follower</span>
+              <span>팔로워</span> &nbsp;
               {formatCount(followData?.follower)}
             </ProfileFollowView>
             <ProfileFollowView>
-              <span>Following</span>
+              <span>팔로잉</span> &nbsp;
               {formatCount(followData?.following)}
             </ProfileFollowView>
           </ProfileFollowViewWrapper>
@@ -88,19 +88,26 @@ function RefModalFollow({ member, location }) {
               className="followed"
               onClick={handleMemberFollow}
             >
-              팔로우 취소
+              팔로우취소
             </ProfileFollowButton>
           ) : (
-            <ProfileFollowButton onClick={handleMemberFollow}>
+            <ProfileFollowButton onClick={handleMemberFollow} style={{ backgroundColor: '#FADA5E', border: 'none' }}>
               팔로잉하기
             </ProfileFollowButton>
           )
-        ) : null}
-
+        ) : (
+            <ProfileFollowButton onClick={()=>{navigate('/mypage/profile')}} style={{ backgroundColor: '#FADA5E', border: 'none' }}>
+              프로필 수정
+            </ProfileFollowButton>
+        )}
         {/* 유저 피드 바로가기 */}
+        {member.nickname !== nickname ? (
         <ProfileFollowButton onClick={() => onClickMemberFeed(member.memberId)}>
           더 많은 작품 보기
-        </ProfileFollowButton>
+        </ProfileFollowButton>) : 
+        (<ProfileFollowButton onClick={()=>{navigate('/manage/list')}}>
+          내 작품 관리하기
+        </ProfileFollowButton>)}
       </ProfileFollowButtonWrapper>
     </ProfileModalWrapper>
   );

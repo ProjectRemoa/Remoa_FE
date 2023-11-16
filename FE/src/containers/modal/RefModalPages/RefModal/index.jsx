@@ -63,6 +63,9 @@ const useStyles = makeStyles({
     fontSize: '16px',
     fontWeight: '600',
     letterSpacing: '-0.32px',
+    '&:hover': {
+      background: 'var(--light-gray, #F0F0F0)'
+    }
   },
 });
 
