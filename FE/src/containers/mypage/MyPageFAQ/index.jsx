@@ -1,19 +1,12 @@
-import axios from "axios";
 import { useQuery } from "react-query";
+import { getNotices, getInquiries } from "../../../apis/mypage/faq";
 import TableComponent from "../../../components/common/TableComponent";
 import styledComponent from "./MyPageFAQ.styles";
 const { Wrapper } = styledComponent;
 
 function MyPageFAQ() {
-  const { data: noticeData } = useQuery("noticeData", async () => {
-    const { data } = await axios.get("/BE/notice?page=1");
-    return data.data.notices;
-  });
-
-  const { data: inquiryData } = useQuery("inquryData", async () => {
-    const { data } = await axios.get("/BE/inquiry?page=1");
-    return data.data.inquiries;
-  });
+  const { data: noticeData } = useQuery("noticeData", getNotices);
+  const { data: inquiryData } = useQuery("inquryData", getInquiries);
 
   return (
     <Wrapper>
