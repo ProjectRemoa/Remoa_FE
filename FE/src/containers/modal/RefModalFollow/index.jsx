@@ -49,7 +49,6 @@ function RefModalFollow({ member, location }) {
         sessionStorage.removeItem('new');
         navigate('/sociallogin');
       }
-
       console.log(error);
 
       return error;
