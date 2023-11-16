@@ -15,12 +15,9 @@ import ManageList from "./page/manage/ManageList";
 import ManageShare from "./page/manage/ManageShare";
 import ManageFeedback from "./page/manage/ManageFeedback";
 
-import MyPageProfilePage from "./page/mypage/MyPageProfilePage";
-import MyPageFollowingPage from "./page/mypage/MyPageFollowingPage";
-import MyPageWorkPage from "./page/mypage/MyPageWorkPage";
-import MyPageScrapPage from "./page/mypage/MyPageScrapPage";
-import MyPageFeedbackPage from "./page/mypage/MyPageFeedbackPage";
-import MyPageFAQPage from "./page/mypage/MyPageFAQPage";
+import MyPage from "./page/mypage/MyPage";
+import MyPageFAQNew from "./containers/mypage/MyPageFAQNew";
+import MyPageFAQDetail from "./containers/mypage/MyPageFAQDetail";
 
 import SignUpPage from "./page/SignUpPage";
 import EmailFind from "./page/findinfo/EmailFind";
@@ -85,21 +82,15 @@ root.render(
                 <Route path="/manage/feedback" element={<ManageFeedback />} />
                 <Route element={<AuthLayout />}>
                   {/* 레퍼런스 수정 */}
-                  <Route
-                    path="/mypage/profile"
-                    element={<MyPageProfilePage />}
-                  />
-                  <Route
-                    path="/mypage/following"
-                    element={<MyPageFollowingPage />}
-                  />
-                  <Route path="/mypage/scrap" element={<MyPageScrapPage />} />
-                  <Route
-                    path="/mypage/myfeedback"
-                    element={<MyPageFeedbackPage />}
-                  />
-                  <Route path="/mypage/work" element={<MyPageWorkPage />} />
-                  <Route path="/mypage/faq" element={<MyPageFAQPage />} />
+
+                  {/* 마이페이지 */}
+                  <Route path="/mypage/:id" element={<MyPage />}>
+                    <Route path=":category/new" element={<MyPageFAQNew />} />
+                    <Route
+                      path=":category/:detailId"
+                      element={<MyPageFAQDetail />}
+                    />
+                  </Route>
                 </Route>
                 <Route path="*" element={<UnknownPage />} />
               </Routes>

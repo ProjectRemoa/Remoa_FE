@@ -24,6 +24,7 @@ function RefCard({ data, onSelectedData, selectedPostId, onProfileModal,location
     postId,
     postMember,
     postThumbnail,
+    thumbnail,
     scrapCount,
     title,
     views,
@@ -54,7 +55,7 @@ function RefCard({ data, onSelectedData, selectedPostId, onProfileModal,location
     <RefCardWrapper>
       {/* 썸네일  */}
       <RefCardThumbnailWrapper onClick={() => onSelectedData(data)}>
-        <RefCardThumbnail src={postThumbnail} />
+        <RefCardThumbnail src={postThumbnail ? postThumbnail : thumbnail} />
       </RefCardThumbnailWrapper>
 
       {/* 타이틀 */}

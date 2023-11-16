@@ -6,36 +6,58 @@ import S from "./ManageListContainer.styles"
 import { filterOptions } from "../../reference/constants"
 import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles"
 import Filter from "../../../components/common/Filter";
-const { RefFilter, FilterButton } = StyledComponents;
+import RefCard from "../../reference/RefCard";
+const { RefFilter, FilterButton, RefList } = StyledComponents;
 
 function ManageListContainer() {
   const [mywork, setMywork] = useState([]);
-  const [totalOfAllReferences, setTotalOfAllReferences] = useState(0); // 전체 레퍼런스 수
-  const [totalOfPageElements, setTotalOfPageElements] = useState(0); // 현재 페이지의 레퍼런스 수
-  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
+  const [toar, setTOAR] = useState(0); // 전체 레퍼런스 수
+  const [tope, setTOPE] = useState(0); // 현재 페이지의 레퍼런스 수
+  const [tp, setTP] = useState(1); // 전체 페이지 수
 
   const [pageNumber, setPageNumber] = useState(1);
   const [sortOption, setSortOption] = useState("newest");
   const [categoryName, setCategoryName] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedData, setSelectedData] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
 
   const [filter, setFilter] = useState(filterOptions[0].key); // 필터
 
   const [selectedSortIndex, setSekectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
 
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
+
+  const [buttonColor, setButtonColor] = useState([0, 0]);
+
   const navigate = useNavigate();
+
+  const handleSelectData = (data) => {
+    setSelectedData(data);
+    setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
+    console.log("data ", data);
+    if (data.categoryName === "idea") {
+      navigate(`/${data.postId}`)
+    }
+    else navigate(`/ref/${data.categoryName}/${data.postId}`);
+  };
+
+    const handleProfileModal = (postId) => {
+      setSelectedPostId(postId);
+      console.log(selectedPostId);
+    };
 
   useEffect(() => {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
     let endpoint;
     endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint, false);
+    getWork(endpoint);
   }, [categoryName, sortOption]);
 
   useEffect(() => {
-    setTotalPages((totalPages) => totalPages);
-  }, [totalPages]);
+    setTP((tp) => tp);
+  }, [tp]);
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
@@ -48,7 +70,7 @@ function ManageListContainer() {
 
     setSekectedSortIndex(0);
     setPageNumber(1);
-    setTotalPages(1);
+    setTP(1);
     setCurrentPage(1);
     //setSortOption("newest");
     setFilter(filterOptions[0].key);
@@ -66,22 +88,44 @@ function ManageListContainer() {
       setSortOption("scrap");
     }
     setPageNumber(1);
-    setTotalPages(1);
+    setTP(1);
     setCurrentPage(1);
   };
 
-  const getWork = (endpoint, isLoad) => {
-    console.log("========");
+  const getWork = (endpoint) => {
     console.log(endpoint);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(endpoint);
+        const {
+          data: {
+            data: {
+              references,
+              totalOfAllReferences,
+              totalOfPageElements,
+              totalPages,
+            },
+          },
+        } = response;
+        console.log(response);
+
+        setMywork(references);
+        setTOAR(totalOfAllReferences);
+        setTOPE(totalOfPageElements);
+        setTP(totalPages);
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    };
+
+    fetchData();
+    /*
     axios
       .get(endpoint)
       .then((res) => {
         console.log(res);
-        if (isLoad === true)
-          // 이어서 받으려면
-          setMywork([...mywork, ...res.data.data.references]);
-        // 카테고리를 바꾸거나 정렬순을 바꾸거나
-        else setMywork(...[res.data.data.references]);
+        setMywork(...[res.data.data.references]);
         setTotalOfAllReferences(res.data.data.totalOfAllReferences);
         setTotalOfPageElements(res.data.data.totalOfPageElements);
         setTotalPages(res.data.data.totalPages);
@@ -90,10 +134,13 @@ function ManageListContainer() {
       .catch((err) => {
         console.log(err);
       });
-
+      */
     console.log(
-      "pageNumber : " + pageNumber + ", totalPages : " + totalPages,
-      ", currentPage : " + currentPage
+      "totalOfAllReferences : " +
+        toar +
+        ", totalOfPageElements : " +
+        tope,
+      ", totalPages : " + tp
     );
   };
 
@@ -101,11 +148,21 @@ function ManageListContainer() {
     setCurrentPage(currentPage + 1);
     let endpoint;
     endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint, true);
+    getWork(endpoint);
   };
 
   const onClickRegister = () => {
     navigate("/manage/share");
+  };
+
+  const onClickSelectButton = (value) => {
+    if (value.detail === 0) {
+      setButtonColor((buttonColor[0] === 0 ? 1 : 0, buttonColor[1]));
+    }
+    if (value.detail === 1) {
+      setButtonColor((buttonColor[0], buttonColor[1] === 0 ? 1 : 0));
+    }
+    console.log(value);
   };
   return (
     <S.ManageListContainer>
@@ -150,69 +207,69 @@ function ManageListContainer() {
           onClick={() => onChangeCategory("etc")}
           checked={checkIdx[5]}
         >
-          <S.CategoryText>기타 아이디어</S.CategoryText>
+          <S.CategoryText>기타아이디어</S.CategoryText>
         </S.Category>
       </S.CategoryBox>
-
+      <S.Line />
       <>
-        {/*!totalOfAllReferences ? (
-          <S.ManageListNo>
-            <S.NoManageText>아직 작업물이 없어요</S.NoManageText>
-            <S.NoManageSubText>
-              작업물을 업로드해 다른 사람들의 피드백을 받아보세요
-            </S.NoManageSubText>
-            <S.ButtonRegister onClick={onClickRegister}>
-              등록하기
-            </S.ButtonRegister>
-          </S.ManageListNo>
-        ) : (*/}
         <S.ManageListBox>
-          {/* 선택 글 삭제 */}
-          <S.SelectBox>
-            <S.SelectButton>전체 작품 삭제</S.SelectButton>
-            <S.SelectButton>삭제할 작품 선택</S.SelectButton>
-          </S.SelectBox>
-          {/* 정렬순 */}
-          <S.SortBox>
-            <Filter/>
+          {!toar ? (
+            <S.ManageListNo>
+              <S.NoManageText>아직 작업물이 없어요 😪</S.NoManageText>
+              <S.NoManageSubText>
+                작업물을 업로드해 다른 사람들의 피드백을 받아보세요
+              </S.NoManageSubText>
+              <S.ButtonRegister onClick={onClickRegister}>
+                등록하기
+              </S.ButtonRegister>
+            </S.ManageListNo>
+          ) : (
+            <>
+              {/* 선택 글 삭제 */}
+              <S.SelectBox>
+                  총 {toar}개
+                <S.SelectButton
+                  onClick={onClickSelectButton}
+                  state={buttonColor[0]}
+                  value={0}
+                >
+                  내 작품 전체 삭제
+                </S.SelectButton>
+                <S.SelectButton
+                  onClick={onClickSelectButton}
+                  state={buttonColor[1]}
+                  value={1}
+                >
+                  삭제할 작품 선택
+                </S.SelectButton>
+              </S.SelectBox>
+              {/* 정렬순 */}
+              <S.SortBox>
+                <Filter />
+              </S.SortBox>
+              <S.Line style={{ border: "1px solid white" }} />
 
-            {/*
-            <RefFilter>
-              {filterOptions.map((option, index) => {
-                return (
-                  <FilterButton
-                    key={index}
-                    className={filter === option.key ? "active" : ""}
-                    onClick={() => {
-                      setFilter(option.key);
-                    }}
-                  >
-                    {option.value}
-                  </FilterButton>
-                );
-              })}
-            </RefFilter>
-            */}
-          </S.SortBox>
-          <S.Line />
-          <ManageList
-            data={mywork}
-            TAR={totalOfAllReferences}
-            TPE={totalOfPageElements}
-            TP={totalPages}
-          />
-          <div
-            style={{
-              margin: "0 auto",
-            }}
-          >
-            <S.Line />
-            {currentPage !== totalPages && (
-              <div style={{ width: "100%" }}>
-                <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
+              <RefList>
+                {mywork.map((reference, index) => (
+                  <RefCard data={reference}
+                    key={reference.postId}
+                    selectedPostId={selectedPostId}
+                    onSelectedData={handleSelectData} />
+                ))}
+              </RefList>
+              <div
+                style={{
+                  margin: "0 auto",
+                }}
+              >
+                {currentPage !== tp && (
+                  <div style={{ width: "100%" }}>
+                    <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </S.ManageListBox>
         {/*} )*/}
       </>

@@ -19,6 +19,9 @@ const SearchInput = styled.input`
     font-size: 14px;
     font-weight: 500;
   }
+  &:focus {
+    outline: none;
+  }
 `;
 const SearchIcon = styled.button`
   position: absolute;
@@ -27,7 +30,6 @@ const SearchIcon = styled.button`
   top: 60%;
   right: 32px;
   transform: translateY(-50%);
-  cursor: pointer;
 
   svg {
     width: 20.48px;
