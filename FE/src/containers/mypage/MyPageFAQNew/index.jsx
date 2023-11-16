@@ -1,64 +1,60 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import styledComponent from "./MyPageFAQNew.styles";
+import axios from "axios";
+const { Wrapper, Content, Textarea, SubmitButton } = styledComponent;
 
 function MyPageFAQNew() {
+  const navigate = useNavigate();
   const { category } = useParams();
+  const [type, setType] = useState("");
   const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   useEffect(() => {
     if (category === "notice") {
-      setTitle("공지사항");
+      setType("공지사항");
     }
     if (category === "inquiry") {
-      setTitle("문의하기");
+      setType("문의하기");
     }
   }, [category]);
 
+  const handleSubmit = async () => {
+    try {
+      await axios.post(`/BE/${category}`, {
+        title,
+        content,
+      });
+      alert(`${type}에 글이 등록되었습니다!`);
+      navigate("/mypage/faq");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <div
-      style={{
-        width: "54%",
-        height: "620px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "start",
-        border: "1px solid #e1e2e5",
-        borderRadius: "20px",
-        marginTop: "24px",
-        boxSizing: "border-box",
-        padding: "55px 107px",
-      }}
-    >
-      <span style={{ fontSize: "24px", fontWeight: 700 }}>{title}</span>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "33px",
-        }}
-      >
-        <span style={{ fontWeight: 600 }}>제목</span>
-        <textarea
-          style={{ width: "80%", height: "100%", resize: "none" }}
-          placeholder="공지사항의 제목을 입력해주세요"
-        />
-      </div>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "40px",
-        }}
-      >
-        <span style={{ fontWeight: 600 }}>내용</span>
-        <textarea
-          style={{ width: "80%", height: "100%", resize: "none" }}
-          placeholder="공지사항의 내용을 입력해주세요"
-        />
-      </div>
-    </div>
+    <>
+      <Wrapper>
+        <span style={{ fontSize: "24px", fontWeight: 700 }}>{type}</span>
+        <Content>
+          <span style={{ fontWeight: 600 }}>제목</span>
+          <input
+            style={{ width: "80%", height: "100%", borderRadius: "10px" }}
+            placeholder={`${type}의 제목을 입력해주세요`}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </Content>
+        <Content>
+          <span style={{ fontWeight: 600 }}>내용</span>
+          <Textarea
+            placeholder={`${type}의 내용을 입력해주세요`}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </Content>
+      </Wrapper>
+      <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
+    </>
   );
 }
 
