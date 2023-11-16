@@ -96,7 +96,7 @@ function RefModalFollow({ member, location }) {
             </ProfileFollowButton>
           )
         ) : (
-            <ProfileFollowButton onClick={()=>{navigate('/mypage/profile')}} style={{ backgroundColor: '#FADA5E', border: 'none' }}>
+            <ProfileFollowButton onClick={()=>{ navigate('/mypage/profile') }} style={{ backgroundColor: '#FADA5E', border: 'none' }}>
               프로필 수정
             </ProfileFollowButton>
         )}
@@ -105,7 +105,7 @@ function RefModalFollow({ member, location }) {
         <ProfileFollowButton onClick={() => onClickMemberFeed(member.memberId)}>
           더 많은 작품 보기
         </ProfileFollowButton>) : 
-        (<ProfileFollowButton onClick={()=>{navigate('/manage/list')}}>
+        (<ProfileFollowButton onClick={()=>{ navigate('/manage/list') }}>
           내 작품 관리하기
         </ProfileFollowButton>)}
       </ProfileFollowButtonWrapper>
