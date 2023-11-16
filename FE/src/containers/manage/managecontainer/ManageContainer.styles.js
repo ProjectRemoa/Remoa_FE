@@ -3,30 +3,28 @@ import styled from 'styled-components'
 const UnderHeader = styled.div`
   box-sizing: border-box;
   position: absolute;
-  background: #ffffff;
-  border: 1px solid #b0b0b0;
   border-radius: 20px;
-  width: 803px;
-  height: 59px;
-  top: 90px;
+  width: 512px;
+  height: 51px;
+  top: 115px;
   display: flex;
   align-items: center;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 4px;
   justify-content: space-around;
-  `
+  background-color: #f7f6f5;
+`;
 const Sort = styled.div`
-  font-family: NotoSansKR-400;
-  font-size: 18px;
-  line-height: 26px;
   text-align: center;
-  color: #464646;
   cursor: pointer;
+  color: #727272;
+  font-weight: 500;
+  padding: 12px 8px;
 `;
 const PageStyle = styled.div`
-  color: #fada5e;
-  font-family: NotoSansKR-700;
-`
+  color: #1e1e1e;
+  font-weight: 600;
+  font-size: 16px;
+`;
 
 const S = {
   UnderHeader,

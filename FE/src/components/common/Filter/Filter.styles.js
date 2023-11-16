@@ -8,16 +8,21 @@ const FilterBox = styled.div`
   ul {
     list-style: none;
     padding-left: 0px;
-  }
-  li {
-    font-weight: ${(props) => (props.state ? "700" : "")};
-    list-style: none;
-    padding: 16px 30px;
-    max-width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+  }
+  li {
+    font-weight: ${(props) => (props.state ? "700" : "")};
+    list-style: none;
+    //padding: 16px 30px;
+    max-width: 90%;
+    /*
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;*/
     white-space: nowrap;
   }
 
@@ -28,9 +33,16 @@ const FilterBox = styled.div`
     font-size: 15px;
   }
 
+  li > ul > li {/*
+    display: flex;
+    justify-content: center;
+    align-items: center;*/
+
+  }
+
   li > ul > li:hover {
-    background-color: orange;
-    transition: ease 1s;
+    //background-color: #f0f0f0;
+    //transition: ease 0.5s;
   }
 `;
 
@@ -42,13 +54,27 @@ const Filter = styled.ul`
   margin-bottom: 0px;
 
   border: 1px solid #d5d5d5;
+  z-index: 100;
+`;
+
+const FilterEach = styled.div`
+  padding: 16px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  :hover {
+    background-color: #f0f0f0;
+    transition: ease 0.5s;
+  }
 `;
 
 
 const S = {
   FilterBox,
-  Filter
-}
+  Filter,
+  FilterEach,
+};
 
 export default S;
 
