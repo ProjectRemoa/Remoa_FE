@@ -14,6 +14,7 @@ const {
   CategoryContainer,
   CategoryButton,
   ScrapListContainer,
+  ScrapButton,
 } = styledComponent;
 
 function MyPageWorkContainer() {
@@ -150,19 +151,7 @@ function MyPageWorkContainer() {
                           {data.postMember.nickname}
                         </span>
                       </div>
-                      <button
-                        style={{
-                          width: "80px",
-                          height: "24px",
-                          fontFamily: "Pretendard-Medium",
-                          fontSize: "12px",
-                          border: "1px solid #e1e2e5",
-                          borderRadius: "8px",
-                          backgroundColor: "transparent",
-                        }}
-                      >
-                        스크랩 해제
-                      </button>
+                      <ScrapButton>스크랩 해제</ScrapButton>
                     </div>
                   </div>
                 );

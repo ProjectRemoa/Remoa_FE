@@ -44,6 +44,9 @@ const SubmitButton = styled.button`
   border-radius: 80px;
   font-family: Pretendard-SemiBold;
   font-size: 18px;
+  &:hover {
+    background-color: #dfb71c;
+  }
 `;
 
 const styledComponent = { Wrapper, Content, Textarea, SubmitButton };

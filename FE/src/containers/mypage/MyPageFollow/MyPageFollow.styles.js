@@ -100,9 +100,16 @@ const FollowDetailBtn = styled.button`
   border: none;
   font-family: Pretendard-SemiBold;
   color: #1e1e1e;
+  &:hover {
+    background-color: ${(props) =>
+      props.isFollowing ? "#dfb71c" : props.isFollowed ? "none" : "#dfb71c"};
+  }
   &:nth-child(2) {
     border: 1px solid #e1e2e5;
     background-color: white;
+    &:hover {
+      background-color: #a7a7a7;
+    }
   }
 `;
 const HorizonLine = styled.hr`

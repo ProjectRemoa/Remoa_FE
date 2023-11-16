@@ -46,6 +46,12 @@ const ProfileImgBtn = styled.label`
   &:nth-child(3) {
     border: 1px solid #a7a7a7;
     background-color: white;
+    &:hover {
+      background-color: #a7a7a7;
+    }
+  }
+  &:hover {
+    background-color: #dfb71c;
   }
 `;
 const ProfileWrapper = styled.form`
@@ -117,6 +123,9 @@ const ItemButton = styled.button`
   font-weight: 500;
   font-family: Pretendard-Medium;
   margin-left: 11px;
+  &:hover {
+    background-color: #a7a7a7;
+  }
 `;
 const OneLineIntroduction = styled.textarea`
   width: 654px;
@@ -157,6 +166,9 @@ const EditButton = styled.button`
   margin-top: 16px;
   color: #010101;
   font-weight: bold;
+  &:hover {
+    background-color: #dfb71c;
+  }
 `;
 
 const styledComponent = {

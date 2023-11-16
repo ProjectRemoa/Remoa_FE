@@ -19,6 +19,9 @@ const WriteButton = styled.button`
   font-family: Pretendard-SemiBold;
   font-size: 16px;
   padding: 0;
+  &:hover {
+    background-color: #cecece;
+  }
 `;
 const TableWrapper = styled.div`
   display: flex;

@@ -4,6 +4,7 @@ import styledComponent from "./FeedBackComponent.styles";
 const {
   Wrapper,
   NullData,
+  MoreButton,
   ContentsContainer,
   AsideContainer,
   Img,
@@ -64,19 +65,7 @@ function FeedBackComponent() {
           >
             새로운 작업물을 탐색하러 가볼까요?
           </span>
-          <button
-            style={{
-              width: "236px",
-              height: "48px",
-              marginTop: "46px",
-              backgroundColor: "#fada5e",
-              border: "none",
-              borderRadius: "50px",
-              fontFamily: "Pretendard-SemiBold",
-            }}
-          >
-            지금 탐색하러 가기
-          </button>
+          <MoreButton>지금 탐색하러 가기</MoreButton>
         </NullData>
       ) : (
         <ContentsContainer>

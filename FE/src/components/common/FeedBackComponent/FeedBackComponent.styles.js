@@ -12,6 +12,19 @@ const NullData = styled.div`
   margin-top: 86px;
 `;
 
+const MoreButton = styled.button`
+  width: 236px;
+  height: 48px;
+  margin-top: 46px;
+  background-color: #fada5e;
+  border: none;
+  border-radius: 50px;
+  font-family: Pretendard-SemiBold;
+  &:hover {
+    background-color: #dfb71c;
+  }
+`;
+
 const ContentsContainer = styled.div`
   display: flex;
   align-items: end;
@@ -36,6 +49,9 @@ const Button = styled.button`
   border-radius: 8px;
   font-family: Pretendard-Medium;
   font-size: 13px;
+  &:hover {
+    background-color: #dfb71c;
+  }
 `;
 
 const SectionContainer = styled.div`
@@ -110,6 +126,7 @@ const MyComment = styled.div`
 const styledComponent = {
   Wrapper,
   NullData,
+  MoreButton,
   ContentsContainer,
   AsideContainer,
   Img,

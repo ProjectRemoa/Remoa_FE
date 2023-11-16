@@ -29,6 +29,9 @@ const MoreButton = styled.button`
   background-color: transparent;
   font-size: 16px;
   font-family: Pretendard-SemiBold;
+  &:hover {
+    background-color: #e1e2e5;
+  }
 `;
 
 const ScrapContainer = styled.div`
@@ -49,6 +52,9 @@ const CategoryButton = styled.button`
   border: 1px solid #cecece;
   border-radius: 10px;
   background-color: ${(props) => (props.clicked ? "#fada5e" : "transparent")};
+  &:hover {
+    background-color: ${(props) => (props.clicked ? "#dfb71c" : "#cecece")};
+  }
 `;
 const ScrapListContainer = styled.div`
   width: 100%;
@@ -56,6 +62,19 @@ const ScrapListContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 48px 24px;
   margin-top: 40px;
+`;
+
+const ScrapButton = styled.button`
+  width: 80px;
+  height: 24px;
+  font-family: Pretendard-Medium;
+  font-size: 12px;
+  border: 1px solid #e1e2e5;
+  border-radius: 8px;
+  background-color: transparent;
+  &:hover {
+    background-color: #a7a7a7;
+  }
 `;
 
 const styledComponent = {
@@ -67,6 +86,7 @@ const styledComponent = {
   CategoryContainer,
   CategoryButton,
   ScrapListContainer,
+  ScrapButton,
 };
 
 export default styledComponent;
