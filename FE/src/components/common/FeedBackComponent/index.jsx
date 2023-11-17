@@ -1,16 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styledComponent from "./FeedBackComponent.styles";
 const {
   Wrapper,
   NullData,
+  MoreButton,
   ContentsContainer,
   AsideContainer,
   Img,
   Button,
   SectionContainer,
   Title,
+  HorizonLine,
   Contents,
   CommentsContainer,
   MyCommentTitle,
@@ -19,30 +20,26 @@ const {
   ProfileImg,
   ProfileContents,
   ProfileNickname,
-  LikeCount,
   MyComment,
-  MoreButtonContainer,
-  MoreButton,
 } = styledComponent;
 
 function FeedBackComponent() {
-  const navigate = useNavigate();
-  const [data, setData] = useState();
+  const [data, setData] = useState({});
+  const [allPage, setAllPage] = useState(0);
   const [postId, setPostId] = useState(0);
   const [modalVisibleId, setModalVisibleId] = useState("");
-  const [allPage, setAllPage] = useState([]);
-  const [allComments, setAllComments] = useState(0);
+
+  const { thumbnail, title, member, content } = data;
 
   useEffect(() => {
     axios
       .get(`/BE/user/comment?page=${1}`)
       .then((res) => {
         setData(...res.data.data.contents);
-        setAllPage(Array.from({ length: res.data.data.totalPages }));
-        setAllComments(res.data.data.totalOfAllComments);
+        setAllPage(res.data.data.totalPages);
       })
       .catch((res) => {
-        console.log("error");
+        console.log(res);
       });
   }, []);
 
@@ -51,58 +48,73 @@ function FeedBackComponent() {
     setModalVisibleId(postId);
   };
 
-  const onClickMoreFeedback = () => {
-    navigate("/mypage/myfeedback");
-  };
-
   return (
     <Wrapper>
-      {allPage.length === 0 ? (
-        <NullData>공유 자료가 없어요.</NullData>
+      {allPage === 0 ? (
+        <NullData>
+          <span style={{ fontSize: "22px", fontFamily: "Pretendard-SemiBold" }}>
+            코멘트나 피드백을 단 작업물이 없어요
+          </span>
+          <span
+            style={{
+              fontSize: "14px",
+              color: "#727272",
+              marginTop: "14px",
+              fontWeight: "500",
+            }}
+          >
+            새로운 작업물을 탐색하러 가볼까요?
+          </span>
+          <MoreButton>지금 탐색하러 가기</MoreButton>
+        </NullData>
       ) : (
         <ContentsContainer>
           <AsideContainer>
-            <Img src={data.thumbnail} alt="" />
-            <Button
-              onClick={() => {
-                onClickModal(data.postId);
+            <Img src={thumbnail} alt="thumbnail" />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "9.75px",
               }}
             >
-              작업물 뷰어 보기
-            </Button>
-            <Button
-              onClick={() => {
-                onClickModal(data.postId);
-              }}
-            >
-              상세 피드백
-            </Button>
+              <Button
+                onClick={() => {
+                  onClickModal(data.postId);
+                }}
+              >
+                작업물 뷰어 보기
+              </Button>
+              <Button
+                onClick={() => {
+                  onClickModal(data.postId);
+                }}
+              >
+                내 피드백 바로가기
+              </Button>
+            </div>
           </AsideContainer>
+
           <SectionContainer>
-            <Title>{data.title}</Title>
+            <Title>{title}</Title>
+            <HorizonLine />
             <Contents>
               <CommentsContainer>
                 <MyCommentTitle>내가 작성한 코멘트</MyCommentTitle>
-                <OneComment>가장 먼저 작성된 코멘트 1개만 보입니다.</OneComment>
+                <OneComment>
+                  가장 먼저 작성한 코멘트 1개만 노출됩니다
+                </OneComment>
               </CommentsContainer>
               <ProfileContainer>
-                <ProfileImg src={data.member.profileImage} alt="" />
+                <ProfileImg src={member?.profileImage} alt="" />
                 <ProfileContents>
-                  <ProfileNickname>
-                    {data.member.nickname}
-                    <LikeCount>👍 {data.likeCount}</LikeCount>
-                  </ProfileNickname>
-                  <MyComment>{data.content}</MyComment>
+                  <ProfileNickname>{member?.nickname}</ProfileNickname>
+                  <MyComment>{content}</MyComment>
                 </ProfileContents>
               </ProfileContainer>
             </Contents>
           </SectionContainer>
         </ContentsContainer>
-      )}
-      {allComments && (
-        <MoreButtonContainer>
-          <MoreButton onClick={onClickMoreFeedback}>더보기 &gt;</MoreButton>
-        </MoreButtonContainer>
       )}
     </Wrapper>
   );

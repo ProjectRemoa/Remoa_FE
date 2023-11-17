@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
-const UnderHeader = styled.div`
+const Wrapper = styled.div`
   width: 684px;
   height: 51px;
-  /* border: 1px solid #b0b0b0; */
   border-radius: 40px;
   display: flex;
   justify-content: space-around;
@@ -23,10 +22,7 @@ const UnderHeader = styled.div`
 
 const Sort = styled.div`
   font-weight: 500;
-  font-size: 18px;
-  line-height: 21.48px;
-  text-align: center;
-  color: #464646;
+  font-size: 16px;
   @media ${(props) => props.theme.desktop} {
   }
   @media ${(props) => props.theme.mobile} {
@@ -34,19 +30,20 @@ const Sort = styled.div`
     margin-bottom: 10px;
     font-size: 15px;
   }
+
   a {
     text-decoration: none;
+    &.active {
+      font-weight: 700;
+    }
   }
+
   a:active,
   a:visited {
     color: inherit;
   }
 `;
 
-const PageStyle = styled.div`
-  font-weight: 700;
-`;
-
-const styledComponent = { UnderHeader, Sort, PageStyle };
+const styledComponent = { Wrapper, Sort };
 
 export default styledComponent;
