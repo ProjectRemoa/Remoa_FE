@@ -1,39 +1,37 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styledComponent from "./MyPageContainer.styles";
-const { UnderHeader, Sort, PageStyle } = styledComponent;
+const { Wrapper, Sort } = styledComponent;
 
 function MyPageContainer() {
   const location = useLocation();
 
-  const myworkPaths = ["/mypage/work", "/mypage/scrap", "/mypage/myfeedback"];
+  const myWorkPaths = ["/mypage/work", "/mypage/myfeedback", "/mypage/scrap"];
 
   const pageLinks = [
     { path: "/mypage/profile", text: "프로필 관리" },
     { path: "/mypage/following", text: "팔로잉 관리" },
     {
-      path: myworkPaths.includes(location.pathname)
-        ? location.pathname
-        : "/mypage/work",
+      path: "/mypage/work",
       text: "내 활동 관리",
+      active: myWorkPaths.includes(location.pathname),
     },
-    { path: "/mypage/faq", text: "공지사항 및 문의" },
+    {
+      path: "/mypage/faq",
+      text: "공지사항 및 문의",
+    },
   ];
 
   return (
-    <UnderHeader>
+    <Wrapper>
       {pageLinks.map((link) => (
         <Sort key={link.path}>
-          <Link to={link.path}>
-            {location.pathname === link.path ? (
-              <PageStyle>{link.text}</PageStyle>
-            ) : (
-              link.text
-            )}
-          </Link>
+          <NavLink to={link.path} className={link.active ? "active" : ""}>
+            {link.text}
+          </NavLink>
         </Sort>
       ))}
-    </UnderHeader>
+    </Wrapper>
   );
 }
 
