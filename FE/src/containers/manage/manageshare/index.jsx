@@ -361,7 +361,7 @@ function ManageShareContainer({ match }) {
                     </S.ThumbnailText>
                   ) : (
                     <div>
-                      <span>{thumbnail.name}&nbsp;</span>
+                      <span style= {{paddingLeft : "16px"}}>{thumbnail.name}&nbsp;</span>
                       <span
                         onClick={(e) => {
                           e.stopPropagation(); // 겹쳐진 영역 중복 클릭 방지
