@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ManageList from "../../manage/managelist";
+//import ManageList from "../../manage/managelist";
 import styledComponent from "./MyPageScrapContainer.styles";
 const { Wrapper, Title, Content, Button } = styledComponent;
 
@@ -50,14 +50,15 @@ function MyPageScrapContainer({ from }) {
       {!totalElements ? (
         <Content>아직 스크랩한 작업물이 없어요.</Content>
       ) : (
-        <Content>
+          <Content>
+            {/*
           <ManageList
             data={mywork}
             TAR={totalOfAllReferences}
             TPE={totalOfPageElements}
             TP={totalPages}
             from={from === "work" ? "work" : "scrap"}
-          />
+      />*/}
           {totalElements > 12 && (
             <Button onClick={loadMoreItems}>더보기 &gt;</Button>
           )}

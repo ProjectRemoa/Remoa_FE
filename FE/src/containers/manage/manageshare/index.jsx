@@ -15,9 +15,8 @@ function ManageShareContainer({ match }) {
   const id = useParams(); // postId 가져옴
   const [name, setName] = useState("");
   const [comp, setComp] = useState("");
-  const [compRes, setCompRes] = useState("수상작");
   const [thumbnail, setThumbnail] = useState(null);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("idea");
   const [youtubeLink, setYoutubeLink] = useState("");
   const [uploads, setUploads] = useState([]);
   const [checked, setChecked] = useState([1, 0, 0, 0, 0]);
@@ -35,11 +34,6 @@ function ManageShareContainer({ match }) {
   /* 참가 공모전 */
   const onChangeComp = (e) => {
     setComp(e.target.value);
-  };
-
-  /* 수상결과 */
-  const onChangeRes = (e) => {
-    setCompRes(e.target.value);
   };
 
   /* 카테고리 */
@@ -164,6 +158,8 @@ function ManageShareContainer({ match }) {
     } else if (allisSizeError) {
       alert("최대 50MB까지 첨부할 수 있습니다.");
     }
+
+    console.log(UploadList)
     setUploads(UploadList); // 덮어 씌우기
   };
 
@@ -181,30 +177,33 @@ function ManageShareContainer({ match }) {
       if (
         name.length > 0 &&
         comp.length > 0 &&
-        compRes.length > 0 &&
         category.length > 0 &&
         thumbnail !== null &&
         youtubeLink.length > 0
       ) {
         setButtonColor(true);
+        console.log("True");
       } else {
+        console.log("False");
         setButtonColor(false);
       }
     } else if (category !== "video") {
+      console.log(name.length, comp.length,  category.length, thumbnail, uploads.length)
       if (
         name.length > 0 &&
         comp.length > 0 &&
-        compRes.length > 0 &&
         category.length > 0 &&
         thumbnail !== null &&
         uploads.length > 0
       ) {
         setButtonColor(true);
+        console.log("True");
       } else {
+        console.log("False");
         setButtonColor(false);
       }
     }
-  }, [name, comp, compRes, category, uploads, thumbnail, youtubeLink]);
+  }, [name, comp,  category, uploads, thumbnail, youtubeLink]);
 /*
   useEffect(() => {
     setTimeout(() => {
@@ -221,7 +220,7 @@ function ManageShareContainer({ match }) {
       title: name,
       contestName: comp,
       category: category,
-      contestAwardType: compRes,
+      contestAwardType: "NULL", // 빼기로 함
       youtubeLink: youtubeLink,
     };
     console.log(UploadPostForm);
