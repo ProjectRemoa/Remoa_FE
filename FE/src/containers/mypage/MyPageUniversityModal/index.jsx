@@ -19,6 +19,9 @@ const {
   Trow,
 } = styledComponent;
 
+const API_KEY = process.env.REACT_APP_UNIVERSITY_KEY;
+const UNIVERSITY_URL = `/cnet/openapi/getOpenApi?apiKey=${API_KEY}&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&thisPage=1&perPage=500`;
+
 const MyPageUniversityModal = ({ changeUniversity, close }) => {
   const [input, setInput] = useState("");
   const [universityData, setUniversityData] = useState([]);
@@ -30,10 +33,8 @@ const MyPageUniversityModal = ({ changeUniversity, close }) => {
   }, []);
 
   const getUniversityData = async () => {
-    const apiKey = "f78ae8cbac2dc01c9d837c846e06661d";
-    const url = `/cnet/openapi/getOpenApi?apiKey=${apiKey}&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&thisPage=1&perPage=500`;
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(UNIVERSITY_URL);
       setUniversityData(response.data.dataSearch.content);
     } catch (err) {
       console.log(err);
@@ -63,7 +64,9 @@ const MyPageUniversityModal = ({ changeUniversity, close }) => {
 
       <SearchBar
         placeholder="학교명을 검색해보세요"
-        handleInput={(input) => setInput(input)}
+        handleInput={(input) => {
+          input ? setInput(input) : setClickedIndex(null);
+        }}
         handleClick={() => handleUniversitySearch(input)}
       />
 
@@ -94,7 +97,10 @@ const MyPageUniversityModal = ({ changeUniversity, close }) => {
         <SelectBtn
           type="button"
           onClick={() => {
-            changeUniversity(schoolData[clickedIndex].schoolName);
+            if (!schoolData[clickedIndex]) {
+              return alert("학교를 선택해주세요");
+            }
+            changeUniversity(schoolData[clickedIndex]?.schoolName);
             close();
           }}
           clicked={clickedIndex !== null}
