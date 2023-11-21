@@ -367,8 +367,15 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setExpandModalOpenDelete(!expandModalOpenDelete);
   };
 
-  const [isHovering, setIsHovering] = useState(0);
 
+  const [pageVisibleId, setPageVisibleId] = useState("")
+
+  const onModalHandler = id => {
+    setPageVisibleId(id)
+  }
+  const onCloseHandler = () => {
+    setPageVisibleId("")
+  }
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
 
@@ -494,19 +501,19 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   )}
                 </S.PdfSizeWrapper>
               </S.PdfSet>
-              <S.PdfMannage style={{ maxHeight: windowSize.height / 1.5, display: 'block' }}>
+              <S.PdfMannage style={{ maxHeight: windowSize.height / 1.5, display: 'block', }}>
                 {middle.fileNames.map((srcLink, index) => {
-                return(<div style={{display: 'flex', justifyContent:'center', position:'relative'}}>
+                return(<div style={{display: 'flex', position:'relative', justifyContent: selectExpand>100 ? 'flex-start':'center'}}>
                   <S.ContentImg 
+                    style={{width:`${selectExpand}%`,height:'auto'}}
                     src={srcLink} 
                     key={srcLink} 
                     id={index+1} 
                     className='image' 
-                    onMouseOver={() => setIsHovering(1)}
-                    onMouseOut={() => setIsHovering(0)}
+                    onMouseOver={() => {onModalHandler(index)}}
+                    onMouseOut={() => {onCloseHandler(index)}}
                     />
-                  {isHovering ? (<S.PdfPageShow>{index+1}페이지</S.PdfPageShow>) : ""}       
-                  
+                  {pageVisibleId === index ? <S.PdfPageShow>{index+1}페이지</S.PdfPageShow> : ""}     
                 </div>
                 )
               })}
@@ -529,24 +536,28 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   </>
                 )}
                 <S.PdfSizeWrapper>
-                  <S.PdfSizeButton
-                    onClick={() => {
-                      setPageScale(pageScale === 1.5 ? 1.5 : pageScale + 0.25);
-                    }}
-                  >
-                    <S.SizeIcon>+</S.SizeIcon>
-                  </S.PdfSizeButton>
-                  <S.PdfSizeButton
-                    onClick={() => {
-                      setPageScale(
-                        pageScale - 0.25 < 0.25 ? 0.25 : pageScale - 0.25
-                      );
-                    }}
-                  >
-                    <S.SizeIcon>-</S.SizeIcon>
-                  </S.PdfSizeButton>
+                  페이지 배율 &nbsp;&nbsp;&nbsp;&nbsp;
+                  <S.PdfSelect>
+                    <S.PdfViewText>{pageScale*100}%&nbsp;</S.PdfViewText>
+                    <FaCaretDown onClick={showExpandModalDelete} style={{cursor: 'pointer'}} />
+                  </S.PdfSelect>
+                  {expandModalOpenDelete && (
+                    <S.PdfOption>
+                    {[50,75,100,125,150].map((a)=>(
+                    <S.PdfList>
+                      <S.PdfFocus 
+                      class="list" 
+                      onClick={()=> { setPageScale(a/100);}} 
+                      id={a} 
+                      style={(pageScale*100===a) ? { fontWeight: '700', color:'#1E1E1E' } : { fontWeight:'400', color:'#727272' }}
+                    >
+                      {a}%
+                    </S.PdfFocus>
+                    </S.PdfList>
+                  ))}
+                  </S.PdfOption>
+                  )}
                 </S.PdfSizeWrapper>
-                <S.SizeShow>{pageScale * 100 + '%'}</S.SizeShow>
               </S.PdfSet>
               <S.PdfMannage
                 onContextMenu={(e) => e.preventDefault()}
@@ -560,14 +571,16 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   onLoadSuccess={onDocumentLoadSuccess}
                 >
                   {Array.from(new Array(numPages), (_, index) => (
-                    <div key={index + 1} id={index + 1}>
+                    <div key={index + 1} id={index + 1} style={{display: 'flex', justifyContent:'center', position:'relative'}}>
                       <Page
-                        width={windowSize.width}
-                        height={windowSize.height}
+                      style={{width:`${pageScale*100}%`, height:'auto'}}
                         scale={pageScale}
                         pageNumber={index + 1}
                         renderAnnotationLayer={false}
+                        onMouseOver={() => {onModalHandler(index)}}
+                    onMouseOut={() => {onCloseHandler(index)}}
                       />
+                      {pageVisibleId === index ? (<S.PdfPageShow>{index+1}페이지</S.PdfPageShow>) : ""}    
                     </div>
                   ))}
                 </Document>
@@ -579,6 +592,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           )}
         </S.MobalContents>
 
+
+        <S.TraceBox onClick={() => handleLike()}>
+          <S.TraceBoxAlign>
+            <AiOutlineHeart className={ likeBoolean ? classes.beforeClick : classes.afterClick } />
+            <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
+          </S.TraceBoxAlign>
+        </S.TraceBox>
+        
         {/* 움직이는 모달 */}
         <Draggable onDrag={(_, data) => trackPos(data)}>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -596,19 +617,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
             />
           </div>
         </Draggable>
-
-        <S.TraceBox onClick={() => handleLike()}>
-          <S.TraceBoxAlign>
-            <AiOutlineHeart className={ likeBoolean ? classes.beforeClick : classes.afterClick } />
-            <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
-          </S.TraceBoxAlign>
-        </S.TraceBox>
-
         <RefModalComment
           postId={id2}
           comments={comments}
           setComments={setComments}
         />
+
       </S.MobalBox>
     </S.ModalWrapper>
   );

@@ -166,8 +166,6 @@ export const S = {
     margin-bottom: 46px;
   `,
   ContentImg: styled.img`
-    width: 100%;
-    height: auto;
     margin-bottom: 10px;
   `,
   PdfWrapper: styled.div`
@@ -177,8 +175,8 @@ export const S = {
     PdfMannage: styled.div`
     overflow-y: scroll;
     width: 99%;
-    overflow-x: auto;
-
+    overflow-x: scroll;
+    overflow: scroll;
     position: relative;
     display: flex;
     justify-content: flex-start;
@@ -230,7 +228,6 @@ export const S = {
     position: absolute;
     right: 70px;
     width: auto;
-    z-index: 12;
   `,
   PdfViewText:styled.div`
     width: 40px;
@@ -276,6 +273,7 @@ export const S = {
     list-style: none;
     padding-left: 0px;
     right: 30px;
+    z-index: 1;
   `,
   PdfList: styled.li`
     width: auto;
@@ -315,7 +313,6 @@ export const S = {
   SizeShow: styled.div`
     width: 60px;
     height: 40px;
-    background-color: red;
     color: black;
     line-height: 40px;
     position: absolute;
