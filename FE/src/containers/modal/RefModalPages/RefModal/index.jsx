@@ -520,7 +520,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
               </S.PdfMannage>
 
               </>
-              ) : ( // 여기서부터 pdf
+              ) : (// 여기서부터 pdf
                 <>
                 <S.PdfSet>
                 페이지 입력
