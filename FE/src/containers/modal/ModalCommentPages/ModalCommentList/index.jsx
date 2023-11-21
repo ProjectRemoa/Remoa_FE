@@ -5,7 +5,11 @@ import axios from 'axios';
 import ModalCommentWriteAgain from '../ModalCommentWriteAgain';
 
 export default function ModalCommentList({ comments, postId, setComments }) {
-  comments.sort().reverse()
+        
+  comments.sort((a, b) => {
+    return  new Date(a.commentedTime)-new Date(b.commentedTime);
+  });
+
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState('');
 

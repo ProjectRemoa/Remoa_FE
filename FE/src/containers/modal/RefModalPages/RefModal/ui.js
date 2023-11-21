@@ -9,7 +9,7 @@ export const S = {
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+
     z-index: 11;
     background-color: rgba(0, 0, 0, 0.1);
     cursor: default;
@@ -22,6 +22,7 @@ export const S = {
     height: auto;
     top: 106px;
     display: block;
+    align-items: center;
     justify-content: center;
     padding: 30px;
     border-radius: 1vw / 1vw;
@@ -166,7 +167,8 @@ export const S = {
   `,
   ContentImg: styled.img`
     width: 100%;
-    height: 100%;
+    height: auto;
+    margin-bottom: 10px;
   `,
   PdfWrapper: styled.div`
     width: 100%;
@@ -190,39 +192,106 @@ export const S = {
   PdfSet: styled.div`
     height: 50px;
     line-height: 50px;
-    font-weight: 700;
-    font-size: 20px;
-    color: white;
+    color: #464646;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: -0.32px;
     display: flex;
-    margin-left: 40px;
+    margin-left: 39px;
     align-items: center;
   `,
   PdfPageInput: styled.input`
-    width: 95px;
+    width: 32px;
     height: 30px;
-    margin-left: 10px;
-    font-size: 20px;
+    margin-left: 14px;
+    color: #464646;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: -0.32px;
+    text-align: center;
   `,
   PdfPageButton: styled.a`
     text-decoration-line: none;
-    height: 40px;
-    width: 80px;
-    color: #fada5e;
-    font-weight: 700;
-    font-size: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.24px;
+    color: #464646;
   `,
   PdfPageButtonWrapper: styled.button`
-    border: none;
-    height: 40px;
-    width: 100px;
-    background-color: white;
-    margin-left: 10px;
-    box-shadow: none;
+    height: 28px;
+    width: 80px;
+    border-radius: 16px;
+    border: 1px solid var(--deepgray, #727272);
+    background: #FFF;
   `,
   PdfSizeWrapper: styled.div`
     position: absolute;
     right: 70px;
     width: auto;
+    z-index: 12;
+  `,
+  PdfViewText:styled.div`
+    width: 40px;
+    display: inline-block;
+  `,
+  PdfPageShow:styled.div`
+    position: absolute;
+    bottom: 0;
+    z-index: 20;
+    border-radius: 30px;
+    background: #FADA5E;
+    width: 188px;
+    height: 40px;
+    color: var(--, #464646);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.32px;
+    line-height: 40px;
+  `,
+  PdfSelect: styled.button`
+    color: var(--, #464646);
+    cursor: default;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.32px;
+    background: #FFF;
+    width: 82px;
+    box-sizing: border-box;
+    height: 32px;
+    line-height: 32px;
+    border: none;
+    margin-right: 30px;
+  `,
+  PdfOption: styled.ul`
+    position: absolute;
+    width: 82px;
+    height: 144px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    border: 1px solid var(--line, #E1E2E5);
+    background: #FFF;
+    list-style: none;
+    padding-left: 0px;
+    right: 30px;
+  `,
+  PdfList: styled.li`
+    width: auto;
+    height: 24px;
+    margin: 4px;
+    :hover{
+      background: var(--light-gray, #F0F0F0);
+      cursor: pointer;
+    }
+  `,
+  PdfFocus: styled.div`
+    border: none;
+    font-size: 14px;
+    line-height: 24px;
+    box-sizing: border-box;
+    background: none;
   `,
   PdfSizeButton: styled.button`
     border: none;
@@ -246,7 +315,7 @@ export const S = {
   SizeShow: styled.div`
     width: 60px;
     height: 40px;
-    background-color: white;
+    background-color: red;
     color: black;
     line-height: 40px;
     position: absolute;

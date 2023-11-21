@@ -115,10 +115,7 @@ const ProfileFollowButton = styled.button`
   box-shadow: none;
   // 이미 팔로우 됐을 때
   &.followed {
-    background: var(--light-gray, #F0F0F0);
-  }
-  :hover {
-    background: var(--light-gray, #F0F0F0);
+    background-color: var(--light-gray, #F0F0F0);
   }
 `;
 

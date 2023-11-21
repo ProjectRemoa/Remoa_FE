@@ -90,12 +90,17 @@ function RefModalFollow({ member, location }) {
               팔로우취소
             </ProfileFollowButton>
           ) : (
-            <ProfileFollowButton onClick={handleMemberFollow} style={{ backgroundColor: '#FADA5E', border: 'none' }}>
+            <ProfileFollowButton 
+              onClick={handleMemberFollow} 
+              style={{ backgroundColor: '#FADA5E', border: 'none' }}
+            >
               팔로잉하기
             </ProfileFollowButton>
           )
         ) : (
-            <ProfileFollowButton onClick={()=>{ navigate('/mypage/profile') }} style={{ backgroundColor: '#FADA5E', border: 'none' }}>
+            <ProfileFollowButton 
+              onClick={()=>{ navigate('/mypage/profile') }} 
+              style={{ backgroundColor: '#FADA5E', border: 'none' }}>
               프로필 수정
             </ProfileFollowButton>
         )}

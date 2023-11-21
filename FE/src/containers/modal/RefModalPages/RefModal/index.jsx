@@ -23,6 +23,7 @@ import Draggable from 'react-draggable';
 import AuthLayout from '../../../../layout/AuthLayout';
 import ModalDelete from '../RefModalDelete';
 import { formatCount } from '../../../../functions/formatCount';
+import { FaCaretDown } from "react-icons/fa";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -183,16 +184,19 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           profileImage: res.data.data.postMember.profileImage,
         });
       })
+
       .catch((err) => {
         console.log(err);
       });
-  }, [id2]);
 
+  }, [id2]);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 2500);
   }, [loading]);
+
+
 
   // 모달 닫으면 보이는 페이지 설정하기 !
   let Lo = window.location.href;
@@ -312,15 +316,25 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     } else {
     }
   };
-
+  const checking = () => {
+    alert('페이지를 제대로 입력해주세요!');
+    window.history.back();
+    let el = document.getElementById('pageInput');
+    el.value = '';
+  }
+  
   const checkPage = () => {
     if (show > numPages) {
-      alert('페이지를 제대로 입력해주세요!');
-      window.history.back();
-      let el = document.getElementById('pageInput');
-      el.value = '';
+      checking()
     }
   };
+
+  const checkImage = () => {
+    if (show > middle.fileNames.length) {
+      checking()
+    }
+  };
+
 
   // box의 포지션 값
   const [, setPosition] = useState({ x: 0, y: 0 });
@@ -331,7 +345,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
 
   // 모달창 삭제하기
-
   const [modalOpenDelete, setModalOpenDelete] = useState(false);
 
   // 모달창 노출
@@ -339,9 +352,25 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setModalOpenDelete(true);
   };
 
+  const [selectExpand, setSelectExpand] = useState(100)
+
+  const onChangeExpand = (a) => {
+    setSelectExpand(a)
+    let elements = document.getElementsByClassName('image');
+    Array.from(elements).forEach(element => element.style.width = `${a}%`);
+  }
+
+  const [expandModalOpenDelete, setExpandModalOpenDelete] = useState(false);
+
+  // 모달창 노출
+  const showExpandModalDelete = () => {
+    setExpandModalOpenDelete(!expandModalOpenDelete);
+  };
+
+  const [isHovering, setIsHovering] = useState(0);
+
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
-      {/*className={modalVisibleId2 == id2 ? 'd_block' : 'd_none'}*/}
 
       <S.MobalBox onClick={(e) => e.stopPropagation()}> {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
@@ -423,28 +452,78 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                 },
               }}
               onEnd={(e) => e.target.stopVideo(0)}
-            />
-          ) : middle.fileType === 'jpg' ||
-            middle.fileType === 'jpeg' ||
-            middle.fileType === 'png' ? (
-            middle.fileNames.map((srcLink, index) => {
-              return <S.ContentImg src={srcLink} key={srcLink} id={index} />;
-            })
-          ) : (
-            <S.PdfWrapper>
+            /> ) : (
+            <S.PdfWrapper>             
+              {middle.fileType === 'jpg' || middle.fileType === 'jpeg' || middle.fileType === 'png' ? 
+              (
+              <>
               <S.PdfSet>
+                페이지 이동
+                {middle.fileNames.length > 1 && (
+                  <>
+                    <S.PdfPageInput onChange={changePageNum} defaultValue={1} id='pageInput' />
+                    &nbsp; / &nbsp;{middle.fileNames.length}&nbsp;&nbsp;&nbsp;
+                    <S.PdfPageButtonWrapper>
+                      <S.PdfPageButton href={`#${show}`} onClick={checkImage}>
+                        바로보기
+                      </S.PdfPageButton>
+                    </S.PdfPageButtonWrapper>
+                  </>
+                )}
+                <S.PdfSizeWrapper>
+                  페이지 배율 &nbsp;&nbsp;&nbsp;&nbsp;
+                  <S.PdfSelect>
+                    <S.PdfViewText>{selectExpand}%&nbsp;</S.PdfViewText>
+                    <FaCaretDown onClick={showExpandModalDelete} style={{cursor: 'pointer'}} />
+                  </S.PdfSelect>
+                  {expandModalOpenDelete && (
+                    <S.PdfOption>
+                    {[50,75,100,125,150].map((a)=>(
+                    <S.PdfList>
+                      <S.PdfFocus 
+                      class="list" 
+                      onClick={()=> { onChangeExpand(a);}} 
+                      id={a} 
+                      style={(selectExpand===a) ? { fontWeight: '700', color:'#1E1E1E' } : { fontWeight:'400', color:'#727272' }}
+                    >
+                      {a}%
+                    </S.PdfFocus>
+                    </S.PdfList>
+                  ))}
+                  </S.PdfOption>
+                  )}
+                </S.PdfSizeWrapper>
+              </S.PdfSet>
+              <S.PdfMannage style={{ maxHeight: windowSize.height / 1.5, display: 'block' }}>
+                {middle.fileNames.map((srcLink, index) => {
+                return(<div style={{display: 'flex', justifyContent:'center', position:'relative'}}>
+                  <S.ContentImg 
+                    src={srcLink} 
+                    key={srcLink} 
+                    id={index+1} 
+                    className='image' 
+                    onMouseOver={() => setIsHovering(1)}
+                    onMouseOut={() => setIsHovering(0)}
+                    />
+                  {isHovering ? (<S.PdfPageShow>{index+1}페이지</S.PdfPageShow>) : ""}       
+                  
+                </div>
+                )
+              })}
+              </S.PdfMannage>
+
+              </>
+              ) : ( // 여기서부터 pdf
+                <>
+                <S.PdfSet>
                 페이지 입력
                 {numPages > 1 && (
                   <>
-                    <S.PdfPageInput
-                      onChange={changePageNum}
-                      placeholder={`1P부터 ${numPages}P까지`}
-                      defaultValue={1}
-                      id='pageInput'
-                    />
+                    <S.PdfPageInput onChange={changePageNum} defaultValue={1} id='pageInput' />
+                    &nbsp; / &nbsp;{numPages}&nbsp;&nbsp;&nbsp;
                     <S.PdfPageButtonWrapper>
                       <S.PdfPageButton href={`#${show}`} onClick={checkPage}>
-                        이동하기
+                        바로보기
                       </S.PdfPageButton>
                     </S.PdfPageButtonWrapper>
                   </>
@@ -493,6 +572,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   ))}
                 </Document>
               </S.PdfMannage>
+                </>)
+              }
               <div style={{ height: '50px', width: 'auto' }} />
             </S.PdfWrapper>
           )}
