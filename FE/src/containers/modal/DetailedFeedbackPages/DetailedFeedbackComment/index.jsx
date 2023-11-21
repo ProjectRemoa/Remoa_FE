@@ -154,7 +154,7 @@ export default function DetailFeedbackComment({
                 {link ? (
                   <S.WrapperSearch>동영상</S.WrapperSearch>
                 ) : (
-                  <S.WrapperSearch href={`#${feedbacks.page - 1}`}>
+                  <S.WrapperSearch href={`#${feedbacks.page}`}>
                     {feedbacks.page}페이지
                   </S.WrapperSearch>
                 )}

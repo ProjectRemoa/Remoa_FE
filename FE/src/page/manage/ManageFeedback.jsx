@@ -6,8 +6,7 @@ function ManageFeedback() {
   return (
     <Layout>
       <ManageContainer />
-        <ManageFeedbackContainer/>
-        {/*받은 피드백 관리*/}
+      <ManageFeedbackContainer/>
     </Layout>
   )
 }

@@ -1,7 +1,6 @@
 import { S } from './ui';
 import React, { useState } from 'react';
 import axios from 'axios';
-import AuthLayout from '../../../../layout/AuthLayout';
 
 export default function ModalCommentWrite({ postId, setComments }) {
   const [contents, setContents] = useState('');
@@ -11,7 +10,7 @@ export default function ModalCommentWrite({ postId, setComments }) {
   };
 
   const onSumbitHandler = (e) => {
-    AuthLayout()
+
     if (contents) {
       e.preventDefault();
       const UploadComment = {

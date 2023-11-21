@@ -2,7 +2,7 @@ import styled from 'styled-components'
 //import "./ManageShareContainer.module.css";
 
 const ManageShareContainer = styled.div`
-  margin-top: 141px;
+  margin-top: 118px;
 `
 const ManageShareBox = styled.div`
   width: 1206px;
@@ -12,13 +12,16 @@ const ManageShareBox = styled.div`
 `;
 
 const ManageShareTable = styled.table`
-  border-collapse: separate;
-  border-spacing: 20px;
+  border-collapse: collapse;
   margin: 0 auto;
   width: 832px; // 155 550
 
   tr {
     border-bottom: 1px solid #e7e7e7;
+
+    :last-child {
+      border: none;
+    }
   }
 
   th {
@@ -26,7 +29,12 @@ const ManageShareTable = styled.table`
     white-space: nowrap;
     font-size: 16px;
     font-weight: 600;
-    width: 150px;
+    width: 214px;
+  }
+
+  th,
+  td {
+    padding: 12px 0px;
   }
 
   input {
@@ -39,13 +47,13 @@ const ManageShareTable = styled.table`
     outline: none;
     background: #ffffff;
     border-radius: 10px;
-    padding: 0 2px;
+    padding-left: 14px;
 
     ::placeholder {
       color: #a7a7a7;
       font-weight: 500;
       font-family: Pretendard-Regular;
-      padding: 16px 14px;
+      //padding: 16px 14px;
       font-size: 16px;
     }
   }
@@ -58,6 +66,9 @@ const CategoryButtonBox = styled.div`
   display: flex;
   margin-bottom: 6px;
 
+  :last-child{
+    margin-bottom: 0px;
+  }
 `;
 
 const Category = styled.div`
@@ -68,35 +79,36 @@ const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  
   background-color: ${(props) => (props.checked ? "#FADA5E" : "white")};
   color: #464646;
   font-weight: ${(props) => (props.checked ? "600" : "500")};
   border-radius: 10px;
   font-size: 16px;
-  margin-right: 13px;
+  margin-right: 18.5px;//13px;
   :last-child {
     margin-right: 0px;
   }
 `;
 
 const FileWrapper = styled.div`
-  width: 618px;
+  width: 100%;
   height: 158px;
-  border: 1px solid #b0b0b0;
+  border: 1px solid #e1e2e5;
   background: #ffffff;
   border-radius: 10px;
   text-align: left;
-  color: #B0B0B0;
+  color: #b0b0b0;
   cursor: pointer;
   overflow: auto;
 `;
 
 const FileContainer = styled.div`
   width: 470px;
-  padding: 10px 0px 0px 8px;
- line-height: 24px;
- font-size: 16px;
- font-weight: 500;
+  padding: 10px 0px 0px 16px;
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: 500;
 `;
 
 const Button = styled.button`
@@ -116,14 +128,12 @@ const Button = styled.button`
 `
 
 const ThumbailWrapper = styled.div`
+  width: 100%;
   height: 44px;
   border: 1px solid #e1e2e5;
   border-radius: 10px;
-  justify-content: center;
-  /*
-  display: "flex",
-  alignItems: "center",
-  */
+  display: flex;
+  align-items: center;
   cursor: pointer;
 `;
 
@@ -131,7 +141,7 @@ const ThumbnailText = styled.div`
   font-weight: 500;
   font-size: 16px;
   color: #b0b0b0;
-  float: left;
+  padding-left: 16px;
 `;
 
 const S = {

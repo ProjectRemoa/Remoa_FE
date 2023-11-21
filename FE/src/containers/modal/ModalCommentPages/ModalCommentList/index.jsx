@@ -2,9 +2,13 @@ import { S } from './ui';
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import React, { useState } from 'react';
 import axios from 'axios';
-import AuthLayout from '../../../../layout/AuthLayout'
+import ModalCommentWriteAgain from '../ModalCommentWriteAgain';
 
 export default function ModalCommentList({ comments, postId, setComments }) {
+        
+  comments.sort((a, b) => {
+    return  new Date(a.commentedTime)-new Date(b.commentedTime);
+  });
 
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState('');
@@ -20,7 +24,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
     const UploadComment = {
       comment: contents,
     };
-
+    if (!contents) UploadComment.comment = contents
     axios
       .put(`/BE/reference/comment/${commentId}`, UploadComment)
       .then((response) => {
@@ -56,7 +60,6 @@ export default function ModalCommentList({ comments, postId, setComments }) {
   };
 
   const onClickThumb = (commentId) => {
-      AuthLayout()
       axios
         .post(`/BE/comment/${commentId}/like`)
         .then((res) => {
@@ -79,73 +82,27 @@ export default function ModalCommentList({ comments, postId, setComments }) {
     };
 
   return (
-    <>
+    <div style={{ marginTop: '20px' }}>
       {comments &&
         comments.map((comments, index) => (
           <S.AgainWrapper key={index}>
             <S.AgainTable>
               <tbody>
-                <tr>
-                  <td style={{ backgroundColor:'pink', width: '40px' }}>
+                <tr style={{ display: 'flex', position: 'relative' }}>
+                  <td style={{ width: '40px' }} rowspan="3">
                     <S.ProfileSize src={comments.member.profileImage} />
                   </td>
-                  <td  style={{ backgroundColor:'green' }}>
-                    {comments.member.nickname}
+                  <td>
+                    <S.ProfileName>{comments.member.nickname}</S.ProfileName>
                   </td>
-                  <td
-                    style={{ backgroundColor:'yellow', display: 'flex' }}
-                  >
-                    <S.HeaderButton
-                      onClick={() => onClickThumb(comments.commentId)}
-                    >
-                      <BsFillHandThumbsUpFill />
-                      <S.ThumbCount>{comments.likeCount}</S.ThumbCount>
-                    </S.HeaderButton>
-                    { // 내가 해당 댓글 작성자여야만 수정 버튼이 보여야 함
-                    comments.member.nickname === sessionStorage.getItem('nickname') && (
-                      <>
-                        <S.HeaderButton
-                          style={{
-                            top: '-4px',
-                            position: 'relative',
-                            color: 'black',
-                            marginLeft: '22px',
-                          }}
-                          onClick={() => {
-                            //setIsEdit(!isEdit);
-                            setPutMemberId(comments.commentId);
-                            setContents(comments.comment);
-                          }}
-                        >
-                          수정
-                        </S.HeaderButton>
-                        <S.HeaderButton
-                          style={{
-                            top: '-4px',
-                            position: 'relative',
-                            color: 'black',
-                            marginLeft: '22px',
-                          }}
-                          onClick={() => onDelete(comments.commentId)}
-                        >
-                          삭제
-                        </S.HeaderButton>
-                      </>
-                    )}
-                  </td>
+
                 </tr>
+
                 <tr>
-                  <td></td>
-                  <td colSpan='2' style={{ backgroundColor:'pink' }}>
+                  <td style={{ textAlign: 'left', paddingLeft: '52px' }}>
                     {putMemberId === comments.commentId ? (
                       <div id={comments.commentId}>
-                        <S.WriteInput
-                          placeholder='해당 작업물에 대한 의견을 자유롭게 남겨주세요!
-                          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.'
-                          onChange={onChangeContents}
-                          defaultValue={comments.comment}
-                        />
-                        <button
+                        <S.EditButton
                           onClick={() => {
                             return (
                               onPutHandler(comments.commentId),
@@ -153,18 +110,57 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                             );
                           }}
                         >
-                          수정 완료하기
-                        </button>
+                          수정완료
+                        </S.EditButton>
+                        <S.WriteInput
+                          placeholder='해당 작업물에 대한 의견을 자유롭게 남겨주세요!
+                          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.'
+                          onChange={onChangeContents}
+                          defaultValue={comments.comment}
+                        />
                       </div>
                     ) : (
-                      comments.comment
+                      <S.Comment>{comments.comment}</S.Comment>
                     )}
+                  </td>
+                </tr>
+
+                <tr>
+                <td style={{ height: '28px', paddingLeft: '52px' }}>
+                {(putMemberId !== comments.commentId) && (
+                  <S.CommentTableBottom>
+                  <div style={{ cursor: 'pointer' }}>답글</div>
+                    {comments.member.nickname === sessionStorage.getItem('nickname') && (
+                      <>
+                      &nbsp; | &nbsp;
+                        <div style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            //setIsEdit(!isEdit);
+                            setPutMemberId(comments.commentId);
+                            setContents(comments.comment);
+                          }}>
+                          수정하기
+                        </div>
+                        &nbsp; | &nbsp;
+                        <div onClick={() => onDelete(comments.commentId)} style={{ cursor: 'pointer' }}>
+                          삭제하기
+                        </div>
+                      </>
+                    )}
+                    <S.ThumbCount onClick={() => onClickThumb(comments.commentId)}>
+                      <BsFillHandThumbsUpFill />
+                      <span>{comments.likeCount}</span>
+                    </S.ThumbCount>
+                    </S.CommentTableBottom>
+                )}
+                   
                   </td>
                 </tr>
               </tbody>
             </S.AgainTable>
+            {/* <ModalCommentWriteAgain /> */}
           </S.AgainWrapper>
         ))}
-    </>
+    </div>
   );
 }

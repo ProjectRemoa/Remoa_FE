@@ -1,6 +1,6 @@
 import { React, useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import ManageList from "./managelist"
+//import ManageList from "./managelist"
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { Style } from "../../layout/ReferenceListStyle";
@@ -136,13 +136,14 @@ function OtherManageListConatiner({ match }) {
           </div>
         ) : (
           <div>
-            <Line />
+              <Line />
+              {/*
             <ManageList
               data={mywork}
               TAR={totalOfAllReferences}
               TPE={totalOfPageElements}
               TP={totalPages}
-            />
+        />*/}
             <div
               style={{
                 margin: "0 auto",

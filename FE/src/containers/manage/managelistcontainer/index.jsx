@@ -1,6 +1,5 @@
 import { React, useEffect,  useState } from "react";
 import axios from "axios";
-import ManageList from "../managelist";
 import { useNavigate } from "react-router";
 import S from "./ManageListContainer.styles"
 import { filterOptions } from "../../reference/constants"
@@ -25,7 +24,7 @@ function ManageListContainer() {
 
   const [filter, setFilter] = useState(filterOptions[0].key); // 필터
 
-  const [selectedSortIndex, setSekectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
+  const [selectedSortIndex, setSelectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
 
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
 
@@ -68,7 +67,7 @@ function ManageListContainer() {
     if (category === "design") setCheckIdx([0, 0, 0, 0, 1, 0]);
     if (category === "etc") setCheckIdx([0, 0, 0, 0, 0, 1]);
 
-    setSekectedSortIndex(0);
+    setSelectedSortIndex(0);
     setPageNumber(1);
     setTP(1);
     setCurrentPage(1);
@@ -77,7 +76,7 @@ function ManageListContainer() {
   };
 
   const handleSortClick = (index) => {
-    setSekectedSortIndex(index);
+    setSelectedSortIndex(index);
     if (index === 0) {
       setSortOption("newest");
     } else if (index === 1) {
