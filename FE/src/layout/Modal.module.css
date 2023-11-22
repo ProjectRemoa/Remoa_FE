@@ -25,3 +25,11 @@
   right: 10px;
   top: 10px;
 }
+.exclamationCircle {
+  position: relative;
+  box-sizing: border-box;
+  top:56px;
+  width: 40px;
+  height: 40px;
+  color: #A7A7A7;
+}

@@ -11,13 +11,11 @@ const useStyles = makeStyles({
     display: 'none',
   },
   modal_close: {
-    fontSize: '25px',
-    color: 'white',
+    fontSize: '24px',
     cursor: 'pointer',
     display: 'block',
-    fontWeight: '700',
-    position: 'relative',
-    left: '165px',
+    position: 'absolute',
+    left: '432px',
   },
 });
 
@@ -82,7 +80,7 @@ export default function DetaileFeedback({
       className={modalVisibleId3 !== id3 && classes.display_none }
     >
       <S.ModalHeader>
-        상세 피드백 뷰어
+        <S.HeaderText>상세 피드백 뷰어</S.HeaderText>
         <AiOutlineClose
           onClick={() => {
             setModalVisibleId3('');
@@ -101,31 +99,29 @@ export default function DetaileFeedback({
       </S.Feedback>
 
       <S.ModalWriteFeed>
-        <S.ModalFeedReg>
           <S.RegTop>
             <S.RegExplain>
-              <span style={{ 
-                color: '#FADA5E', 
-                fontWeight: '800', 
-              }}>
-                Feedback
-              </span>
-              &nbsp; 페이지 번호 &nbsp;
+              <S.FeedbackText>
+                피드백
+              </S.FeedbackText>
+              <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>
             </S.RegExplain>
             <select
               onChange={handleSelect}
               style={{
                 width: '55px',
-                height: '24px',
+                height: '32px',
+                borderRadius: '2px',
                 position: 'relative',
-                bottom: '7px',
+                bottom: '6px',
+                border: '1px solid var(--line, #E1E2E5)'
               }}
               disabled={link}
             >
               {opti &&
-                opti.map((a, index) => {
+                opti.map((a) => {
                   return (
-                    <option value={a} key={index}>
+                    <option value={a} key={a}>
                       {a}
                     </option>
                   );
@@ -133,9 +129,9 @@ export default function DetaileFeedback({
                 
               {/* pdf  */}
               {pageCount &&
-                pageCount.map((a, index) => {
+                pageCount.map((a) => {
                   return (
-                    <option value={a} key={index}>
+                    <option value={a} key={a}>
                       {a}
                     </option>
                   );
@@ -150,9 +146,9 @@ export default function DetaileFeedback({
               onChange={onChangeContents}
               value={contents}
               required
+              placeholder='피드백을 남겨주세요'
             />
           </S.RegBottom>
-        </S.ModalFeedReg>
       </S.ModalWriteFeed>
     </S.ModalWrapper>
   );

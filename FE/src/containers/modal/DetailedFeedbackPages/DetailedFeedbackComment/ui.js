@@ -2,12 +2,11 @@ import styled from 'styled-components';
 
 export const S = {
   EachFeedWrapper: styled.div`
-    width: 100%;
-    height: auto;
+  background-color: aliceblue;
   `,
   ProfileSize: styled.img`
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
     border-radius: 50%;
   `,
@@ -22,38 +21,35 @@ export const S = {
   ThumbCount: styled.p`
     display: inline;
     color: black;
-    line-height: 27px;
     text-align: center;
     position: relative;
-    top: -5px;
   `,
   ProfileName: styled.div`
-    line-height: 46px;
-    font-size: 100%; //20px;; // 글자 크기가 너무 커서 조절했습니다
+    color: var(--black, #1E1E1E);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 40px;
+    margin-left: 5px;
+    letter-spacing: -0.36px;
   `,
   ButtonWrapper: styled.div`
     position: relative;
-    left: 50px;
-    top:15px;
   `,
-  FeedWrapperButton: styled.button`
-    margin-top: 12px;
-    border: none;
+  FeedWrapperButton: styled.div`
     height: 26px;
-    width: 80px;
-    background-color: #fada5e;
+    width: 72px;
+    margin-top: 12px;
     position: relative;
-    right: 180px;
     box-shadow: none;
+    border-radius: 10px;
+    background: var(--loyal-yellow, #FADA5E);
   `,
   WrapperSearch: styled.a`
     text-decoration-line: none;
-    height: 26px;
-    width: 60px;
-    color: black;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 18px;
+    color: #1E1E1E;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 26px;
     text-align: center;
   `,
   ModifyFin:styled.button`

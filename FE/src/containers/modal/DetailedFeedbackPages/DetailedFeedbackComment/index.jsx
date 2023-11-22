@@ -113,41 +113,7 @@ export default function DetailFeedbackComment({
             <S.FeedWrapperHeader>
               <S.ProfileSize src={feedbacks.member.profileImage} alt='' />
               <S.ProfileName>{feedbacks.member.nickname}</S.ProfileName>
-              <S.ButtonWrapper>
-                <S.HeaderButton
-                  onClick={() => onClickThumb(feedbacks.feedbackId)}
-                >
-                  <BsFillHandThumbsUpFill />
-                  <S.ThumbCount>{feedbacks.likeCount}</S.ThumbCount>
-                </S.HeaderButton>
-                {feedbacks.member.nickname ===
-                  sessionStorage.getItem('nickname') && (
-                  <>
-                    <S.HeaderButton
-                      style={{
-                        top: '-5.5px',
-                        position: 'relative',
-                        marginLeft: '3px',
-                        color: 'black',
-                      }}
-                      onClick={() => setPutMemberId(feedbacks.feedbackId)}
-                    >
-                      수정
-                    </S.HeaderButton>
-                    <S.HeaderButton
-                      style={{
-                        top: '-5.5px',
-                        position: 'relative',
-                        marginLeft: '3px',
-                        color: 'black',
-                      }}
-                      onClick={() => onClickDelete(feedbacks.feedbackId)}
-                    >
-                      삭제
-                    </S.HeaderButton>
-                  </>
-                )}
-              </S.ButtonWrapper>
+
             </S.FeedWrapperHeader>
             <div>
               <S.FeedWrapperButton>
@@ -177,16 +143,43 @@ export default function DetailFeedbackComment({
                   </S.ModifyFin>
                 </div>
               ) : (
-                <p
+                <div
                   style={{
+                    backgroundColor: 'floralwhite',
+                    height: 'auto',
                     fontSize: '18px',
                     lineHeight: '22px',
                     textAlign: 'left',
+                    width: '100%',
+                    wordBreak: 'break-all'
                   }}
                 >
                   {feedbacks.feedback}
-                </p>
+                </div>
               )}
+                            <S.ButtonWrapper>
+                <S.HeaderButton
+                  onClick={() => onClickThumb(feedbacks.feedbackId)}
+                >
+                  <BsFillHandThumbsUpFill />
+                  <S.ThumbCount>{feedbacks.likeCount}</S.ThumbCount>
+                </S.HeaderButton>
+                {feedbacks.member.nickname ===
+                  sessionStorage.getItem('nickname') && (
+                  <>
+                    <S.HeaderButton
+                      onClick={() => setPutMemberId(feedbacks.feedbackId)}
+                    >
+                      수정
+                    </S.HeaderButton>
+                    <S.HeaderButton
+                      onClick={() => onClickDelete(feedbacks.feedbackId)}
+                    >
+                      삭제
+                    </S.HeaderButton>
+                  </>
+                )}
+              </S.ButtonWrapper>
               {/* <DetaileSeedbackCommentAgain /> */}
             </div>
           </div>

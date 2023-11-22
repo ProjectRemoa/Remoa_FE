@@ -24,6 +24,7 @@ import AuthLayout from '../../../../layout/AuthLayout';
 import ModalDelete from '../RefModalDelete';
 import { formatCount } from '../../../../functions/formatCount';
 import { FaCaretDown } from "react-icons/fa";
+import ModalRange from '../RefModalRange';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -316,25 +317,29 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     } else {
     }
   };
+
+  const [pageRange, setPageRange] = useState(false)
+  // 페이지 제대로 입력되었는가 확인하기
   const checking = () => {
-    alert('페이지를 제대로 입력해주세요!');
-    window.history.back();
+    setPageRange(true)
     let el = document.getElementById('pageInput');
     el.value = '';
   }
   
+  function isInteger(number)  {
+    return number % 1 === 0;
+  }
   const checkPage = () => {
-    if (show > numPages) {
+    if (show > numPages || typeof show !== Number || isInteger(show)===false || show <= 0 ) {
       checking()
     }
   };
 
   const checkImage = () => {
-    if (show > middle.fileNames.length) {
+    if (show > middle.fileNames.length || typeof show !== Number || isInteger(show)===false || show <= 0 ) {
       checking()
     }
   };
-
 
   // box의 포지션 값
   const [, setPosition] = useState({ x: 0, y: 0 });
@@ -376,6 +381,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const onCloseHandler = () => {
     setPageVisibleId("")
   }
+
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
 
@@ -475,6 +481,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                         바로보기
                       </S.PdfPageButton>
                     </S.PdfPageButtonWrapper>
+                    {pageRange && <ModalRange setPageRange={setPageRange} />}
                   </>
                 )}
                 <S.PdfSizeWrapper>
@@ -533,6 +540,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                         바로보기
                       </S.PdfPageButton>
                     </S.PdfPageButtonWrapper>
+                    {pageRange && <ModalRange setPageRange={setPageRange} />}
                   </>
                 )}
                 <S.PdfSizeWrapper>
@@ -599,10 +607,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
             <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
           </S.TraceBoxAlign>
         </S.TraceBox>
-        
+        <RefModalComment
+          postId={id2}
+          comments={comments}
+          setComments={setComments}
+        />
         {/* 움직이는 모달 */}
         <Draggable onDrag={(_, data) => trackPos(data)}>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', top: category==='video'? '-200px' : '-485px', position: 'relative', marginRight: '15px' }}>
             <DetailedFeedback
               id3={id2}
               modalVisibleId3={modalVisibleId3}
@@ -617,11 +629,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
             />
           </div>
         </Draggable>
-        <RefModalComment
-          postId={id2}
-          comments={comments}
-          setComments={setComments}
-        />
+
 
       </S.MobalBox>
     </S.ModalWrapper>
