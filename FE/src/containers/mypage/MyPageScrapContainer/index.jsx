@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styledComponent from "./MyPageScrapContainer.styles";
-
+import styled from "styled-components";
+import RefCard from "../../reference/RefCard";
+import RefModal from "../../modal/RefModalPages/RefModal";
 const {
   ScrapContainer,
   CategoryContainer,
@@ -9,7 +12,16 @@ const {
   MoreSearch,
   ScrapListContainer,
   ScrapButton,
+  MoreButtonContainer,
+  MoreButton,
 } = styledComponent;
+
+const RefList = styled.div`
+  display: grid;
+  gap: 20px 26px;
+  grid-template-columns: repeat(auto-fill, minmax(291px, 1fr));
+  margin-top: 20px;
+`;
 
 const categoryButtons = [
   "전체",
@@ -21,21 +33,59 @@ const categoryButtons = [
 ];
 
 function MyPageScrapContainer() {
+  const navigate = useNavigate();
   const [scrapData, setScrapData] = useState([]);
   const [clicked, setClicked] = useState(0);
-
   const [categoryName, setCategoryName] = useState("전체");
 
   useEffect(() => {
     // 스크랩한 작업물 1페이지
     axios.get(`/BE/user/scrap?page=${1}`).then((res) => {
       setScrapData(res.data.data.posts);
-      console.log(res.data.data.posts);
     });
+    modalLocation();
   }, []);
 
   const handleCategoryClick = (category) => {
     setCategoryName(category);
+  };
+
+  //////////////////////////////////////////////
+  const [category, setCategory] = useState(""); // 카테고리
+  const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
+
+  const [selectedData, setSelectedData] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(null);
+
+  function modalLocation(i) {
+    if (window.innerWidth <= 1023) {
+      if (i % 2 === 0) {
+        return 2;
+      } else return 0;
+    } else if (window.innerWidth <= 1439) {
+      if (i % 3 === 0) {
+        return 3;
+      } else return 0;
+    } else {
+      if (i % 4 === 0) {
+        return 4;
+      } else return 0;
+    }
+  }
+
+  const handleSelectData = (data) => {
+    setSelectedData(data);
+    setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
+    if (category.path === "/") {
+      navigate(`/${data.postId}`);
+    } else {
+      navigate(`${category.path}/${data.postId}`);
+    }
+  };
+
+  const handleProfileModal = (postId) => {
+    setSelectedPostId(postId);
+    console.log(selectedPostId);
   };
 
   return (
@@ -66,7 +116,7 @@ function MyPageScrapContainer() {
           <span>총 몇개</span>
           <span>최신순</span>
         </div>
-        {scrapData.length > 0 ? (
+        {!scrapData.length ? (
           <div
             style={{
               display: "flex",
@@ -94,58 +144,85 @@ function MyPageScrapContainer() {
             <MoreSearch>지금 탐색하러 가기</MoreSearch>
           </div>
         ) : (
-          <ScrapListContainer>
-            {scrapData
-              .filter(
-                (data) =>
-                  categoryName === "전체" || data.categoryName === categoryName
-              )
-              .map((data) => {
-                return (
-                  <div key={data.postId}>
-                    <img
-                      src={data.thumbnail}
-                      alt=""
-                      style={{
-                        width: "100%",
-                        height: "164px",
-                        border: "1px solid #e1e2e5",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    <span style={{ display: "block", marginTop: "16px" }}>
-                      {data.title}
-                    </span>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginTop: "12px",
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <img
-                          src={data.postMember.profileImage}
-                          alt=""
-                          style={{
-                            width: "24px",
-                            height: "24px",
-                            borderRadius: "50%",
-                          }}
-                        />
-                        <span style={{ fontSize: "14px", marginLeft: "8px" }}>
-                          {data.postMember.nickname}
-                        </span>
-                      </div>
-                      <ScrapButton>스크랩 해제</ScrapButton>
-                    </div>
-                  </div>
-                );
-              })}
-          </ScrapListContainer>
+          // <>
+          //   <ScrapListContainer>
+          //     {scrapData
+          //       .filter(
+          //         (data) =>
+          //           categoryName === "전체" ||
+          //           data.categoryName === categoryName
+          //       )
+          //       .map((data) => {
+          //         return (
+          //           <div key={data.postId}>
+          //             <img
+          //               src={data.thumbnail}
+          //               alt=""
+          //               style={{
+          //                 width: "100%",
+          //                 height: "164px",
+          //                 border: "1px solid #e1e2e5",
+          //                 borderRadius: "8px",
+          //               }}
+          //             />
+          //             <span style={{ display: "block", marginTop: "16px" }}>
+          //               {data.title}
+          //             </span>
+          //             <div
+          //               style={{
+          //                 display: "flex",
+          //                 justifyContent: "space-between",
+          //                 alignItems: "center",
+          //                 marginTop: "12px",
+          //               }}
+          //             >
+          //               <div style={{ display: "flex", alignItems: "center" }}>
+          //                 <img
+          //                   src={data.postMember.profileImage}
+          //                   alt=""
+          //                   style={{
+          //                     width: "24px",
+          //                     height: "24px",
+          //                     borderRadius: "50%",
+          //                   }}
+          //                 />
+          //                 <span style={{ fontSize: "14px", marginLeft: "8px" }}>
+          //                   {data.postMember.nickname}
+          //                 </span>
+          //               </div>
+          //               <ScrapButton>스크랩 해제</ScrapButton>
+          //             </div>
+          //           </div>
+          //         );
+          //       })}
+          //   </ScrapListContainer>
+          //   <MoreButtonContainer>
+          //     <MoreButton onClick={() => navigate("/mypage/scrap")}>
+          //       더 보기 &gt;
+          //     </MoreButton>
+          //   </MoreButtonContainer>
+          // </>
+          <RefList>
+            {scrapData.map((reference, index) => (
+              <RefCard
+                key={reference.postId}
+                data={reference}
+                location={modalLocation(index + 1)}
+                selectedPostId={selectedPostId}
+                onSelectedData={handleSelectData}
+                onProfileModal={handleProfileModal}
+              />
+            ))}
+          </RefList>
         )}
       </div>
+      {selectedData && isRefModal !== "" && (
+        <RefModal
+          id2={selectedData.postId}
+          setData={selectedData}
+          setModalVisibleId2={setIsRefModal}
+        />
+      )}
     </ScrapContainer>
   );
 }

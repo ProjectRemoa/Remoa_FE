@@ -59,6 +59,27 @@ const ScrapButton = styled.button`
   }
 `;
 
+const MoreButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 54px;
+`;
+
+const MoreButton = styled.button`
+  width: 160px;
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid #b0b0b0;
+  color: #464646;
+  background-color: transparent;
+  font-size: 16px;
+  font-family: Pretendard-SemiBold;
+  &:hover {
+    background-color: #e1e2e5;
+  }
+`;
+
 const styledComponent = {
   ScrapContainer,
   CategoryContainer,
@@ -66,6 +87,8 @@ const styledComponent = {
   MoreSearch,
   ScrapListContainer,
   ScrapButton,
+  MoreButtonContainer,
+  MoreButton,
 };
 
 export default styledComponent;
