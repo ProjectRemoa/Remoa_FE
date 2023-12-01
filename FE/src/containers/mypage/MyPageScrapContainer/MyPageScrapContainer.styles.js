@@ -1,7 +1,8 @@
+import ReactPaginate from "react-paginate";
 import styled from "styled-components";
 
 const ScrapContainer = styled.div`
-  width: 100%;
+  width: 65vw;
   font-size: 25px;
   font-weight: 700;
   text-align: left;
@@ -23,6 +24,7 @@ const CategoryButton = styled.button`
   &:hover {
     background-color: ${(props) => (props.clicked ? "#dfb71c" : "#cecece")};
   }
+  font-family: Pretendard-SemiBold;
 `;
 
 const MoreSearch = styled.button`
@@ -46,19 +48,6 @@ const ScrapListContainer = styled.div`
   margin-top: 40px;
 `;
 
-const ScrapButton = styled.button`
-  width: 80px;
-  height: 24px;
-  font-family: Pretendard-Medium;
-  font-size: 12px;
-  border: 1px solid #e1e2e5;
-  border-radius: 8px;
-  background-color: transparent;
-  &:hover {
-    background-color: #a7a7a7;
-  }
-`;
-
 const MoreButtonContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -80,15 +69,46 @@ const MoreButton = styled.button`
   }
 `;
 
+const MyPaginate = styled(ReactPaginate)`
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+
+  li {
+    margin-right: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    color: #727272;
+    cursor: pointer;
+  }
+
+  li.previous,
+  li.next {
+    color: #000000;
+  }
+
+  li.selected a {
+    font-weight: 800;
+    font-size: 15px;
+    color: #1e1e1e;
+    cursor: default;
+  }
+
+  li.disabled {
+    cursor: default;
+  }
+`;
+
 const styledComponent = {
   ScrapContainer,
   CategoryContainer,
   CategoryButton,
   MoreSearch,
   ScrapListContainer,
-  ScrapButton,
   MoreButtonContainer,
   MoreButton,
+  MyPaginate,
 };
 
 export default styledComponent;
