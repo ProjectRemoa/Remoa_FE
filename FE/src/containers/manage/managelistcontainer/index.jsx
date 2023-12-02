@@ -4,9 +4,9 @@ import { useNavigate } from "react-router";
 import S from "./ManageListContainer.styles"
 import { filterOptions } from "../../reference/constants"
 import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles"
-import Filter from "../../../components/common/Filter";
+import Dropdown from "../../../components/common/Dropdown";
 import RefCard from "../../reference/RefCard";
-const { RefFilter, FilterButton, RefList } = StyledComponents;
+const { RefList } = StyledComponents;
 
 function ManageListContainer() {
   const [mywork, setMywork] = useState([]);
@@ -15,16 +15,14 @@ function ManageListContainer() {
   const [tp, setTP] = useState(1); // 전체 페이지 수
 
   const [pageNumber, setPageNumber] = useState(1);
-  const [sortOption, setSortOption] = useState("newest");
   const [categoryName, setCategoryName] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedData, setSelectedData] = useState(null);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
 
-  const [filter, setFilter] = useState(filterOptions[0].key); // 필터
-
-  const [selectedSortIndex, setSelectedSortIndex] = useState(0); // 정렬 버튼 색상 변경
+  const [filter, setFilter] = useState(filterOptions[0].value); // 필터 값 (한글)
+  const [sortOption, setSortOption] = useState(filterOptions[0].key); // 필터 값 (영어)
 
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
 
@@ -41,11 +39,6 @@ function ManageListContainer() {
     }
     else navigate(`/ref/${data.categoryName}/${data.postId}`);
   };
-
-    const handleProfileModal = (postId) => {
-      setSelectedPostId(postId);
-      console.log(selectedPostId);
-    };
 
   useEffect(() => {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
@@ -67,28 +60,11 @@ function ManageListContainer() {
     if (category === "design") setCheckIdx([0, 0, 0, 0, 1, 0]);
     if (category === "etc") setCheckIdx([0, 0, 0, 0, 0, 1]);
 
-    setSelectedSortIndex(0);
     setPageNumber(1);
     setTP(1);
     setCurrentPage(1);
-    //setSortOption("newest");
-    setFilter(filterOptions[0].key);
-  };
-
-  const handleSortClick = (index) => {
-    setSelectedSortIndex(index);
-    if (index === 0) {
-      setSortOption("newest");
-    } else if (index === 1) {
-      setSortOption("view");
-    } else if (index === 2) {
-      setSortOption("like");
-    } else {
-      setSortOption("scrap");
-    }
-    setPageNumber(1);
-    setTP(1);
-    setCurrentPage(1);
+    setSortOption(filterOptions[0].key);
+    setFilter(filterOptions[0].value);
   };
 
   const getWork = (endpoint) => {
@@ -119,21 +95,6 @@ function ManageListContainer() {
     };
 
     fetchData();
-    /*
-    axios
-      .get(endpoint)
-      .then((res) => {
-        console.log(res);
-        setMywork(...[res.data.data.references]);
-        setTotalOfAllReferences(res.data.data.totalOfAllReferences);
-        setTotalOfPageElements(res.data.data.totalOfPageElements);
-        setTotalPages(res.data.data.totalPages);
-        setPageNumber(pageNumber + 1); // 다음 페이지를 렌더링 하기 위해
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      */
     console.log(
       "totalOfAllReferences : " +
         toar +
@@ -225,35 +186,37 @@ function ManageListContainer() {
           ) : (
             <>
               {/* 선택 글 삭제 */}
-              <S.SelectBox>
+                <S.SelectBox>
                   총 {toar}개
-                <S.SelectButton
-                  onClick={onClickSelectButton}
-                  state={buttonColor[0]}
-                  value={0}
-                >
-                  내 작품 전체 삭제
-                </S.SelectButton>
-                <S.SelectButton
-                  onClick={onClickSelectButton}
-                  state={buttonColor[1]}
-                  value={1}
-                >
-                  삭제할 작품 선택
-                </S.SelectButton>
-              </S.SelectBox>
-              {/* 정렬순 */}
-              <S.SortBox>
-                <Filter />
-              </S.SortBox>
+                  <S.SelectButton
+                    onClick={onClickSelectButton}
+                    state={buttonColor[0]}
+                    value={0}
+                  >
+                    내 작품 전체 삭제
+                  </S.SelectButton>
+                  <S.SelectButton
+                    onClick={onClickSelectButton}
+                    state={buttonColor[1]}
+                    value={1}
+                  >
+                    삭제할 작품 선택
+                  </S.SelectButton>
+                </S.SelectBox>
+                {/* 정렬순 */}
+                <S.SortBox>
+                  <Dropdown setFilter={setFilter} filter={filter} setSortOption={setSortOption} />
+                </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
 
               <RefList>
                 {mywork.map((reference, index) => (
-                  <RefCard data={reference}
+                  <RefCard
+                    data={reference}
                     key={reference.postId}
                     selectedPostId={selectedPostId}
-                    onSelectedData={handleSelectData} />
+                    onSelectedData={handleSelectData}
+                  />
                 ))}
               </RefList>
               <div

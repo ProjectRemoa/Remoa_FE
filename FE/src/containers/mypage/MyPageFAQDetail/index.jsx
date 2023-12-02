@@ -1,18 +1,23 @@
-import { useParams } from "react-router-dom";
-import { getInquiries, getNotices } from "../../../apis/mypage/faq";
-import { useQuery } from "react-query";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 function MyPageFAQDetail() {
   const { category, detailId } = useParams();
-  const { data: noticeData } = useQuery("noticeData", getNotices);
-  const { data: inquiryData } = useQuery("inquryData", getInquiries);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (category === "notice") setData(noticeData);
-    if (category === "inquiry") setData(inquiryData);
-  }, []);
+    if (category === "notice") {
+      axios
+        .get(`/BE/notice?page=${1}`)
+        .then((res) => setData(res.data.data.notices));
+    }
+    if (category === "inquiry") {
+      axios
+        .get(`/BE/inquiry?page=${1}`)
+        .then((res) => setData(res.data.data.inquiries));
+    }
+  }, [category]);
 
   const detailData = data?.find((data) => data.noticeId === parseInt(detailId));
 

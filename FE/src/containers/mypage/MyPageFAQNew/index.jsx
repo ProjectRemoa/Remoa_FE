@@ -48,7 +48,11 @@ function MyPageFAQNew() {
         <Content>
           <span style={{ fontWeight: 600 }}>내용</span>
           <Textarea
-            placeholder={`${type}의 내용을 입력해주세요`}
+            placeholder={
+              category === "notice"
+                ? "공지사항의 내용을 입력해주세요"
+                : "문의사항을 입력해주시면 빠른 시일 내에 답변드리도록 하겠습니다."
+            }
             onChange={(e) => setContent(e.target.value)}
           />
         </Content>

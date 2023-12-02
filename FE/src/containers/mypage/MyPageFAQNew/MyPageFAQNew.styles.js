@@ -17,10 +17,11 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  /* margin-top: 33px;
+  margin-top: 24px;
   &:nth-of-type(2) {
-    margin-top: 40px;
-  } */
+    height: 392px;
+    margin-top: 20px;
+  }
 `;
 
 const Textarea = styled.textarea`

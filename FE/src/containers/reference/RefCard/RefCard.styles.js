@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const RefCardWrapper = styled.div`
   position: relative;
@@ -108,6 +108,19 @@ const RefCardFunctionIcon = styled.div`
   }
 `;
 
+const ScrapButton = styled.button`
+  width: 80px;
+  height: 24px;
+  font-family: Pretendard-Medium;
+  font-size: 12px;
+  border: 1px solid #e1e2e5;
+  border-radius: 8px;
+  background-color: transparent;
+  &:hover {
+    background-color: #a7a7a7;
+  }
+`;
+
 const StyledComponents = {
   RefCardWrapper,
   RefCardThumbnailWrapper,
@@ -120,6 +133,7 @@ const StyledComponents = {
   RefCardProfileName,
   RefCardFunctionWrapper,
   RefCardFunctionIcon,
+  ScrapButton,
 };
 
 export default StyledComponents;

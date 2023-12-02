@@ -1,10 +1,11 @@
-import { GoEye, GoStarFill } from 'react-icons/go';
-import { FaHeart } from 'react-icons/fa';
+import { GoEye, GoStarFill } from "react-icons/go";
+import { FaHeart } from "react-icons/fa";
 
-import StyledComponents from './RefCard.styles';
-import { useEffect, useState } from 'react';
+import StyledComponents from "./RefCard.styles";
+import { useEffect, useState } from "react";
 
-import RefModalFollow from '../../modal/RefModalFollow';
+import RefModalFollow from "../../modal/RefModalFollow";
+import { useParams } from "react-router-dom";
 const {
   RefCardWrapper,
   RefCardThumbnailWrapper,
@@ -16,9 +17,16 @@ const {
   RefCardInfo,
   RefCardFunctionWrapper,
   RefCardFunctionIcon,
+  ScrapButton,
 } = StyledComponents;
 
-function RefCard({ data, onSelectedData, selectedPostId, onProfileModal,location }) {
+function RefCard({
+  data,
+  onSelectedData,
+  selectedPostId,
+  onProfileModal,
+  location,
+}) {
   const {
     likeCount,
     postId,
@@ -31,6 +39,7 @@ function RefCard({ data, onSelectedData, selectedPostId, onProfileModal,location
   } = data;
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const { id } = useParams();
 
   const formatCount = (count) => {
     if (count >= 1000) {
@@ -49,7 +58,6 @@ function RefCard({ data, onSelectedData, selectedPostId, onProfileModal,location
       onProfileModal(postId);
     }
   };
-
 
   return (
     <RefCardWrapper>
@@ -82,20 +90,28 @@ function RefCard({ data, onSelectedData, selectedPostId, onProfileModal,location
           </RefCardProfileName>
 
           <RefCardFunctionWrapper>
-            {/* 조회수 */}
-            <RefCardFunctionIcon>
-              <GoEye className="views" /> {formatCount(views)}
-            </RefCardFunctionIcon>
+            {!id ? (
+              <>
+                {/* 조회수 */}
+                <RefCardFunctionIcon>
+                  <GoEye className="views" /> {formatCount(views)}
+                </RefCardFunctionIcon>
 
-            {/* 좋아요 */}
-            <RefCardFunctionIcon>
-              <FaHeart className="likes" /> {formatCount(likeCount)}
-            </RefCardFunctionIcon>
+                {/* 좋아요 */}
+                <RefCardFunctionIcon>
+                  <FaHeart className="likes" /> {formatCount(likeCount)}
+                </RefCardFunctionIcon>
 
-            {/* 스크랩 */}
-            <RefCardFunctionIcon>
-              <GoStarFill className="scrap" /> {formatCount(scrapCount)}
-            </RefCardFunctionIcon>
+                {/* 스크랩 */}
+                <RefCardFunctionIcon>
+                  <GoStarFill className="scrap" /> {formatCount(scrapCount)}
+                </RefCardFunctionIcon>
+              </>
+            ) : (
+              <RefCardFunctionIcon>
+                <ScrapButton>스크랩 해제</ScrapButton>
+              </RefCardFunctionIcon>
+            )}
           </RefCardFunctionWrapper>
         </RefCardInfo>
 

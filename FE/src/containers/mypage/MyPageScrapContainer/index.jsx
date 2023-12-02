@@ -1,70 +1,171 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
-//import ManageList from "../../manage/managelist";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import RefCard from "../../reference/RefCard";
+import RefModal from "../../modal/RefModalPages/RefModal";
 import styledComponent from "./MyPageScrapContainer.styles";
-const { Wrapper, Title, Content, Button } = styledComponent;
+const {
+  ScrapContainer,
+  CategoryContainer,
+  CategoryButton,
+  MoreSearch,
+  ScrapListContainer,
+  MoreButtonContainer,
+  MoreButton,
+  MyPaginate,
+} = styledComponent;
 
-function MyPageScrapContainer({ from }) {
-  const [mywork, setMywork] = useState([]);
-  const [totalOfAllReferences, setTotalOfAllReferences] = useState(0); // 전체 레퍼런스 수
-  const [totalOfPageElements, setTotalOfPageElements] = useState(0); // 현재 페이지의 레퍼런스 수
-  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
-  const [pageNumber, setPageNumber] = useState(1);
-  const [totalElements, setTotalElements] = useState(0);
+const categoryButtons = [
+  "전체",
+  "기획/아이디어",
+  "광고/마케팅",
+  "영상",
+  "디자인/사진",
+  "기타아이디어",
+];
+
+function MyPageScrapContainer() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [scrapData, setScrapData] = useState([]);
+  const [clicked, setClicked] = useState(0);
+  const [categoryName, setCategoryName] = useState("전체");
 
   useEffect(() => {
-    // 카테고리, 정렬을 바꿀 떄마다 렌더링
-    console.log("카테고리, 또는 정렬을 바꿀 때마다 렌더링");
-    let endpoint;
-    endpoint = `/BE/user/activity?comment=${0}&scrap=${pageNumber}`;
-    //}
-    getWork(endpoint, false);
+    // 스크랩한 작업물 1페이지
+    axios.get(`/BE/user/scrap?page=${1}`).then((res) => {
+      setScrapData(res.data.data.posts);
+    });
+    modalLocation();
   }, []);
 
-  const getWork = (endpoint, isLoad) => {
-    axios
-      .get(endpoint)
-      .then((res) => {
-        if (isLoad === true)
-          // 이어서 받으려면
-          setMywork([...mywork, ...res.data.data.posts]);
-        // 카테고리를 바꾸거나 정렬순을 바꾸거나
-        else setMywork(...[res.data.data.posts]);
-        setPageNumber(pageNumber + 1); // 다음 페이지를 렌더링 하기 위해
-        setTotalElements(res.data.data.posts.length);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleCategoryClick = (category) => {
+    setCategoryName(category);
   };
 
-  const loadMoreItems = () => {
-    let endpoint;
-    endpoint = `/BE/user/activity?comment=${0}&scrap=${pageNumber}`;
-    getWork(endpoint, true);
+  //////////////////////////////////////////////
+  const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
+  const [selectedData, setSelectedData] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(null);
+
+  function modalLocation(i) {
+    if (window.innerWidth <= 1023) {
+      if (i % 2 === 0) {
+        return 2;
+      } else return 0;
+    } else if (window.innerWidth <= 1439) {
+      if (i % 3 === 0) {
+        return 3;
+      } else return 0;
+    } else {
+      if (i % 4 === 0) {
+        return 4;
+      } else return 0;
+    }
+  }
+
+  const handleSelectData = (data) => {
+    setSelectedData(data);
+    setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
+  };
+
+  const handleProfileModal = (postId) => {
+    setSelectedPostId(postId);
   };
 
   return (
-    <Wrapper>
-      <Title>스크랩한 작업물</Title>
-      {!totalElements ? (
-        <Content>아직 스크랩한 작업물이 없어요.</Content>
-      ) : (
-          <Content>
-            {/*
-          <ManageList
-            data={mywork}
-            TAR={totalOfAllReferences}
-            TPE={totalOfPageElements}
-            TP={totalPages}
-            from={from === "work" ? "work" : "scrap"}
-      />*/}
-          {totalElements > 12 && (
-            <Button onClick={loadMoreItems}>더보기 &gt;</Button>
-          )}
-        </Content>
+    <ScrapContainer>
+      <span style={{ display: "block", marginBottom: "40px" }}>
+        스크랩한 작업물
+      </span>
+
+      <div style={{ width: "100%" }}>
+        <CategoryContainer>
+          {categoryButtons.map((data, i) => (
+            <CategoryButton
+              key={i}
+              onClick={() => {
+                handleCategoryClick(data);
+                setClicked(i);
+              }}
+              clicked={clicked === i}
+            >
+              {data}
+            </CategoryButton>
+          ))}
+        </CategoryContainer>
+
+        <hr />
+
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <span style={{ fontFamily: "Pretendard-Medium", fontSize: "15px" }}>
+            총 {scrapData.length}개
+          </span>
+          <span style={{ fontSize: "15px" }}>최신순</span>
+        </div>
+        {!scrapData.length ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "40px",
+            }}
+          >
+            <span
+              style={{ fontSize: "22px", fontFamily: "Pretendard-SemiBold" }}
+            >
+              아직 스크랩한 작업물이 없어요
+            </span>
+            <span
+              style={{
+                fontSize: "14px",
+                color: "#727272",
+                marginTop: "14px",
+                fontWeight: "500",
+              }}
+            >
+              새로운 작업물을 탐색하러 가볼까요?
+            </span>
+            <MoreSearch onClick={() => navigate("/")}>
+              지금 탐색하러 가기
+            </MoreSearch>
+          </div>
+        ) : (
+          <>
+            <ScrapListContainer>
+              {scrapData.map((scrapData, index) => (
+                <RefCard
+                  key={scrapData.postId}
+                  data={scrapData}
+                  location={modalLocation(index + 1)}
+                  selectedPostId={selectedPostId}
+                  onSelectedData={handleSelectData}
+                  onProfileModal={handleProfileModal}
+                />
+              ))}
+            </ScrapListContainer>
+            {id === "work" ? (
+              <MoreButtonContainer>
+                <MoreButton onClick={() => navigate("/mypage/scrap")}>
+                  더 보기 &gt;
+                </MoreButton>
+              </MoreButtonContainer>
+            ) : (
+              <MyPaginate previousLabel="<" nextLabel=">" />
+            )}
+          </>
+        )}
+      </div>
+      {selectedData && isRefModal !== "" && (
+        <RefModal
+          id2={selectedData.postId}
+          setData={selectedData}
+          setModalVisibleId2={setIsRefModal}
+        />
       )}
-    </Wrapper>
+    </ScrapContainer>
   );
 }
 
