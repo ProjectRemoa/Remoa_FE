@@ -79,7 +79,7 @@ const SelectButton = styled.button`
 
 const SortBox = styled.div`
   float:right;
-  margin-bottom:30px;
+ // margin-bottom:30px;
 `;
 
 const ManageListNo = styled.div`
@@ -131,14 +131,11 @@ const ButtonRegister = styled.button`
 const Line = styled.hr`
   width: 100%;
   border: 1px solid #e7e7e7;
-  margin: 10px;
+  margin-top: 12.5px;
 `;
 
 const CategoryBox = styled.div`
   display: flex;
-  //justify-content:space-between;
-  //align-items:center;
-  
 `
 
 
