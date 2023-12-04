@@ -254,7 +254,7 @@ function ManageListContainer() {
         />
       )}
       {buttonColor[0] && 
-        <ManageDeleteAllContainer setButtonColor={setButtonColor} buttonColor={buttonColor} />
+        (<ManageDeleteAllContainer setButtonColor={setButtonColor} buttonColor={buttonColor} />)
       }
     </S.ManageListContainer>
   );

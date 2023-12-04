@@ -20,7 +20,7 @@ const ManageNameText = styled.span`
 `;
 
 const Category = styled.div`
-  width: 200px; //183.09px;
+  width: 200px;
   height: 44px;
   border: 1px solid ${(props) => (props.checked ? "black" : "#CECECE")}; // #cecece;
   border-radius: 10px;
@@ -36,7 +36,7 @@ const Category = styled.div`
     margin-right: 0px;
   }
   :hover {
-    background-color: ${(props) => (props.checked ? "#FADA5E" : "#f0f0f0")};
+    background-color: ${(props) => (props.checked ? "#DFB71C" : "#f0f0f0")};
   }
 `;
 
