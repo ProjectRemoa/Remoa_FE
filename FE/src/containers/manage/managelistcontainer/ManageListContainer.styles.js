@@ -49,7 +49,6 @@ const ManageListBox = styled.div`
 `
 
 const SelectBox = styled.div`
-margin-left: -19px;
   float:left;
 `
 const SelectButton = styled.button`
@@ -57,11 +56,11 @@ const SelectButton = styled.button`
   height: 24px;
   font-size: 12px;
   color: #464646;
-  background-color: ${(props) => (props.state ? "#fada5e" : "white")};
+  background-color: ${(props) => (props.checked ? "#fada5e" : "white")};
   box-shadow: none;
-  border-radius: 10px;
+  border-radius: 8px;
   border: ${(props) =>
-    props.state ? "1px solid #727272" : "1px solid #e1e2e5"};
+    props.checked ? "1px solid #727272" : "1px solid #e1e2e5"};
   margin-right: 7px;
   font-weight: 500;
   white-space: nowrap;

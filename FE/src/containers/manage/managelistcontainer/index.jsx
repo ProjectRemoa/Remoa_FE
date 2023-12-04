@@ -27,7 +27,7 @@ function ManageListContainer() {
 
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
 
-  const [buttonColor, setButtonColor] = useState([0, 0]);
+  const [buttonColor, setButtonColor] = useState([false, false]);
 
   const navigate = useNavigate();
 
@@ -51,6 +51,11 @@ function ManageListContainer() {
   useEffect(() => {
     setTP((tp) => tp);
   }, [tp]);
+
+  useEffect(() => {
+    setButtonColor((bt) => buttonColor);
+    console.log(buttonColor);
+  }, [buttonColor]);
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
@@ -116,15 +121,6 @@ function ManageListContainer() {
     navigate("/manage/share");
   };
 
-  const onClickSelectButton = (value) => {
-    if (value.detail === 0) {
-      setButtonColor((buttonColor[0] === 0 ? 1 : 0, buttonColor[1]));
-    }
-    if (value.detail === 1) {
-      setButtonColor((buttonColor[0], buttonColor[1] === 0 ? 1 : 0));
-    }
-    console.log(value);
-  };
   return (
     <S.ManageListContainer>
       <S.ManageTextBox>
@@ -187,27 +183,37 @@ function ManageListContainer() {
           ) : (
             <>
               {/* 선택 글 삭제 */}
-                <S.SelectBox>
-                  총 {toar}개
-                  <S.SelectButton
-                    onClick={onClickSelectButton}
-                    state={buttonColor[0]}
-                    value={0}
-                  >
-                    내 작품 전체 삭제
-                  </S.SelectButton>
-                  <S.SelectButton
-                    onClick={onClickSelectButton}
-                    state={buttonColor[1]}
-                    value={1}
-                  >
-                    삭제할 작품 선택
-                  </S.SelectButton>
-                </S.SelectBox>
-                {/* 정렬순 */}
-                <S.SortBox>
-                  <Dropdown setFilter={setFilter} filter={filter} setSortOption={setSortOption} />
-                </S.SortBox>
+              <S.SelectBox>
+                총 {toar}개
+                <S.SelectButton
+                  onClick={() => {
+                    setButtonColor(
+                      [buttonColor[0] === false ? true : false, buttonColor[1]]
+                    );
+                  }}
+                  checked={buttonColor[0]}
+                >
+                  내 작품 전체 삭제
+                </S.SelectButton>
+                <S.SelectButton
+                  onClick={() => {
+                    setButtonColor(
+                      [buttonColor[0], buttonColor[1] === false ? true : false]
+                    );
+                  }}
+                  checked={buttonColor[1]}
+                >
+                  삭제할 작품 선택
+                </S.SelectButton>
+              </S.SelectBox>
+              {/* 정렬순 */}
+              <S.SortBox>
+                <Dropdown
+                  setFilter={setFilter}
+                  filter={filter}
+                  setSortOption={setSortOption}
+                />
+              </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
 
               <RefList>
@@ -237,15 +243,13 @@ function ManageListContainer() {
         </S.ManageListBox>
         {/*} )*/}
       </>
-      {
-        selectedData && isRefModal !== "" && (
-          <RefModal
-            id2={selectedData.postId}
-            setData={selectedData}
-            setModalVisibleId2={setIsRefModal}
-          />
-        )
-      }
+      {selectedData && isRefModal !== "" && (
+        <RefModal
+          id2={selectedData.postId}
+          setData={selectedData}
+          setModalVisibleId2={setIsRefModal}
+        />
+      )}
     </S.ManageListContainer>
   );
 }
