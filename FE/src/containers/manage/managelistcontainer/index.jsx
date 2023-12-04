@@ -7,6 +7,7 @@ import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styl
 import Dropdown from "../../../components/common/Dropdown";
 import RefCard from "../../reference/RefCard";
 import RefModal from "../../modal/RefModalPages/RefModal";
+import ManageDeleteAllContainer from "../manageDeleteAllContainer";
 const { RefList } = StyledComponents;
 
 function ManageListContainer() {
@@ -28,6 +29,8 @@ function ManageListContainer() {
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
 
   const [buttonColor, setButtonColor] = useState([false, false]);
+
+  const [isDelete, setIsDelete] = useState(false);
 
   const navigate = useNavigate();
 
@@ -52,11 +55,12 @@ function ManageListContainer() {
     setTP((tp) => tp);
   }, [tp]);
 
+  /*
   useEffect(() => {
     setButtonColor((bt) => buttonColor);
     console.log(buttonColor);
   }, [buttonColor]);
-
+*/
   const onChangeCategory = (category) => {
     setCategoryName(category);
     if (category === "all") setCheckIdx([1, 0, 0, 0, 0, 0]);
@@ -187,9 +191,8 @@ function ManageListContainer() {
                 총 {toar}개
                 <S.SelectButton
                   onClick={() => {
-                    setButtonColor(
-                      [buttonColor[0] === false ? true : false, buttonColor[1]]
-                    );
+                    setButtonColor([ !buttonColor[0], buttonColor[1]]);
+                    //setIsDelete(!isDelete);
                   }}
                   checked={buttonColor[0]}
                 >
@@ -197,9 +200,8 @@ function ManageListContainer() {
                 </S.SelectButton>
                 <S.SelectButton
                   onClick={() => {
-                    setButtonColor(
-                      [buttonColor[0], buttonColor[1] === false ? true : false]
-                    );
+                    setButtonColor([buttonColor[0],!buttonColor[1]]);
+                    setIsDelete(!isDelete);
                   }}
                   checked={buttonColor[1]}
                 >
@@ -224,6 +226,7 @@ function ManageListContainer() {
                     selectedPostId={selectedPostId}
                     onSelectedData={handleSelectData}
                     onProfileModal={handleProfileModal}
+                    isDeletedData={isDelete}
                   />
                 ))}
               </RefList>
@@ -250,6 +253,9 @@ function ManageListContainer() {
           setModalVisibleId2={setIsRefModal}
         />
       )}
+      {buttonColor[0] && 
+        <ManageDeleteAllContainer setButtonColor={setButtonColor} buttonColor={buttonColor} />
+      }
     </S.ManageListContainer>
   );
 }

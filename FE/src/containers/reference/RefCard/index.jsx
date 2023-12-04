@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 
 import RefModalFollow from "../../modal/RefModalFollow";
 import { useParams } from "react-router-dom";
+
+import BeforeChecked  from "../../../images/before_checked.svg";
+import AfterChecked from "../../../images/after_checked.svg";
+
 const {
   RefCardWrapper,
   RefCardThumbnailWrapper,
@@ -18,6 +22,7 @@ const {
   RefCardFunctionWrapper,
   RefCardFunctionIcon,
   ScrapButton,
+  RefCardSelectedDeleted,
 } = StyledComponents;
 
 function RefCard({
@@ -26,6 +31,7 @@ function RefCard({
   selectedPostId,
   onProfileModal,
   location,
+  isDeletedData
 }) {
   const {
     likeCount,
@@ -66,6 +72,12 @@ function RefCard({
 
   return (
     <RefCardWrapper>
+      {/* manage에서 선택 삭제 */}
+      {isDeletedData && (
+        <RefCardSelectedDeleted src={BeforeChecked} alt="before checked" />
+        
+      )}
+
       {/* 썸네일  */}
       <RefCardThumbnailWrapper onClick={() => onSelectedData(data)}>
         <RefCardThumbnail src={postThumbnail ? postThumbnail : thumbnail} />
