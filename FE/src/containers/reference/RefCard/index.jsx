@@ -49,13 +49,18 @@ function RefCard({
   };
 
   const handleProfileModal = () => {
-    if (postId === selectedPostId) {
-      // 같은 카드의 프로필을 클릭하면 프로필 모달 토글
-      setIsProfileModalOpen(!isProfileModalOpen);
-    } else {
-      // 다른 카드의 프로필을 클릭하면 프로필 모달을 열고 선택된 포스트 아이디를 업데이트
-      setIsProfileModalOpen(true);
-      onProfileModal(postId);
+    if (window.location.href.includes('manage') === true) {
+      // 작업물 관리에서는 프로필 띄우지 않음
+    }
+    else {
+     if (postId === selectedPostId) {
+       // 같은 카드의 프로필을 클릭하면 프로필 모달 토글
+       setIsProfileModalOpen(!isProfileModalOpen);
+     } else {
+       // 다른 카드의 프로필을 클릭하면 프로필 모달을 열고 선택된 포스트 아이디를 업데이트
+       setIsProfileModalOpen(true);
+       onProfileModal(postId);
+     }   
     }
   };
 

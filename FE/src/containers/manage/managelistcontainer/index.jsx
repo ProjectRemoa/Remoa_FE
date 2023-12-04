@@ -6,6 +6,7 @@ import { filterOptions } from "../../reference/constants"
 import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles"
 import Dropdown from "../../../components/common/Dropdown";
 import RefCard from "../../reference/RefCard";
+import RefModal from "../../modal/RefModalPages/RefModal";
 const { RefList } = StyledComponents;
 
 function ManageListContainer() {
@@ -34,10 +35,10 @@ function ManageListContainer() {
     setSelectedData(data);
     setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
     console.log("data ", data);
-    if (data.categoryName === "idea") {
-      navigate(`/${data.postId}`)
-    }
-    else navigate(`/ref/${data.categoryName}/${data.postId}`);
+  };
+
+  const handleProfileModal = (postId) => {
+    setSelectedPostId(postId);
   };
 
   useEffect(() => {
@@ -216,6 +217,7 @@ function ManageListContainer() {
                     key={reference.postId}
                     selectedPostId={selectedPostId}
                     onSelectedData={handleSelectData}
+                    onProfileModal={handleProfileModal}
                   />
                 ))}
               </RefList>
@@ -235,6 +237,15 @@ function ManageListContainer() {
         </S.ManageListBox>
         {/*} )*/}
       </>
+      {
+        selectedData && isRefModal !== "" && (
+          <RefModal
+            id2={selectedData.postId}
+            setData={selectedData}
+            setModalVisibleId2={setIsRefModal}
+          />
+        )
+      }
     </S.ManageListContainer>
   );
 }

@@ -45,7 +45,7 @@ const CategoryText = styled.span`
 `;
 
 const ManageListBox = styled.div`
-  margin-top:30px;
+  margin: 30px 0px;
 `
 
 const SelectBox = styled.div`
@@ -115,7 +115,7 @@ const Button = styled.button`
 `;
 
 const ButtonRegister = styled.button`
-  width: 320px;
+  width: 175px;
   height: 54px;
   margin-top: 58px;
   font-size: 16px;
