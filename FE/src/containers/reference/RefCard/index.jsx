@@ -70,13 +70,28 @@ function RefCard({
     }
   };
 
+  const [isSelected, setIsSelected] = useState(false);
+  const handleDeletedData = () => {
+    setIsSelected(!isSelected);
+  }
+
   return (
     <RefCardWrapper>
       {/* manage에서 선택 삭제 */}
-      {isDeletedData && (
-        <RefCardSelectedDeleted src={BeforeChecked} alt="before checked" />
-        
-      )}
+      {isDeletedData &&
+        (isSelected ? (
+          <RefCardSelectedDeleted
+            src={AfterChecked}
+            alt="after checked"
+            onClick={handleDeletedData}
+          />
+        ) : (
+          <RefCardSelectedDeleted
+            src={BeforeChecked}
+            alt="before checked"
+            onClick={handleDeletedData}
+          />
+        ))}
 
       {/* 썸네일  */}
       <RefCardThumbnailWrapper onClick={() => onSelectedData(data)}>
