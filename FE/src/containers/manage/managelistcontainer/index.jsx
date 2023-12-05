@@ -214,6 +214,7 @@ function ManageListContainer() {
                   setFilter={setFilter}
                   filter={filter}
                   setSortOption={setSortOption}
+                  filterOptions={filterOptions}
                 />
               </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
