@@ -9,6 +9,15 @@ const RefCardWrapper = styled.div`
   height: fit-content;
 `;
 
+const RefCardSelectedDeleted = styled.img`
+  position: absolute;
+  width: 22.5px;
+  z-index: 3;
+  top: 7.75px;
+  left: 7.75px;
+  cursor:pointer;
+`
+
 const RefCardThumbnailWrapper = styled.div`
   position: relative;
   display: block;
@@ -123,6 +132,7 @@ const ScrapButton = styled.button`
 
 const StyledComponents = {
   RefCardWrapper,
+  RefCardSelectedDeleted,
   RefCardThumbnailWrapper,
   RefCardThumbnail,
   RefCardTitle,

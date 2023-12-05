@@ -6,6 +6,8 @@ import { filterOptions } from "../../reference/constants"
 import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles"
 import Dropdown from "../../../components/common/Dropdown";
 import RefCard from "../../reference/RefCard";
+import RefModal from "../../modal/RefModalPages/RefModal";
+import ManageDeleteAllContainer from "../manageDeleteAllContainer";
 const { RefList } = StyledComponents;
 
 function ManageListContainer() {
@@ -26,7 +28,9 @@ function ManageListContainer() {
 
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
 
-  const [buttonColor, setButtonColor] = useState([0, 0]);
+  const [buttonColor, setButtonColor] = useState([false, false]);
+
+  const [isDelete, setIsDelete] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,10 +38,10 @@ function ManageListContainer() {
     setSelectedData(data);
     setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
     console.log("data ", data);
-    if (data.categoryName === "idea") {
-      navigate(`/${data.postId}`)
-    }
-    else navigate(`/ref/${data.categoryName}/${data.postId}`);
+  };
+
+  const handleProfileModal = (postId) => {
+    setSelectedPostId(postId);
   };
 
   useEffect(() => {
@@ -51,6 +55,12 @@ function ManageListContainer() {
     setTP((tp) => tp);
   }, [tp]);
 
+  /*
+  useEffect(() => {
+    setButtonColor((bt) => buttonColor);
+    console.log(buttonColor);
+  }, [buttonColor]);
+*/
   const onChangeCategory = (category) => {
     setCategoryName(category);
     if (category === "all") setCheckIdx([1, 0, 0, 0, 0, 0]);
@@ -115,15 +125,6 @@ function ManageListContainer() {
     navigate("/manage/share");
   };
 
-  const onClickSelectButton = (value) => {
-    if (value.detail === 0) {
-      setButtonColor((buttonColor[0] === 0 ? 1 : 0, buttonColor[1]));
-    }
-    if (value.detail === 1) {
-      setButtonColor((buttonColor[0], buttonColor[1] === 0 ? 1 : 0));
-    }
-    console.log(value);
-  };
   return (
     <S.ManageListContainer>
       <S.ManageTextBox>
@@ -186,27 +187,35 @@ function ManageListContainer() {
           ) : (
             <>
               {/* 선택 글 삭제 */}
-                <S.SelectBox>
-                  총 {toar}개
-                  <S.SelectButton
-                    onClick={onClickSelectButton}
-                    state={buttonColor[0]}
-                    value={0}
-                  >
-                    내 작품 전체 삭제
-                  </S.SelectButton>
-                  <S.SelectButton
-                    onClick={onClickSelectButton}
-                    state={buttonColor[1]}
-                    value={1}
-                  >
-                    삭제할 작품 선택
-                  </S.SelectButton>
-                </S.SelectBox>
-                {/* 정렬순 */}
-                <S.SortBox>
-                  <Dropdown setFilter={setFilter} filter={filter} setSortOption={setSortOption} />
-                </S.SortBox>
+              <S.SelectBox>
+                총 {toar}개
+                <S.SelectButton
+                  onClick={() => {
+                    setButtonColor([ !buttonColor[0], buttonColor[1]]);
+                    //setIsDelete(!isDelete);
+                  }}
+                  checked={buttonColor[0]}
+                >
+                  내 작품 전체 삭제
+                </S.SelectButton>
+                <S.SelectButton
+                  onClick={() => {
+                    setButtonColor([buttonColor[0],!buttonColor[1]]);
+                    setIsDelete(!isDelete);
+                  }}
+                  checked={buttonColor[1]}
+                >
+                  삭제할 작품 선택
+                </S.SelectButton>
+              </S.SelectBox>
+              {/* 정렬순 */}
+              <S.SortBox>
+                <Dropdown
+                  setFilter={setFilter}
+                  filter={filter}
+                  setSortOption={setSortOption}
+                />
+              </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
 
               <RefList>
@@ -216,6 +225,8 @@ function ManageListContainer() {
                     key={reference.postId}
                     selectedPostId={selectedPostId}
                     onSelectedData={handleSelectData}
+                    onProfileModal={handleProfileModal}
+                    isDeletedData={isDelete}
                   />
                 ))}
               </RefList>
@@ -235,6 +246,16 @@ function ManageListContainer() {
         </S.ManageListBox>
         {/*} )*/}
       </>
+      {selectedData && isRefModal !== "" && (
+        <RefModal
+          id2={selectedData.postId}
+          setData={selectedData}
+          setModalVisibleId2={setIsRefModal}
+        />
+      )}
+      {buttonColor[0] && 
+        (<ManageDeleteAllContainer setButtonColor={setButtonColor} buttonColor={buttonColor} />)
+      }
     </S.ManageListContainer>
   );
 }

@@ -20,7 +20,7 @@ const ManageNameText = styled.span`
 `;
 
 const Category = styled.div`
-  width: 200px; //183.09px;
+  width: 200px;
   height: 44px;
   border: 1px solid ${(props) => (props.checked ? "black" : "#CECECE")}; // #cecece;
   border-radius: 10px;
@@ -36,7 +36,7 @@ const Category = styled.div`
     margin-right: 0px;
   }
   :hover {
-    background-color: ${(props) => (props.checked ? "#FADA5E" : "#f0f0f0")};
+    background-color: ${(props) => (props.checked ? "#DFB71C" : "#f0f0f0")};
   }
 `;
 
@@ -45,11 +45,10 @@ const CategoryText = styled.span`
 `;
 
 const ManageListBox = styled.div`
-  margin-top:30px;
+  margin: 30px 0px;
 `
 
 const SelectBox = styled.div`
-margin-left: -19px;
   float:left;
 `
 const SelectButton = styled.button`
@@ -57,11 +56,11 @@ const SelectButton = styled.button`
   height: 24px;
   font-size: 12px;
   color: #464646;
-  background-color: ${(props) => (props.state ? "#fada5e" : "white")};
+  background-color: ${(props) => (props.checked ? "#fada5e" : "white")};
   box-shadow: none;
-  border-radius: 10px;
+  border-radius: 8px;
   border: ${(props) =>
-    props.state ? "1px solid #727272" : "1px solid #e1e2e5"};
+    props.checked ? "1px solid #727272" : "1px solid #e1e2e5"};
   margin-right: 7px;
   font-weight: 500;
   white-space: nowrap;
@@ -115,7 +114,7 @@ const Button = styled.button`
 `;
 
 const ButtonRegister = styled.button`
-  width: 320px;
+  width: 175px;
   height: 54px;
   margin-top: 58px;
   font-size: 16px;
