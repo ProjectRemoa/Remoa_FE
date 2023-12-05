@@ -79,15 +79,18 @@ const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   background-color: ${(props) => (props.checked ? "#FADA5E" : "white")};
   color: #464646;
   font-weight: ${(props) => (props.checked ? "600" : "500")};
   border-radius: 10px;
   font-size: 16px;
-  margin-right: 18.5px;//13px;
+  margin-right: 18.5px; //13px;
   :last-child {
     margin-right: 0px;
+  }
+  :hover {
+    background-color: ${(props) => (props.checked ? "#DFB71C" : "lightgray")};
   }
 `;
 

@@ -1,9 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import styled from "styled-components";
 import S from './ManageShareContainer.styles'
-import Loading from "../../../styles/Loading";
 
 /* byte 수 세는 알고리즘 */
 function getByteLength(s, b, i, c) {
@@ -203,14 +201,8 @@ function ManageShareContainer({ match }) {
         setButtonColor(false);
       }
     }
-  }, [name, comp,  category, uploads, thumbnail, youtubeLink]);
-/*
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-  }, [loading])*/
-  /* 등록하기 */
+  }, [name, comp, category, uploads, thumbnail, youtubeLink]);
+  
   const onClickRegister = () => {
     //setLoading(true);
     const formdata = new FormData();
