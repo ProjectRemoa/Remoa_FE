@@ -345,7 +345,7 @@ function ManageShareContainer({ match }) {
             <tr>
               <th>표지사진</th>
               <td>
-                <S.ThumbailWrapper onClick={onClickUpload_} style={{}}>
+                <S.ThumbailWrapper onClick={onClickUpload_}>
                   {thumbnail === null ? (
                     <S.ThumbnailText>
                       목록에 노출될 표시 사진을 업로드해주세요

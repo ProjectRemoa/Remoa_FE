@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-//import "./ManageShareContainer.module.css";
 
 const ManageShareContainer = styled.div`
   margin-top: 118px;
@@ -111,6 +110,7 @@ const FileContainer = styled.div`
   padding: 10px 0px 0px 16px;
   line-height: 24px;
   font-size: 16px;
+  font-family: Pretendard-Regular;
   font-weight: 500;
 `;
 
@@ -128,7 +128,10 @@ const Button = styled.button`
   box-shadow: none;
   margin-top: 60px;
   white-space: nowrap;
-`
+  :hover {
+    ${(props) => (props.state && "#DFB71C")};
+  }
+`;
 
 const ThumbailWrapper = styled.div`
   width: 100%;
@@ -142,6 +145,7 @@ const ThumbailWrapper = styled.div`
 
 const ThumbnailText = styled.div`
   font-weight: 500;
+  font-family: Pretendard-Regular;
   font-size: 16px;
   color: #b0b0b0;
   padding-left: 16px;
