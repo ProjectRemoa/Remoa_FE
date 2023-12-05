@@ -11,13 +11,16 @@ const Button = styled.button`
   color: #464646;
   font-weight: 600;
   font-size: 15px;
-  border: 1px solid #464646;
+  border: 1px solid #464234;
   box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.13);
   border-radius: 50px;
   &:nth-child(2) {
     margin-left: 5px;
   }
-`
+  :hover {
+    background-color: lightgray;
+  }
+`;
 
 const S = {
   Container,
