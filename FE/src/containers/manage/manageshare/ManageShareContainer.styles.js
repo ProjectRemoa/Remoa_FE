@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-//import "./ManageShareContainer.module.css";
 
 const ManageShareContainer = styled.div`
   margin-top: 118px;
@@ -79,15 +78,18 @@ const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   background-color: ${(props) => (props.checked ? "#FADA5E" : "white")};
   color: #464646;
   font-weight: ${(props) => (props.checked ? "600" : "500")};
   border-radius: 10px;
   font-size: 16px;
-  margin-right: 18.5px;//13px;
+  margin-right: 18.5px; //13px;
   :last-child {
     margin-right: 0px;
+  }
+  :hover {
+    background-color: ${(props) => (props.checked ? "#DFB71C" : "lightgray")};
   }
 `;
 
@@ -108,6 +110,7 @@ const FileContainer = styled.div`
   padding: 10px 0px 0px 16px;
   line-height: 24px;
   font-size: 16px;
+  font-family: Pretendard-Regular;
   font-weight: 500;
 `;
 
@@ -125,7 +128,10 @@ const Button = styled.button`
   box-shadow: none;
   margin-top: 60px;
   white-space: nowrap;
-`
+  :hover {
+    ${(props) => (props.state && "#DFB71C")};
+  }
+`;
 
 const ThumbailWrapper = styled.div`
   width: 100%;
@@ -139,6 +145,7 @@ const ThumbailWrapper = styled.div`
 
 const ThumbnailText = styled.div`
   font-weight: 500;
+  font-family: Pretendard-Regular;
   font-size: 16px;
   color: #b0b0b0;
   padding-left: 16px;

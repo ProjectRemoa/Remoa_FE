@@ -69,11 +69,10 @@ const SelectButton = styled.button`
   :first-child {
     margin-left: 19px;
   }
-  /*
-  display: flex;
-  justify-content: center;
-  align-items:center;
-*/
+
+  :hover {
+    background-color: ${(props) => (props.checked ? "#DFB71C" : "lightgray")};
+  }
 `;
 
 const SortBox = styled.div`
@@ -125,6 +124,9 @@ const ButtonRegister = styled.button`
   cursor: pointer;
   background: #fada5e;
   font-weight: 600;
+  :hover {
+    background-color: #dfb71c;
+  }
 `;
 
 const Line = styled.hr`

@@ -1,10 +1,14 @@
 import React from 'react'
-import { filterOptions } from '../../../containers/reference/constants'
 import S from "./Dropdown.styles"
 import arrow from "../../../images/arrow.svg";
 import { useState } from 'react';
 
-function Dropdown(props) {
+function Dropdown({
+  filter,
+  setFilter,
+  setSortOption,
+  filterOptions,
+}) {
   /**
    * filter : filterOptions의 value 값
    * setFilter : filter값 변경
@@ -19,16 +23,16 @@ function Dropdown(props) {
   
   return (
     <S.DropdownContainer onClick={onClickDropdown}>
-      <S.CurrentFilter>{props.filter}</S.CurrentFilter>
+      <S.CurrentFilter>{filter}</S.CurrentFilter>
       <S.BottomArrow src={arrow} alt="arrow" />
       {showDropdown && (
         <S.DropDownPosition>
           {filterOptions.map((option, index) => (
             <S.DropdownItem onClick={() => {
-              props.setFilter(option.value);
-              props.setSortOption(option.key);
+              setFilter(option.value);
+              setSortOption(option.key);
             }}
-              style={{ fontWeight: option.value === props.filter && '700', color: option.value === props.filter && 'black' }}>
+              style={{ fontWeight: option.value === filter && '700', color: option.value === filter && 'black' }}>
               {option.value}
             </S.DropdownItem>
           ))}

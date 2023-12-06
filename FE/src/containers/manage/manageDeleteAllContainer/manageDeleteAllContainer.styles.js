@@ -1,12 +1,23 @@
 import styled from "styled-components";
 
+const ModalWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 
+  z-index: 3;
+  cursor: default;
+`;
 const ManageDeleteAllContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
-  z-index: 15;
+  z-index: 4;
   width: 426px;
   height: 260px;
   background-color: white;
@@ -33,7 +44,6 @@ const Text = styled.div`
   font-size: 22px;
   font-weight: 700;
   color: #1e1e1e;
-  //margin-bottom: 12px;
 `;
 
 const SubText = styled.div`
@@ -72,6 +82,7 @@ const Button = styled.div`
   }
 `;
 const S = {
+  ModalWrapper,
   ManageDeleteAllContainer,
   CancelWrapper,
   Text,

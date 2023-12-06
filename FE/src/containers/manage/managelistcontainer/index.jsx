@@ -55,12 +55,11 @@ function ManageListContainer() {
     setTP((tp) => tp);
   }, [tp]);
 
-  /*
+  
   useEffect(() => {
-    setButtonColor((bt) => buttonColor);
     console.log(buttonColor);
   }, [buttonColor]);
-*/
+
   const onChangeCategory = (category) => {
     setCategoryName(category);
     if (category === "all") setCheckIdx([1, 0, 0, 0, 0, 0]);
@@ -191,8 +190,8 @@ function ManageListContainer() {
                 총 {toar}개
                 <S.SelectButton
                   onClick={() => {
-                    setButtonColor([ !buttonColor[0], buttonColor[1]]);
-                    //setIsDelete(!isDelete);
+                    setButtonColor([!buttonColor[0], false]);
+                    setIsDelete(false);
                   }}
                   checked={buttonColor[0]}
                 >
@@ -200,7 +199,7 @@ function ManageListContainer() {
                 </S.SelectButton>
                 <S.SelectButton
                   onClick={() => {
-                    setButtonColor([buttonColor[0],!buttonColor[1]]);
+                    setButtonColor([false,!buttonColor[1]]);
                     setIsDelete(!isDelete);
                   }}
                   checked={buttonColor[1]}
@@ -214,6 +213,7 @@ function ManageListContainer() {
                   setFilter={setFilter}
                   filter={filter}
                   setSortOption={setSortOption}
+                  filterOptions={filterOptions}
                 />
               </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
