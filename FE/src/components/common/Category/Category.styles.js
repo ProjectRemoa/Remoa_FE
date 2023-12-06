@@ -5,11 +5,9 @@ const CategoryList = styled.ul`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 1242px;
   box-sizing: border-box;
   margin-top: 43px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0;
   gap: 0 26px;
 
   // TODO : reset.css
@@ -22,15 +20,15 @@ const CategoryItem = styled.li`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 184px;
-  height: 42px;
-
-  font-family: 'Noto Sans KR';
+  width: 100%;
+  min-width: 200px;
+  height: 44px;
+  font-family: Pretendard;
   font-weight: 400;
   font-size: 15px;
   list-style: none;
-  color: #b0b0b0;
-
+  color: #464234;
+  font-weight: 600;
   cursor: pointer;
 
   a {
@@ -39,20 +37,19 @@ const CategoryItem = styled.li`
     justify-content: center;
     width: 100%;
     height: 100%;
-    border: 1px solid #b0b0b0;
+    border: 1px solid #cecece;
     border-radius: 10px;
     text-decoration: none;
+    &:hover {
+      background-color: #cecece;
+    }
 
     &.active,
     &:active {
       background-color: #fada5e;
-      color: #fff;
-      font-weight: 700;
+      color: #464234;
+      border: 1px solid #464234;
     }
-  }
-
-  &.active {
-    color: #fada5e;
   }
 `;
 
