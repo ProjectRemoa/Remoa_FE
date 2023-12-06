@@ -1,8 +1,9 @@
+import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 
 const RefListWrapper = styled.div`
   width: 86vw;
-  margin: 94px auto 0;
+  margin: 28px auto 0;
   display: flex;
   flex-direction: column;
   padding-bottom: 160px;
@@ -10,26 +11,33 @@ const RefListWrapper = styled.div`
 
 const RefListHeader = styled.div`
   display: flex;
-  align-items: space-between;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #b0b0b0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e7e7e7;
 `;
 
 const RefListHeading = styled.div`
   display: flex;
+  align-items: center;
   width: 86vw;
 
   // TODO : reset.css
-  font-family: 'Noto Sans KR';
+  font-family: Pretendard;
   font-style: normal;
-  font-weight: 700;
-  font-size: 21px;
-  line-height: 30px;
+  font-weight: 600;
+  font-size: 22px;
 
   span {
-    max-width: 20ch;
-    color: #fada5e;
+    display: inline-block;
+    max-width: 28ch;
+    height: 34px;
+    line-height: 34px;
+    margin-right: 6px;
+    background-color: #fada5e;
+    border-radius: 8px;
+    padding: 0 8px;
     white-space: nowrap;
+    font-weight: 700;
+    font-size: 18px;
     text-overflow: ellipsis;
     overflow: hidden;
   }
@@ -39,6 +47,17 @@ const RefListHeading = styled.div`
     justify-content: center;
   }
   @media ${(props) => props.theme.mobile} {
+    font-size: 15px;
+  }
+`;
+
+const RefListFunctionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22px;
+  margin-bottom: 15px;
+  .count {
     font-size: 15px;
   }
 `;
@@ -76,27 +95,6 @@ const RefList = styled.div`
   margin-top: 20px;
 `;
 
-const LoadMoreButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 178px;
-  height: 38px;
-  margin: 48px auto 0;
-  border-radius: 10px;
-  border: 1px solid #b0b0b0;
-  background-color: #fada5e;
-  color: #464646;
-  font-weight: 700;
-  box-shadow: none;
-
-  svg {
-    width: 15px;
-    height: 15px;
-  }
-`;
-
 const NoResultWrapper = styled.div`
   display: flex;
   width: 100%;
@@ -104,15 +102,27 @@ const NoResultWrapper = styled.div`
   align-items: center;
 
   button {
+    // TODO : reset.css 이후 삭제
+    box-shadow: none;
+    border: 0;
+    outline: 0;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    max-width: 446px;
-    height: 68px;
-    margin-top: 72px;
-    font-size: 20px;
-    font-weight: 700;
+    width: 100%;
+    max-width: 175px;
+    height: 48px;
+    background-color: #fada5e;
+    border-radius: 50px;
+    margin-top: 46px;
+    font-size: 16px;
+    font-weight: 600;
     color: #010101;
+
+    &:hover {
+      background-color: #dfb71c;
+    }
   }
 `;
 
@@ -131,10 +141,10 @@ const StyledComponents = {
   RefListWrapper,
   RefListHeader,
   RefListHeading,
+  RefListFunctionWrapper,
   RefFilter,
   FilterButton,
   RefList,
-  LoadMoreButton,
   NoResultWrapper,
   NoResultText,
 };
