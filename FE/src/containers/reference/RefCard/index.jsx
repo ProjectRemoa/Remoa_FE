@@ -1,14 +1,16 @@
-import { GoEye, GoStarFill } from "react-icons/go";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart } from 'react-icons/fa';
 
-import StyledComponents from "./RefCard.styles";
-import { useEffect, useState } from "react";
+import StyledComponents from './RefCard.styles';
+import { useEffect, useState } from 'react';
 
-import RefModalFollow from "../../modal/RefModalFollow";
-import { useParams } from "react-router-dom";
+import RefModalFollow from '../../modal/RefModalFollow';
+import { useParams } from 'react-router-dom';
 
-import BeforeChecked  from "../../../images/before_checked.svg";
-import AfterChecked from "../../../images/after_checked.svg";
+import { TbEyeFilled } from 'react-icons/tb';
+import { BsFillBookmarkFill } from 'react-icons/bs';
+
+import BeforeChecked from '../../../images/before_checked.svg';
+import AfterChecked from '../../../images/after_checked.svg';
 
 const {
   RefCardWrapper,
@@ -31,7 +33,7 @@ function RefCard({
   selectedPostId,
   onProfileModal,
   location,
-  isDeletedData
+  isDeletedData,
 }) {
   const {
     likeCount,
@@ -57,23 +59,22 @@ function RefCard({
   const handleProfileModal = () => {
     if (window.location.href.includes('manage') === true) {
       // 작업물 관리에서는 프로필 띄우지 않음
-    }
-    else {
-     if (postId === selectedPostId) {
-       // 같은 카드의 프로필을 클릭하면 프로필 모달 토글
-       setIsProfileModalOpen(!isProfileModalOpen);
-     } else {
-       // 다른 카드의 프로필을 클릭하면 프로필 모달을 열고 선택된 포스트 아이디를 업데이트
-       setIsProfileModalOpen(true);
-       onProfileModal(postId);
-     }   
+    } else {
+      if (postId === selectedPostId) {
+        // 같은 카드의 프로필을 클릭하면 프로필 모달 토글
+        setIsProfileModalOpen(!isProfileModalOpen);
+      } else {
+        // 다른 카드의 프로필을 클릭하면 프로필 모달을 열고 선택된 포스트 아이디를 업데이트
+        setIsProfileModalOpen(true);
+        onProfileModal(postId);
+      }
     }
   };
 
   const [isSelected, setIsSelected] = useState(false);
   const handleDeletedData = () => {
     setIsSelected(!isSelected);
-  }
+  };
 
   return (
     <RefCardWrapper>
@@ -108,7 +109,7 @@ function RefCard({
             handleProfileModal();
           }}
         >
-          <img src={postMember.profileImage} alt="profile image" />
+          <img src={postMember.profileImage} alt="profile" />
         </RefCardProfileImg>
 
         {/*  사용자 정보 */}
@@ -126,17 +127,17 @@ function RefCard({
               <>
                 {/* 조회수 */}
                 <RefCardFunctionIcon>
-                  <GoEye className="views" /> {formatCount(views)}
+                  <TbEyeFilled className="views" /> {formatCount(views)}
                 </RefCardFunctionIcon>
 
                 {/* 좋아요 */}
                 <RefCardFunctionIcon>
-                  <FaHeart className="likes" /> {formatCount(likeCount)}
+                  <FaHeart /> {formatCount(likeCount)}
                 </RefCardFunctionIcon>
 
                 {/* 스크랩 */}
                 <RefCardFunctionIcon>
-                  <GoStarFill className="scrap" /> {formatCount(scrapCount)}
+                  <BsFillBookmarkFill /> {formatCount(scrapCount)}
                 </RefCardFunctionIcon>
               </>
             ) : (
