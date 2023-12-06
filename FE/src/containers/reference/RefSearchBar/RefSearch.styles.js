@@ -5,7 +5,7 @@ const SearchDiv = styled.div`
   flex-direction: column;
   align-items: center;
   width: 86vw;
-  margin: 0 auto;
+  margin: 68px auto 0;
 `;
 
 const Title = styled.div`
@@ -14,26 +14,40 @@ const Title = styled.div`
   width: fit-content;
   font-family: 'Noto Sans KR';
   font-weight: 500;
-  font-size: 18px;
+  font-size: 44px;
 `;
 
 const SearchBar = styled.div`
   display: flex;
+  align-items: center;
   gap: 0 4px;
-  width: 469px;
-  height: 39px;
-  margin-top: 14px;
+  width: 100%;
+  max-width: 692px;
+  height: 58px;
+  margin-top: 28px;
+  padding: 17px 30px 17px 32px;
+  border-radius: 40px;
+  border: 2px solid #464646;
+  box-sizing: border-box;
 `;
 
 const SearchInput = styled.input`
-  width: 384px;
-  height: 39px;
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
   background: #ffffff;
-  border: 1px solid #b0b0b0;
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
-  padding-left: 20px;
+  font-size: 16px;
+
+  // (index.css) reset.css 추가할 내용
+  border: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+
+  &::placeholder {
+    font-size: 16px;
+  }
 `;
 
 const SearchButton = styled.button`
@@ -57,14 +71,13 @@ const SearchButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 54px;
-  height: 39px;
-  background: #fada5e;
-  border: 1px solid #fada5e;
-
-  border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px;
   cursor: pointer;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: #a7a7a7;
+  }
 `;
 
 const StyledComponents = {
