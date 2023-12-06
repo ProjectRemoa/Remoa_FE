@@ -258,7 +258,7 @@ function ManageShareContainer({ match }) {
 
   return (
     <S.ManageShareContainer>
-      {/*loading && <Loading/>*/}
+      {/* loading && <Loading/> */}
       <S.ManageShareBox>
         <S.ManageShareTable>
           <tbody>
