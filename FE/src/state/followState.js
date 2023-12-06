@@ -9,3 +9,4 @@ export const followStateLoading = atom({
   key: 'followStateLoading',
   default: false,
 });
+

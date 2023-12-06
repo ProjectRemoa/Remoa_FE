@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import S from './ManageShareContainer.styles'
+import { useRecoilState } from "recoil";
+import { editState } from "../../../state/editState";
 
 /* byte 수 세는 알고리즘 */
 function getByteLength(s, b, i, c) {
@@ -21,6 +23,7 @@ function ManageShareContainer({ match }) {
   //const [loading, setLoading] = useState(false);
 
   const [buttonColor, setButtonColor] = useState(false);
+  const [isEdit, setIsEdit] = useRecoilState(editState)
 
   const navigate = useNavigate();
 
@@ -425,7 +428,7 @@ function ManageShareContainer({ match }) {
         state={buttonColor}
         onClick={onClickRegister}
       >
-        등록하기
+        {isEdit?"수정하기":"등록하기"}
       </S.Button>
     </S.ManageShareContainer>
   );
