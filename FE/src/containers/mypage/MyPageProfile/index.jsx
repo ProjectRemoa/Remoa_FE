@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useState, useEffect, useRef } from "react";
 import MyPageUniversityModal from "../MyPageUniversityModal";
 import styledComponent from "./MyPageProfile.styles";
 const {
@@ -32,7 +32,6 @@ function MyPageProfile() {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [idCheckMessage, setIdCheckMessage] = useState("");
   const [idCheckColor, setIdCheckColor] = useState("");
-  const [introNickname, setIntroNickname] = useState("");
   const [editMessage, setEditMessage] = useState("");
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
@@ -50,7 +49,6 @@ function MyPageProfile() {
       const res = await axios.get("/BE/user", { withCredentials: true });
       if (res.status === 200) {
         setUserData(res.data.data);
-        setIntroNickname(res.data.data.nickname);
       }
     } catch (err) {
       console.log(err);
@@ -204,13 +202,16 @@ function MyPageProfile() {
     } catch (err) {
       console.log(err);
     }
+    sessionStorage.setItem("nickname", nickname);
   };
 
   return (
     <Wrapper>
       <ProfileImg src={profileImage} alt="preview-img" />
       <ProfileImgIntroWrapper>
-        <ProfileImgIntro>{introNickname}님</ProfileImgIntro>
+        <ProfileImgIntro>
+          {sessionStorage.getItem("nickname")}님
+        </ProfileImgIntro>
         <ProfileImgIntro>오늘은 어떤 공모전에 참여하시나요?</ProfileImgIntro>
       </ProfileImgIntroWrapper>
 
