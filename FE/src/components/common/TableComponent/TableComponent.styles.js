@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div`
+  width: 100%;
   &:nth-child(2) {
     margin: 68px 0 186px;
   }
