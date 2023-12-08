@@ -132,15 +132,9 @@ function ManageListContainer() {
     );
   };
 
-  const loadMoreItems = () => {
-    setCurrentPage(currentPage + 1);
-    let endpoint;
-    endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
-    getWork(endpoint);
-  };
-
   const onClickRegister = () => {
-    navigate("/manage/share");
+    if (isOtherUser) navigate(-1);
+    else navigate("/manage/share");
   };
 
   const onClickBack = () => {
@@ -152,10 +146,14 @@ function ManageListContainer() {
       <S.ManageTextBox state={isOtherUser}>
         {isOtherUser ? (
           <>
-            <img onClick={onClickBack} src={BACK} alt="back arrow" width={25} style={{position : "relative", top : "5px", cursor: "pointer"}} />
-            <S.ManageNameText>
-              {name}
-            </S.ManageNameText>
+            <img
+              onClick={onClickBack}
+              src={BACK}
+              alt="back arrow"
+              width={25}
+              style={{ position: "relative", top: "5px", cursor: "pointer" }}
+            />
+            <S.ManageNameText>{name}</S.ManageNameText>
             님의 작업물 목록
           </>
         ) : (
@@ -211,20 +209,30 @@ function ManageListContainer() {
         <S.ManageListBox>
           {!toar ? (
             <S.ManageListNo>
-              <S.NoManageText>{isOtherUser ? (<>아직 작업물이 없어요</>): (<>아직 작업물이 없어요 😪</>)}</S.NoManageText>
+              <S.NoManageText>
+                {isOtherUser ? (
+                  <>아직 작업물이 없어요</>
+                ) : (
+                  <>아직 작업물이 없어요 😪</>
+                )}
+              </S.NoManageText>
               <S.NoManageSubText>
-                {isOtherUser ? (<>아직 작업물을 업로드하지 않았어요</>) : (<>작업물을 업로드해 다른 사람들의 피드백을 받아보세요</>)}
+                {isOtherUser ? (
+                  <>아직 작업물을 업로드하지 않았어요</>
+                ) : (
+                  <>작업물을 업로드해 다른 사람들의 피드백을 받아보세요</>
+                )}
               </S.NoManageSubText>
               <S.ButtonRegister onClick={onClickRegister}>
-                {isOtherUser ? (<>이전 페이지로 돌아가기</>) : (<>등록하기</>)}
+                {isOtherUser ? <>이전 페이지로 돌아가기</> : <>등록하기</>}
               </S.ButtonRegister>
             </S.ManageListNo>
           ) : (
             <>
               {/* 선택 글 삭제 */}
               <S.SelectBox>
-                  총 {toar}개
-                  {!isOtherUser &&
+                총 {toar}개
+                {!isOtherUser && (
                   <>
                     <S.SelectButton
                       onClick={() => {
@@ -245,8 +253,7 @@ function ManageListContainer() {
                       삭제할 작품 선택
                     </S.SelectButton>
                   </>
-                  }
-  
+                )}
               </S.SelectBox>
               {/* 정렬순 */}
               <S.SortBox>
@@ -258,7 +265,6 @@ function ManageListContainer() {
                 />
               </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
-
               <RefList>
                 {mywork.map((reference, index) => (
                   <RefCard
@@ -271,21 +277,10 @@ function ManageListContainer() {
                   />
                 ))}
               </RefList>
-              <div
-                style={{
-                  margin: "0 auto",
-                }}
-              >
-                {currentPage !== tp && (
-                  <div style={{ width: "100%" }}>
-                    <S.Button onClick={loadMoreItems}>더 보기 &gt;</S.Button>
-                  </div>
-                )}
-              </div>
+              <S.MyPaginate previousLabel="<" nextLabel=">" pageCount={tp} onPageChange={(e)=>setPageNumber(e.selected+1)} />
             </>
           )}
         </S.ManageListBox>
-        {/*} )*/}
       </>
       {selectedData && isRefModal !== "" && (
         <RefModal

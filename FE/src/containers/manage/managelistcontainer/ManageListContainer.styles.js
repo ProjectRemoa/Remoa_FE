@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ReactPaginate from "react-paginate";
 
 const ManageListContainer = styled.div`
   width: 1270px;
@@ -45,7 +46,7 @@ const CategoryText = styled.span`
 `;
 
 const ManageListBox = styled.div`
-  margin: 30px 0px;
+  margin-top: 30px;
 `
 
 const SelectBox = styled.div`
@@ -99,7 +100,6 @@ const NoManageSubText = styled.p`
 const Button = styled.button`
   width: 320px;
   height: 54px;
-  //margin: 0 auto;
   margin-top: 58px;
   border-radius: 10px;
   border: 1px solid #b0b0b0;
@@ -112,7 +112,6 @@ const Button = styled.button`
 `;
 
 const ButtonRegister = styled.button`
-  //width: 175px;
   height: 54px;
   padding: 16px 60px;
   margin-top: 58px;
@@ -139,6 +138,38 @@ const CategoryBox = styled.div`
   display: flex;
 `
 
+const MyPaginate = styled(ReactPaginate)`
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin-top:119.25px;
+
+  li {
+    margin-right: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    color: #727272;
+    cursor: pointer;
+  }
+
+  li.previous,
+  li.next {
+    color: #000000;
+  }
+
+  li.selected a {
+    font-weight: 800;
+    font-size: 15px;
+    color: #1e1e1e;
+    cursor: default;
+  }
+
+  li.disabled {
+    cursor: default;
+  }
+`;
+
 
 const S = {
   ManageListContainer,
@@ -157,6 +188,7 @@ const S = {
   SortBox,
   SelectBox,
   SelectButton,
+  MyPaginate,
 };
 
 export default S;
