@@ -40,6 +40,7 @@ const ManageShareTable = styled.table`
     float: left;
     width: 618px;
     height: 44px;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     color: black;
     border: 1px solid #e1e2e5;
