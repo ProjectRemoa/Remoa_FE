@@ -5,7 +5,7 @@ import { AiOutlineLeft } from 'react-icons/ai'
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { getDate } from '../../../../functions/getDate';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import RefModalComment from '../RefModalComment';
 import { AiTwotoneEye } from 'react-icons/ai'
 import { AiFillHeart } from 'react-icons/ai'
@@ -201,9 +201,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   // 모달 닫으면 보이는 페이지 설정하기 !
   let Lo = window.location.href;
+  const location = useLocation();
 
   const onCloseHandler2 = () => {
-
     if (Lo.includes('marketing')) {
       Navigate('/ref/marketing');
     } else if (Lo.includes('video')) {
@@ -218,7 +218,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       Navigate('/mypage/scrap');
     } else if (Lo.includes('/mypage/work')) {
       Navigate('/mypage/work');
-    } else {
+    } else if (Lo.includes('/user/list')) {      
+      const pathSegments = location.pathname.split("/");
+      const param = pathSegments[pathSegments.length - 1];
+      Navigate("/user/list/" + param);
+    }
+    else {
       Navigate('/');
     }
     setModalVisibleId2('');
