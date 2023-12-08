@@ -113,8 +113,9 @@ const Button = styled.button`
 `;
 
 const ButtonRegister = styled.button`
-  width: 175px;
+  //width: 175px;
   height: 54px;
+  padding: 16px 60px;
   margin-top: 58px;
   font-size: 16px;
   border: none;

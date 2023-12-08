@@ -11,8 +11,7 @@ function getByteLength(s, b, i, c) {
   return b;
 }
 
-function ManageShareContainer({ match }) {
-  const id = useParams(); // postId 가져옴
+function ManageShareContainer() {
   const [name, setName] = useState("");
   const [comp, setComp] = useState("");
   const [thumbnail, setThumbnail] = useState(null);

@@ -1,43 +1,6 @@
 import { React, useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-//import ManageList from "./managelist"
 import { useNavigate, useParams } from "react-router";
-import styled from "styled-components";
-import { Style } from "../../layout/ReferenceListStyle";
-
-const Button = styled.button`
-  width: 12%;
-  height: 40px;
-  margin: 0 auto;
-  border-radius: 10px;
-  border: 1px solid #b0b0b0;
-  box-shadow: none;
-  color: #464646;
-  font-size: 78%;
-
-  cursor: pointer;
-  background: #fada5e;
-  font-family: NotoSansKR-700;
-`;
-
-const Line = styled.hr`
-  width: 90%;
-  border: none;
-  margin: 0 auto;
-`;
-
-const Category = styled.div`
-  width: 15.65%;
-  height: 43px;
-  border: 1px solid #b0b0b0;
-  border-radius: 10px;
-  display: inline-block;
-
-  margin: 0 0.4% 0 0.4%; // 크기에 따라 margin 조절되게 설정
-  vertical-align: middle;
-  font-size: 80%;
-  cursor: pointer;
-`;
 
 function OtherManageListConatiner({ match }) {
   // match ; params
@@ -108,7 +71,7 @@ function OtherManageListConatiner({ match }) {
   };
 
   return (
-    <div className="ManageListContainer">
+    <div >
       <div
         align="left"
         style={{
@@ -119,45 +82,6 @@ function OtherManageListConatiner({ match }) {
       >
         <span style={{ color: "#FADA5E" }}>{name}</span>
         님의 작업물 목록
-      </div>
-
-      <div>
-        {!totalOfAllReferences ? (
-          <div style={{ marginTop: "50px" }}>
-            <span
-              style={{
-                fontSize: "1.75vw",
-                color: "#464646",
-                fontFamily: "NotoSansKR-700",
-              }}
-            >
-              아직 작업물이 없어요
-            </span>
-          </div>
-        ) : (
-          <div>
-              <Line />
-              {/*
-            <ManageList
-              data={mywork}
-              TAR={totalOfAllReferences}
-              TPE={totalOfPageElements}
-              TP={totalPages}
-        />*/}
-            <div
-              style={{
-                margin: "0 auto",
-              }}
-            >
-              <Line />
-              {currentPage !== totalPages && (
-                <div style={{ width: "100%" }}>
-                  <Button onClick={loadMoreItems}>더 보기 &gt;</Button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

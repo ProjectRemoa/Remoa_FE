@@ -8,6 +8,9 @@ import Dropdown from "../../../components/common/Dropdown";
 import RefCard from "../../reference/RefCard";
 import RefModal from "../../modal/RefModalPages/RefModal";
 import ManageDeleteAllContainer from "../manageDeleteAllContainer";
+import { useLocation } from "react-router";
+import BACK from "../../../images/back.svg"
+
 const { RefList } = StyledComponents;
 
 function ManageListContainer() {
@@ -31,8 +34,12 @@ function ManageListContainer() {
   const [buttonColor, setButtonColor] = useState([false, false]);
 
   const [isDelete, setIsDelete] = useState(false);
+  const [isOtherUser, setIsOtherUser] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [name, setName] = useState();
 
   const handleSelectData = (data) => {
     setSelectedData(data);
@@ -47,13 +54,21 @@ function ManageListContainer() {
   useEffect(() => {
     // 카테고리, 정렬을 바꿀 떄마다 렌더링
     let endpoint;
-    endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    const pathSegments = location.pathname.split('/');
+    const param = pathSegments[pathSegments.length - 1];
+    console.log(param);
+    if (window.location.href.includes("user/list")) {
+      setIsOtherUser(true);
+      // 다른 사람의 작업물
+      endpoint = `/BE/user/reference/${param}/?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    }
+    else {
+      setIsOtherUser(false)
+      endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
+    }
     getWork(endpoint);
   }, [categoryName, sortOption]);
 
-  useEffect(() => {
-    setTP((tp) => tp);
-  }, [tp]);
 
   
   useEffect(() => {
@@ -97,6 +112,10 @@ function ManageListContainer() {
         setTOAR(totalOfAllReferences);
         setTOPE(totalOfPageElements);
         setTP(totalPages);
+
+        if (references.length > 0) {
+          setName(references[0].postMember.nickname);
+        }
       } catch (err) {
         console.log(err);
         return err;
@@ -124,14 +143,31 @@ function ManageListContainer() {
     navigate("/manage/share");
   };
 
+  const onClickBack = () => {
+    navigate(-1)
+  }
+
   return (
     <S.ManageListContainer>
       <S.ManageTextBox>
-        <S.ManageNameText>
-          {sessionStorage.getItem("nickname")}
-        </S.ManageNameText>
-        님의 내 작업물 목록
+        {isOtherUser ? (
+          <>
+            <img onClick={onClickBack} src={BACK} alt="back arrow" width={25} style={{position : "relative", top : "5px"}} />
+            <S.ManageNameText>
+              {name}
+            </S.ManageNameText>
+            님의 작업물 목록
+          </>
+        ) : (
+          <>
+            <S.ManageNameText>
+              {sessionStorage.getItem("nickname")}
+            </S.ManageNameText>
+            님의 내 작업물 목록
+          </>
+        )}
       </S.ManageTextBox>
+
       <S.CategoryBox>
         <S.Category
           onClick={() => onChangeCategory("all")}
@@ -175,37 +211,42 @@ function ManageListContainer() {
         <S.ManageListBox>
           {!toar ? (
             <S.ManageListNo>
-              <S.NoManageText>아직 작업물이 없어요 😪</S.NoManageText>
+              <S.NoManageText>{isOtherUser ? (<>아직 작업물이 없어요</>): (<>아직 작업물이 없어요 😪</>)}</S.NoManageText>
               <S.NoManageSubText>
-                작업물을 업로드해 다른 사람들의 피드백을 받아보세요
+                {isOtherUser ? (<>아직 작업물을 업로드하지 않았어요</>) : (<>작업물을 업로드해 다른 사람들의 피드백을 받아보세요</>)}
               </S.NoManageSubText>
               <S.ButtonRegister onClick={onClickRegister}>
-                등록하기
+                {isOtherUser ? (<>이전 페이지로 돌아가기</>) : (<>등록하기</>)}
               </S.ButtonRegister>
             </S.ManageListNo>
           ) : (
             <>
               {/* 선택 글 삭제 */}
               <S.SelectBox>
-                총 {toar}개
-                <S.SelectButton
-                  onClick={() => {
-                    setButtonColor([!buttonColor[0], false]);
-                    setIsDelete(false);
-                  }}
-                  checked={buttonColor[0]}
-                >
-                  내 작품 전체 삭제
-                </S.SelectButton>
-                <S.SelectButton
-                  onClick={() => {
-                    setButtonColor([false,!buttonColor[1]]);
-                    setIsDelete(!isDelete);
-                  }}
-                  checked={buttonColor[1]}
-                >
-                  삭제할 작품 선택
-                </S.SelectButton>
+                  총 {toar}개
+                  {!isOtherUser &&
+                  <>
+                    <S.SelectButton
+                      onClick={() => {
+                        setButtonColor([!buttonColor[0], false]);
+                        setIsDelete(false);
+                      }}
+                      checked={buttonColor[0]}
+                    >
+                      내 작품 전체 삭제
+                    </S.SelectButton>
+                    <S.SelectButton
+                      onClick={() => {
+                        setButtonColor([false, !buttonColor[1]]);
+                        setIsDelete(!isDelete);
+                      }}
+                      checked={buttonColor[1]}
+                    >
+                      삭제할 작품 선택
+                    </S.SelectButton>
+                  </>
+                  }
+  
               </S.SelectBox>
               {/* 정렬순 */}
               <S.SortBox>
@@ -253,9 +294,12 @@ function ManageListContainer() {
           setModalVisibleId2={setIsRefModal}
         />
       )}
-      {buttonColor[0] && 
-        (<ManageDeleteAllContainer setButtonColor={setButtonColor} buttonColor={buttonColor} />)
-      }
+      {buttonColor[0] && (
+        <ManageDeleteAllContainer
+          setButtonColor={setButtonColor}
+          buttonColor={buttonColor}
+        />
+      )}
     </S.ManageListContainer>
   );
 }
