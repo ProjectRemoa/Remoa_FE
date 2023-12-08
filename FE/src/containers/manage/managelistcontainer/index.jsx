@@ -149,10 +149,10 @@ function ManageListContainer() {
 
   return (
     <S.ManageListContainer>
-      <S.ManageTextBox>
+      <S.ManageTextBox state={isOtherUser}>
         {isOtherUser ? (
           <>
-            <img onClick={onClickBack} src={BACK} alt="back arrow" width={25} style={{position : "relative", top : "5px"}} />
+            <img onClick={onClickBack} src={BACK} alt="back arrow" width={25} style={{position : "relative", top : "5px", cursor: "pointer"}} />
             <S.ManageNameText>
               {name}
             </S.ManageNameText>

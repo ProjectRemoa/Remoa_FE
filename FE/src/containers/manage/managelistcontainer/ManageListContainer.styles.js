@@ -8,8 +8,8 @@ const ManageListContainer = styled.div`
 const ManageTextBox = styled.div`
   font-size: 24px;
   text-align: left;
-  margin-top: 72px;
-  margin-bottom: 15px;
+  margin-top: ${(props) => (!props.state && "72px")};
+  margin-bottom: ${(props) => (props.state ? "40px" : "15px")};
   font-weight: 700;
   color: #1e1e1e;
 `;
