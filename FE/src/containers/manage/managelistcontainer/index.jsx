@@ -60,14 +60,15 @@ function ManageListContainer() {
     if (window.location.href.includes("user/list")) {
       setIsOtherUser(true);
       // 다른 사람의 작업물
-      endpoint = `/BE/user/reference/${param}/?page=${1}&sort=${sortOption}&category=${categoryName}`;
+      endpoint = `/BE/user/reference/${param}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
     }
     else {
       setIsOtherUser(false)
-      endpoint = `/BE/user/reference?page=${1}&sort=${sortOption}&category=${categoryName}`;
+      endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
     }
     getWork(endpoint);
-  }, [categoryName, sortOption]);
+  }, [categoryName, sortOption, pageNumber]);
+
 
 
   
@@ -87,6 +88,7 @@ function ManageListContainer() {
     setPageNumber(1);
     setTP(1);
     setCurrentPage(1);
+    setPageNumber(1);
     setSortOption(filterOptions[0].key);
     setFilter(filterOptions[0].value);
   };
@@ -277,7 +279,7 @@ function ManageListContainer() {
                   />
                 ))}
               </RefList>
-              <S.MyPaginate previousLabel="<" nextLabel=">" pageCount={tp} onPageChange={(e)=>setPageNumber(e.selected+1)} />
+                <S.MyPaginate previousLabel="<" nextLabel=">" pageCount={tp} onPageChange={(e) => { setPageNumber(e.selected + 1) }} />
             </>
           )}
         </S.ManageListBox>
