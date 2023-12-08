@@ -16,13 +16,13 @@ const ManageTextBox = styled.div`
 const ManageNameText = styled.span`
   font-size: 24px;
   font-weight: 700;
-  color: #1e1e1e; //#fada5e;
+  color: #1e1e1e; 
 `;
 
 const Category = styled.div`
   width: 200px;
   height: 44px;
-  border: 1px solid ${(props) => (props.checked ? "black" : "#CECECE")}; // #cecece;
+  border: 1px solid ${(props) => (props.checked ? "black" : "#CECECE")}; 
   border-radius: 10px;
   cursor: pointer;
   background-color: ${(props) => (props.checked ? "#FADA5E" : "white")};
@@ -77,7 +77,6 @@ const SelectButton = styled.button`
 
 const SortBox = styled.div`
   float:right;
- // margin-bottom:30px;
 `;
 
 const ManageListNo = styled.div`

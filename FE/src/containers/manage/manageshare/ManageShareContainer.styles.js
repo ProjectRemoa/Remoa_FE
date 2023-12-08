@@ -13,7 +13,7 @@ const ManageShareBox = styled.div`
 const ManageShareTable = styled.table`
   border-collapse: collapse;
   margin: 0 auto;
-  width: 832px; // 155 550
+  width: 832px; 
 
   tr {
     border-bottom: 1px solid #e7e7e7;
@@ -53,7 +53,6 @@ const ManageShareTable = styled.table`
       color: #a7a7a7;
       font-weight: 500;
       font-family: Pretendard-Regular;
-      //padding: 16px 14px;
       font-size: 16px;
     }
   }
@@ -85,7 +84,7 @@ const Category = styled.div`
   font-weight: ${(props) => (props.checked ? "600" : "500")};
   border-radius: 10px;
   font-size: 16px;
-  margin-right: 18.5px; //13px;
+  margin-right: 18.5px; 
   :last-child {
     margin-right: 0px;
   }
