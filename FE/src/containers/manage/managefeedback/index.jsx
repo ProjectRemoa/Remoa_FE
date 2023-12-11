@@ -1,10 +1,30 @@
 import React, {  useState , useEffect} from "react";
-import S from "./ManageFeedbackContainer.styles"
+import {S, styledComponent} from "./ManageFeedbackContainer.styles"
 import Dropdown from "../../../components/common/Dropdown";
 import { filterOptions } from "../../reference/constants";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import Category_ from "../../../components/common/Category_";
+
+const {
+  ContentsContainer,
+  AsideContainer,
+  Img,
+  Button_,
+  SectionContainer,
+  Title,
+  HorizonLine,
+  Contents,
+  CommentsContainer,
+  MyCommentTitle,
+  OneComment,
+  ProfileContainer,
+  ProfileImg,
+  ProfileContents,
+  ProfileNickname,
+  MyComment,
+  ButtonBox,
+} = styledComponent;
 
 function ManageFeedbackContainer() {
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
@@ -12,6 +32,8 @@ function ManageFeedbackContainer() {
   const [filter, setFilter] = useState(filterOptions[0].value); // 필터 값 (한글)
   const [sortOption, setSortOption] = useState(filterOptions[0].key); // 필터 값 (영어)
   const [toar, setTOAR] = useState(0); // 전체 레퍼런스 수
+
+  const [data, setData] = useState();
 
   const navigate = useNavigate();
 
@@ -33,6 +55,7 @@ function ManageFeedbackContainer() {
     let endpoint;
     endpoint = `/BE/user/activity?comment=${2}&scrap=${1}`;
     getComment(endpoint);
+    console.log(typeof data);
   }, []);
 
   const getComment = (endpoint) => {
@@ -53,7 +76,16 @@ function ManageFeedbackContainer() {
           },
         } = response;
         */
+        const {
+          data: {
+            data: { content, posts },
+          },
+        } = response;
         console.log(response);
+
+        console.log("content", content);
+        console.log("posts", posts);
+        setData(content);
       } catch (err) {
         console.log(err);
         return err;
@@ -65,13 +97,13 @@ function ManageFeedbackContainer() {
 
   return (
     <S.ManageListContainer>
-      <div style={{marginTop: "64px"}}>
+      <div style={{ marginTop: "64px" }}>
         <Category_ onClickCategory={onChangeCategory} checkedArr={checkIdx} />
-      </div>  
+      </div>
       <S.Line />
       <>
         <S.ManageListBox>
-          {!toar ? (
+          {!data ? (
             <S.ManageListNo>
               <S.NoManageText>아직 받은 코멘트가 없어요</S.NoManageText>
               <S.NoManageSubText>
@@ -84,7 +116,7 @@ function ManageFeedbackContainer() {
           ) : (
             <>
               {/* 선택 글 삭제 */}
-              <S.SelectBox>총 {toar}개</S.SelectBox>
+              <S.SelectBox>총 {1}개</S.SelectBox>
               {/* 정렬순 */}
               <S.SortBox>
                 <Dropdown
@@ -95,6 +127,48 @@ function ManageFeedbackContainer() {
                 />
               </S.SortBox>
               <S.Line style={{ border: "1px solid white" }} />
+              <ContentsContainer key={data.postId}>
+                <AsideContainer>
+                  <Img src={data.thumbnail} alt="thumbnail" />
+                  <ButtonBox>
+                    <Button_
+                      onClick={() => {
+                        //onClickModal(data.postId);
+                      }}
+                    >
+                      작업물 뷰어 보기
+                    </Button_>
+                    <Button_
+                      onClick={() => {
+                        //onClickModal(data.postId);
+                      }}
+                    >
+                      내 피드백 바로가기
+                    </Button_>
+                  </ButtonBox>
+                </AsideContainer>
+                <SectionContainer>
+                  <Title>{data.title}</Title>
+                  <HorizonLine />
+                  <Contents>
+                    <CommentsContainer>
+                      <MyCommentTitle>내가 받은 코멘트</MyCommentTitle>
+                      <OneComment>
+                        가장 먼저 작성된 코멘트 1개만 노출됩니다
+                      </OneComment>
+                    </CommentsContainer>
+                    <ProfileContainer>
+                      <ProfileImg src={data.member?.profileImage} alt="" />
+                      <ProfileContents>
+                        <ProfileNickname>
+                          {data.member?.nickname}
+                        </ProfileNickname>
+                        <MyComment>{data.content}</MyComment>
+                      </ProfileContents>
+                    </ProfileContainer>
+                  </Contents>
+                </SectionContainer>
+              </ContentsContainer>
             </>
           )}
         </S.ManageListBox>
