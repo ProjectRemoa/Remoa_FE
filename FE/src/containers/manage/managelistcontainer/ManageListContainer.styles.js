@@ -149,6 +149,7 @@ const MyPaginate = styled(ReactPaginate)`
     margin-right: 8px;
     font-weight: 500;
     font-size: 15px;
+    padding: 8px;
     color: #727272;
     cursor: pointer;
   }

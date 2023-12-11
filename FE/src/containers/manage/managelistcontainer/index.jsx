@@ -11,6 +11,8 @@ import ManageDeleteAllContainer from "../manageDeleteAllContainer";
 import { useLocation } from "react-router";
 import BACK from "../../../images/back.svg"
 
+import Category_ from "../../../components/common/Category_";
+
 const { RefList } = StyledComponents;
 
 function ManageListContainer() {
@@ -168,44 +170,8 @@ function ManageListContainer() {
         )}
       </S.ManageTextBox>
 
-      <S.CategoryBox>
-        <S.Category
-          onClick={() => onChangeCategory("all")}
-          checked={checkIdx[0]}
-        >
-          <S.CategoryText>전체</S.CategoryText>
-        </S.Category>
-        <S.Category
-          onClick={() => onChangeCategory("idea")}
-          checked={checkIdx[1]}
-        >
-          <S.CategoryText>기획/아이디어</S.CategoryText>
-        </S.Category>
-        <S.Category
-          onClick={() => onChangeCategory("marketing")}
-          checked={checkIdx[2]}
-        >
-          <S.CategoryText>광고/마케팅</S.CategoryText>
-        </S.Category>
-        <S.Category
-          onClick={() => onChangeCategory("video")}
-          checked={checkIdx[3]}
-        >
-          <S.CategoryText>영상</S.CategoryText>
-        </S.Category>
-        <S.Category
-          onClick={() => onChangeCategory("design")}
-          checked={checkIdx[4]}
-        >
-          <S.CategoryText>디자인/사진</S.CategoryText>
-        </S.Category>
-        <S.Category
-          onClick={() => onChangeCategory("etc")}
-          checked={checkIdx[5]}
-        >
-          <S.CategoryText>기타아이디어</S.CategoryText>
-        </S.Category>
-      </S.CategoryBox>
+      <Category_ onClickCategory={onChangeCategory} checkedArr={checkIdx} />
+
       <S.Line />
       <>
         <S.ManageListBox>
