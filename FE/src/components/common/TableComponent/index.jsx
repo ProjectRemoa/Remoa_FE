@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styledComponent from "./TableComponent.styles";
 const {
   Wrapper,
+  Header,
   Title,
   WriteButton,
   TableWrapper,
@@ -22,18 +23,12 @@ function TableComponent({ title, data, category }) {
 
   return (
     <Wrapper>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <Header>
         <Title>{title}</Title>
         <WriteButton onClick={() => handleWriteButton(category)}>
           글쓰기
         </WriteButton>
-      </div>
+      </Header>
       <TableWrapper>
         <Table>
           <Thead>
@@ -60,11 +55,6 @@ function TableComponent({ title, data, category }) {
               </Trow>
             </Tbody>
           ))}
-          {/* {[item.id, item.title, item.author, item.date, item.views].map(
-                (value, i) => (
-                  <TbodyValue key={`${index}-${i}`}>{value}</TbodyValue>
-                )
-              )} */}
         </Table>
       </TableWrapper>
     </Wrapper>
