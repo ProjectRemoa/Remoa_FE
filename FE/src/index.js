@@ -35,6 +35,7 @@ import AuthLayout from "./layout/AuthLayout";
 
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
+import ScrollToTop from "./components/common/ScrollToTop/index.jsx";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ root.render(
         <RecoilRoot>
           <BrowserRouter>
             <Style.Wrapper>
+              <ScrollToTop />
               <Routes>
                 <Route path="/login" element={<SocialLoginPage />} />
                 <Route path="/signup" element={<SignUpPage />} />

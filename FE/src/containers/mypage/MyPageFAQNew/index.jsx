@@ -1,8 +1,17 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styledComponent from "./MyPageFAQNew.styles";
-import axios from "axios";
-const { Wrapper, Content, Textarea, SubmitButton } = styledComponent;
+const {
+  Wrapper,
+  Category,
+  ContentContainer,
+  Title,
+  Input,
+  Content,
+  Textarea,
+  SubmitButton,
+} = styledComponent;
 
 function MyPageFAQNew() {
   const navigate = useNavigate();
@@ -36,17 +45,16 @@ function MyPageFAQNew() {
   return (
     <>
       <Wrapper>
-        <span style={{ fontSize: "24px", fontWeight: 700 }}>{type}</span>
-        <Content>
-          <span style={{ fontWeight: 600 }}>제목</span>
-          <input
-            style={{ width: "80%", height: "100%", borderRadius: "10px" }}
+        <Category>{type}</Category>
+        <ContentContainer>
+          <Title>제목</Title>
+          <Input
             placeholder={`${type}의 제목을 입력해주세요`}
             onChange={(e) => setTitle(e.target.value)}
           />
-        </Content>
-        <Content>
-          <span style={{ fontWeight: 600 }}>내용</span>
+        </ContentContainer>
+        <ContentContainer>
+          <Content>내용</Content>
           <Textarea
             placeholder={
               category === "notice"
@@ -55,7 +63,7 @@ function MyPageFAQNew() {
             }
             onChange={(e) => setContent(e.target.value)}
           />
-        </Content>
+        </ContentContainer>
       </Wrapper>
       <SubmitButton onClick={handleSubmit}>등록하기</SubmitButton>
     </>
