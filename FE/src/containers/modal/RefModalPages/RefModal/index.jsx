@@ -204,28 +204,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const location = useLocation();
 
   const onCloseHandler2 = () => {
-    if (Lo.includes('marketing')) {
-      Navigate('/ref/marketing');
-    } else if (Lo.includes('video')) {
-      Navigate('/ref/video');
-    } else if (Lo.includes('design')) {
-      Navigate('/ref/design');
-    } else if (Lo.includes('etc')) {
-      Navigate('/ref/etc');
-    } else if (Lo.includes('/manage/list')) {
-      Navigate('/manage/list');
-    } else if (Lo.includes('/mypage/scrap')) {
-      Navigate('/mypage/scrap');
-    } else if (Lo.includes('/mypage/work')) {
-      Navigate('/mypage/work');
-    } else if (Lo.includes('/user/list')) {      
-      const pathSegments = location.pathname.split("/");
-      const param = pathSegments[pathSegments.length - 1];
-      Navigate("/user/list/" + param);
-    }
-    else {
-      Navigate('/');
-    }
     setModalVisibleId2('');
   };
 

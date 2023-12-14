@@ -2,7 +2,7 @@ import React from 'react'
 import S from "./Category_.styles"
 import { pageLinks } from './constants'
 
-function Category_({ onClickCategory, checkedArr }) {
+function Category_({ onClickCategory, checked }) {
   return (
     <S.CategoryBox>
       {pageLinks.map((data, index) => (
@@ -10,7 +10,7 @@ function Category_({ onClickCategory, checkedArr }) {
           onClick={() => {
             onClickCategory(data.keyword);
           }}
-          checked={checkedArr[index]}
+          checked={index === checked}
         >
           {data.text}
         </S.Category>

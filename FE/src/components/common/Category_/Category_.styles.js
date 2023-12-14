@@ -19,10 +19,6 @@ const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  //margin-right: 12px;
-  :last-child {
-    margin-right: 0px;
-  }
   :hover {
     background-color: ${(props) => (props.checked ? "#DFB71C" : "#f0f0f0")};
   }
