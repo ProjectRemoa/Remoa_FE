@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 const CategoryBox = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 const Category = styled.div`
@@ -17,7 +19,7 @@ const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 12px;
+  //margin-right: 12px;
   :last-child {
     margin-right: 0px;
   }

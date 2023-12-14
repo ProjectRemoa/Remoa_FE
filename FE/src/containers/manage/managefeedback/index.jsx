@@ -1,30 +1,11 @@
 import React, {  useState , useEffect} from "react";
-import {S, styledComponent} from "./ManageFeedbackContainer.styles"
+import {S} from "./ManageFeedbackContainer.styles"
 import Dropdown from "../../../components/common/Dropdown";
 import { filterOptions } from "../../reference/constants";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import Category_ from "../../../components/common/Category_";
-
-const {
-  ContentsContainer,
-  AsideContainer,
-  Img,
-  Button_,
-  SectionContainer,
-  Title,
-  HorizonLine,
-  Contents,
-  CommentsContainer,
-  MyCommentTitle,
-  OneComment,
-  ProfileContainer,
-  ProfileImg,
-  ProfileContents,
-  ProfileNickname,
-  MyComment,
-  ButtonBox,
-} = styledComponent;
+import CommentContainer from "./CommentContainer";
 
 function ManageFeedbackContainer() {
   const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
@@ -95,6 +76,14 @@ function ManageFeedbackContainer() {
     fetchData();
   };
 
+  const onClickViewer = () => {
+    
+  }
+
+  const onClickFeedback = () => {
+    
+  }
+
   return (
     <S.ManageListContainer>
       <div style={{ marginTop: "64px" }}>
@@ -126,49 +115,8 @@ function ManageFeedbackContainer() {
                   filterOptions={filterOptions}
                 />
               </S.SortBox>
-              <S.Line style={{ border: "1px solid white" }} />
-              <ContentsContainer key={data.postId}>
-                <AsideContainer>
-                  <Img src={data.thumbnail} alt="thumbnail" />
-                  <ButtonBox>
-                    <Button_
-                      onClick={() => {
-                        //onClickModal(data.postId);
-                      }}
-                    >
-                      작업물 뷰어 보기
-                    </Button_>
-                    <Button_
-                      onClick={() => {
-                        //onClickModal(data.postId);
-                      }}
-                    >
-                      내 피드백 바로가기
-                    </Button_>
-                  </ButtonBox>
-                </AsideContainer>
-                <SectionContainer>
-                  <Title>{data.title}</Title>
-                  <HorizonLine />
-                  <Contents>
-                    <CommentsContainer>
-                      <MyCommentTitle>내가 받은 코멘트</MyCommentTitle>
-                      <OneComment>
-                        가장 먼저 작성된 코멘트 1개만 노출됩니다
-                      </OneComment>
-                    </CommentsContainer>
-                    <ProfileContainer>
-                      <ProfileImg src={data.member?.profileImage} alt="" />
-                      <ProfileContents>
-                        <ProfileNickname>
-                          {data.member?.nickname}
-                        </ProfileNickname>
-                        <MyComment>{data.content}</MyComment>
-                      </ProfileContents>
-                    </ProfileContainer>
-                  </Contents>
-                </SectionContainer>
-              </ContentsContainer>
+                <S.Line style={{ border: "1px solid white" }} />
+                <CommentContainer data={data} onClickViewer={onClickViewer} onClickFeedback={onClickFeedback} />
             </>
           )}
         </S.ManageListBox>
