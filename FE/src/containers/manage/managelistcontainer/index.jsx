@@ -31,7 +31,7 @@ function ManageListContainer() {
   const [filter, setFilter] = useState(filterOptions[0].value); // 필터 값 (한글)
   const [sortOption, setSortOption] = useState(filterOptions[0].key); // 필터 값 (영어)
 
-  const [checkIdx, setCheckIdx] = useState([1, 0, 0, 0, 0, 0]);
+  const [checkIdx, setCheckIdx] = useState(0);
 
   const [buttonColor, setButtonColor] = useState([false, false]);
 
@@ -80,12 +80,12 @@ function ManageListContainer() {
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
-    if (category === "all") setCheckIdx([1, 0, 0, 0, 0, 0]);
-    if (category === "idea") setCheckIdx([0, 1, 0, 0, 0, 0]);
-    if (category === "marketing") setCheckIdx([0, 0, 1, 0, 0, 0]);
-    if (category === "video") setCheckIdx([0, 0, 0, 1, 0, 0]);
-    if (category === "design") setCheckIdx([0, 0, 0, 0, 1, 0]);
-    if (category === "etc") setCheckIdx([0, 0, 0, 0, 0, 1]);
+    if (category === "all") setCheckIdx(0);
+    if (category === "idea") setCheckIdx(1);
+    if (category === "marketing") setCheckIdx(2);
+    if (category === "video") setCheckIdx(3);
+    if (category === "design") setCheckIdx(4);
+    if (category === "etc") setCheckIdx(5);
 
     setPageNumber(1);
     setTP(1);
@@ -128,11 +128,7 @@ function ManageListContainer() {
 
     fetchData();
     console.log(
-      "totalOfAllReferences : " +
-        toar +
-        ", totalOfPageElements : " +
-        tope,
-      ", totalPages : " + tp
+      "totalOfAllReferences : " + toar + ", totalOfPageElements : " + tope, ", totalPages : " + tp
     );
   };
 
@@ -170,7 +166,7 @@ function ManageListContainer() {
         )}
       </S.ManageTextBox>
 
-      <Category_ onClickCategory={onChangeCategory} checkedArr={checkIdx} />
+      <Category_ onClickCategory={onChangeCategory} checked={checkIdx} />
 
       <S.Line />
       <>
