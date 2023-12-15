@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getComment } from "../../../apis/mypage/comment";
-import RefModal from "../../modal/RefModalPages/RefModal";
+import RefModal from "../../../containers/modal/RefModalPages/RefModal";
 import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageCommentContainer.styles";
 const {
