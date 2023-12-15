@@ -43,6 +43,10 @@ const FollowWrap = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 24px 0px;
+  padding-bottom: 29px;
+  &:not(:last-of-type) {
+    border-bottom: 1px solid #e1e2e5;
+  }
 `;
 const FollowProfileImgWrap = styled.div`
   width: 15%;
@@ -112,12 +116,6 @@ const FollowDetailBtn = styled.button`
     }
   }
 `;
-const HorizonLine = styled.hr`
-  width: 100%;
-  height: 1px;
-  background-color: #e1e2e5;
-  border: 0;
-`;
 
 const styledComponent = {
   Wrapper,
@@ -138,7 +136,6 @@ const styledComponent = {
   FollowProfileIntro,
   FollowBtnWrap,
   FollowDetailBtn,
-  HorizonLine,
 };
 
 export default styledComponent;
