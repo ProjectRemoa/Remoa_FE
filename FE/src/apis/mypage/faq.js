@@ -1,21 +1,21 @@
 import axios from "axios";
 
-export const getNotices = async () => {
-  const response = await axios.get(`/BE/notice?page=${1}`);
+export const getNotices = async (noticePageNumber) => {
+  const response = await axios.get(`/BE/notice?page=${noticePageNumber}`);
   const {
     data: {
-      data: { notices },
+      data: { notices, totalPages },
     },
   } = response;
-  return notices;
+  return { notices, totalPages };
 };
 
-export const getInquiries = async () => {
-  const response = await axios.get(`/BE/inquiry?page=${1}`);
+export const getInquiries = async (inquiryPageNumber) => {
+  const response = await axios.get(`/BE/inquiry?page=${inquiryPageNumber}`);
   const {
     data: {
-      data: { inquiries },
+      data: { inquiries, totalPages },
     },
   } = response;
-  return inquiries;
+  return { inquiries, totalPages };
 };
