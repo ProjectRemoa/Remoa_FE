@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getInquiries, getNotices } from "../../../apis/mypage/faq";
@@ -19,6 +20,7 @@ const {
 
 function MyPageFAQDetail() {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
   const { category, detailId } = useParams();
   const pageNumber = Math.ceil(detailId / 5);
 
@@ -32,14 +34,14 @@ function MyPageFAQDetail() {
     () => getInquiries(pageNumber)
   );
 
-  let data = [];
-
-  if (category === "notice") {
-    data = noticeData?.notices;
-  }
-  if (category === "inquiry") {
-    data = inquiryData?.inquiries;
-  }
+  useEffect(() => {
+    if (category === "notice") {
+      setData(noticeData?.notices);
+    }
+    if (category === "inquiry") {
+      setData(inquiryData?.inquiries);
+    }
+  }, [category, noticeData?.notices, inquiryData?.inquiries]);
 
   const detailData = data?.find((data) => data.noticeId === parseInt(detailId));
 

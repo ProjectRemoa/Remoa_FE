@@ -74,12 +74,16 @@ function MyPageProfile() {
 
   const handleChangeProfileImgFile = () => {
     const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setProfileImage(reader.result);
-      setPreviewImage(imgRef.current.files[0]);
-    };
+    if (file.size > 2000000) {
+      alert("2MB 이하의 파일을 업로드해주세요.");
+    } else {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setProfileImage(reader.result);
+        setPreviewImage(imgRef.current.files[0]);
+      };
+    }
   };
 
   // 기본 사진으로 변경

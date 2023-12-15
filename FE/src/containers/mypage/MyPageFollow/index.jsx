@@ -1,7 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getFollow, postFollow } from "../../../apis/mypage/follow";
 import SearchBar from "../../../components/common/SearchBar";
+import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageFollow.styles";
 const {
   Wrapper,
@@ -22,122 +24,110 @@ const {
   FollowProfileIntro,
   FollowBtnWrap,
   FollowDetailBtn,
-  HorizonLine,
 } = styledComponent;
 
 function MyPageFollow() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState("");
+  const queryClient = useQueryClient();
   const [isFollowing, setIsFollowing] = useState(true);
-  const [followData, setFollowData] = useState([]);
-  const [originalData, setOriginalData] = useState([]);
-  const [followingList, setFollowingList] = useState([]);
-  const [followerList, setFollowerList] = useState([]);
   const [input, setInput] = useState("");
-
-  const { userName, followNum } = userData;
-
-  const followingIds = followingList.map((following) => following.memberId);
-  const isFollowed = followerList.some((follower) =>
-    followingIds.includes(follower.memberId)
-  );
+  const [type, setType] = useState("following");
+  const [followData, setFollowData] = useState();
+  const { data, isLoading } = useQuery([type], () => getFollow(type), {
+    keepPreviousData: true,
+  });
+  const { mutate } = useMutation((memberId) => postFollow(memberId), {
+    onSuccess: () => queryClient.invalidateQueries([type]),
+  });
 
   useEffect(() => {
-    getUserInfo("following");
-  }, []);
+    setFollowData(data?.resMypageList);
+  }, [data?.resMypageList]);
 
-  const getUserInfo = (type) => {
-    axios.get(`/BE/${type}`).then((res) => {
-      setUserData(res.data.data);
-      setFollowData(res.data.data.resMypageList);
-      setOriginalData(res.data.data.resMypageList);
+  const followingIds = data?.resMypageList.map(
+    (following) => following.memberId
+  );
 
-      if (type === "following") {
-        setFollowingList(res.data.data.resMypageList);
-      }
-      if (type === "follower") {
-        setFollowerList(res.data.data.resMypageList);
-      }
-    });
-  };
-
-  const checkFollow = (memberId) => {
-    axios
-      .post(`/BE/follow/${memberId}`, {})
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  const isFollowed = data?.resMypageList.some((follower) =>
+    followingIds.includes(follower.memberId)
+  );
 
   const handleSearch = () => {
     const inputData = input?.toUpperCase().trim();
     setFollowData(
-      originalData.filter((follow) =>
+      data?.resMypageList.filter((follow) =>
         follow.userName.toUpperCase().includes(inputData)
       )
     );
   };
 
+  const formatCount = (count) => {
+    if (count >= 1000) {
+      return `${(count / 1000).toFixed(1)}k`;
+    }
+    return count;
+  };
+
   return (
-    <Wrapper>
-      <HeaderWrap>
-        <BtnWrap>
-          <FollowBtn
-            style={{
-              color: isFollowing ? "#1e1e1e" : "#a7a7a7",
-              fontWeight: isFollowing ? 700 : 500,
-            }}
-            onClick={() => {
-              getUserInfo("following");
-              setIsFollowing(true);
-            }}
-          >
-            팔로잉 관리
-          </FollowBtn>
-          <Line>|</Line>
-          <FollowBtn
-            style={{
-              color: isFollowing ? "#a7a7a7" : "#1e1e1e",
-              fontWeight: isFollowing ? 500 : 700,
-            }}
-            onClick={() => {
-              getUserInfo("follower");
-              setIsFollowing(false);
-            }}
-          >
-            팔로워 관리
-          </FollowBtn>
-        </BtnWrap>
-        <FollowNum>
-          {isFollowing ? (
-            <>
-              {userName}님이 팔로우하고 있는 유저는 총&nbsp;
-              <Text>{followNum}명</Text> 입니다
-            </>
-          ) : (
-            <>
-              총&nbsp;
-              <Text>{followNum}명</Text>
-              이&nbsp;
-              {userName}님을 팔로잉하고 있어요
-            </>
-          )}
-        </FollowNum>
-      </HeaderWrap>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Wrapper>
+          <HeaderWrap>
+            <BtnWrap>
+              <FollowBtn
+                style={{
+                  color: isFollowing ? "#1e1e1e" : "#a7a7a7",
+                  fontWeight: isFollowing ? 700 : 500,
+                }}
+                onClick={() => {
+                  setType("following");
+                  setIsFollowing(true);
+                }}
+              >
+                팔로잉 관리
+              </FollowBtn>
+              <Line>|</Line>
+              <FollowBtn
+                style={{
+                  color: isFollowing ? "#a7a7a7" : "#1e1e1e",
+                  fontWeight: isFollowing ? 500 : 700,
+                }}
+                onClick={() => {
+                  setType("follower");
+                  setIsFollowing(false);
+                }}
+              >
+                팔로워 관리
+              </FollowBtn>
+            </BtnWrap>
+            <FollowNum>
+              {isFollowing ? (
+                <>
+                  {sessionStorage.getItem("nickname")}님이 팔로우하고 있는
+                  유저는 총&nbsp;
+                  <Text>{formatCount(data.data.followNum)}명</Text> 입니다
+                </>
+              ) : (
+                <>
+                  총&nbsp;
+                  <Text>{formatCount(data.data.followNum)}명</Text>
+                  이&nbsp;
+                  {sessionStorage.getItem("nickname")}님을 팔로잉하고 있어요
+                </>
+              )}
+            </FollowNum>
+          </HeaderWrap>
 
-      <SearchBar
-        placeholder="팔로우하고 있는 유저를 검색해보세요"
-        handleInput={(input) => setInput(input)}
-        handleClick={handleSearch}
-      />
+          <SearchBar
+            placeholder="팔로우하고 있는 유저를 검색해보세요"
+            handleInput={(input) => setInput(input)}
+            handleClick={handleSearch}
+          />
 
-      <div style={{ marginTop: "48px" }}>
-        {followData.map((user, i) => {
-          return (
-            <>
+          <div style={{ marginTop: "48px" }}>
+            {followData?.map((user) => (
               <FollowWrap key={user.memberId}>
                 <FollowProfileImgWrap>
                   <FollowProfileImg src={user.profileImage} />
@@ -149,13 +139,13 @@ function MyPageFollow() {
                     <FollowTotal>
                       <FollowTitle>팔로워</FollowTitle>
                       <span style={{ fontSize: "14px", marginLeft: "4px" }}>
-                        {user.followerNum}
+                        {formatCount(user.followerNum)}
                       </span>
                     </FollowTotal>
                     <FollowTotal>
                       <FollowTitle>팔로잉</FollowTitle>
                       <span style={{ fontSize: "14px", marginLeft: "4px" }}>
-                        {user.followingNum}
+                        {formatCount(user.followingNum)}
                       </span>
                     </FollowTotal>
                   </FollowNumWrap>
@@ -168,7 +158,7 @@ function MyPageFollow() {
                   <FollowDetailBtn
                     isFollowing={isFollowing}
                     isFollowed={isFollowed}
-                    onClick={() => checkFollow(user.memberId)}
+                    onClick={() => mutate(user.memberId)}
                   >
                     {isFollowing
                       ? "팔로잉 취소"
@@ -183,12 +173,11 @@ function MyPageFollow() {
                   </FollowDetailBtn>
                 </FollowBtnWrap>
               </FollowWrap>
-              {i !== followData.length - 1 && <HorizonLine />}
-            </>
-          );
-        })}
-      </div>
-    </Wrapper>
+            ))}
+          </div>
+        </Wrapper>
+      )}
+    </>
   );
 }
 
