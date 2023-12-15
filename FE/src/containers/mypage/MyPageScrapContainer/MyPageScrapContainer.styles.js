@@ -6,7 +6,7 @@ const ScrapContainer = styled.div`
   font-size: 25px;
   font-weight: 700;
   text-align: left;
-  margin-top: 96px;
+  margin-top: 40px;
 `;
 
 const CategoryContainer = styled.div`
