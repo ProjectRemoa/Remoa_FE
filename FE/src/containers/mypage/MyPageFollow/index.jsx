@@ -33,7 +33,9 @@ function MyPageFollow() {
   const [input, setInput] = useState("");
   const [type, setType] = useState("following");
   const [followData, setFollowData] = useState();
-  const { data, isLoading } = useQuery([type], () => getFollow(type));
+  const { data, isLoading } = useQuery([type], () => getFollow(type), {
+    keepPreviousData: true,
+  });
   const { mutate } = useMutation((memberId) => postFollow(memberId), {
     onSuccess: () => queryClient.invalidateQueries([type]),
   });
