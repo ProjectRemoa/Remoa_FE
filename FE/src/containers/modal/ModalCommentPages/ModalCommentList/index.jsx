@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import ModalCommentWriteAgain from '../ModalCommentWriteAgain';
 import { useEffect } from 'react';
+import ModalCommentListAgain from '../ModalCommentListAgain';
 
-export default function ModalCommentList({ comments, postId, setComments }) {
+export default function ModalCommentList({ comments, postId, setComments, setAgainComments, againComments }) {
         
   comments.sort((a, b) => {
     return  new Date(a.commentedTime)-new Date(b.commentedTime);
@@ -166,7 +167,16 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                 </tr>
               </tbody>
             </S.AgainTable>
-            <ModalCommentWriteAgain openWriteAgain={openWriteAgain} setOpenWriteAgain={setOpenWriteAgain} id={comments.commentId} />
+            <ModalCommentWriteAgain 
+            openWriteAgain={openWriteAgain} 
+            setOpenWriteAgain={setOpenWriteAgain} 
+            id={comments.commentId}
+            postId={postId}
+            comments={comments}
+            setAgainComments={setAgainComments} againComments={againComments} 
+             />
+            <ModalCommentListAgain replies={comments.replies} postId={postId} commentId={comments.commentId}/>
+
           </S.AgainWrapper>
         ))}
     </div>
