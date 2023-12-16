@@ -9,7 +9,7 @@ export default function ModalCommentListAgain({replies,setAgainComments, againCo
     return  new Date(a.repliedTime)-new Date(b.repliedTime);
   });
   
-  // 수정 삭제 명세서 최신화하고 진행해야할거같아요...
+  // 수정 삭제 명세서 최신화하고 진행해야할거같아요
   const onDelete = (commentId) => {
     axios
       .delete(`/BE/reference/${postId}/comment/${commentId}`)
