@@ -139,7 +139,9 @@ export default function RefListContainer({ search: searchKeyword }) {
         <>
           <RefListFunctionWrapper>
             <span className="count">
-              총 {referenceData?.totalOfAllReferences}개
+              {referenceData?.totalOfAllReferences && (
+                <>총 {referenceData?.totalOfAllReferences}개</>
+              )}
             </span>
           </RefListFunctionWrapper>
 
