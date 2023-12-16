@@ -45,6 +45,8 @@ const AsideContainer = styled.div`
 const Img = styled.img`
   width: 297px;
   height: 167px;
+  border: 1px solid #e1e2e5;
+  border-radius: 8px;
 `;
 
 const Button = styled.button`

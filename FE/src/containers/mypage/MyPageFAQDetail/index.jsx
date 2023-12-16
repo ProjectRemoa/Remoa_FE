@@ -1,65 +1,75 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { getInquiries, getNotices } from "../../../apis/mypage/faq";
+import Loading from "../../../styles/Loading";
+import styledComponent from "./MyPageFAQDetail.styles";
+const {
+  Wrapper,
+  Category,
+  TitleContainer,
+  Title,
+  InfoContainer,
+  Author,
+  PostingTime,
+  View,
+  Content,
+  ButtonContainer,
+  Button,
+} = styledComponent;
 
 function MyPageFAQDetail() {
-  const { category, detailId } = useParams();
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const { category, detailId } = useParams();
+  const pageNumber = Math.ceil(detailId / 5);
+
+  const { data: noticeData, isLoading: isNoticeLoading } = useQuery(
+    ["noticeData"],
+    () => getNotices(pageNumber)
+  );
+
+  const { data: inquiryData, isLoading: isInquiryLoading } = useQuery(
+    ["inquiryData"],
+    () => getInquiries(pageNumber)
+  );
 
   useEffect(() => {
     if (category === "notice") {
-      axios
-        .get(`/BE/notice?page=${1}`)
-        .then((res) => setData(res.data.data.notices));
+      setData(noticeData?.notices);
     }
     if (category === "inquiry") {
-      axios
-        .get(`/BE/inquiry?page=${1}`)
-        .then((res) => setData(res.data.data.inquiries));
+      setData(inquiryData?.inquiries);
     }
-  }, [category]);
+  }, [category, noticeData?.notices, inquiryData?.inquiries]);
 
   const detailData = data?.find((data) => data.noticeId === parseInt(detailId));
 
   return (
-    <div
-      style={{
-        width: "65%",
-        height: "70%",
-        marginTop: "68px",
-        textAlign: "left",
-      }}
-    >
-      <span>{category === "notice" ? "공지사항" : "문의하기"}</span>
-      <div
-        style={{
-          height: "87px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderTop: "2px solid black",
-          borderBottom: "1px solid black",
-          boxSizing: "border-box",
-          marginTop: "12px",
-          padding: "0px 16px",
-        }}
-      >
-        <span
-          style={{
-            display: "block",
-            fontSize: "28px",
-            fontWeight: 600,
-          }}
-        >
-          {detailData?.title}
-        </span>
-        <div style={{ displa: "flex" }}>
-          <span>Author</span>
-          <span>{detailData?.postingTime}</span>
-          <span>{detailData?.view}</span>
-        </div>
-      </div>
-    </div>
+    <>
+      {isNoticeLoading || isInquiryLoading ? (
+        <Loading />
+      ) : (
+        <Wrapper>
+          <Category>{category === "notice" ? "공지사항" : "문의하기"}</Category>
+          <TitleContainer>
+            <Title>{detailData?.title}</Title>
+            <InfoContainer>
+              <Author>Author</Author>
+              <PostingTime>{detailData?.postingTime}</PostingTime>
+              <View>{detailData?.view}</View>
+            </InfoContainer>
+          </TitleContainer>
+          <Content>공지사항입니다. 이것은 내용입니다.</Content>
+          <ButtonContainer>
+            {category === "inquiry" ? <Button>답글</Button> : ""}
+            <Button>삭제</Button>
+            <Button>수정</Button>
+            <Button onClick={() => navigate("/mypage/faq")}>목록</Button>
+          </ButtonContainer>
+        </Wrapper>
+      )}
+    </>
   );
 }
 

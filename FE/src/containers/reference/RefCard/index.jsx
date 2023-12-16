@@ -123,7 +123,7 @@ function RefCard({
           </RefCardProfileName>
 
           <RefCardFunctionWrapper>
-            {!id ? (
+            {!id || window.location.href.includes("user/list") ? (
               <>
                 {/* 조회수 */}
                 <RefCardFunctionIcon>

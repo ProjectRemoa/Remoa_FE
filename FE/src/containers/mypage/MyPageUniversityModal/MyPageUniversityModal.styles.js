@@ -61,7 +61,7 @@ const Table = styled.table`
 `;
 const Trow = styled.tr`
   border: ${(props) => (props.clicked ? "1px solid #464646" : "none")};
-  background-color: ${(props) => (props.clicked ? "#fada5e" : "")};
+  background-color: ${(props) => (props.clicked ? "#fcecaa" : "")};
 `;
 const Thead = styled.thead`
   height: 37px;

@@ -6,7 +6,7 @@ const ScrapContainer = styled.div`
   font-size: 25px;
   font-weight: 700;
   text-align: left;
-  margin-top: 96px;
+  margin-top: 40px;
 `;
 
 const CategoryContainer = styled.div`
@@ -18,7 +18,9 @@ const CategoryContainer = styled.div`
 const CategoryButton = styled.button`
   width: 15.8%;
   height: 44px;
-  border: 1px solid #cecece;
+  /* border: 1px solid #cecece; */
+  border: ${(props) =>
+    props.clicked ? "1.2px solid #464646" : "1px solid #cecece"};
   border-radius: 10px;
   background-color: ${(props) => (props.clicked ? "#fada5e" : "transparent")};
   &:hover {

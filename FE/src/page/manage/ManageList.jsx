@@ -3,10 +3,10 @@ import Layout from "../../layout/Layout";
 import ManageContainer from "../../containers/manage/managecontainer";
 import ManageListContainer from "../../containers/manage/managelistcontainer";
 
-function ManageList() {
+function ManageList({state}) {
   return (
     <Layout>
-      <ManageContainer />
+      {state && <ManageContainer />}
       <ManageListContainer />
     </Layout>
   );

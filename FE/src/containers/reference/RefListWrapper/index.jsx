@@ -39,11 +39,6 @@ export default function RefListContainer({ search: searchKeyword }) {
   const handleSelectData = (data) => {
     setSelectedData(data);
     setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
-    if (category.path === '/') {
-      navigate(`/${data.postId}`);
-    } else {
-      navigate(`${category.path}/${data.postId}`);
-    }
   };
 
   const handleProfileModal = (postId) => {
