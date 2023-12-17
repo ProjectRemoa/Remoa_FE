@@ -38,7 +38,11 @@ const SectionContainer = styled.div`
   margin-left: 24px;
 `;
 
-const Title = styled.span``;
+const Title = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  text-align: left;
+`;
 
 const HorizonLine = styled.hr`
   height: 1px;
