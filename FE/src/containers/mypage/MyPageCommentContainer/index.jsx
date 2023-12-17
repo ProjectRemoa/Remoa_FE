@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getComment } from "../../../apis/mypage/comment";
-import RefModal from "../../../containers/modal/RefModalPages/RefModal";
+import { getOneComment } from "../../../apis/mypage/comment";
 import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageCommentContainer.styles";
+import RefModal from "../../modal/RefModalPages/RefModal";
 const {
   CommentContainer,
   CommentListContainer,
@@ -32,15 +32,13 @@ const {
 
 function MyPageCommentContainer() {
   const navigate = useNavigate();
-  const { data, isLoading } = useQuery(["comment"], getComment);
+  const { data, isLoading } = useQuery(["comment"], getOneComment);
   const [postId, setPostId] = useState(0);
   const [modalVisibleId, setModalVisibleId] = useState("");
-
   const onClickModal = (postId) => {
     setPostId(postId);
     setModalVisibleId(postId);
   };
-
   return (
     <>
       {isLoading ? (
@@ -131,14 +129,14 @@ function MyPageCommentContainer() {
               </>
             )}
           </CommentListContainer>
-          {modalVisibleId !== "" && (
-            <RefModal
-              id2={postId}
-              modalVisibleId2={modalVisibleId}
-              setModalVisibleId2={setModalVisibleId}
-            />
-          )}
         </CommentContainer>
+      )}
+      {modalVisibleId !== "" && (
+        <RefModal
+          id2={postId}
+          modalVisibleId2={modalVisibleId}
+          setModalVisibleId2={setModalVisibleId}
+        />
       )}
     </>
   );
