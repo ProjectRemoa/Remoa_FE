@@ -5,22 +5,16 @@ import { filterOptions } from "../../reference/constants";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import Category_ from "../../../components/common/Category_";
-//import CommentContainer from "./CommentContainer";
 import CommentContainerComponent from "../../../components/common/CommentContainerComponent"
-import RefModal from "../../modal/RefModalPages/RefModal";
 
 function ManageFeedbackContainer() {
   const [checkIdx, setCheckIdx] = useState(0);
   const [categoryName, setCategoryName] = useState("all");
   const [filter, setFilter] = useState(filterOptions[0].value); // 필터 값 (한글)
   const [sortOption, setSortOption] = useState(filterOptions[0].key); // 필터 값 (영어)
-  const [toar, setTOAR] = useState(0); // 전체 레퍼런스 수
 
   const [page, setPage] = useState(1);
   const [tp, setTP] = useState(1);
-
-  const [modalVisibleId, setModalVisibleId] = useState("");
-  const [postId, setPostId] = useState(0);
 
   const [data, setData] = useState([]);
 
@@ -85,16 +79,6 @@ function ManageFeedbackContainer() {
 
     fetchData();
   };
-
-  const onClickViewer = (postId) => {
-    setPostId(postId);
-    setModalVisibleId(postId);
-  }
-
-  const onClickFeedback = (postId) => {    
-    setPostId(postId);
-    setModalVisibleId(postId);
-  }
 
   return (
     <S.ManageListContainer>
