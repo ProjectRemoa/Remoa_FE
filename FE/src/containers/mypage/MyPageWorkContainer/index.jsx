@@ -1,4 +1,4 @@
-import MyPageCommentContainer from "../../../components/common/MyPageCommentContainer";
+import MyPageCommentContainer from "../MyPageCommentContainer";
 import MyPageScrapContainer from "../MyPageScrapContainer";
 import styledComponent from "./MyPageWorkContainer.styles";
 const { Wrapper, HorizonLine } = styledComponent;
