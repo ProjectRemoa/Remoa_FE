@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useQuery, useQueryClient } from "react-query";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { getNotices, getInquiries } from "../../../apis/mypage/faq";
-import Loading from "../../../styles/Loading";
 import TableComponent from "../../../components/common/TableComponent";
 import Dropdown from "../../../components/common/Dropdown";
+import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageFAQ.styles";
 const { Wrapper, MyPaginate, SearchWrapper, SearchInput, SearchIcon } =
   styledComponent;
@@ -32,21 +32,6 @@ function MyPageFAQ() {
   const [filter, setFilter] = useState(filterOptions[0].value);
   const [sortOption, setSortOption] = useState(filterOptions[0].key);
 
-  useEffect(() => {
-    setSortOption(filterOptions[0].key);
-    setFilter(filterOptions[0].value);
-
-    const nextNoticePage = noticePage + 1;
-    const nextInquiryPage = inquiryPage + 1;
-
-    queryClient.prefetchQuery(["nextNoticePage", nextNoticePage], () =>
-      getNotices(nextNoticePage)
-    );
-    queryClient.prefetchQuery(["nextInquiryPage", nextInquiryPage], () =>
-      getInquiries(nextInquiryPage)
-    );
-  }, [noticePage, inquiryPage, queryClient]);
-
   const { data: noticeData, isLoading: isNoticeLoading } = useQuery(
     ["noticeData", noticePage],
     () => getNotices(noticePage),
@@ -57,6 +42,31 @@ function MyPageFAQ() {
     () => getInquiries(inquiryPage),
     { keepPreviousData: true }
   );
+
+  useEffect(() => {
+    setSortOption(filterOptions[0].key);
+    setFilter(filterOptions[0].value);
+    if (
+      noticePage < noticeData?.totalPages &&
+      inquiryPage < inquiryData?.totalPages
+    ) {
+      const nextNoticePage = noticePage + 1;
+      const nextInquiryPage = inquiryPage + 1;
+
+      queryClient.prefetchQuery(["nextNoticePage", nextNoticePage], () =>
+        getNotices(nextNoticePage)
+      );
+      queryClient.prefetchQuery(["nextInquiryPage", nextInquiryPage], () =>
+        getInquiries(nextInquiryPage)
+      );
+    }
+  }, [
+    noticePage,
+    noticeData?.totalPages,
+    inquiryPage,
+    inquiryData?.totalPages,
+    queryClient,
+  ]);
 
   const handleInput = (input) => {
     setInput(input);
