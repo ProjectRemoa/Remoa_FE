@@ -31,7 +31,9 @@ function RefCard({
   selectedPostId,
   onProfileModal,
   location,
-  isDeletedData
+  isDeletedData,
+  deletedData,
+  setDeletedData,
 }) {
   const {
     likeCount,
@@ -55,41 +57,45 @@ function RefCard({
   };
 
   const handleProfileModal = () => {
-    if (window.location.href.includes('manage') === true) {
+    if (window.location.href.includes("manage") === true) {
       // 작업물 관리에서는 프로필 띄우지 않음
-    }
-    else {
-     if (postId === selectedPostId) {
-       // 같은 카드의 프로필을 클릭하면 프로필 모달 토글
-       setIsProfileModalOpen(!isProfileModalOpen);
-     } else {
-       // 다른 카드의 프로필을 클릭하면 프로필 모달을 열고 선택된 포스트 아이디를 업데이트
-       setIsProfileModalOpen(true);
-       onProfileModal(postId);
-     }   
+    } else {
+      if (postId === selectedPostId) {
+        // 같은 카드의 프로필을 클릭하면 프로필 모달 토글
+        setIsProfileModalOpen(!isProfileModalOpen);
+      } else {
+        // 다른 카드의 프로필을 클릭하면 프로필 모달을 열고 선택된 포스트 아이디를 업데이트
+        setIsProfileModalOpen(true);
+        onProfileModal(postId);
+      }
     }
   };
 
-  const [isSelected, setIsSelected] = useState(false);
-  const handleDeletedData = () => {
-    setIsSelected(!isSelected);
-  }
+  const handleDeleted = (postId) => {
+    let dd = [...deletedData];
+    dd.push(postId);
+    setDeletedData(dd);
+  };
+
+  const handleDeletedCancel = (postId) => {
+    setDeletedData(deletedData.filter((value) => value !== postId));
+  };
 
   return (
     <RefCardWrapper>
       {/* manage에서 선택 삭제 */}
       {isDeletedData &&
-        (isSelected ? (
+        (deletedData.includes(postId) ? (
           <RefCardSelectedDeleted
             src={AfterChecked}
             alt="after checked"
-            onClick={handleDeletedData}
+            onClick={() => handleDeletedCancel(postId)}
           />
         ) : (
           <RefCardSelectedDeleted
             src={BeforeChecked}
             alt="before checked"
-            onClick={handleDeletedData}
+            onClick={() => handleDeleted(postId)}
           />
         ))}
 

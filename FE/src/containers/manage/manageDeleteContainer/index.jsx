@@ -2,18 +2,29 @@ import React, {useState} from 'react'
 import S from "./manageDeleteAllContainer.styles"
 import Cancel from "../../../images/cancel.svg"
 
-function ManageDeleteAllContainer({
+function ManageDeleteContainer({
   setButtonColor,
-  buttonColor
+  buttonColor,
+  isAll,
+  setIsDelete,
+  deletedData,
+  setDeletedData
 }) {
   const onClickDelete = () => {
     console.log("onClickDelete");
-    // 전체 삭제 API
-  }
+    if (isAll) {
+      // 전체 삭제 API
+    } else {
+      // 부분삭제 API
+    }
+  };
 
   const onClickHold = () => {
-    setButtonColor([false, buttonColor[1]]);
-  }
+    setButtonColor([false, false]);
+    setIsDelete(false);
+    deletedData.legnth = 0;
+    setDeletedData([]);
+  };
 
   return (
     <S.ModalWrapper>
@@ -22,10 +33,19 @@ function ManageDeleteAllContainer({
           src={Cancel}
           alt="cancel"
           onClick={() => {
-            setButtonColor([false, buttonColor[1]]);
+            setButtonColor([false, false]);
+            setIsDelete(false);
+            deletedData.legnth = 0;
+            setDeletedData([]);
           }}
         />
-        <S.Text>작품 전체를 삭제하시겠습니까?</S.Text>
+        <S.Text>
+          {isAll ? (
+            <>작품 전체를 삭제하시겠습니까?</>
+          ) : (
+            <>선택한 작품 {deletedData.length}개를 삭제하시겠습니까?</>
+          )}
+        </S.Text>
         <S.SubText>누군가에게 도움이 될 작품이에요!</S.SubText>
         <S.ButtonWrapper>
           <S.Button checked={true} onClick={onClickDelete}>
@@ -40,4 +60,4 @@ function ManageDeleteAllContainer({
   );
 }
 
-export default ManageDeleteAllContainer
+export default ManageDeleteContainer
