@@ -89,6 +89,7 @@ const ProfileContents = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: start;
   margin-left: 12px;
   font-size: 16px;
 `;

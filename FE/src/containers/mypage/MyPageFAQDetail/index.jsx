@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 import { getInquiries, getNotices } from "../../../apis/mypage/faq";
 import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageFAQDetail.styles";
@@ -26,24 +26,40 @@ function MyPageFAQDetail() {
 
   const { data: noticeData, isLoading: isNoticeLoading } = useQuery(
     ["noticeData"],
-    () => getNotices(pageNumber)
+    () => getNotices(pageNumber),
+    {
+      enabled: category === "notice",
+    }
   );
 
   const { data: inquiryData, isLoading: isInquiryLoading } = useQuery(
     ["inquiryData"],
-    () => getInquiries(pageNumber)
+    () => getInquiries(pageNumber),
+    {
+      enabled: category === "inquiry",
+    }
   );
 
   useEffect(() => {
+    if (isNoticeLoading || isInquiryLoading) return;
+
     if (category === "notice") {
       setData(noticeData?.notices);
-    }
-    if (category === "inquiry") {
+    } else if (category === "inquiry") {
       setData(inquiryData?.inquiries);
     }
-  }, [category, noticeData?.notices, inquiryData?.inquiries]);
+  }, [
+    isNoticeLoading,
+    isInquiryLoading,
+    category,
+    noticeData?.notices,
+    inquiryData?.inquiries,
+  ]);
 
-  const detailData = data?.find((data) => data.noticeId === parseInt(detailId));
+  const detailData = useMemo(
+    () => data?.find((data) => data.noticeId === parseInt(detailId)),
+    [data, detailId]
+  );
 
   return (
     <>
