@@ -8,7 +8,9 @@ import RefCard from '../RefCard';
 import RefModal from '../../modal/RefModalPages/RefModal';
 
 import StyledComponents from './RefListWrapper.styles';
+
 import Pagination from '../../../components/common/Pagination';
+import Dropdown from '../../../components/common/Dropdown';
 
 const {
   RefListWrapper,
@@ -27,7 +29,9 @@ export default function RefListContainer({ search: searchKeyword }) {
   const navigate = useNavigate();
 
   const [category, setCategory] = useState(''); // 카테고리
-  const [filter, setFilter] = useState(filterOptions[0].key); // 필터
+  const [filter, setFilter] = useState(filterOptions[0].value); // 필터
+  const [sortOption, setSortOption] = useState(filterOptions[0].key);
+
   const [referenceData, setReferenceData] = useState(); // 레퍼런스 데이터
   const [page, setPage] = useState(1); // 페이지네이션
 
@@ -66,7 +70,7 @@ export default function RefListContainer({ search: searchKeyword }) {
         const response = await axios.get(`/BE/reference`, {
           params: {
             page: page,
-            sort: filter,
+            sort: sortOption,
             category: currentCategory.keyword,
             title: searchKeyword,
           },
@@ -97,7 +101,7 @@ export default function RefListContainer({ search: searchKeyword }) {
 
     fetchData();
     modalLocation();
-  }, [location.pathname, searchKeyword, filter, page]);
+  }, [location.pathname, searchKeyword, filter, sortOption, page]);
 
   // 팔로잉 모달 위치
   function modalLocation(i) {
@@ -149,6 +153,14 @@ export default function RefListContainer({ search: searchKeyword }) {
                 <>총 {referenceData?.totalOfAllReferences}개</>
               )}
             </span>
+
+            {/* 필터 드롭다운 */}
+            <Dropdown
+              setFilter={setFilter}
+              filter={filter}
+              setSortOption={setSortOption}
+              filterOptions={filterOptions}
+            />
           </RefListFunctionWrapper>
 
           <RefList>
