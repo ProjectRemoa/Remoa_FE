@@ -126,7 +126,7 @@ const Button = styled.button`
   cursor: ${(props) => (props.state ? "pointer" : "default")};
   font-weight: 600;
   box-shadow: none;
-  margin-top: 60px;
+  //margin-top: 60px;
   white-space: nowrap;
   :hover {
     ${(props) => (props.state && "#DFB71C")};
@@ -151,6 +151,16 @@ const ThumbnailText = styled.div`
   padding-left: 16px;
 `;
 
+const ButtonBox = styled.div`
+  margin-top: 60px;
+`
+const WarningBox = styled.div`
+  color: #ff0101;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 16px;
+`;
+
 const S = {
   ManageShareContainer,
   ManageShareBox,
@@ -163,6 +173,8 @@ const S = {
   FileContainer,
   ThumbailWrapper,
   ThumbnailText,
+  ButtonBox,
+  WarningBox,
 };
 
 export default S;

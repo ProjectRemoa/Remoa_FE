@@ -4,5 +4,6 @@ export const pageLinks = [
   { path: "/ref/marketing", text: "광고/마케팅", keyword: "marketing" },
   { path: "/ref/video", text: "영상", keyword: "video" },
   { path: "/ref/design", text: "디자인/사진", keyword: "design" },
+  {path : "/ref/it",text : "IT/디지털", keyword : "it"},
   { path: "/ref/etc", text: "기타아이디어", keyword: "etc" },
 ];
