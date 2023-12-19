@@ -34,6 +34,8 @@ function RefCard({
   onProfileModal,
   location,
   isDeletedData,
+  deletedData,
+  setDeletedData,
 }) {
   const {
     likeCount,
@@ -71,26 +73,31 @@ function RefCard({
     }
   };
 
-  const [isSelected, setIsSelected] = useState(false);
-  const handleDeletedData = () => {
-    setIsSelected(!isSelected);
+  const handleDeleted = (postId) => {
+    let dd = [...deletedData];
+    dd.push(postId);
+    setDeletedData(dd);
+  };
+
+  const handleDeletedCancel = (postId) => {
+    setDeletedData(deletedData.filter((value) => value !== postId));
   };
 
   return (
     <RefCardWrapper>
       {/* manage에서 선택 삭제 */}
       {isDeletedData &&
-        (isSelected ? (
+        (deletedData.includes(postId) ? (
           <RefCardSelectedDeleted
             src={AfterChecked}
             alt="after checked"
-            onClick={handleDeletedData}
+            onClick={() => handleDeletedCancel(postId)}
           />
         ) : (
           <RefCardSelectedDeleted
             src={BeforeChecked}
             alt="before checked"
-            onClick={handleDeletedData}
+            onClick={() => handleDeleted(postId)}
           />
         ))}
 
@@ -123,7 +130,7 @@ function RefCard({
           </RefCardProfileName>
 
           <RefCardFunctionWrapper>
-            {!id || window.location.href.includes("user/list") ? (
+            {!id || window.location.href.includes('user/list') ? (
               <>
                 {/* 조회수 */}
                 <RefCardFunctionIcon>

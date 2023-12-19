@@ -5,19 +5,18 @@ import { filterOptions } from "../../reference/constants";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import Category_ from "../../../components/common/Category_";
-import CommentContainer from "./CommentContainer";
-import RefModal from "../../modal/RefModalPages/RefModal";
+import CommentContainerComponent from "../../../components/common/CommentContainerComponent"
 
 function ManageFeedbackContainer() {
   const [checkIdx, setCheckIdx] = useState(0);
   const [categoryName, setCategoryName] = useState("all");
   const [filter, setFilter] = useState(filterOptions[0].value); // 필터 값 (한글)
   const [sortOption, setSortOption] = useState(filterOptions[0].key); // 필터 값 (영어)
-  const [toar, setTOAR] = useState(0); // 전체 레퍼런스 수
-  const [modalVisibleId, setModalVisibleId] = useState("");
-  const [postId, setPostId] = useState(0);
 
-  const [data, setData] = useState();
+  const [page, setPage] = useState(1);
+  const [tp, setTP] = useState(1);
+
+  const [data, setData] = useState([]);
 
   const navigate = useNavigate();
 
@@ -37,9 +36,8 @@ function ManageFeedbackContainer() {
 
   useEffect(() => {
     let endpoint;
-    endpoint = `/BE/user/activity?comment=${2}&scrap=${1}`;
+    endpoint = `/BE/user/activity?comment=${2}&scrap=${1}`; // api 수정 필요
     getComment(endpoint);
-    console.log(typeof data);
   }, []);
 
   const getComment = (endpoint) => {
@@ -69,7 +67,10 @@ function ManageFeedbackContainer() {
 
         console.log("content", content);
         console.log("posts", posts);
-        setData(content);
+
+        let contents = []; // 배열로 만들어준 다음 data에 넣어야함 (map 때문에)
+        contents.push(content);
+        setData(contents);
       } catch (err) {
         console.log(err);
         return err;
@@ -78,16 +79,6 @@ function ManageFeedbackContainer() {
 
     fetchData();
   };
-
-  const onClickViewer = (postId) => {
-    setPostId(postId);
-    setModalVisibleId(postId);
-  };
-
-  const onClickFeedback = (postId) => {
-    setPostId(postId);
-    setModalVisibleId(postId);
-  }
 
   return (
     <S.ManageListContainer>
@@ -110,7 +101,7 @@ function ManageFeedbackContainer() {
           ) : (
             <>
               {/* 선택 글 삭제 */}
-              <S.SelectBox>총 {1}개</S.SelectBox>
+              <S.SelectBox>총 {data.length}개</S.SelectBox>
               {/* 정렬순 */}
               <S.SortBox>
                 <Dropdown
@@ -121,18 +112,11 @@ function ManageFeedbackContainer() {
                 />
               </S.SortBox>
                 <S.Line style={{ border: "1px solid white" }} />
-                <CommentContainer data={data} onClickViewer={onClickViewer} onClickFeedback={onClickFeedback} />
+                <CommentContainerComponent data={data} setPage={setPage} totalPages={tp} />
             </>
           )}
         </S.ManageListBox>
       </>
-      {modalVisibleId !== "" && (
-        <RefModal
-          id2={postId}
-          modalVisibleId2={modalVisibleId}
-          setModalVisibleId2={setModalVisibleId}
-        />
-      )}
     </S.ManageListContainer>
   );
 }

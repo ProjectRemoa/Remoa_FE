@@ -96,6 +96,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     youtubeLink: '', // category가 영상일 때
   });
   const [comments, setComments] = useState([]); // 댓글 왜 안되지
+  const [againComments, setAgainComments] = useState([]) // 요거 대댓글임
   const [feedback, setFeedback] = useState([]);
   const [postMember, setPostMember] = useState({
     memberId: 0,
@@ -168,6 +169,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
         // bottom : 댓글
         setComments(res.data.data.comments);
+        setAgainComments(res.data.data.comments.replies)
         // 내가 좋아요/스크랩했는지?
         setLikeBoolean(res.data.data.isLiked);
         setscrapBoolean(res.data.data.isScraped);
@@ -367,7 +369,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
-
       <S.MobalBox onClick={(e) => e.stopPropagation()}> {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
         <S.ModalRealTop>
@@ -583,21 +584,24 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           )}
         </S.MobalContents>
 
-
         <S.TraceBox onClick={() => handleLike()}>
           <S.TraceBoxAlign>
             <AiOutlineHeart className={ likeBoolean ? classes.beforeClick : classes.afterClick } />
             <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
           </S.TraceBoxAlign>
         </S.TraceBox>
+
         <RefModalComment
           postId={id2}
           comments={comments}
           setComments={setComments}
+          againComments={againComments}
+          setAgainComments={setAgainComments}
         />
-        {/* 움직이는 모달 */}
+
+                      {/* 움직이는 모달 */}
         <Draggable onDrag={(_, data) => trackPos(data)}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', top: category==='video'? '-200px' : '-485px', position: 'relative', marginRight: '15px' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative', marginRight: '15px', top: category==='video'? '100px' : '-77px' }}>
             <DetailedFeedback
               id3={id2}
               modalVisibleId3={modalVisibleId3}
@@ -612,8 +616,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
             />
           </div>
         </Draggable>
-
-
       </S.MobalBox>
     </S.ModalWrapper>
   );

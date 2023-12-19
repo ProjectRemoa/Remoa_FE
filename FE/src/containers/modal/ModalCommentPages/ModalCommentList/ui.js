@@ -34,12 +34,14 @@ export const S = {
     margin-left: 12px;
     top: 0px;
   `,
-  Comment: styled.div`
+  Comment: styled.pre`
     color: var(--, #464646);
     font-size: 16px;
     font-weight: 500;
     line-height: 150%;
     letter-spacing: -0.32px;
+font-family: Pretendard;
+font-style: normal;
   `,
   EditButton: styled.div`
     position: absolute;

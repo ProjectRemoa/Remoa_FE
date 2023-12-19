@@ -7,7 +7,7 @@ import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styl
 import Dropdown from "../../../components/common/Dropdown";
 import RefCard from "../../reference/RefCard";
 import RefModal from "../../modal/RefModalPages/RefModal";
-import ManageDeleteAllContainer from "../manageDeleteAllContainer";
+import ManageDeleteContainer from "../manageDeleteContainer";
 import { useLocation } from "react-router";
 import BACK from "../../../images/back.svg"
 
@@ -35,13 +35,17 @@ function ManageListContainer() {
 
   const [buttonColor, setButtonColor] = useState([false, false]);
 
-  const [isDelete, setIsDelete] = useState(false);
+  const [isDelete, setIsDelete] = useState(false); // 삭제 버튼 활성화
   const [isOtherUser, setIsOtherUser] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const [name, setName] = useState();
+
+  const [deletedData, setDeletedData] = useState([]);
+
+  const [isSelected, setIsSelected] = useState(false);
 
   const handleSelectData = (data) => {
     setSelectedData(data);
@@ -141,6 +145,17 @@ function ManageListContainer() {
     navigate(-1)
   }
 
+
+  useEffect(() => {
+    if (buttonColor[1] === false && deletedData.length>0) {
+      console.log(deletedData);
+    }
+  }, [buttonColor]);
+
+  useEffect(() => {
+    console.log(deletedData);
+  },[deletedData])
+
   return (
     <S.ManageListContainer>
       <S.ManageTextBox state={isOtherUser}>
@@ -238,10 +253,19 @@ function ManageListContainer() {
                     onSelectedData={handleSelectData}
                     onProfileModal={handleProfileModal}
                     isDeletedData={isDelete}
+                    deletedData={deletedData}
+                    setDeletedData={setDeletedData}
                   />
                 ))}
               </RefList>
-                <S.MyPaginate previousLabel="<" nextLabel=">" pageCount={tp} onPageChange={(e) => { setPageNumber(e.selected + 1) }} />
+              <S.MyPaginate
+                previousLabel="<"
+                nextLabel=">"
+                pageCount={tp}
+                onPageChange={(e) => {
+                  setPageNumber(e.selected + 1);
+                }}
+              />
             </>
           )}
         </S.ManageListBox>
@@ -254,9 +278,21 @@ function ManageListContainer() {
         />
       )}
       {buttonColor[0] && (
-        <ManageDeleteAllContainer
+        <ManageDeleteContainer
           setButtonColor={setButtonColor}
           buttonColor={buttonColor}
+          isAll={true}
+          setIsDelete={setIsDelete}
+        />
+      )}
+      {!buttonColor[1] && deletedData.length > 0 && (
+        <ManageDeleteContainer
+          setButtonColor={setButtonColor}
+          buttonColor={buttonColor}
+          isAll={false}
+          setIsDelete={setIsDelete}
+          deletedData={deletedData}
+          setDeletedData={setDeletedData}
         />
       )}
     </S.ManageListContainer>

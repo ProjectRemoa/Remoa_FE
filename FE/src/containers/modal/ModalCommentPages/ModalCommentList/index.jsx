@@ -3,8 +3,10 @@ import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import React, { useState } from 'react';
 import axios from 'axios';
 import ModalCommentWriteAgain from '../ModalCommentWriteAgain';
+import { useEffect } from 'react';
+import ModalCommentListAgain from '../ModalCommentListAgain';
 
-export default function ModalCommentList({ comments, postId, setComments }) {
+export default function ModalCommentList({ comments, postId, setComments, setAgainComments, againComments }) {
         
   comments.sort((a, b) => {
     return  new Date(a.commentedTime)-new Date(b.commentedTime);
@@ -81,6 +83,11 @@ export default function ModalCommentList({ comments, postId, setComments }) {
         });
     };
 
+    // 대댓글
+    const [openWriteAgain, setOpenWriteAgain] = useState('')
+    const showAgain=(commentId)=>{
+      setOpenWriteAgain(commentId)
+    }
   return (
     <div style={{ marginTop: '20px' }}>
       {comments &&
@@ -129,7 +136,9 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                 <td style={{ height: '28px', paddingLeft: '52px' }}>
                 {(putMemberId !== comments.commentId) && (
                   <S.CommentTableBottom>
-                  <div style={{ cursor: 'pointer' }}>답글</div>
+                  <div style={{ cursor: 'pointer' }} onClick={()=>showAgain(comments.commentId)}>답글</div>
+
+
                     {comments.member.nickname === sessionStorage.getItem('nickname') && (
                       <>
                       &nbsp; | &nbsp;
@@ -158,7 +167,16 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                 </tr>
               </tbody>
             </S.AgainTable>
-            {/* <ModalCommentWriteAgain /> */}
+            <ModalCommentWriteAgain 
+            openWriteAgain={openWriteAgain} 
+            setOpenWriteAgain={setOpenWriteAgain} 
+            id={comments.commentId}
+            postId={postId}
+            comments={comments}
+            setAgainComments={setAgainComments} againComments={againComments} 
+             />
+            <ModalCommentListAgain replies={comments.replies} postId={postId} commentId={comments.commentId}/>
+
           </S.AgainWrapper>
         ))}
     </div>

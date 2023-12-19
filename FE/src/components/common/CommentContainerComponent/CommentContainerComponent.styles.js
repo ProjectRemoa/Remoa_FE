@@ -1,40 +1,5 @@
-import styled from 'styled-components'
-
-const Wrapper = styled.div`
-  width: 65vw;
-  margin: 61px 0 55px;
-`;
-
-const CommentContainer = styled.div`
-  font-weight: 700;
-  font-size: 25px;
-  text-align: left;
-`;
-
-const CommentListContainer = styled.div`
-  width: 100%;
-`;
-
-const NullData = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 86px;
-`;
-
-const MoreSearch = styled.button`
-  width: 236px;
-  height: 48px;
-  margin-top: 46px;
-  background-color: #fada5e;
-  border: none;
-  border-radius: 50px;
-  font-family: Pretendard-SemiBold;
-  &:hover {
-    background-color: #dfb71c;
-  }
-`;
+import ReactPaginate from "react-paginate";
+import styled from "styled-components";
 
 const ContentsContainer = styled.div`
   display: flex;
@@ -50,8 +15,8 @@ const AsideContainer = styled.div`
 const Img = styled.img`
   width: 297px;
   height: 167px;
-  border-radius: 8px;
   border: 1px solid #e1e2e5;
+  border-radius: 8px;
 `;
 
 const Button = styled.button`
@@ -84,10 +49,7 @@ const HorizonLine = styled.hr`
   background: #e7e7e7;
   border: 0;
 `;
-const Contents = styled.div`
-  /* display: flex;
-  flex-direction: column; */
-`;
+const Contents = styled.div``;
 
 const CommentsContainer = styled.div`
   height: 60px;
@@ -127,31 +89,51 @@ const ProfileContents = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: start;
   margin-left: 12px;
   font-size: 16px;
 `;
 
 const ProfileNickname = styled.div`
-  font-weight: 700;
+  font-family: Pretendard-Bold;
 `;
 
 const MyComment = styled.div`
-  font-weight: 500;
+  font-family: Pretendard-SemiBold;
   color: #464646;
 `;
 
-const ButtonBox = styled.div`
+const MyPaginate = styled(ReactPaginate)`
   display: flex;
-  justify-content: space-between;
-  margin-top: 9.75px;
+  justify-content: center;
+  list-style: none;
+
+  li {
+    margin-right: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    color: #727272;
+    cursor: pointer;
+  }
+
+  li.previous,
+  li.next {
+    color: #000000;
+  }
+
+  li.selected a {
+    font-weight: 800;
+    font-size: 15px;
+    color: #1e1e1e;
+    cursor: default;
+  }
+
+  li.disabled {
+    cursor: default;
+  }
 `;
 
-export const styledComponent = {
-  Wrapper,
-  CommentContainer,
-  CommentListContainer,
-  NullData,
-  MoreSearch,
+const styledComponent = {
   ContentsContainer,
   AsideContainer,
   Img,
@@ -168,5 +150,7 @@ export const styledComponent = {
   ProfileContents,
   ProfileNickname,
   MyComment,
-  ButtonBox,
+  MyPaginate,
 };
+
+export default styledComponent;
