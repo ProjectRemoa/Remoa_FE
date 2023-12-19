@@ -46,7 +46,13 @@ export default function RefListContainer({ search: searchKeyword }) {
   };
 
   const handlePageClick = (data) => {
-    setPage(data.selected + 1);
+    // 버튼 클릭 시 2페이지 이상은 로그인 된 유저만 볼 수 있음 -> 로그인 된 상태가 아니면 로그인 창으로 이동
+    if (data.selected + 1 > 1 && !sessionStorage.getItem('nickname')) {
+      alert('로그인 후 이용해주세요!');
+      navigate('/sociallogin');
+    } else {
+      setPage(data.selected + 1);
+    }
   };
 
   useEffect(() => {
