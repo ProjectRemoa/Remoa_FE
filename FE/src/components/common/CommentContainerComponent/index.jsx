@@ -1,6 +1,9 @@
 import { useState } from "react";
 import RefModal from "../../../containers/modal/RefModalPages/RefModal";
 import styledComponent from "./CommentContainerComponent.styles";
+import DetailedFeedback from "../../../containers/modal/DetailedFeedbackPages/DetailedFeedback";
+import axios from "axios";
+
 const {
   ContentsContainer,
   AsideContainer,
@@ -21,14 +24,44 @@ const {
   MyPaginate,
 } = styledComponent;
 
-function CommentContainerComponent({ data, setPage, totalPages }) {
+function CommentContainerComponent({ data, setPage, totalPages, isFromManage }) {
   const [postId, setPostId] = useState(0);
   const [modalVisibleId, setModalVisibleId] = useState("");
+  const [fbVisibleId, setFbVisibleId] = useState("");
+  const [feedback, setFeedback] = useState();
 
   const onClickModal = (postId) => {
     setPostId(postId);
     setModalVisibleId(postId);
   };
+  const onClickPopupFeedback = (postId) => {
+    setPostId(postId);
+    setFbVisibleId(postId);
+    let endpoint = `/BE/reference/${postId}`;
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(endpoint);
+        console.log(response);
+        
+        const {
+          data: {
+            data: {
+              feedbacks,
+            },
+          },
+        } = response;
+        
+        setFeedback(feedbacks);
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    };
+
+     fetchData();
+  }
+  
 
   return (
     <>
@@ -52,10 +85,17 @@ function CommentContainerComponent({ data, setPage, totalPages }) {
               </Button>
               <Button
                 onClick={() => {
-                  onClickModal(data.postId);
+                  //if (isFromManage) {
+                    onClickPopupFeedback(data.postId);
+                  //}
+                  //else onClickModal(data.postId);
                 }}
               >
-                내 피드백 바로가기
+                {isFromManage === true ? (
+                  <>상세 피드백 팝업</>
+                ) : (
+                  <>내 피드백 바로가기</>
+                )}
               </Button>
             </div>
           </AsideContainer>
@@ -91,6 +131,19 @@ function CommentContainerComponent({ data, setPage, totalPages }) {
           id2={postId}
           modalVisibleId2={modalVisibleId}
           setModalVisibleId2={setModalVisibleId}
+        />
+      )}
+      {fbVisibleId !== "" && (
+        <DetailedFeedback
+          id3={postId}
+          modalVisibleId3={fbVisibleId}
+          setModalVisibleId3={setFbVisibleId}
+          numPages={1}
+          media={data}
+          link={data}
+          feedbacks={feedback}
+          setFeedback={setFeedback}
+          isFromManage={true}
         />
       )}
     </>

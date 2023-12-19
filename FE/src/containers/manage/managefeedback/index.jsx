@@ -113,7 +113,7 @@ function ManageFeedbackContainer() {
                 />
               </S.SortBox>
                 <S.Line style={{ border: "1px solid white" }} />
-                <CommentContainerComponent data={data} setPage={setPage} totalPages={tp} />
+                <CommentContainerComponent data={data} setPage={setPage} totalPages={tp} isFromManage={true} />
             </>
           )}
         </S.ManageListBox>

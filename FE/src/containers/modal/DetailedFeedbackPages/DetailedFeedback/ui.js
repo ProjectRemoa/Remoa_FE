@@ -4,7 +4,10 @@ export const S = {
   ModalWrapper: styled.div`
     cursor: move;
     position:absolute;
-    top:-100vh;
+
+    top: ${(props) => (props.state) ? "293px":"-100vh"};
+    right: ${(props) => (props.state) && "567px"};
+    //top:-100vh;
     width: 484px;
     height: 743px;
     z-index: 9;
