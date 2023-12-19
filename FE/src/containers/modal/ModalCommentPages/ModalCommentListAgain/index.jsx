@@ -22,6 +22,8 @@ export default function ModalCommentListAgain({replies,setAgainComments, againCo
         console.log(err);
       });
   };
+
+
   return (
     <>
     {replies && replies.map((replies)=>(
@@ -40,9 +42,10 @@ export default function ModalCommentListAgain({replies,setAgainComments, againCo
         <td style={{width: 'auto'}}>{replies.member.nickname}</td>
       </tr>
       <tr>
-        <td>{replies.content}</td>
+        <td><S.Nickname>{replies.content}</S.Nickname></td>
       </tr>
     </table>
+    <span>대댓글 좋아요 {replies.likeCount}</span>
     <button onClick={onDelete}>삭제</button>
   </div>
     ))}

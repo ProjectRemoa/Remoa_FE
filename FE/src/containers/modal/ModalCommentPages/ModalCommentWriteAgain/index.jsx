@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { S } from './ui';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
+import { S as SS } from '../ModalCommentList/ui'
 
 export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWriteAgain,comments,postId,  setAgainComments, againComments }) {
   const [contents, setContents] = useState('');
@@ -36,24 +37,62 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
   const onCloseHandler = () => {
   	setOpenWriteAgain("")
   }
+
+  const getProfile = async () => {
+    try {
+      const res = await axios.get("/BE/user", { withCredentials: true });
+      if (res.status === 200) {
+        setUserData(res.data.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const [userData, setUserData] = useState({});
+  const [profileImage, setProfileImage] = useState("");
+
+  const { nickname } = userData;
+
+  const getProfileImg = async () => {
+    try {
+      const res = await axios.get("/BE/user/img");
+      if (res.status === 200) setProfileImage(res.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+    getProfileImg();
+  }, []);
+
   return (
     <div style={{display: openWriteAgain === id ? "block" : "none"}}>
-      <S.Differentiate />
-      <table style={{display: 'inherit',}}>
+      <S.Differentiate />  
+      <table>
         <tr>
-          <S.Imsi rowspan="2" width={30}>
+          <td rowspan="2">
             <MdOutlineSubdirectoryArrowRight style={{ fontSize: '23px' }} />
-          </S.Imsi>
-          <S.Imsi rowspan="2" width={40}>
-          <button onClick={onSumbitHandler}>등록</button>
-          </S.Imsi>
-          <S.Imsi style={{width: 'auto'}} onClick={onCloseHandler}>닫기</S.Imsi>
+
+          </td>
+          <td rowspan="2">
+          <SS.ProfileSize src={profileImage} style={{position:'relative'}} />
+          </td>
+          <td>
+          </td>
         </tr>
         <tr>
-          <S.Imsi>
-            <S.WriteInput onChange={onChangeContents}
-        value={contents} />
-          </S.Imsi>
+          <td style={{position:'relative', left:'40px'}}>
+          <S.Nickname>{nickname}</S.Nickname>
+          <S.WriteInput wrap="hard" onChange={onChangeContents} value={contents} placeholder='해당 댓글에 대한 의견을 자유롭게 남겨주세요!
+            욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.' />
+            <div style={{position:'absolute', right:1, bottom:5, margin:'12px'}}>
+              <S.CloseButton onClick={onCloseHandler} style={{marginRight:'12px', backgroundColor:'white', border:'1px solid black'}}>닫기</S.CloseButton>
+              <S.CloseButton onClick={onSumbitHandler}>등록</S.CloseButton>
+            </div>
+          </td>
         </tr>
       </table>
       <S.Differentiate />

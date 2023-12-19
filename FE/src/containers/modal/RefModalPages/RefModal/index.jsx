@@ -369,7 +369,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
-
       <S.MobalBox onClick={(e) => e.stopPropagation()}> {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
         <S.ModalRealTop>
@@ -585,13 +584,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           )}
         </S.MobalContents>
 
-
         <S.TraceBox onClick={() => handleLike()}>
           <S.TraceBoxAlign>
             <AiOutlineHeart className={ likeBoolean ? classes.beforeClick : classes.afterClick } />
             <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
           </S.TraceBoxAlign>
         </S.TraceBox>
+
         <RefModalComment
           postId={id2}
           comments={comments}
@@ -599,9 +598,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           againComments={againComments}
           setAgainComments={setAgainComments}
         />
-        {/* 움직이는 모달 */}
-        <Draggable onDrag={(_, data) => trackPos(data)}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', top: category==='video'? '-200px' : '-485px', position: 'relative', marginRight: '15px' }}>
+
+                      {/* 움직이는 모달 */}
+                      <Draggable onDrag={(_, data) => trackPos(data)}>
+{/*  style={{ display: 'flex', justifyContent: 'flex-end', top: category==='video'? '-200px' : '-485px', position: 'relative', marginRight: '15px' }}*/}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative', marginRight: '15px', top: category==='video'? '100px' : '-77px' }}>
             <DetailedFeedback
               id3={id2}
               modalVisibleId3={modalVisibleId3}
@@ -616,8 +617,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
             />
           </div>
         </Draggable>
-
-
       </S.MobalBox>
     </S.ModalWrapper>
   );

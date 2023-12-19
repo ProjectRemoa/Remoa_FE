@@ -6,10 +6,12 @@ export const S = {
     padding: 0px 15px 50px 15px;
     height: auto;
     border-radius: 0px 0px 10px 10px;
-    position: relative;
+    position: absolute;
     display: block;
+    background-color: white;
     justify-content: center;
-    left: -15px;
+    left: 0px;
+    box-sizing: border-box;
   `,
   CommentWriteWrapper: styled.form`
     display: block;
