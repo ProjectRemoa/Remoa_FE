@@ -41,7 +41,6 @@ function ManageDeleteContainer({
   const onClickHold = () => {
     setButtonColor([false, false]);
     setIsDelete(false);
-    deletedData.legnth = 0;
     setDeletedData([]);
   };
 
@@ -54,7 +53,6 @@ function ManageDeleteContainer({
           onClick={() => {
             setButtonColor([false, false]);
             setIsDelete(false);
-            deletedData.legnth = 0;
             setDeletedData([]);
           }}
         />

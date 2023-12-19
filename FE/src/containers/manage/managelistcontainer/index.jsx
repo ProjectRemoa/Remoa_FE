@@ -284,6 +284,8 @@ function ManageListContainer() {
           buttonColor={buttonColor}
           isAll={true}
           setIsDelete={setIsDelete}
+          deletedData={deletedData}
+          setDeletedData={setDeletedData}
         />
       )}
       {!buttonColor[1] && deletedData.length > 0 && (
