@@ -5,8 +5,12 @@ import { useEffect, useState } from 'react';
 export const useReferencesData = (params) => {
   const [referenceData, setReferenceData] = useState();
 
-  const { data } = useQuery(['references', params], () =>
-    getReferences(params)
+  const { data } = useQuery(
+    ['references', params],
+    () => getReferences(params),
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   useEffect(() => {
