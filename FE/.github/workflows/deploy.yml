@@ -1,0 +1,42 @@
+name: remoa deployment
+
+on:
+  push:
+    branches:
+      - predeploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout Github Action
+        uses: actions/checkout@v3
+
+      - name: .env setting
+        run: |
+          echo "REACT_APP_UNIVERSITY_KEY=${{secrets.REACT_APP_UNIVERSITY_KEY}}" >> .env
+          echo "REACT_APP_REST_API_KEY=${{secrets.REACT_APP_REST_API_KEY}}" >> .env
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: CI='false' npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-region: ap-northeast-2
+
+      - name: Deploy to S3
+        env:
+          BUCKET_NAME: ${{secrets.AWS_BUCKET_NAME}}
+        run: aws s3 sync ./build s3://$BUCKET_NAME --acl bucket-owner-full-control
+
+      - name: Invalidate CloudFront Cache
+        env:
+          CLOUD_FRONT_ID: ${{secrets.AWS_CLOUDFRONT_ID}}
+        run: aws cloudfront create-invalidation --distribution-id $CLOUD_FRONT_ID --path "/*"
