@@ -1,16 +1,8 @@
 import React from 'react';
 import { S } from './ui';
-import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
 
-const useStyles = makeStyles({
-  check: {
-    fontWeight: '700',
-  },
-});
-
 export default function FirstModal({ setModalOpen }) {
-  const classes = useStyles();
   const navigate = useNavigate();
 
   const onClickChange = () => {

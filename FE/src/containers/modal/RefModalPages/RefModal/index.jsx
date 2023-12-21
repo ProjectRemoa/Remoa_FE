@@ -2,7 +2,6 @@ import Loading from '../../../../styles/Loading';
 import { S } from './ui';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai'
-import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { getDate } from '../../../../functions/getDate';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -28,52 +27,8 @@ import ModalRange from '../RefModalRange';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const useStyles = makeStyles({
-  arrow: {
-    fontSize: '25px',
-    cursor: 'pointer',
-    marginLeft: '5px',
-    fontWeight: '700',
-    float:'left'
-  },
-  dis: {
-    display: 'none',
-  },
-  show: {
-    display: 'flex',
-  },
-
-  beforeClick: {
-    color: '#B0B0B0',
-  },
-  afterClick: {
-    color: 'red',
-  },
-  dotIcon: {
-    cursor: 'pointer',
-  },
-  headerIcon: {
-    lineHeight:'18px',
-    width:'18px',
-    height:'18px',
-  },
-  scrapButton: {
-    borderRadius: '12px',
-    border: '1px solid var(--gray, #A7A7A7)',
-    backgroundColor: '#FFF',
-    color:'#464646',
-    fontSize: '16px',
-    fontWeight: '600',
-    letterSpacing: '-0.32px',
-    '&:hover': {
-      background: 'var(--light-gray, #F0F0F0)'
-    }
-  },
-});
-
 export default function RefModal({ id2, setModalVisibleId2 }) {
   AuthLayout()
-  const classes = useStyles();
   const Navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -372,10 +327,16 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       <S.MobalBox onClick={(e) => e.stopPropagation()}> {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
         <S.ModalRealTop>
-        <AiOutlineLeft className={classes.arrow} onClick={onCloseHandler2} />
+        <AiOutlineLeft style={{    fontSize: '25px',
+          cursor: 'pointer',
+          marginLeft: '5px',
+          fontWeight: '700',
+          float:'left'}} 
+          onClick={onCloseHandler2}
+        />
         {postMember.nickname === sessionStorage.getItem('nickname') && (
           <div style={{float:'right'}}>
-            <BsThreeDotsVertical className={classes.dotIcon} onClick={showSelect} />
+            <BsThreeDotsVertical style={{cursor:'pointer'}} onClick={showSelect} />
             {showSel && (
               <S.EtcDiv>
                 <S.Functionp onClick={showModalDelete}>삭제하기</S.Functionp>
@@ -409,21 +370,32 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
               <S.HeaderUserName>{postMember.nickname}</S.HeaderUserName>
               <S.HeaderDetail2>
                 <S.eachIcon>
-                  <AiTwotoneEye className={classes.headerIcon} />
+                  <AiTwotoneEye style={{lineHeight:'18px', width:'18px', height:'18px' }} />
                   <S.eachText>{formatCount(top.views)}</S.eachText>
                 </S.eachIcon>
                 <S.eachIcon>
-                  <AiFillHeart className={classes.headerIcon} />
+                  <AiFillHeart style={{lineHeight:'18px', width:'18px', height:'18px' }} />
                   <S.eachText>{formatCount(top.likeCount)}</S.eachText>
                 </S.eachIcon>
                 <S.eachIcon>
-                  <BsFillBookmarkFill className={classes.headerIcon} />
+                  <BsFillBookmarkFill style={{lineHeight:'18px', width:'18px', height:'18px' }} />
                   <S.eachText>{formatCount(top.scrapCount)}</S.eachText>
                 </S.eachIcon>
               </S.HeaderDetail2>
             </S.HeaderUserInfo>
             <S.DetailFeedbackButtonWrapper>
-            <S.DetailFeedbackButton className={classes.scrapButton} onClick={() => handleScrap()}>
+            <S.DetailFeedbackButton style={{
+              borderRadius: '12px',
+              border: '1px solid var(--gray, #A7A7A7)',
+              backgroundColor: '#FFF',
+              color:'#464646',
+              fontSize: '16px',
+              fontWeight: '600',
+              letterSpacing: '-0.32px',
+              '&:hover': {
+                background: 'var(--light-gray, #F0F0F0)'
+              }
+            }} onClick={() => handleScrap()}>
               <BsBookmark /> &nbsp;
               스크랩하기
             </S.DetailFeedbackButton>
@@ -586,7 +558,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
         <S.TraceBox onClick={() => handleLike()}>
           <S.TraceBoxAlign>
-            <AiOutlineHeart className={ likeBoolean ? classes.beforeClick : classes.afterClick } />
+            <AiOutlineHeart style={{color:likeBoolean ? '#B0B0B0' : 'red'}} />
             <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
           </S.TraceBoxAlign>
         </S.TraceBox>
