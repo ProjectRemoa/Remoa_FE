@@ -6,7 +6,7 @@ export const S = {
     position:absolute;
     top:-100vh;
     width: 484px;
-    height: 743px;
+    height: 829px;
     z-index: 9;
     border-radius: 8px;
     border: 1px solid var(--line, #D5D5D5);

@@ -29,6 +29,9 @@ export default function DetaileFeedback({
   feedbacks,
   setFeedback,
 }) {
+  feedbacks.sort((a, b) => {
+    return  new Date(a.feedbackTime)-new Date(b.feedbackTime);
+  });
   const navigate = useNavigate();
   const classes = useStyles();
 
@@ -51,6 +54,8 @@ export default function DetaileFeedback({
     if (sessionStorage.getItem('nickname') === null) {
       alert('로그인이 필요한 서비스입니다.');
       navigate('/sociallogin');
+    } else if (sessionStorage.getItem('nickname') === ''){
+      
     } else {
       e.preventDefault();
       const UploaSeedback = {

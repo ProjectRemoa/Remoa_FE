@@ -600,8 +600,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         />
 
                       {/* 움직이는 모달 */}
-                      <Draggable onDrag={(_, data) => trackPos(data)}>
-{/*  style={{ display: 'flex', justifyContent: 'flex-end', top: category==='video'? '-200px' : '-485px', position: 'relative', marginRight: '15px' }}*/}
+        <Draggable onDrag={(_, data) => trackPos(data)}>
           <div style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative', marginRight: '15px', top: category==='video'? '100px' : '-77px' }}>
             <DetailedFeedback
               id3={id2}
