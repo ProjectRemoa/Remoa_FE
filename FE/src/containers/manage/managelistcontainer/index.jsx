@@ -89,7 +89,8 @@ function ManageListContainer() {
     if (category === "marketing") setCheckIdx(2);
     if (category === "video") setCheckIdx(3);
     if (category === "design") setCheckIdx(4);
-    if (category === "etc") setCheckIdx(5);
+    if (category === "it") setCheckIdx(5);
+    if (category === "etc") setCheckIdx(6);
 
     setPageNumber(1);
     setTP(1);
@@ -283,6 +284,8 @@ function ManageListContainer() {
           buttonColor={buttonColor}
           isAll={true}
           setIsDelete={setIsDelete}
+          deletedData={deletedData}
+          setDeletedData={setDeletedData}
         />
       )}
       {!buttonColor[1] && deletedData.length > 0 && (

@@ -1,14 +1,16 @@
-import { GoEye, GoStarFill } from "react-icons/go";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart } from 'react-icons/fa';
 
-import StyledComponents from "./RefCard.styles";
-import { useEffect, useState } from "react";
+import StyledComponents from './RefCard.styles';
+import { useEffect, useState } from 'react';
 
-import RefModalFollow from "../../modal/RefModalFollow";
-import { useParams } from "react-router-dom";
+import RefModalFollow from '../../modal/RefModalFollow';
+import { useParams } from 'react-router-dom';
 
-import BeforeChecked  from "../../../images/before_checked.svg";
-import AfterChecked from "../../../images/after_checked.svg";
+import { TbEyeFilled } from 'react-icons/tb';
+import { BsFillBookmarkFill } from 'react-icons/bs';
+
+import BeforeChecked from '../../../images/before_checked.svg';
+import AfterChecked from '../../../images/after_checked.svg';
 
 const {
   RefCardWrapper,
@@ -57,7 +59,7 @@ function RefCard({
   };
 
   const handleProfileModal = () => {
-    if (window.location.href.includes("manage") === true) {
+    if (window.location.href.includes('manage') === true) {
       // 작업물 관리에서는 프로필 띄우지 않음
     } else {
       if (postId === selectedPostId) {
@@ -114,7 +116,7 @@ function RefCard({
             handleProfileModal();
           }}
         >
-          <img src={postMember.profileImage} alt="profile image" />
+          <img src={postMember.profileImage} alt="profile" />
         </RefCardProfileImg>
 
         {/*  사용자 정보 */}
@@ -128,21 +130,21 @@ function RefCard({
           </RefCardProfileName>
 
           <RefCardFunctionWrapper>
-            {!id || window.location.href.includes("user/list") ? (
+            {!id || window.location.href.includes('user/list') ? (
               <>
                 {/* 조회수 */}
                 <RefCardFunctionIcon>
-                  <GoEye className="views" /> {formatCount(views)}
+                  <TbEyeFilled className="views" /> {formatCount(views)}
                 </RefCardFunctionIcon>
 
                 {/* 좋아요 */}
                 <RefCardFunctionIcon>
-                  <FaHeart className="likes" /> {formatCount(likeCount)}
+                  <FaHeart /> {formatCount(likeCount)}
                 </RefCardFunctionIcon>
 
                 {/* 스크랩 */}
                 <RefCardFunctionIcon>
-                  <GoStarFill className="scrap" /> {formatCount(scrapCount)}
+                  <BsFillBookmarkFill /> {formatCount(scrapCount)}
                 </RefCardFunctionIcon>
               </>
             ) : (

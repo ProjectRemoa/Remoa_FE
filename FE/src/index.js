@@ -1,46 +1,52 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import styled from "styled-components";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import SocialLoginPage from "./page/sociallogin/SocialLoginPage";
-import UnknownPage from "./page/UnknownPage";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import styled from 'styled-components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import SocialLoginPage from './page/sociallogin/SocialLoginPage';
+import UnknownPage from './page/UnknownPage';
 
-import RefPage from "./page/reference/RefPage";
+import RefPage from './page/reference/RefPage';
 
-import ManageList from "./page/manage/ManageList";
-import ManageShare from "./page/manage/ManageShare";
-import ManageFeedback from "./page/manage/ManageFeedback";
+import ManageList from './page/manage/ManageList';
+import ManageShare from './page/manage/ManageShare';
+import ManageFeedback from './page/manage/ManageFeedback';
 
-import MyPage from "./page/mypage/MyPage";
-import MyPageFAQNew from "./containers/mypage/MyPageFAQNew";
-import MyPageFAQDetail from "./containers/mypage/MyPageFAQDetail";
+import MyPage from './page/mypage/MyPage';
+import MyPageFAQNew from './containers/mypage/MyPageFAQNew';
+import MyPageFAQDetail from './containers/mypage/MyPageFAQDetail';
 
-import SignUpPage from "./page/SignUpPage";
-import EmailFind from "./page/findinfo/EmailFind";
-import PasswordFind from "./page/findinfo/PasswordFind";
-import KakaoLogin from "./containers/sociallogin/KakaoLogin/index.jsx";
+import SignUpPage from './page/SignUpPage';
+import EmailFind from './page/findinfo/EmailFind';
+import PasswordFind from './page/findinfo/PasswordFind';
+import KakaoLogin from './containers/sociallogin/KakaoLogin/index.jsx';
 
-import theme from "./layout/theme";
+import theme from './layout/theme';
 
-import { CookiesProvider } from "react-cookie";
-import axios from "axios";
-import { ThemeProvider } from "styled-components";
-import RefModal from "./containers/modal/RefModalPages/RefModal";
+import { CookiesProvider } from 'react-cookie';
+import axios from 'axios';
+import { ThemeProvider } from 'styled-components';
+import RefModal from './containers/modal/RefModalPages/RefModal';
 
-import Auth from "./Auth";
-import AuthLayout from "./layout/AuthLayout";
+import Auth from './Auth';
+import AuthLayout from './layout/AuthLayout';
 
-import { RecoilRoot } from "recoil";
-import { QueryClient, QueryClientProvider } from "react-query";
-import ScrollToTop from "./components/common/ScrollToTop/index.jsx";
+import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import ScrollToTop from './components/common/ScrollToTop/index.jsx';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 axios.defaults.withCredentials = true;
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
   Wrapper: styled.div`
     width: 100vw;

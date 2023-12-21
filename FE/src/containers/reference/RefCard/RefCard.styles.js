@@ -1,13 +1,4 @@
-import styled from "styled-components";
-
-const RefCardWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  height: fit-content;
-`;
+import styled from 'styled-components';
 
 const RefCardSelectedDeleted = styled.img`
   position: absolute;
@@ -15,8 +6,8 @@ const RefCardSelectedDeleted = styled.img`
   z-index: 3;
   top: 7.75px;
   left: 7.75px;
-  cursor:pointer;
-`
+  cursor: pointer;
+`;
 
 const RefCardThumbnailWrapper = styled.div`
   position: relative;
@@ -25,8 +16,25 @@ const RefCardThumbnailWrapper = styled.div`
   height: 0;
   padding-top: 56.36%;
   background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #e1e2e5;
   overflow: hidden;
   cursor: pointer;
+`;
+
+const RefCardWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: fit-content;
+
+  &:hover {
+    ${RefCardThumbnailWrapper} {
+      box-shadow: 0px 0px 10px 0px #3f3f3f42;
+    }
+  }
 `;
 
 const RefCardThumbnail = styled.img`
@@ -45,9 +53,9 @@ const RefCardThumbnail = styled.img`
 
 const RefCardTitle = styled.p`
   width: 100%;
-  margin: 15px 0 0 0;
+  margin: 16px 0 0 0;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: initial;
@@ -59,13 +67,13 @@ const RefCardProfileWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-
-  margin-top: 15px;
+  margin-top: 12px;
 `;
+
 const RefCardProfileImg = styled.div`
-  width: 40px;
-  min-width: 40px;
-  height: 40px;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 1px solid #ededed;
   overflow: hidden;
@@ -81,7 +89,7 @@ const RefCardProfileImg = styled.div`
 const RefCardInfo = styled.div`
   display: flex;
   width: 100%;
-  margin-left: 6px;
+  margin-left: 8px;
 `;
 
 const RefCardProfileName = styled.div`
@@ -94,6 +102,8 @@ const RefCardFunctionWrapper = styled.div`
   display: flex;
   margin-left: auto;
   gap: 0 10px;
+  color: #a7a7a7;
+  cursor: default;
 `;
 
 const RefCardFunctionIcon = styled.div`
@@ -101,18 +111,16 @@ const RefCardFunctionIcon = styled.div`
   align-items: center;
 
   svg {
-    width: 24px;
-    min-width: 24px;
-    height: 24px;
-    margin-right: 8px;
+    width: 16px;
+    min-width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    color: #a7a7a7;
+
     &.views {
-      font-weight: bold;
-    }
-    &.likes {
-      fill: #f24e1e;
-    }
-    &.scrap {
-      fill: #fada5e;
+      width: 20px;
+      min-width: 20px;
+      height: 20px;
     }
   }
 `;

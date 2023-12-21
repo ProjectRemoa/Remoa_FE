@@ -27,7 +27,8 @@ function ManageFeedbackContainer() {
     if (category === "marketing") setCheckIdx(2);
     if (category === "video") setCheckIdx(3);
     if (category === "design") setCheckIdx(4);
-    if (category === "etc") setCheckIdx(5);
+    if (category === "it") setCheckIdx(5);
+    if (category === "etc") setCheckIdx(6);
   };
 
   const onClickContents = () => {
@@ -112,7 +113,7 @@ function ManageFeedbackContainer() {
                 />
               </S.SortBox>
                 <S.Line style={{ border: "1px solid white" }} />
-                <CommentContainerComponent data={data} setPage={setPage} totalPages={tp} />
+                <CommentContainerComponent data={data} setPage={setPage} totalPages={tp} isFromManage={true} />
             </>
           )}
         </S.ManageListBox>

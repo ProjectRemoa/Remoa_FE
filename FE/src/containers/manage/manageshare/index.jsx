@@ -39,14 +39,15 @@ function ManageShareContainer() {
   /* 카테고리 */
   const onChangeCategory = (name) => {
     setCategory(name);
-    if (name === "idea") setChecked([1, 0, 0, 0, 0]);    
-    if (name === "marketing") setChecked([0, 1, 0, 0, 0]);
+    if (name === "idea") setChecked([1, 0, 0, 0, 0, 0]);    
+    if (name === "marketing") setChecked([0, 1, 0, 0, 0, 0]);
     if (name === "video") {
-      setChecked([0, 0, 1, 0, 0]);
+      setChecked([0, 0, 1, 0, 0, 0]);
       setUploads([]); // 초기화
     }
-    if (name === "design") setChecked([0, 0, 0, 1, 0]);
-    if (name === "etc") setChecked([0, 0, 0, 0, 1]);
+    if (name === "design") setChecked([0, 0, 0, 1, 0, 0]);
+    if (name === "it") setChecked([0, 0, 0, 0, 1, 0]);
+    if (name === "etc") setChecked([0, 0, 0, 0, 0, 1]);
   };
 
   const onChangeYoutubeLink = (e) => {
@@ -255,6 +256,8 @@ function ManageShareContainer() {
       });
   };
 
+  const [isNull, setIsNull] = useState(false);
+
   return (
     <S.ManageShareContainer>
       {/* loading && <Loading/> */}
@@ -320,6 +323,12 @@ function ManageShareContainer() {
                   </S.Category>
                   <S.Category
                     checked={checked[4]}
+                    onClick={() => onChangeCategory("it")}
+                  >
+                    IT/디지털
+                  </S.Category>
+                  <S.Category
+                    checked={checked[5]}
                     onClick={() => onChangeCategory("etc")}
                   >
                     기타 아이디어
@@ -354,7 +363,9 @@ function ManageShareContainer() {
                     </S.ThumbnailText>
                   ) : (
                     <div>
-                      <span style= {{paddingLeft : "16px"}}>{thumbnail.name}&nbsp;</span>
+                      <span style={{ paddingLeft: "16px" }}>
+                        {thumbnail.name}&nbsp;
+                      </span>
                       <span
                         onClick={(e) => {
                           e.stopPropagation(); // 겹쳐진 영역 중복 클릭 방지
@@ -422,13 +433,22 @@ function ManageShareContainer() {
           </tbody>
         </S.ManageShareTable>
       </S.ManageShareBox>
-      <S.Button
-        disabled={!buttonColor}
-        state={buttonColor}
-        onClick={onClickRegister}
-      >
-        {isEdit?"수정하기":"등록하기"}
-      </S.Button>
+      <S.ButtonBox>
+        <S.WarningBox>
+          {!buttonColor ? (
+            <>아직 모든 정보가 입력되지 않았어요!</>
+          ) : (
+            <>&nbsp;</>
+          )}
+        </S.WarningBox>
+        <S.Button
+          disabled={!buttonColor}
+          state={buttonColor}
+          onClick={onClickRegister}
+        >
+          {isEdit ? "수정하기" : "등록하기"}
+        </S.Button>
+      </S.ButtonBox>
     </S.ManageShareContainer>
   );
 }

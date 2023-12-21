@@ -8,7 +8,7 @@ const CategoryBox = styled.div`
 `;
 
 const Category = styled.div`
-  width: 200px;
+  width: 170px;
   height: 44px;
   border: 1px solid ${(props) => (props.checked ? "black" : "#CECECE")};
   border-radius: 10px;

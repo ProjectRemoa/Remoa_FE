@@ -28,6 +28,7 @@ export default function DetaileFeedback({
   link,
   feedbacks,
   setFeedback,
+  isFromManage
 }) {
   feedbacks.sort((a, b) => {
     return  new Date(a.feedbackTime)-new Date(b.feedbackTime);
@@ -82,13 +83,14 @@ export default function DetaileFeedback({
 
   return (
     <S.ModalWrapper
-      className={modalVisibleId3 !== id3 && classes.display_none }
+      state={isFromManage}
+      className={modalVisibleId3 !== id3 && classes.display_none}
     >
       <S.ModalHeader>
         <S.HeaderText>상세 피드백 뷰어</S.HeaderText>
         <AiOutlineClose
           onClick={() => {
-            setModalVisibleId3('');
+            setModalVisibleId3("");
           }}
           className={classes.modal_close}
         />
@@ -104,56 +106,54 @@ export default function DetaileFeedback({
       </S.Feedback>
 
       <S.ModalWriteFeed>
-          <S.RegTop>
-            <S.RegExplain>
-              <S.FeedbackText>
-                피드백
-              </S.FeedbackText>
-              <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>
-            </S.RegExplain>
-            <select
-              onChange={handleSelect}
-              style={{
-                width: '55px',
-                height: '32px',
-                borderRadius: '2px',
-                position: 'relative',
-                bottom: '6px',
-                border: '1px solid var(--line, #E1E2E5)'
-              }}
-              disabled={link}
-            >
-              {opti &&
-                opti.map((a) => {
-                  return (
-                    <option value={a} key={a}>
-                      {a}
-                    </option>
-                  );
-                })}
-                
-              {/* pdf  */}
-              {pageCount &&
-                pageCount.map((a) => {
-                  return (
-                    <option value={a} key={a}>
-                      {a}
-                    </option>
-                  );
-                })}
+        <S.RegTop>
+          <S.RegExplain>
+            <S.FeedbackText>피드백</S.FeedbackText>
+            <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>
+          </S.RegExplain>
+          <select
+            onChange={handleSelect}
+            style={{
+              width: "55px",
+              height: "32px",
+              borderRadius: "2px",
+              position: "relative",
+              bottom: "6px",
+              border: "1px solid var(--line, #E1E2E5)",
+            }}
+            disabled={link}
+          >
+            {opti &&
+              opti.map((a) => {
+                return (
+                  <option value={a} key={a}>
+                    {a}
+                  </option>
+                );
+              })}
 
-              {/* 사진*/}
-            </select>
-            <S.FeedbackSend onClick={onSumbitHandler}>등록</S.FeedbackSend>
-          </S.RegTop>
-          <S.RegBottom>
-            <S.WriteInput
-              onChange={onChangeContents}
-              value={contents}
-              required
-              placeholder='피드백을 남겨주세요'
-            />
-          </S.RegBottom>
+            {/* pdf  */}
+            {pageCount &&
+              pageCount.map((a) => {
+                return (
+                  <option value={a} key={a}>
+                    {a}
+                  </option>
+                );
+              })}
+
+            {/* 사진*/}
+          </select>
+          <S.FeedbackSend onClick={onSumbitHandler}>등록</S.FeedbackSend>
+        </S.RegTop>
+        <S.RegBottom>
+          <S.WriteInput
+            onChange={onChangeContents}
+            value={contents}
+            required
+            placeholder="피드백을 남겨주세요"
+          />
+        </S.RegBottom>
       </S.ModalWriteFeed>
     </S.ModalWrapper>
   );

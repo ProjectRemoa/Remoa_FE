@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import S from "./manageDeleteAllContainer.styles"
 import Cancel from "../../../images/cancel.svg"
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function ManageDeleteContainer({
   setButtonColor,
@@ -16,13 +18,29 @@ function ManageDeleteContainer({
       // 전체 삭제 API
     } else {
       // 부분삭제 API
+      console.log(deletedData);
+      let endpoint;
+      const fetchData = async (endpoint) => {
+        try {
+          const response = await axios.delete(endpoint);
+          console.log(response);
+        } catch (err) {
+          console.log(err);
+          return err;
+        }
+      };
+      for (let i = 0; i < deletedData.length; i++){
+        endpoint = `/BE/user/reference/${deletedData[i]}`;
+        fetchData(endpoint);
+      }
+      //alert("삭제되었습니다.");
+      window.location.reload();
     }
   };
 
   const onClickHold = () => {
     setButtonColor([false, false]);
     setIsDelete(false);
-    deletedData.legnth = 0;
     setDeletedData([]);
   };
 
@@ -35,7 +53,6 @@ function ManageDeleteContainer({
           onClick={() => {
             setButtonColor([false, false]);
             setIsDelete(false);
-            deletedData.legnth = 0;
             setDeletedData([]);
           }}
         />
