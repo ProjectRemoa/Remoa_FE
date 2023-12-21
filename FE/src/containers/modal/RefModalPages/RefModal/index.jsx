@@ -51,7 +51,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     youtubeLink: '', // category가 영상일 때
   });
   const [comments, setComments] = useState([]); // 댓글 왜 안되지
-  const [againComments, setAgainComments] = useState([]) // 요거 대댓글임
+  const [againComments, setAgainComments] = useState([]) // 요거 대댓
   const [feedback, setFeedback] = useState([]);
   const [postMember, setPostMember] = useState({
     memberId: 0,
