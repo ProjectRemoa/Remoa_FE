@@ -1,23 +1,9 @@
-import { makeStyles } from '@material-ui/core/styles';
 import { S } from './ui';
 import axios from 'axios';
 import React, { useState } from 'react';
 import DetailFeedbackComment from '../DetailedFeedbackComment'
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
-
-const useStyles = makeStyles({
-  display_none: {
-    display: 'none',
-  },
-  modal_close: {
-    fontSize: '24px',
-    cursor: 'pointer',
-    display: 'block',
-    position: 'absolute',
-    left: '432px',
-  },
-});
 
 export default function DetaileFeedback({
   id3,
@@ -30,8 +16,10 @@ export default function DetaileFeedback({
   setFeedback,
   isFromManage
 }) {
+  feedbacks.sort((a, b) => {
+    return  new Date(a.feedbackTime)-new Date(b.feedbackTime);
+  });
   const navigate = useNavigate();
-  const classes = useStyles();
 
   const [contents, setContents] = useState('');
 
@@ -52,6 +40,8 @@ export default function DetaileFeedback({
     if (sessionStorage.getItem('nickname') === null) {
       alert('로그인이 필요한 서비스입니다.');
       navigate('/sociallogin');
+    } else if (sessionStorage.getItem('nickname') === ''){
+      
     } else {
       e.preventDefault();
       const UploaSeedback = {
@@ -79,7 +69,7 @@ export default function DetaileFeedback({
   return (
     <S.ModalWrapper
       state={isFromManage}
-      className={modalVisibleId3 !== id3 && classes.display_none}
+      style={{display: modalVisibleId3 !== id3 && 'none'}}
     >
       <S.ModalHeader>
         <S.HeaderText>상세 피드백 뷰어</S.HeaderText>
@@ -87,7 +77,11 @@ export default function DetaileFeedback({
           onClick={() => {
             setModalVisibleId3("");
           }}
-          className={classes.modal_close}
+          style={{ fontSize: '24px',
+          cursor: 'pointer',
+          display: 'block',
+          position: 'absolute',
+          left: '432px'}}
         />
       </S.ModalHeader>
 

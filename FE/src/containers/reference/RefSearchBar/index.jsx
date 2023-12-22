@@ -1,19 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 
 // 스타일 컴포넌트
-import { makeStyles } from '@material-ui/core/styles';
 import { BiSearch } from 'react-icons/bi';
 
 import StyledComponents from './RefSearch.styles';
 const { SearchDiv, Title, SearchInput, SearchButton, SearchBar } =
   StyledComponents;
-
-const useStyles = makeStyles({
-  home: {
-    color: 'white',
-    fontSize: '40px',
-  },
-});
 
 // TODO : react-hook-form으로 성능 개선 적용, 컴포넌트 재활용을 위해 RefListWrapper로 바로 넘기지 않도록 분리
 function RefSearch({ onSearch }) {
