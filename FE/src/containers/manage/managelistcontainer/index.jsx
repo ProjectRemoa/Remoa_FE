@@ -10,8 +10,7 @@ import RefModal from "../../modal/RefModalPages/RefModal";
 import ManageDeleteContainer from "../manageDeleteContainer";
 import { useLocation } from "react-router";
 import BACK from "../../../images/back.svg"
-
-import Category_ from "../../../components/common/Category_";
+import Category from "../../../components/common/Category"
 
 const { RefList } = StyledComponents;
 
@@ -182,7 +181,11 @@ function ManageListContainer() {
         )}
       </S.ManageTextBox>
 
-      <Category_ onClickCategory={onChangeCategory} checked={checkIdx} />
+      <Category
+        main={false}
+        onClickCategory={onChangeCategory}
+        checkIdx={checkIdx}
+      />
 
       <S.Line />
       <>
