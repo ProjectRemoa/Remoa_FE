@@ -20,6 +20,8 @@ jobs:
         run: |
           echo "REACT_APP_UNIVERSITY_KEY=${{secrets.REACT_APP_UNIVERSITY_KEY}}" >> .env
           echo "REACT_APP_REST_API_KEY=${{secrets.REACT_APP_REST_API_KEY}}" >> .env
+          echo "REACT_APP_DEV_REDIRECT_URI=${{secrets.REACT_APP_DEV_REDIRECT_URI}}" >> .env
+          echo "REACT_APP_PROD_REDIRECT_URI=${{secrets.REACT_APP_PROD_REDIRECT_URI}}" >> .env
 
       - name: Install dependencies
         run: npm install
