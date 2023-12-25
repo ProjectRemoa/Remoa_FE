@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Footer from "./Footer/Footer";
-import Header from "./Header";
-import { useNavigate } from "react-router";
-import styles from "./Layout.module.css";
+import React, { useEffect, useState } from 'react';
+import Footer from './Footer/Footer';
+import Header from './Header';
+import { useNavigate } from 'react-router';
+import styles from './Layout.module.css';
 
 function Layout(props) {
   return (
@@ -10,7 +10,7 @@ function Layout(props) {
       <div className={styles.layout}>
         <Header />
         <main className={styles.main}>{props.children}</main>
-        {/*<Footer />*/}
+        <Footer />
       </div>
     </>
   );
