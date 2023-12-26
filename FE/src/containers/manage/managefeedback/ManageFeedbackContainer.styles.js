@@ -1,15 +1,13 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
 
 const ManageListContainer = styled.div`
   width: 1270px;
-  margin-top: 72px;
+  margin-top: 64px;
 `;
 
 const ManageTextBox = styled.div`
   font-size: 24px;
   text-align: left;
-  margin-top: 72px;
   margin-bottom: 15px;
   font-weight: 700;
   color: #1e1e1e;
@@ -23,11 +21,11 @@ const ManageNameText = styled.span`
 const Category = styled.div`
   width: 200px;
   height: 44px;
-  border: 1px solid ${(props) => (props.checked ? "black" : "#CECECE")}; // #cecece;
+  border: 1px solid ${(props) => (props.checked ? 'black' : '#CECECE')}; // #cecece;
   border-radius: 10px;
   cursor: pointer;
-  background-color: ${(props) => (props.checked ? "#FADA5E" : "white")};
-  color: ${(props) => (props.checked ? "#464234" : "#1e1e1e")};
+  background-color: ${(props) => (props.checked ? '#FADA5E' : 'white')};
+  color: ${(props) => (props.checked ? '#464234' : '#1e1e1e')};
   font-weight: 600;
   display: flex;
   justify-content: center;
@@ -37,7 +35,7 @@ const Category = styled.div`
     margin-right: 0px;
   }
   :hover {
-    background-color: ${(props) => (props.checked ? "#DFB71C" : "#f0f0f0")};
+    background-color: ${(props) => (props.checked ? '#DFB71C' : '#f0f0f0')};
   }
 `;
 
@@ -57,11 +55,11 @@ const SelectButton = styled.button`
   height: 24px;
   font-size: 12px;
   color: #464646;
-  background-color: ${(props) => (props.checked ? "#fada5e" : "white")};
+  background-color: ${(props) => (props.checked ? '#fada5e' : 'white')};
   box-shadow: none;
   border-radius: 8px;
   border: ${(props) =>
-    props.checked ? "1px solid #727272" : "1px solid #e1e2e5"};
+    props.checked ? '1px solid #727272' : '1px solid #e1e2e5'};
   margin-right: 7px;
   font-weight: 500;
   white-space: nowrap;
@@ -72,7 +70,7 @@ const SelectButton = styled.button`
   }
 
   :hover {
-    background-color: ${(props) => (props.checked ? "#DFB71C" : "lightgray")};
+    background-color: ${(props) => (props.checked ? '#DFB71C' : 'lightgray')};
   }
 `;
 
@@ -139,8 +137,6 @@ const CategoryBox = styled.div`
   margin-top: 64px;
 `;
 
-
-
 export const S = {
   ManageListContainer,
   ManageTextBox,
@@ -159,7 +155,3 @@ export const S = {
   SelectBox,
   SelectButton,
 };
-
-
-
-

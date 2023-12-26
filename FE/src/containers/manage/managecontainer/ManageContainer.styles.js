@@ -1,17 +1,18 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const UnderHeader = styled.div`
-  box-sizing: border-box;
-  position: absolute;
-  border-radius: 20px;
-  width: 512px;
-  height: 51px;
-  top: 115px;
   display: flex;
   align-items: center;
-  padding: 4px;
   justify-content: space-around;
+  width: 512px;
+  height: 51px;
+  margin: 43px auto 0;
+  padding: 4px;
+  border-radius: 20px;
   background-color: #f7f6f5;
+
+  // reset.css
+  box-sizing: border-box;
 `;
 const Sort = styled.div`
   text-align: center;
@@ -30,6 +31,6 @@ const S = {
   UnderHeader,
   Sort,
   PageStyle,
-}
+};
 
 export default S;
