@@ -24,6 +24,10 @@ const {
   EditButton,
 } = styledComponent;
 
+const apiUrl = axios.create({
+  baseURL: "http://54.180.159.30:8080",
+});
+
 function MyPageProfile() {
   const imgRef = useRef();
   const [userData, setUserData] = useState({});
@@ -46,7 +50,7 @@ function MyPageProfile() {
 
   const getProfile = async () => {
     try {
-      const res = await axios.get("/BE/user", { withCredentials: true });
+      const res = await apiUrl.get("/BE/user", { withCredentials: true });
       if (res.status === 200) {
         setUserData(res.data.data);
       }
@@ -59,7 +63,7 @@ function MyPageProfile() {
 
   const getProfileImg = async () => {
     try {
-      const res = await axios.get("/BE/user/img");
+      const res = await apiUrl.get("/BE/user/img");
       if (res.status === 200) setProfileImage(res.data.data);
     } catch (err) {
       console.log(err);
@@ -89,7 +93,7 @@ function MyPageProfile() {
   // 기본 사진으로 변경
 
   const handleChangeDefaultImg = () => {
-    axios
+    apiUrl
       .delete(`/BE/user/img`)
       .then(() => {
         window.location.reload();
@@ -119,7 +123,7 @@ function MyPageProfile() {
   const handleNicknameDuplicationCheck = async (nickname) => {
     if (!nickname) return;
     try {
-      const res = await axios.get(`/BE/nickname?nickname=${nickname}`);
+      const res = await apiUrl.get(`/BE/nickname?nickname=${nickname}`);
 
       if (!res.data.data) {
         setIdCheckMessage("중복된 닉네임이 존재합니다.");
@@ -194,11 +198,11 @@ function MyPageProfile() {
     };
 
     try {
-      const res = axios.put("/BE/user", profileData, {
+      const res = apiUrl.put("/BE/user", profileData, {
         withCredentials: true,
       });
       if (res.status === 200) sessionStorage.setItem("nickname", nickname);
-      if (previewImage) axios.put(`/BE/user/img`, formData, config);
+      if (previewImage) apiUrl.put(`/BE/user/img`, formData, config);
       setEditMessage("수정이 완료되었습니다");
       setTimeout(() => {
         setEditMessage("");
