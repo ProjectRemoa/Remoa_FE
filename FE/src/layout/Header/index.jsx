@@ -25,7 +25,9 @@ function Header() {
         </S.Items>
 
         {/* 로그인 / 로그아웃 시 변경되는 메뉴 */}
-        <LoginCheck />
+        <S.UserAction>
+          <LoginCheck />
+        </S.UserAction>
       </S.HeaderInner>
     </S.Header>
   );

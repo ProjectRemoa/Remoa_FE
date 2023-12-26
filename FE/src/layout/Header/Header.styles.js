@@ -16,7 +16,6 @@ export const Logo = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 45px;
   img {
     width: 120px;
   }
@@ -24,7 +23,10 @@ export const Logo = styled.a`
 
 export const HeaderInner = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1260px;
   align-items: center;
+  margin: 0 auto;
 `;
 
 export const Items = styled.ul`
@@ -71,4 +73,8 @@ export const StyledLink = styled(NavLink)`
       border-bottom: 4px solid #ffffff;
     }
   }
+`;
+
+export const UserAction = styled.div`
+  margin-left: auto;
 `;
