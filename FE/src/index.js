@@ -50,11 +50,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const Style = {
   Wrapper: styled.div`
     width: 100vw;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
   `,
 };
+
 root.render(
   <ThemeProvider theme={theme}>
     <CookiesProvider>
