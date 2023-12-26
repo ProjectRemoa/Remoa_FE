@@ -1,5 +1,6 @@
 import img from '../../images/LOGO_SYMBOLMARK.png';
-import axios from 'axios';
+
+import { useAuth } from '../../hooks/useAuth';
 
 import StyledComponents from './Footer.styles';
 const {
@@ -12,23 +13,7 @@ const {
 } = StyledComponents;
 
 function Footer() {
-  const handleLogout = async () => {
-    try {
-      const response = await axios.post(
-        '/BE/user/logout',
-        {},
-        { withCredentials: true }
-      );
-
-      sessionStorage.removeItem('nickname');
-      sessionStorage.removeItem('email');
-      sessionStorage.removeItem('new');
-
-      alert('로그아웃 되었습니다.');
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { handleLogout } = useAuth();
 
   return (
     <FooterContainer>
