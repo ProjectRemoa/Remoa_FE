@@ -13,7 +13,7 @@ const {
 } = StyledComponents;
 
 function Footer() {
-  const { handleLogout } = useAuth();
+  const { isLogin, handleLogout } = useAuth();
 
   return (
     <FooterContainer>
@@ -26,7 +26,7 @@ function Footer() {
             <li>이용약관</li>
             <li>개인정보 처리방침</li>
             <li>문의하기</li>
-            <li onClick={handleLogout}>로그아웃</li>
+            {isLogin && <li onClick={handleLogout}>로그아웃</li>}
           </FooterMenu>
         </FooterLink>
       </FooterInner>
