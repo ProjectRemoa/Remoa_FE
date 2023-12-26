@@ -52,14 +52,8 @@ export const Items = styled.ul`
 export const Item = styled.li`
   font-weight: bold;
   font-size: 16px;
+  cursor: pointer;
 
-  a {
-    color: black;
-    text-decoration: none;
-  }
-`;
-
-export const StyledLink = styled(NavLink)`
   &.active {
     position: relative;
 
