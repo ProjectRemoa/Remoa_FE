@@ -8,7 +8,7 @@ const CategoryList = styled.ul`
   box-sizing: border-box;
   margin-top: 43px;
   padding: 0;
-  gap: 0 26px;
+  gap: 0 12px;
 
   // TODO : reset.css
   a {
