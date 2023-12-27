@@ -24,7 +24,12 @@ const {
   MyPaginate,
 } = styledComponent;
 
-function CommentContainerComponent({ data, setPage, totalPages, isFromManage }) {
+function CommentContainerComponent({
+  data,
+  setPage,
+  totalPages,
+  isFromManage,
+}) {
   const [postId, setPostId] = useState(0);
   const [modalVisibleId, setModalVisibleId] = useState("");
   const [fbVisibleId, setFbVisibleId] = useState("");
@@ -43,15 +48,13 @@ function CommentContainerComponent({ data, setPage, totalPages, isFromManage }) 
       try {
         const response = await axios.get(endpoint);
         console.log(response);
-        
+
         const {
           data: {
-            data: {
-              feedbacks,
-            },
+            data: { feedbacks },
           },
         } = response;
-        
+
         setFeedback(feedbacks);
       } catch (err) {
         console.log(err);
@@ -59,14 +62,13 @@ function CommentContainerComponent({ data, setPage, totalPages, isFromManage }) 
       }
     };
 
-     fetchData();
-  }
-  
+    fetchData();
+  };
 
   return (
     <>
       {data.map((data) => (
-        <ContentsContainer key={data.postId}>
+        <ContentsContainer>
           <AsideContainer>
             <Img src={data.thumbnail} alt="thumbnail" />
             <div
@@ -86,7 +88,7 @@ function CommentContainerComponent({ data, setPage, totalPages, isFromManage }) 
               <Button
                 onClick={() => {
                   //if (isFromManage) {
-                    onClickPopupFeedback(data.postId);
+                  onClickPopupFeedback(data.postId);
                   //}
                   //else onClickModal(data.postId);
                 }}
