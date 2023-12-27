@@ -27,8 +27,8 @@ const {
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
-      ? "/BE"
-      : "https://d197wa6gufmlpc.cloudfront.net/BE",
+      ? ""
+      : "https://d197wa6gufmlpc.cloudfront.net",
 });
 
 function MyPageProfile() {
