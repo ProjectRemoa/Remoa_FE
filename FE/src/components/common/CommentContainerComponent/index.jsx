@@ -105,19 +105,56 @@ function CommentContainerComponent({
             <Title>{data.title}</Title>
             <HorizonLine />
             <Contents>
-              <CommentsContainer>
-                <MyCommentTitle>내가 작성한 코멘트</MyCommentTitle>
-                <OneComment>
-                  가장 먼저 작성한 코멘트 1개만 노출됩니다
-                </OneComment>
-              </CommentsContainer>
-              <ProfileContainer>
-                <ProfileImg src={data.member?.profileImage} alt="" />
-                <ProfileContents>
-                  <ProfileNickname>{data.member?.nickname}</ProfileNickname>
-                  <MyComment>{data.content}</MyComment>
-                </ProfileContents>
-              </ProfileContainer>
+              {data.commentId ? (
+                <>
+                  <CommentsContainer>
+                    <MyCommentTitle>내가 작성한 코멘트</MyCommentTitle>
+                    <OneComment>
+                      가장 먼저 작성한 코멘트 1개만 노출됩니다
+                    </OneComment>
+                  </CommentsContainer>
+                  <ProfileContainer>
+                    <ProfileImg src={data.member?.profileImage} alt="" />
+                    <ProfileContents>
+                      <ProfileNickname>{data.member?.nickname}</ProfileNickname>
+                      <MyComment>{data.content}</MyComment>
+                    </ProfileContents>
+                  </ProfileContainer>
+                </>
+              ) : (
+                <div
+                  style={{
+                    height: "144px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    boxSizing: "border-box",
+                    padding: "36px 24px",
+                    borderRadius: "12px",
+                    backgroundColor: "#f7f6f5",
+                  }}
+                >
+                  <span style={{ fontSize: "18px", fontWeight: 700 }}>
+                    내 피드백 바로가기 버튼을 눌러보세요!
+                  </span>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      color: "#727272",
+                    }}
+                  >
+                    <div>
+                      작성된 코멘트가 확인되지 않는데 해당 페이지에 게시물이
+                      노출된다면 피드백을 작성했기 때문이에요.
+                    </div>
+                    <div style={{ marginTop: "5px" }}>
+                      좌측의 내 피드백 바로가기 버튼을 눌러 내 피드백에 대한
+                      반응을 확인해보세요!
+                    </div>
+                  </div>
+                </div>
+              )}
             </Contents>
           </SectionContainer>
         </ContentsContainer>
