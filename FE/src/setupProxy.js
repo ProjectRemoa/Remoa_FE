@@ -1,26 +1,20 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
-
-  
   app.use(
-    "/BE",
-    createProxyMiddleware({
+    createProxyMiddleware("/BE", {
       target: "http://54.180.159.30:8080",
       changeOrigin: true,
       pathRewrite: {
-        "^/BE": "", // URL ^/BE -> 공백 변경
+        "^/BE": "",
       },
     })
   );
 
   app.use(
-    createProxyMiddleware("/cnet/openapi", {
+    createProxyMiddleware("/cnet", {
       target: "https://www.career.go.kr",
       changeOrigin: true,
-      pathRewrite: {
-        "^/api/university": "",
-      },
     })
   );
 };
