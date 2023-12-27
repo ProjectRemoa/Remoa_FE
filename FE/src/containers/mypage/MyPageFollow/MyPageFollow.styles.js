@@ -98,7 +98,11 @@ const FollowDetailBtn = styled.button`
   width: 132px;
   height: 36px;
   background-color: ${(props) =>
-    props.isFollowing ? "#fada5e" : props.isFollowed ? "#f0f0f0" : "#fada5e"};
+    props.isFollow === null
+      ? "#fada5e"
+      : props.isFollow
+      ? "#f0f0f0"
+      : "#fada5e"};
   border-radius: 8px;
   box-shadow: none;
   border: none;
@@ -106,7 +110,11 @@ const FollowDetailBtn = styled.button`
   color: #1e1e1e;
   &:hover {
     background-color: ${(props) =>
-      props.isFollowing ? "#dfb71c" : props.isFollowed ? "none" : "#dfb71c"};
+      props.isFollow === null
+        ? "#dfb71c"
+        : props.isFollow
+        ? "none"
+        : "#dfb71c"};
   }
   &:nth-child(2) {
     border: 1px solid #e1e2e5;
