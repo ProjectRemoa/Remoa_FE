@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { pageLinks } from '../../../containers/reference/constants';
 
 import StyledComponents from './Category.styles';
-import { useEffect } from 'react';
+
 const { CategoryList, CategoryItem } = StyledComponents;
 
 function Cateogry({ main, onClickCategory, checkIdx }) {
