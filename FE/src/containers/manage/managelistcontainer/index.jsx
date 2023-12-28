@@ -286,6 +286,7 @@ function ManageListContainer() {
           setButtonColor={setButtonColor}
           buttonColor={buttonColor}
           isAll={true}
+          category={categoryName}
           setIsDelete={setIsDelete}
           deletedData={deletedData}
           setDeletedData={setDeletedData}

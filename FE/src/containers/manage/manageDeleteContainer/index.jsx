@@ -7,33 +7,34 @@ import { useNavigate } from 'react-router-dom';
 function ManageDeleteContainer({
   setButtonColor,
   buttonColor,
+  category,
   isAll,
   setIsDelete,
   deletedData,
   setDeletedData
 }) {
   const onClickDelete = () => {
-    console.log("onClickDelete");
+    const fetchData = async (endpoint) => {
+      try {
+        const response = await axios.delete(endpoint);
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    };
+    let endpoint;
+    console.log("category ", category);
     if (isAll) {
       // 전체 삭제 API
+      endpoint = `/BE/user/referenceCategory/${category}`
     } else {
       // 부분삭제 API
-      console.log(deletedData);
-      let endpoint;
-      const fetchData = async (endpoint) => {
-        try {
-          const response = await axios.delete(endpoint);
-          console.log(response);
-        } catch (err) {
-          console.log(err);
-          return err;
-        }
-      };
       endpoint = `/BE/user/reference/${deletedData}`;
-      fetchData(endpoint);      
-      //alert("삭제되었습니다.");
-      window.location.reload();
     }
+    
+    fetchData(endpoint);
+    window.location.reload();
   };
 
   const onClickHold = () => {
