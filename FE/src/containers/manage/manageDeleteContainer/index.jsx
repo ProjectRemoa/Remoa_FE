@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import S from "./manageDeleteAllContainer.styles"
 import Cancel from "../../../images/cancel.svg"
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 function ManageDeleteContainer({
   setButtonColor,
