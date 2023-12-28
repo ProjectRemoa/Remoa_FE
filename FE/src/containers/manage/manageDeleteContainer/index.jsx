@@ -29,10 +29,8 @@ function ManageDeleteContainer({
           return err;
         }
       };
-      for (let i = 0; i < deletedData.length; i++){
-        endpoint = `/BE/user/reference/${deletedData[i]}`;
-        fetchData(endpoint);
-      }
+      endpoint = `/BE/user/reference/${deletedData}`;
+      fetchData(endpoint);      
       //alert("삭제되었습니다.");
       window.location.reload();
     }
