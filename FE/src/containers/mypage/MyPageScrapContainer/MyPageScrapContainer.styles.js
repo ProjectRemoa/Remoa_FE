@@ -3,30 +3,8 @@ import styled from "styled-components";
 
 const ScrapContainer = styled.div`
   width: 65vw;
-  font-size: 25px;
-  font-weight: 700;
   text-align: left;
   margin-top: 40px;
-`;
-
-const CategoryContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const CategoryButton = styled.button`
-  width: 15.8%;
-  height: 44px;
-  /* border: 1px solid #cecece; */
-  border: ${(props) =>
-    props.clicked ? "1.2px solid #464646" : "1px solid #cecece"};
-  border-radius: 10px;
-  background-color: ${(props) => (props.clicked ? "#fada5e" : "transparent")};
-  &:hover {
-    background-color: ${(props) => (props.clicked ? "#dfb71c" : "#cecece")};
-  }
-  font-family: Pretendard-SemiBold;
 `;
 
 const MoreSearch = styled.button`
@@ -104,8 +82,6 @@ const MyPaginate = styled(ReactPaginate)`
 
 const styledComponent = {
   ScrapContainer,
-  CategoryContainer,
-  CategoryButton,
   MoreSearch,
   ScrapListContainer,
   MoreButtonContainer,

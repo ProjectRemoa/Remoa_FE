@@ -5,11 +5,10 @@ import { getScrap } from "../../../apis/mypage/scrap";
 import Loading from "../../../styles/Loading";
 import RefCard from "../../reference/RefCard";
 import RefModal from "../../modal/RefModalPages/RefModal";
+import Category from "../../../components/common/Category";
 import styledComponent from "./MyPageScrapContainer.styles";
 const {
   ScrapContainer,
-  CategoryContainer,
-  CategoryButton,
   MoreSearch,
   ScrapListContainer,
   MoreButtonContainer,
@@ -17,20 +16,10 @@ const {
   MyPaginate,
 } = styledComponent;
 
-const categoryButtons = [
-  "전체",
-  "기획/아이디어",
-  "광고/마케팅",
-  "영상",
-  "디자인/사진",
-  "기타아이디어",
-];
-
 function MyPageScrapContainer() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [clicked, setClicked] = useState(0);
-  const [categoryName, setCategoryName] = useState("전체");
+  const [checkIdx, setCheckIdx] = useState(0);
 
   useEffect(() => {
     modalLocation();
@@ -39,7 +28,13 @@ function MyPageScrapContainer() {
   const { data: scrapData, isLoading } = useQuery(["scrap"], getScrap);
 
   const handleCategoryClick = (category) => {
-    setCategoryName(category);
+    if (category === "all") setCheckIdx(0);
+    if (category === "idea") setCheckIdx(1);
+    if (category === "marketing") setCheckIdx(2);
+    if (category === "video") setCheckIdx(3);
+    if (category === "design") setCheckIdx(4);
+    if (category === "it") setCheckIdx(5);
+    if (category === "etc") setCheckIdx(6);
   };
 
   //////////////////////////////////////////////
@@ -78,25 +73,23 @@ function MyPageScrapContainer() {
         <Loading />
       ) : (
         <ScrapContainer>
-          <span style={{ display: "block", marginBottom: "40px" }}>
+          <span
+            style={{
+              display: "block",
+              marginBottom: "40px",
+              fontSize: "24px",
+              fontWeight: 700,
+            }}
+          >
             스크랩한 작업물
           </span>
 
           <div style={{ width: "100%" }}>
-            <CategoryContainer>
-              {categoryButtons.map((data, i) => (
-                <CategoryButton
-                  key={i}
-                  onClick={() => {
-                    handleCategoryClick(data);
-                    setClicked(i);
-                  }}
-                  clicked={clicked === i}
-                >
-                  {data}
-                </CategoryButton>
-              ))}
-            </CategoryContainer>
+            <Category
+              main={false}
+              onClickCategory={handleCategoryClick}
+              checkIdx={checkIdx}
+            />
 
             <hr />
 
