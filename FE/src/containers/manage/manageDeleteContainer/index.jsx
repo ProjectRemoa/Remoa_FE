@@ -1,41 +1,39 @@
-import React, {useState} from 'react'
+import React from 'react'
 import S from "./manageDeleteAllContainer.styles"
 import Cancel from "../../../images/cancel.svg"
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 function ManageDeleteContainer({
   setButtonColor,
   buttonColor,
+  category,
   isAll,
   setIsDelete,
   deletedData,
   setDeletedData
 }) {
   const onClickDelete = () => {
-    console.log("onClickDelete");
+    const fetchData = async (endpoint) => {
+      try {
+        const response = await axios.delete(endpoint);
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    };
+    let endpoint;
+    console.log("category ", category);
     if (isAll) {
       // 전체 삭제 API
+      endpoint = `/BE/user/referenceCategory/${category}`
     } else {
       // 부분삭제 API
-      console.log(deletedData);
-      let endpoint;
-      const fetchData = async (endpoint) => {
-        try {
-          const response = await axios.delete(endpoint);
-          console.log(response);
-        } catch (err) {
-          console.log(err);
-          return err;
-        }
-      };
-      for (let i = 0; i < deletedData.length; i++){
-        endpoint = `/BE/user/reference/${deletedData[i]}`;
-        fetchData(endpoint);
-      }
-      //alert("삭제되었습니다.");
-      window.location.reload();
+      endpoint = `/BE/user/reference/${deletedData}`;
     }
+    
+    fetchData(endpoint);
+    window.location.reload();
   };
 
   const onClickHold = () => {

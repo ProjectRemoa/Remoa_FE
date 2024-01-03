@@ -26,25 +26,17 @@ function ManageListContainer() {
   const [selectedData, setSelectedData] = useState(null);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [isRefModal, setIsRefModal] = useState(); // TODO : 모달 리팩토링 후 boolean으로 수정
-
   const [filter, setFilter] = useState(filterOptions[0].value); // 필터 값 (한글)
   const [sortOption, setSortOption] = useState(filterOptions[0].key); // 필터 값 (영어)
-
   const [checkIdx, setCheckIdx] = useState(0);
-
   const [buttonColor, setButtonColor] = useState([false, false]);
-
   const [isDelete, setIsDelete] = useState(false); // 삭제 버튼 활성화
   const [isOtherUser, setIsOtherUser] = useState(false);
-
+  const [name, setName] = useState();
+  const [deletedData, setDeletedData] = useState([]);
+  
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [name, setName] = useState();
-
-  const [deletedData, setDeletedData] = useState([]);
-
-  const [isSelected, setIsSelected] = useState(false);
 
   const handleSelectData = (data) => {
     setSelectedData(data);
@@ -73,9 +65,6 @@ function ManageListContainer() {
     }
     getWork(endpoint);
   }, [categoryName, sortOption, pageNumber]);
-
-
-
   
   useEffect(() => {
     console.log(buttonColor);
@@ -144,7 +133,6 @@ function ManageListContainer() {
   const onClickBack = () => {
     navigate(-1)
   }
-
 
   useEffect(() => {
     if (buttonColor[1] === false && deletedData.length>0) {
@@ -286,6 +274,7 @@ function ManageListContainer() {
           setButtonColor={setButtonColor}
           buttonColor={buttonColor}
           isAll={true}
+          category={categoryName}
           setIsDelete={setIsDelete}
           deletedData={deletedData}
           setDeletedData={setDeletedData}

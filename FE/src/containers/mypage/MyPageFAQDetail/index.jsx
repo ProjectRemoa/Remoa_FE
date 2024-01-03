@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getInquiries, getNotices } from "../../../apis/mypage/faq";
+import { getInquiriesDetail, getNoticesDetail } from "../../../apis/mypage/faq";
 import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageFAQDetail.styles";
 const {
@@ -22,11 +22,10 @@ function MyPageFAQDetail() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const { category, detailId } = useParams();
-  const pageNumber = Math.ceil(detailId / 5);
 
   const { data: noticeData, isLoading: isNoticeLoading } = useQuery(
     ["noticeData"],
-    () => getNotices(pageNumber),
+    () => getNoticesDetail(detailId),
     {
       enabled: category === "notice",
     }
@@ -34,7 +33,7 @@ function MyPageFAQDetail() {
 
   const { data: inquiryData, isLoading: isInquiryLoading } = useQuery(
     ["inquiryData"],
-    () => getInquiries(pageNumber),
+    () => getInquiriesDetail(detailId),
     {
       enabled: category === "inquiry",
     }
@@ -44,22 +43,11 @@ function MyPageFAQDetail() {
     if (isNoticeLoading || isInquiryLoading) return;
 
     if (category === "notice") {
-      setData(noticeData?.notices);
+      setData(noticeData);
     } else if (category === "inquiry") {
-      setData(inquiryData?.inquiries);
+      setData(inquiryData);
     }
-  }, [
-    isNoticeLoading,
-    isInquiryLoading,
-    category,
-    noticeData?.notices,
-    inquiryData?.inquiries,
-  ]);
-
-  const detailData = useMemo(
-    () => data?.find((data) => data.noticeId === parseInt(detailId)),
-    [data, detailId]
-  );
+  }, [isNoticeLoading, isInquiryLoading, category, noticeData, inquiryData]);
 
   return (
     <>
@@ -69,14 +57,14 @@ function MyPageFAQDetail() {
         <Wrapper>
           <Category>{category === "notice" ? "공지사항" : "문의하기"}</Category>
           <TitleContainer>
-            <Title>{detailData?.title}</Title>
+            <Title>{data?.title}</Title>
             <InfoContainer>
-              <Author>Author</Author>
-              <PostingTime>{detailData?.postingTime}</PostingTime>
-              <View>{detailData?.view}</View>
+              <Author>{data?.author}</Author>
+              <PostingTime>{data?.postingTime}</PostingTime>
+              <View>{data?.view}</View>
             </InfoContainer>
           </TitleContainer>
-          <Content>공지사항입니다. 이것은 내용입니다.</Content>
+          <Content>{data?.content}</Content>
           <ButtonContainer>
             {category === "inquiry" ? <Button>답글</Button> : ""}
             <Button>삭제</Button>

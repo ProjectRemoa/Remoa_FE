@@ -2,6 +2,11 @@ import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import MyPageUniversityModal from "../MyPageUniversityModal";
 import styledComponent from "./MyPageProfile.styles";
+import { useMutation, useQuery } from "react-query";
+import {
+  getUserProfileImg,
+  postUserProfileImg,
+} from "../../../apis/mypage/user";
 const {
   Wrapper,
   ProfileImg,
@@ -34,40 +39,27 @@ const instance = axios.create({
 function MyPageProfile() {
   const imgRef = useRef();
   const [userData, setUserData] = useState({});
-  const [profileImage, setProfileImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [idCheckMessage, setIdCheckMessage] = useState("");
   const [idCheckColor, setIdCheckColor] = useState("");
   const [editMessage, setEditMessage] = useState("");
+  const { data: profileImage } = useQuery(["user"], getUserProfileImg);
+  const { mutate } = useMutation(postUserProfileImg);
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
     userData;
 
   useEffect(() => {
     getProfile();
-    getProfileImg();
   }, []);
 
   // /BE/user에서 유저 정보 받아오기
 
   const getProfile = async () => {
     try {
-      const res = await instance.get("/BE/user", { withCredentials: true });
-      if (res.status === 200) {
-        setUserData(res.data.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // /BE/user/img에서 프로필 사진 받아오기
-
-  const getProfileImg = async () => {
-    try {
-      const res = await instance.get("/BE/user/img");
-      if (res.status === 200) setProfileImage(res.data.data);
+      const res = await axios.get("/BE/user");
+      setUserData(res.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -79,17 +71,21 @@ function MyPageProfile() {
     imgRef.current.click();
   };
 
-  const handleChangeProfileImgFile = () => {
-    const file = imgRef.current.files[0];
+  const handleChangeProfileImgFile = (event) => {
+    const file = event.target.files[0];
     if (file.size > 2000000) {
       alert("2MB 이하의 파일을 업로드해주세요.");
     } else {
+      console.log(file);
       const reader = new FileReader();
-      reader.readAsDataURL(file);
       reader.onload = () => {
-        setProfileImage(reader.result);
-        setPreviewImage(imgRef.current.files[0]);
+        setPreviewImage(reader.result);
       };
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        setPreviewImage(null);
+      }
     }
   };
 
@@ -112,10 +108,10 @@ function MyPageProfile() {
     const { name, value } = e.target;
     const isOnlyEng = /^[a-zA-Z0-9]*$/g.test(value);
     const isKorOrEng = /[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]/g.test(value) && !isOnlyEng;
-    const isSpecialChar = /[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-]/g.test(value);
+    const isSpecialChar = /[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]/g.test(value);
     const nicknameRegExp =
-      (isOnlyEng && value.length > 12) ||
-      (isKorOrEng && value.length > 6) ||
+      (isOnlyEng && value.length > 8) ||
+      (isKorOrEng && value.length > 8) ||
       isSpecialChar;
 
     return nicknameRegExp ? null : setUserData({ ...userData, [name]: value });
@@ -154,12 +150,11 @@ function MyPageProfile() {
 
   // 대학명 변경
 
-  const handleChangeUniversity = (name) => {
+  const handleChangeUniversity = (name) =>
     setUserData({
       ...userData,
       university: name,
     });
-  };
 
   // 대학 모달창 열기 닫기
 
@@ -183,8 +178,7 @@ function MyPageProfile() {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("file", previewImage);
+    mutate(imgRef.current.files[0]);
 
     const profileData = {
       nickname,
@@ -193,32 +187,24 @@ function MyPageProfile() {
       oneLineIntroduction,
     };
 
-    const config = {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
+    if (!profileData.nickname) return alert("닉네임 입력하세요");
+    if (!profileData.university) return alert("대학 입력하세요");
 
     try {
-      const res = instance.put("/BE/user", profileData, {
-        withCredentials: true,
-      });
-      if (res.status === 200) sessionStorage.setItem("nickname", nickname);
-      if (previewImage) instance.put(`/BE/user/img`, formData, config);
-      setEditMessage("수정이 완료되었습니다");
-      setTimeout(() => {
-        setEditMessage("");
-      }, 3000);
+      axios.put("/BE/user", profileData);
     } catch (err) {
       console.log(err);
     }
     sessionStorage.setItem("nickname", nickname);
+    setEditMessage("수정이 완료되었습니다");
+    setTimeout(() => {
+      setEditMessage("");
+    }, 3000);
   };
 
   return (
     <Wrapper>
-      <ProfileImg src={profileImage} alt="preview-img" />
+      <ProfileImg src={previewImage || profileImage} alt="profileImg" />
       <ProfileImgIntroWrapper>
         <ProfileImgIntro>
           {sessionStorage.getItem("nickname")}님

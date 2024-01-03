@@ -1,14 +1,14 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const CategoryList = styled.ul`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 43px;
   padding: 0;
-  gap: 0 26px;
+  margin-top: 43px;
+  /* gap: 0 26px; */
 
   // TODO : reset.css
   a {
@@ -16,18 +16,21 @@ const CategoryList = styled.ul`
   }
 `;
 
-const CategoryItem = styled.div`
-  width: 100%;
+const CategoryItem = styled.button`
+  width: 13.6%;
   height: 44px;
   border: 1px solid ${(props) => (props.checked ? "black" : "#A7A7A7")};
   border-radius: 10px;
-  cursor: pointer;
+  /* cursor: pointer; */
   background-color: #fada5e;
   color: #464646;
+  font-family: Pretendard-Medium;
   font-weight: 600;
-  display: flex;
+  box-sizing: border-box;
+  padding: 0;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   background-color: ${(props) => (props.checked ? "#FADA5E" : "white")};
   :hover {
     background-color: ${(props) => (props.checked ? "#DFB71C" : "#f0f0f0")};
