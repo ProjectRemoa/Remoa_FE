@@ -1,4 +1,4 @@
-import { React, useEffect,  useState } from "react";
+import { React, useEffect,  useRef,  useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import S from "./ManageListContainer.styles"
@@ -50,30 +50,29 @@ function ManageListContainer() {
       setIsOtherUser(false);
       endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
     }
-    console.log("endpoint ; ", endpoint);
     return endpoint;
   }
 
-  const { data, isLoading } = useQuery('list', async () => {
-    let endpoint = onChangeEndpoint();
-    console.log(endpoint);
-    console.log("useQuery");
-    return getWork(endpoint); // data에 들어감
-  })
-  
+  const { data, isLoading } = useQuery(['list'],
+    () => {
+      let endpoint = onChangeEndpoint();
+      console.log("useQuery ", endpoint);
+      return getWork(endpoint); // data에 들어감
+    })
+
   useEffect(() => {
-    console.log("Data", data);
     if (data) {
       setMywork(data.references);
       setTOAR(data.totalOfAllReferences);
       setTOPE(data.totalOfPageElements);
       setTP(data.totalPages);
 
-      if (data.references.length > 0) {
+      if (data.references && data.references.length > 0) {
         setName(data.references[0].postMember.nickname);
-      }  
+      }   
     }
-  },[data])
+
+  }, [data])
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -88,25 +87,34 @@ function ManageListContainer() {
     setSelectedPostId(postId);
   };
 
+  const isMounted = useRef(false);
   useEffect(() => {
-    // 카테고리, 정렬을 바꿀 떄마다 렌더링    
-    console.log("CategoryName, sortOption, pageNumber");
-    let data;
-    const fetchData = async () =>{
-      let endpoint =  onChangeEndpoint();
-      data = await getWork(endpoint);
-      console.log("Data ", data);
-      setMywork(data.references);
-      setTOAR(data.totalOfAllReferences);
-      setTOPE(data.totalOfPageElements);
-      setTP(data.totalPages);
+    if (isMounted.current) {
+      // 카테고리, 정렬을 바꿀 때마다 렌더링
+      let data;
+      const fetchData = async () => {
+        let endpoint = onChangeEndpoint();
+        console.log("categoryName, sortOption, pageNumber ", endpoint);
 
-      if (data.references && data.references.length > 0) {
-        setName(data.references[0].postMember.nickname);
-      }  
+        data = await getWork(endpoint);
+
+        setMywork(data.references);
+        setTOAR(data.totalOfAllReferences);
+        setTOPE(data.totalOfPageElements);
+        setTP(data.totalPages);
+
+        if (data.references && data.references.length > 0) {
+          setName(data.references[0].postMember.nickname);
+        }
+      };
+
+      fetchData();
     }
-
-    fetchData();
+    else {
+      // 첫 렌더링 생략
+      isMounted.current = true;
+    }
+   
   }, [categoryName, sortOption, pageNumber]);
 
 
