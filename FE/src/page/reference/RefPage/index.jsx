@@ -11,27 +11,19 @@ import { pageLinks } from '../../../containers/reference/constants';
 
 function RefPage() {
   const { pathname } = useLocation();
+  const keywords = pageLinks.map((link) => link.keyword);
 
   const [searchKeyword, setSearchKeyword] = useState('');
   const [checkIdx, setCheckIdx] = useState();
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (sessionStorage.getItem('new') === 'true') {
-      setModalOpen(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    Object.keys(pageLinks).forEach((key) => {
-      if (pageLinks[key].path === pathname) {
-        setCheckIdx(key);
-      }
-    });
-  }, [checkIdx]);
-
   const handleSearch = (keyword) => {
     setSearchKeyword(keyword);
+  };
+
+  const handleCategorySelection = (url) => {
+    const matchedIndex = keywords.findIndex((keyword) => url.includes(keyword));
+    setCheckIdx(matchedIndex !== -1 ? matchedIndex : 0);
   };
 
   const onChangeCategory = (category) => {
@@ -41,6 +33,16 @@ function RefPage() {
       }
     });
   };
+
+  useEffect(() => {
+    if (sessionStorage.getItem('new') === 'true') {
+      setModalOpen(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    handleCategorySelection(window.location.href);
+  }, [pathname]);
 
   return (
     <Layout>
