@@ -47,7 +47,7 @@ const ManageShareTable = styled.table`
     outline: none;
     background: #ffffff;
     border-radius: 10px;
-    padding-left: 14px;
+    padding: 0px 14px;
 
     ::placeholder {
       color: #a7a7a7;

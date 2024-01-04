@@ -61,17 +61,14 @@ function ManageShareContainer() {
   };
 
   const handleFileChange_ = (e) => {
-    console.log(e.target.files);
     if (getByteLength(e.target.files[0].name) > 150) {
       alert("파일의 제목은 150자 미만입니다.");
     } else {
       setThumbnail(e.target.files[0]);
-      console.log(e.target.files[0]);
     }
   };
 
   const onClickDelete_ = () => {
-    //alert("삭제");
     setThumbnail(null);
   };
 
@@ -84,7 +81,6 @@ function ManageShareContainer() {
   const [fileSize, setFileSize] = useState(0);
   const handleFileChange = (e) => {
     const UploadList = [...uploads]; // 현재 uploads 복사
-    console.log(UploadList);
 
     let isPdfOrMp4, isAnyBig, isDuplicate, isSizeError;
     let allisPdfOrMp4 = false,
@@ -92,8 +88,6 @@ function ManageShareContainer() {
       allisDuplicate = false,
       allisSizeError = false;
     for (let i = 0; i < e.target.files.length; i++) {
-      console.log(i + 1 + ". " + e.target.files[i].name);
-
       // 1. 파일 확장자 검사
       isPdfOrMp4 = false;
       const exten = e.target.files[i].name.split(".");
@@ -119,7 +113,6 @@ function ManageShareContainer() {
         // 2. 파일 이름 길이 검사
         isAnyBig = false;
         if (getByteLength(e.target.files[i].name) > 150) {
-          console.log(getByteLength(e.target.files[i].name));
           isAnyBig = true;
           allisAnyBig = true;
         }
@@ -137,7 +130,7 @@ function ManageShareContainer() {
 
           // 4. 파일 용량 검사
           isSizeError = false;
-          if (fileSize + e.target.files[i].size > 1048576 * 50) {
+          if (fileSize + e.target.files[i].size > 1048576 * 20) {
             isSizeError = true;
             allisSizeError = true;
           } else {
@@ -157,15 +150,13 @@ function ManageShareContainer() {
     } else if (allisDuplicate) {
       alert("중복된 파일이 있습니다.");
     } else if (allisSizeError) {
-      alert("최대 50MB까지 첨부할 수 있습니다.");
+      alert("최대 20MB까지 첨부할 수 있습니다.");
     }
-
-    console.log(UploadList)
+    
     setUploads(UploadList); // 덮어 씌우기
   };
 
   const onClickDelete = (name) => {
-    //alert("삭제");
     setUploads(uploads.filter((upload) => upload.name !== name));
   };
 
@@ -182,14 +173,11 @@ function ManageShareContainer() {
         thumbnail !== null &&
         youtubeLink.length > 0
       ) {
-        setButtonColor(true);
-        console.log("True");
+       setButtonColor(true);
       } else {
-        console.log("False");
         setButtonColor(false);
       }
-    } else if (category !== "video") {
-      console.log(name.length, comp.length,  category.length, thumbnail, uploads.length)
+    } else {
       if (
         name.length > 0 &&
         comp.length > 0 &&
@@ -198,16 +186,13 @@ function ManageShareContainer() {
         uploads.length > 0
       ) {
         setButtonColor(true);
-        console.log("True");
       } else {
-        console.log("False");
         setButtonColor(false);
       }
     }
   }, [name, comp, category, uploads, thumbnail, youtubeLink]);
   
   const onClickRegister = () => {
-    //setLoading(true);
     const formdata = new FormData();
 
     // json 파일은 따로 Blob에 담음
@@ -218,9 +203,6 @@ function ManageShareContainer() {
       contestAwardType: "NULL", // 빼기로 함
       youtubeLink: youtubeLink,
     };
-    console.log(UploadPostForm);
-    console.log(thumbnail);
-    console.log(uploads);
 
     const uploadPostForm = new Blob([JSON.stringify(UploadPostForm)], {
       type: "application/json",
@@ -237,14 +219,12 @@ function ManageShareContainer() {
 
     axios.defaults.withCredentials = true;
 
-    console.log(formdata);
     axios
       .post("/BE/reference", formdata, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           alert("정상 등록되었습니다.");
           navigate("/manage/list");
@@ -252,15 +232,11 @@ function ManageShareContainer() {
       })
       .catch((err) => {
         alert("통신 오류");
-        console.log(err);
       });
   };
 
-  const [isNull, setIsNull] = useState(false);
-
   return (
     <S.ManageShareContainer>
-      {/* loading && <Loading/> */}
       <S.ManageShareBox>
         <S.ManageShareTable>
           <tbody>
@@ -274,6 +250,7 @@ function ManageShareContainer() {
                   placeholder="작품명을 입력해주세요"
                   onChange={onChangeName}
                   value={name}
+                  maxLength={40}
                 />
               </td>
             </tr>
@@ -287,6 +264,7 @@ function ManageShareContainer() {
                   placeholder="공모전을 검색하거나 등록해보세요"
                   onChange={onChangeComp}
                   value={comp}
+                  maxLength={60}
                 />
               </td>
             </tr>
