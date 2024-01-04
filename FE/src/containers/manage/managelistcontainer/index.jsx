@@ -1,5 +1,4 @@
 import { React, useEffect,  useRef,  useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import S from "./ManageListContainer.styles"
 import { filterOptions } from "../../reference/constants"
@@ -56,7 +55,6 @@ function ManageListContainer() {
   const { data, isLoading } = useQuery(['list'],
     () => {
       let endpoint = onChangeEndpoint();
-      console.log("useQuery ", endpoint);
       return getWork(endpoint); // data에 들어감
     })
 
@@ -80,7 +78,6 @@ function ManageListContainer() {
   const handleSelectData = (data) => {
     setSelectedData(data);
     setIsRefModal(data.postId); // TODO : boolean으로 수정하면 해당 라인 삭제
-    console.log("data ", data);
   };
 
   const handleProfileModal = (postId) => {
@@ -91,11 +88,9 @@ function ManageListContainer() {
   useEffect(() => {
     if (isMounted.current) {
       // 카테고리, 정렬을 바꿀 때마다 렌더링
-      let data;
       const fetchData = async () => {
         let endpoint = onChangeEndpoint();
-        console.log("categoryName, sortOption, pageNumber ", endpoint);
-
+        let data;
         data = await getWork(endpoint);
 
         setMywork(data.references);

@@ -13,12 +13,10 @@ export const getWork = async (endpoint) => {
         },
       },
     } = response;
-    console.log(response);
     return { references, totalOfAllReferences, totalOfPageElements, totalPages };
   }
   catch (err) {
     console.log(err);
-
     return err;
   }
 };
