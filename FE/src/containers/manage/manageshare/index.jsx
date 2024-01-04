@@ -131,7 +131,7 @@ function ManageShareContainer() {
 
           // 4. 파일 용량 검사
           isSizeError = false;
-          if (fileSize + e.target.files[i].size > 1048576 * 50) {
+          if (fileSize + e.target.files[i].size > 1048576 * 20) {
             isSizeError = true;
             allisSizeError = true;
           } else {
@@ -151,7 +151,7 @@ function ManageShareContainer() {
     } else if (allisDuplicate) {
       alert("중복된 파일이 있습니다.");
     } else if (allisSizeError) {
-      alert("최대 50MB까지 첨부할 수 있습니다.");
+      alert("최대 20MB까지 첨부할 수 있습니다.");
     }
     
     setUploads(UploadList); // 덮어 씌우기
@@ -175,7 +175,7 @@ function ManageShareContainer() {
         thumbnail !== null &&
         youtubeLink.length > 0
       ) {
-        setButtonColor(true);
+       setButtonColor(true);
       } else {
         setButtonColor(false);
       }
@@ -238,8 +238,6 @@ function ManageShareContainer() {
       });
   };
 
-  const [isNull, setIsNull] = useState(false);
-
   return (
     <S.ManageShareContainer>
       {/* loading && <Loading/> */}
@@ -256,6 +254,7 @@ function ManageShareContainer() {
                   placeholder="작품명을 입력해주세요"
                   onChange={onChangeName}
                   value={name}
+                  maxLength={40}
                 />
               </td>
             </tr>
@@ -269,6 +268,7 @@ function ManageShareContainer() {
                   placeholder="공모전을 검색하거나 등록해보세요"
                   onChange={onChangeComp}
                   value={comp}
+                  maxLength={60}
                 />
               </td>
             </tr>

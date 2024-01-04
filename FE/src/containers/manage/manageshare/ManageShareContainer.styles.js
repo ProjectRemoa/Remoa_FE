@@ -13,7 +13,7 @@ const ManageShareBox = styled.div`
 const ManageShareTable = styled.table`
   border-collapse: collapse;
   margin: 0 auto;
-  width: 832px; 
+  width: 832px;
 
   tr {
     border-bottom: 1px solid #e7e7e7;
@@ -47,7 +47,7 @@ const ManageShareTable = styled.table`
     outline: none;
     background: #ffffff;
     border-radius: 10px;
-    padding-left: 14px;
+    padding: 0px 14px;
 
     ::placeholder {
       color: #a7a7a7;
