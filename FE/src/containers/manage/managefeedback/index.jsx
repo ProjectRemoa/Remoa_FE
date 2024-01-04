@@ -4,7 +4,7 @@ import Dropdown from "../../../components/common/Dropdown";
 import { filterOptions } from "../../reference/constants";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import Category_ from "../../../components/common/Category_";
+import Category from "../../../components/common/Category"
 import CommentContainerComponent from "../../../components/common/CommentContainerComponent"
 
 function ManageFeedbackContainer() {
@@ -84,7 +84,11 @@ function ManageFeedbackContainer() {
   return (
     <S.ManageListContainer>
       <div style={{ marginTop: "64px" }}>
-        <Category_ onClickCategory={onChangeCategory} checked={checkIdx} />
+        <Category
+          main={false}
+          onClickCategory={onChangeCategory}
+          checkIdx={checkIdx}
+        />
       </div>
       <S.Line />
       <>
@@ -112,8 +116,13 @@ function ManageFeedbackContainer() {
                   filterOptions={filterOptions}
                 />
               </S.SortBox>
-                <S.Line style={{ border: "1px solid white" }} />
-                <CommentContainerComponent data={data} setPage={setPage} totalPages={tp} isFromManage={true} />
+              <S.Line style={{ border: "1px solid white" }} />
+              <CommentContainerComponent
+                data={data}
+                setPage={setPage}
+                totalPages={tp}
+                isFromManage={true}
+              />
             </>
           )}
         </S.ManageListBox>

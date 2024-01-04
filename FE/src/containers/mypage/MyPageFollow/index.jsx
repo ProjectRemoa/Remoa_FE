@@ -32,7 +32,7 @@ function MyPageFollow() {
   const [isFollowing, setIsFollowing] = useState(true);
   const [input, setInput] = useState("");
   const [type, setType] = useState("following");
-  const [followData, setFollowData] = useState();
+  const [followData, setFollowData] = useState([]);
   const { data, isLoading } = useQuery([type], () => getFollow(type), {
     keepPreviousData: true,
   });
@@ -43,14 +43,6 @@ function MyPageFollow() {
   useEffect(() => {
     setFollowData(data?.resMypageList);
   }, [data?.resMypageList]);
-
-  const followingIds = data?.resMypageList.map(
-    (following) => following.memberId
-  );
-
-  const isFollowed = data?.resMypageList.some((follower) =>
-    followingIds.includes(follower.memberId)
-  );
 
   const handleSearch = () => {
     const inputData = input?.toUpperCase().trim();
@@ -156,13 +148,12 @@ function MyPageFollow() {
 
                 <FollowBtnWrap>
                   <FollowDetailBtn
-                    isFollowing={isFollowing}
-                    isFollowed={isFollowed}
+                    isFollow={user.isFollow}
                     onClick={() => mutate(user.memberId)}
                   >
-                    {isFollowing
+                    {user.isFollow === null
                       ? "팔로잉 취소"
-                      : isFollowed
+                      : user.isFollow
                       ? "팔로잉 취소"
                       : "맞팔로우 하기"}
                   </FollowDetailBtn>
