@@ -69,7 +69,6 @@ function ManageShareContainer() {
   };
 
   const onClickDelete_ = () => {
-    //alert("삭제");
     setThumbnail(null);
   };
 
@@ -158,7 +157,6 @@ function ManageShareContainer() {
   };
 
   const onClickDelete = (name) => {
-    //alert("삭제");
     setUploads(uploads.filter((upload) => upload.name !== name));
   };
 
@@ -179,7 +177,7 @@ function ManageShareContainer() {
       } else {
         setButtonColor(false);
       }
-    } else if (category !== "video") {
+    } else {
       if (
         name.length > 0 &&
         comp.length > 0 &&
@@ -195,7 +193,6 @@ function ManageShareContainer() {
   }, [name, comp, category, uploads, thumbnail, youtubeLink]);
   
   const onClickRegister = () => {
-    //setLoading(true);
     const formdata = new FormData();
 
     // json 파일은 따로 Blob에 담음
