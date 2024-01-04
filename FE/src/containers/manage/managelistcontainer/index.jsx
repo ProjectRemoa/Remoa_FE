@@ -101,7 +101,7 @@ function ManageListContainer() {
       setTOPE(data.totalOfPageElements);
       setTP(data.totalPages);
 
-      if (data.references.length > 0) {
+      if (data.references && data.references.length > 0) {
         setName(data.references[0].postMember.nickname);
       }  
     }
