@@ -4,13 +4,13 @@ import LoadingIcon from "../images/loading.gif"
 
 const Background = styled.div`
   position: absolute;
-  border-radius: 1vw / 1vw; // MS.MobalBox와 동일하게
+  //border-radius: 1vw / 1vw; // MS.MobalBox와 동일하게
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   background: white;
-  z-index: 999;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;

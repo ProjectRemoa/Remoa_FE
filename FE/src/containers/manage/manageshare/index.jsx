@@ -61,12 +61,10 @@ function ManageShareContainer() {
   };
 
   const handleFileChange_ = (e) => {
-    console.log(e.target.files);
     if (getByteLength(e.target.files[0].name) > 150) {
       alert("파일의 제목은 150자 미만입니다.");
     } else {
       setThumbnail(e.target.files[0]);
-      console.log(e.target.files[0]);
     }
   };
 
@@ -84,7 +82,6 @@ function ManageShareContainer() {
   const [fileSize, setFileSize] = useState(0);
   const handleFileChange = (e) => {
     const UploadList = [...uploads]; // 현재 uploads 복사
-    console.log(UploadList);
 
     let isPdfOrMp4, isAnyBig, isDuplicate, isSizeError;
     let allisPdfOrMp4 = false,
@@ -92,8 +89,6 @@ function ManageShareContainer() {
       allisDuplicate = false,
       allisSizeError = false;
     for (let i = 0; i < e.target.files.length; i++) {
-      console.log(i + 1 + ". " + e.target.files[i].name);
-
       // 1. 파일 확장자 검사
       isPdfOrMp4 = false;
       const exten = e.target.files[i].name.split(".");
@@ -119,7 +114,6 @@ function ManageShareContainer() {
         // 2. 파일 이름 길이 검사
         isAnyBig = false;
         if (getByteLength(e.target.files[i].name) > 150) {
-          console.log(getByteLength(e.target.files[i].name));
           isAnyBig = true;
           allisAnyBig = true;
         }
@@ -159,8 +153,7 @@ function ManageShareContainer() {
     } else if (allisSizeError) {
       alert("최대 50MB까지 첨부할 수 있습니다.");
     }
-
-    console.log(UploadList)
+    
     setUploads(UploadList); // 덮어 씌우기
   };
 
@@ -183,13 +176,10 @@ function ManageShareContainer() {
         youtubeLink.length > 0
       ) {
         setButtonColor(true);
-        console.log("True");
       } else {
-        console.log("False");
         setButtonColor(false);
       }
     } else if (category !== "video") {
-      console.log(name.length, comp.length,  category.length, thumbnail, uploads.length)
       if (
         name.length > 0 &&
         comp.length > 0 &&
@@ -198,9 +188,7 @@ function ManageShareContainer() {
         uploads.length > 0
       ) {
         setButtonColor(true);
-        console.log("True");
       } else {
-        console.log("False");
         setButtonColor(false);
       }
     }
@@ -218,9 +206,6 @@ function ManageShareContainer() {
       contestAwardType: "NULL", // 빼기로 함
       youtubeLink: youtubeLink,
     };
-    console.log(UploadPostForm);
-    console.log(thumbnail);
-    console.log(uploads);
 
     const uploadPostForm = new Blob([JSON.stringify(UploadPostForm)], {
       type: "application/json",
@@ -237,14 +222,12 @@ function ManageShareContainer() {
 
     axios.defaults.withCredentials = true;
 
-    console.log(formdata);
     axios
       .post("/BE/reference", formdata, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           alert("정상 등록되었습니다.");
           navigate("/manage/list");
@@ -252,7 +235,6 @@ function ManageShareContainer() {
       })
       .catch((err) => {
         alert("통신 오류");
-        console.log(err);
       });
   };
 
