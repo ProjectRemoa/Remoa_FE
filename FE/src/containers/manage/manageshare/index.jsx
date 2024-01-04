@@ -240,7 +240,6 @@ function ManageShareContainer() {
 
   return (
     <S.ManageShareContainer>
-      {/* loading && <Loading/> */}
       <S.ManageShareBox>
         <S.ManageShareTable>
           <tbody>
