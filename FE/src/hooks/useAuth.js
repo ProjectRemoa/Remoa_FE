@@ -2,8 +2,10 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { loginState } from '../state/loginState';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export const useAuth = () => {
       setIsLogin(false);
 
       alert('로그아웃 되었습니다.');
+      navigate('/');
     } catch (err) {
       console.log(err);
     }
