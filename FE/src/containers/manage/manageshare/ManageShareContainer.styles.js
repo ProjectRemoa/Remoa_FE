@@ -4,10 +4,12 @@ const ManageShareContainer = styled.div`
   margin-top: 24px;
 `;
 const ManageShareBox = styled.div`
-  width: 1206px;
+  width: 100%;
   border: 1px solid #d0d0d0;
   background-color: #ffffff;
   border-radius: 30px;
+  padding-top: 68px;
+  padding-bottom: 64px;
 `;
 
 const ManageShareTable = styled.table`
@@ -152,6 +154,7 @@ const ThumbnailText = styled.div`
 
 const ButtonBox = styled.div`
   margin-top: 60px;
+  text-align: center;
 `;
 const WarningBox = styled.div`
   color: #ff0101;

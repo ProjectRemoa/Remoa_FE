@@ -1,6 +1,9 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 53px 0px 90px;
 `;
 const ProfileImg = styled.img`
