@@ -6,7 +6,7 @@ const RefListWrapper = styled.div`
   margin: 28px auto 0;
   display: flex;
   flex-direction: column;
-  padding-bottom: 160px;
+  padding-bottom: 40px;
 `;
 
 const RefListHeader = styled.div`
