@@ -47,15 +47,6 @@ const queryClient = new QueryClient({
 
 axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const Style = {
-  Wrapper: styled.div`
-    width: 100vw;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `,
-};
 
 root.render(
   <ThemeProvider theme={theme}>
@@ -63,52 +54,50 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <BrowserRouter>
-            <Style.Wrapper>
-              <ScrollToTop />
-              <Routes>
-                <Route path="/login" element={<SocialLoginPage />} />
-                <Route path="/signup" element={<SignUpPage />} />
-                <Route path="/sociallogin" element={<SocialLoginPage />} />
-                <Route path="/login/kakao" element={<KakaoLogin />} />
+            <ScrollToTop />
+            <Routes>
+              <Route path="/login" element={<SocialLoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/sociallogin" element={<SocialLoginPage />} />
+              <Route path="/login/kakao" element={<KakaoLogin />} />
 
-                {/* 레퍼런스 페이지 */}
-                <Route path="/" element={<RefPage />}>
-                  {/*<Route path=":id" element={<RefModal />} />*/}
-                </Route>
-                <Route path="/ref/:category" element={<RefPage />}>
-                  {/*<Route path=":id" element={<RefModal />} />*/}
-                </Route>
-                <Route path="/ref/search/:search" element={<RefPage />} />
+              {/* 레퍼런스 페이지 */}
+              <Route path="/" element={<RefPage />}>
+                {/*<Route path=":id" element={<RefModal />} />*/}
+              </Route>
+              <Route path="/ref/:category" element={<RefPage />}>
+                {/*<Route path=":id" element={<RefModal />} />*/}
+              </Route>
+              <Route path="/ref/search/:search" element={<RefPage />} />
 
+              <Route
+                path="/user/list/:id"
+                element={<ManageList state={false} />}
+              />
+              {/* 다른 사람의 작업물 목록도 보여야 함*/}
+
+              <Route element={<AuthLayout />}>
                 <Route
-                  path="/user/list/:id"
-                  element={<ManageList state={false} />}
+                  path="/manage/list"
+                  element={<ManageList state={true} />}
                 />
-                {/* 다른 사람의 작업물 목록도 보여야 함*/}
+                <Route path="/manage/share" element={<ManageShare />} />
+                <Route path="/manage/put/:id" element={<ManageShare />} />
+                <Route path="/manage/feedback" element={<ManageFeedback />} />
 
-                <Route element={<AuthLayout />}>
+                {/* 레퍼런스 수정 */}
+
+                {/* 마이페이지 */}
+                <Route path="/mypage/:id" element={<MyPage />}>
+                  <Route path=":category/new" element={<MyPageFAQNew />} />
                   <Route
-                    path="/manage/list"
-                    element={<ManageList state={true} />}
+                    path=":category/:detailId"
+                    element={<MyPageFAQDetail />}
                   />
-                  <Route path="/manage/share" element={<ManageShare />} />
-                  <Route path="/manage/put/:id" element={<ManageShare />} />
-                  <Route path="/manage/feedback" element={<ManageFeedback />} />
-
-                  {/* 레퍼런스 수정 */}
-
-                  {/* 마이페이지 */}
-                  <Route path="/mypage/:id" element={<MyPage />}>
-                    <Route path=":category/new" element={<MyPageFAQNew />} />
-                    <Route
-                      path=":category/:detailId"
-                      element={<MyPageFAQDetail />}
-                    />
-                  </Route>
                 </Route>
-                <Route path="*" element={<UnknownPage />} />
-              </Routes>
-            </Style.Wrapper>
+              </Route>
+              <Route path="*" element={<UnknownPage />} />
+            </Routes>
           </BrowserRouter>
           <App />
         </RecoilRoot>
