@@ -71,7 +71,6 @@ function MyPageFeedback() {
                     data={data.contents}
                     setPage={setPage}
                     totalPages={data.totalPages}
-                    isLoading={isLoading}
                   />
                 </>
               )}

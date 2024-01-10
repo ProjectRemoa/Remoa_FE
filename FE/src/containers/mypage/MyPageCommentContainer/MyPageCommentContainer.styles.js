@@ -76,8 +76,7 @@ const HorizonLine = styled.hr`
   border: 0;
 `;
 const Contents = styled.div`
-  /* display: flex;
-  flex-direction: column; */
+  height: 164px;
 `;
 
 const CommentsContainer = styled.div`

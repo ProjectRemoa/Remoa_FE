@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getOneComment } from "../../../apis/mypage/comment";
 import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageCommentContainer.styles";
-import RefModal from "../../modal/RefModalPages/RefModal";
+import CommentContainerComponent from "../../../components/common/CommentContainerComponent";
 const {
   CommentContainer,
   CommentListContainer,
@@ -33,12 +32,6 @@ const {
 function MyPageCommentContainer() {
   const navigate = useNavigate();
   const { data, isLoading } = useQuery(["comment"], getOneComment);
-  const [postId, setPostId] = useState(0);
-  const [modalVisibleId, setModalVisibleId] = useState("");
-  const onClickModal = (postId) => {
-    setPostId(postId);
-    setModalVisibleId(postId);
-  };
   return (
     <>
       {isLoading ? (
@@ -73,54 +66,7 @@ function MyPageCommentContainer() {
               </NullData>
             ) : (
               <>
-                <ContentsContainer>
-                  <AsideContainer>
-                    <Img src={data.thumbnail} alt="thumbnail" />
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginTop: "9.75px",
-                      }}
-                    >
-                      <Button
-                        onClick={() => {
-                          onClickModal(data.postId);
-                        }}
-                      >
-                        작업물 뷰어 보기
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          onClickModal(data.postId);
-                        }}
-                      >
-                        내 피드백 바로가기
-                      </Button>
-                    </div>
-                  </AsideContainer>
-                  <SectionContainer>
-                    <Title>{data.title}</Title>
-                    <HorizonLine />
-                    <Contents>
-                      <CommentsContainer>
-                        <MyCommentTitle>내가 작성한 코멘트</MyCommentTitle>
-                        <OneComment>
-                          가장 먼저 작성한 코멘트 1개만 노출됩니다
-                        </OneComment>
-                      </CommentsContainer>
-                      <ProfileContainer>
-                        <ProfileImg src={data.member?.profileImage} alt="" />
-                        <ProfileContents>
-                          <ProfileNickname>
-                            {data.member?.nickname}
-                          </ProfileNickname>
-                          <MyComment>{data.content}</MyComment>
-                        </ProfileContents>
-                      </ProfileContainer>
-                    </Contents>
-                  </SectionContainer>
-                </ContentsContainer>
+                <CommentContainerComponent data={data} />
                 <MoreButtonContainer>
                   <MoreButton onClick={() => navigate("/mypage/myfeedback")}>
                     더 보기 &gt;
@@ -130,13 +76,6 @@ function MyPageCommentContainer() {
             )}
           </CommentListContainer>
         </CommentContainer>
-      )}
-      {modalVisibleId !== "" && (
-        <RefModal
-          id2={postId}
-          modalVisibleId2={modalVisibleId}
-          setModalVisibleId2={setModalVisibleId}
-        />
       )}
     </>
   );
