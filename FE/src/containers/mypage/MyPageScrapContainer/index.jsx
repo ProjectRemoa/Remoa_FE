@@ -19,13 +19,16 @@ const {
 function MyPageScrapContainer() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [scrapPage, setScrapPage] = useState(1);
   const [checkIdx, setCheckIdx] = useState(0);
 
   useEffect(() => {
     modalLocation();
   }, []);
 
-  const { data: scrapData, isLoading } = useQuery(["scrap"], getScrap);
+  const { data: scrapData, isLoading } = useQuery(["scrap"], () =>
+    getScrap(scrapPage)
+  );
 
   const handleCategoryClick = (category) => {
     if (category === "all") setCheckIdx(0);
@@ -97,10 +100,10 @@ function MyPageScrapContainer() {
               <span
                 style={{ fontFamily: "Pretendard-Medium", fontSize: "15px" }}
               >
-                총 {scrapData.length}개
+                총 {scrapData.posts.length}개
               </span>
             </div>
-            {!scrapData.length ? (
+            {!scrapData.posts ? (
               <div
                 style={{
                   display: "flex",
@@ -135,7 +138,7 @@ function MyPageScrapContainer() {
             ) : (
               <>
                 <ScrapListContainer>
-                  {scrapData.map((scrapData, index) => (
+                  {scrapData.posts.map((scrapData, index) => (
                     <RefCard
                       key={scrapData.postId}
                       data={scrapData}
@@ -153,7 +156,12 @@ function MyPageScrapContainer() {
                     </MoreButton>
                   </MoreButtonContainer>
                 ) : (
-                  <MyPaginate previousLabel="<" nextLabel=">" />
+                  <MyPaginate
+                    pageCount={scrapData?.totalPages}
+                    previousLabel="<"
+                    nextLabel=">"
+                    onPageChange={(e) => setScrapPage(e.selected + 1)}
+                  />
                 )}
               </>
             )}

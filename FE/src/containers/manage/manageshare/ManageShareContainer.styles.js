@@ -1,19 +1,21 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const ManageShareContainer = styled.div`
-  margin-top: 118px;
-`
+  margin-top: 24px;
+`;
 const ManageShareBox = styled.div`
-  width: 1206px;
+  width: 100%;
   border: 1px solid #d0d0d0;
   background-color: #ffffff;
   border-radius: 30px;
+  padding-top: 68px;
+  padding-bottom: 64px;
 `;
 
 const ManageShareTable = styled.table`
   border-collapse: collapse;
   margin: 0 auto;
-  width: 832px; 
+  width: 832px;
 
   tr {
     border-bottom: 1px solid #e7e7e7;
@@ -47,7 +49,7 @@ const ManageShareTable = styled.table`
     outline: none;
     background: #ffffff;
     border-radius: 10px;
-    padding-left: 14px;
+    padding: 0px 14px;
 
     ::placeholder {
       color: #a7a7a7;
@@ -58,14 +60,13 @@ const ManageShareTable = styled.table`
   }
 `;
 
-const InputBox = styled.input`
-`;
+const InputBox = styled.input``;
 
 const CategoryButtonBox = styled.div`
   display: flex;
   margin-bottom: 6px;
 
-  :last-child{
+  :last-child {
     margin-bottom: 0px;
   }
 `;
@@ -73,23 +74,23 @@ const CategoryButtonBox = styled.div`
 const Category = styled.div`
   width: 198px;
   height: 44px;
-  border: 1px solid ${(props) => (props.checked ? "#727272" : "#D0D0D0")};
+  border: 1px solid ${(props) => (props.checked ? '#727272' : '#D0D0D0')};
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background-color: ${(props) => (props.checked ? "#FADA5E" : "white")};
+  background-color: ${(props) => (props.checked ? '#FADA5E' : 'white')};
   color: #464646;
-  font-weight: ${(props) => (props.checked ? "600" : "500")};
+  font-weight: ${(props) => (props.checked ? '600' : '500')};
   border-radius: 10px;
   font-size: 16px;
-  margin-right: 18.5px; 
+  margin-right: 18.5px;
   :last-child {
     margin-right: 0px;
   }
   :hover {
-    background-color: ${(props) => (props.checked ? "#DFB71C" : "lightgray")};
+    background-color: ${(props) => (props.checked ? '#DFB71C' : 'lightgray')};
   }
 `;
 
@@ -115,21 +116,21 @@ const FileContainer = styled.div`
 `;
 
 const Button = styled.button`
-  background: ${(props) => (props.state ? "#FADA5E" : "#C8D1E0")};
-  color: ${(props) => (props.state ? "#010101" : "white")};
+  background: ${(props) => (props.state ? '#FADA5E' : '#C8D1E0')};
+  color: ${(props) => (props.state ? '#010101' : 'white')};
   border-radius: 80px;
   border: none;
   font-size: 18px;
   text-align: center;
   width: 190px;
   height: 56px;
-  cursor: ${(props) => (props.state ? "pointer" : "default")};
+  cursor: ${(props) => (props.state ? 'pointer' : 'default')};
   font-weight: 600;
   box-shadow: none;
   //margin-top: 60px;
   white-space: nowrap;
   :hover {
-    ${(props) => (props.state && "#DFB71C")};
+    ${(props) => props.state && '#DFB71C'};
   }
 `;
 
@@ -153,7 +154,8 @@ const ThumbnailText = styled.div`
 
 const ButtonBox = styled.div`
   margin-top: 60px;
-`
+  text-align: center;
+`;
 const WarningBox = styled.div`
   color: #ff0101;
   font-weight: 600;

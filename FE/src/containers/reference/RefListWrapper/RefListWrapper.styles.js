@@ -1,12 +1,12 @@
-import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 
 const RefListWrapper = styled.div`
-  width: 86vw;
+  width: 100%;
+  max-width: 1260px;
   margin: 28px auto 0;
   display: flex;
   flex-direction: column;
-  padding-bottom: 160px;
+  padding-bottom: 40px;
 `;
 
 const RefListHeader = styled.div`
@@ -18,7 +18,8 @@ const RefListHeader = styled.div`
 const RefListHeading = styled.div`
   display: flex;
   align-items: center;
-  width: 86vw;
+  width: 100%;
+  max-width: 1260px;
 
   // TODO : reset.css
   font-family: Pretendard;
