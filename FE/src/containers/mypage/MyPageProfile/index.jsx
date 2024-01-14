@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import MyPageUniversityModal from "../MyPageUniversityModal";
-import styledComponent from "./MyPageProfile.styles";
 import { useMutation, useQuery } from "react-query";
 import {
   getUserProfileImg,
   postUserProfileImg,
 } from "../../../apis/mypage/user";
+import MyPageUniversityModal from "../MyPageUniversityModal";
+import styledComponent from "./MyPageProfile.styles";
 const {
   Wrapper,
   ProfileImg,
@@ -240,7 +240,7 @@ function MyPageProfile() {
               onChange={(e) => handleChangeNickname(e)}
             />
             <NicknameWarningText>
-              닉네임은 최대 6글자까지 가능합니다.
+              닉네임은 최대 8글자까지 가능합니다.
             </NicknameWarningText>
             <NicknameDuplicationText
               style={{
