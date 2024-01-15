@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export const getNotices = async (noticePageNumber) => {
-  const response = await axios.get(`/BE/notice?page=${noticePageNumber}`);
+  const response = await axios.get(
+    `https://remoaserver.store/notice?page=${noticePageNumber}`
+  );
   const {
     data: {
       data: { notices, totalPages },
@@ -11,7 +13,9 @@ export const getNotices = async (noticePageNumber) => {
 };
 
 export const getNoticesDetail = async (postId) => {
-  const response = await axios.get(`/BE/notice/view?view=${postId}`);
+  const response = await axios.get(
+    `https://remoaserver.store/notice/view?view=${postId}`
+  );
   const {
     data: { data },
   } = response;
@@ -19,7 +23,9 @@ export const getNoticesDetail = async (postId) => {
 };
 
 export const getInquiries = async (inquiryPageNumber) => {
-  const response = await axios.get(`/BE/inquiry?page=${inquiryPageNumber}`);
+  const response = await axios.get(
+    `https://remoaserver.store/inquiry?page=${inquiryPageNumber}`
+  );
   const {
     data: {
       data: { inquiries, totalPages },
@@ -29,7 +35,9 @@ export const getInquiries = async (inquiryPageNumber) => {
 };
 
 export const getInquiriesDetail = async (postId) => {
-  const response = await axios.get(`/BE/inquiry/view?view=${postId}`);
+  const response = await axios.get(
+    `https://remoaserver.store/inquiry/view?view=${postId}`
+  );
   const {
     data: { data },
   } = response;
