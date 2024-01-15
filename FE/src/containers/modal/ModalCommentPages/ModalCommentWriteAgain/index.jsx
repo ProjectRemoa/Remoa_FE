@@ -8,6 +8,7 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
   const [contents, setContents] = useState('');
   const onChangeContents = (event) => {
     setContents(event.target.value);
+    if(contents.length > 300) setContents(contents.substr(0, 300))
   };
 
   const onSumbitHandler = (e) => {
@@ -86,8 +87,9 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
         <tr>
           <td style={{position:'relative', left:'40px'}}>
           <S.Nickname>{nickname}</S.Nickname>
-          <S.WriteInput wrap="hard" onChange={onChangeContents} value={contents} placeholder='해당 댓글에 대한 의견을 자유롭게 남겨주세요!
-            욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.' />
+          <S.WriteInput wrap="hard" onChange={onChangeContents} value={contents} 
+          placeholder='해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
+          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.' />
             <div style={{position:'absolute', right:1, bottom:5, margin:'12px'}}>
               <S.CloseButton onClick={onCloseHandler} style={{marginRight:'12px', backgroundColor:'white', border:'1px solid black'}}>닫기</S.CloseButton>
               <S.CloseButton onClick={onSumbitHandler}>등록</S.CloseButton>
