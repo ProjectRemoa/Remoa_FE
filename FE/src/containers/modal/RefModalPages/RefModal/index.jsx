@@ -419,7 +419,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
                 playerVars: {
                   rel: 0,
-                  // youtube 로고 삽입 x
+                  // youtube 로고 삽입x
                   modestbranding: 1,
                 },
               }}
