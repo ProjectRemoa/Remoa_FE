@@ -46,6 +46,8 @@ function RefCard({
     scrapCount,
     title,
     views,
+    isLikedPost,
+    isScrapedPost,
   } = data;
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -139,12 +141,18 @@ function RefCard({
 
                 {/* 좋아요 */}
                 <RefCardFunctionIcon>
-                  <FaHeart /> {formatCount(likeCount)}
+                  <FaHeart style={{ color: isLikedPost ? '#FADA5E' : '' }} />{' '}
+                  {formatCount(likeCount)}
                 </RefCardFunctionIcon>
 
                 {/* 스크랩 */}
                 <RefCardFunctionIcon>
-                  <BsFillBookmarkFill /> {formatCount(scrapCount)}
+                  <BsFillBookmarkFill
+                    style={{
+                      color: isScrapedPost ? '#FADA5E' : '',
+                    }}
+                  />{' '}
+                  {formatCount(scrapCount)}
                 </RefCardFunctionIcon>
               </>
             ) : (
