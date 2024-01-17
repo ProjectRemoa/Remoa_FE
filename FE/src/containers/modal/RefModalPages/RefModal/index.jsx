@@ -166,6 +166,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
 
   const handleLike = () => {
+    if (postMember.nickname === sessionStorage.getItem('nickname')) alert("내 작품에는 불가능합니다.")
     axios
       .post(`/BE/reference/${id2}/like`)
       .then((res) => {
@@ -189,6 +190,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
 
   const handleScrap = () => {
+    if (postMember.nickname === sessionStorage.getItem('nickname')) alert("내 작품에는 불가능합니다.")
+    
     axios
       .post(`/BE/reference/${id2}/scrap`)
       .then((res) => {
@@ -416,7 +419,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
                 playerVars: {
                   rel: 0,
-                  // youtube 로고 삽입 x
+                  // youtube 로고 삽입x
                   modestbranding: 1,
                 },
               }}
