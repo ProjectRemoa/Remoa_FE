@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import styled from 'styled-components';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SocialLoginPage from './page/sociallogin/SocialLoginPage';
 import UnknownPage from './page/UnknownPage';
@@ -19,8 +19,6 @@ import MyPageFAQNew from './containers/mypage/MyPageFAQNew';
 import MyPageFAQDetail from './containers/mypage/MyPageFAQDetail';
 
 import SignUpPage from './page/SignUpPage';
-import EmailFind from './page/findinfo/EmailFind';
-import PasswordFind from './page/findinfo/PasswordFind';
 import KakaoLogin from './containers/sociallogin/KakaoLogin/index.jsx';
 
 import theme from './layout/theme';
@@ -28,9 +26,7 @@ import theme from './layout/theme';
 import { CookiesProvider } from 'react-cookie';
 import axios from 'axios';
 import { ThemeProvider } from 'styled-components';
-import RefModal from './containers/modal/RefModalPages/RefModal';
 
-import Auth from './Auth';
 import AuthLayout from './layout/AuthLayout';
 
 import { RecoilRoot } from 'recoil';
