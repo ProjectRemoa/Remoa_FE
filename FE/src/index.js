@@ -1,10 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+// 라이브러리
+import axios from 'axios';
+
+import { CookiesProvider } from 'react-cookie';
+import { ThemeProvider } from 'styled-components';
+
+import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+// 페이지
 import SocialLoginPage from './page/sociallogin/SocialLoginPage';
 import UnknownPage from './page/UnknownPage';
 
@@ -23,14 +34,8 @@ import KakaoLogin from './containers/sociallogin/KakaoLogin/index.jsx';
 
 import theme from './layout/theme';
 
-import { CookiesProvider } from 'react-cookie';
-import axios from 'axios';
-import { ThemeProvider } from 'styled-components';
-
 import AuthLayout from './layout/AuthLayout';
 
-import { RecoilRoot } from 'recoil';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import ScrollToTop from './components/common/ScrollToTop/index.jsx';
 
 const queryClient = new QueryClient({
