@@ -6,7 +6,7 @@ function Meta({ title = 'Remoa', imageURL = 'https://example.com/image.jpg' }) {
     <Helmet>
       <title>{title}</title>
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="localhost:3000" />
+      <meta property="og:url" content="https://d197wa6gufmlpc.cloudfront.net" />
       <meta property="og:title" content={title} />
       <meta property="og:image" content={imageURL} />
       <meta
