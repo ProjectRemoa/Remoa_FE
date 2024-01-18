@@ -25,6 +25,7 @@ import { formatCount } from '../../../../functions/formatCount';
 import { FaCaretDown } from 'react-icons/fa';
 import ModalRange from '../RefModalRange';
 import { useQueryClient } from 'react-query';
+import Meta from '../../../../components/common/Meta';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -76,6 +77,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     axios
       .get(endpoint)
       .then((res) => {
+        console.log(res);
+
         // top : 제목, 콘테스트 이름, 작성일자, 카테고리, 조회수, 좋아요수, 스크랩 수
         setTop({
           postId: res.data.data.postId,
@@ -87,6 +90,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           views: res.data.data.views, // useEffect []안하면 계속 count됨
           likeCount: res.data.data.likeCount,
           scrapCount: res.data.data.scrapCount,
+          thumbnail: res.data.data.thumbnail,
         });
 
         // middle : pdf/사진, 좋아요, 스크랩, filetype
@@ -341,6 +345,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
+      <Meta title={top.title} imageURL={top.thumbnail} />
+
       <S.MobalBox onClick={(e) => e.stopPropagation()}>
         {' '}
         {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
