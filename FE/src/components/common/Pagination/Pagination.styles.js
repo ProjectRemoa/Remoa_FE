@@ -41,9 +41,11 @@ export const PaginationContainer = styled.div`
     &.pageLabelBtn {
       width: fit-content;
       &.disabled {
-        color: #999;
-        pointer-events: none;
-        cursor: default;
+        a {
+          color: #ddd;
+          pointer-events: none;
+          cursor: default;
+        }
       }
     }
 
