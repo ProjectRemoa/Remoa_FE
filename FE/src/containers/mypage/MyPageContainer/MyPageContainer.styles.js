@@ -38,6 +38,7 @@ const Sort = styled.div`
     }
   }
 
+  a:link,
   a:active,
   a:visited {
     color: inherit;
