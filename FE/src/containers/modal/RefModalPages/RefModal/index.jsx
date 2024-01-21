@@ -551,7 +551,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                           style={{
                             display: 'flex',
                             position: 'relative',
-                            justifyContent: 'center',
+                            justifyContent: 'center'
                           }}
                         >
                           <S.ContentImg
