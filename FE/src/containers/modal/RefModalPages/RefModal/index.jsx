@@ -30,7 +30,7 @@ import Meta from '../../../../components/common/Meta';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
-  AuthLayout();
+
   const Navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -342,11 +342,10 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const onCloseHandler = () => {
     setPageVisibleId('');
   };
-
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
       <Meta title={top.title} imageURL={top.thumbnail} />
-
+              
       <S.MobalBox onClick={(e) => e.stopPropagation()}>
         {' '}
         {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
@@ -552,14 +551,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                           style={{
                             display: 'flex',
                             position: 'relative',
-                            justifyContent:
-                              selectExpand > 100 ? 'flex-start' : 'center',
+                            justifyContent: 'center',
                           }}
                         >
                           <S.ContentImg
                             style={{
                               width: `${selectExpand}%`,
                               height: 'auto',
+                              overflowX:'srcoll'
                             }}
                             src={srcLink}
                             key={srcLink}
@@ -642,10 +641,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     </S.PdfSizeWrapper>
                   </S.PdfSet>
                   <S.PdfMannage
+                 
                     onContextMenu={(e) => e.preventDefault()}
                     style={{
                       maxHeight: windowSize.height / 1.5,
-                      justifyContent: pageScale < 1 ? 'center' : 'flex-start',
+                      justifyContent: pageScale < 2 ? 'center' : 'flex-start',
+
                     }}
                   >
                     <Document
@@ -663,15 +664,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                           }}
                         >
                           <Page
-                            style={{
-                              width: `${pageScale * 100}%`,
-                              height: 'auto',
-                            }}
-                            scale={pageScale}
+                            width={pageScale*1000}
                             pageNumber={index + 1}
                             renderAnnotationLayer={false}
                             onMouseOver={() => {
                               onModalHandler(index);
+                              console.log()
                             }}
                             onMouseOut={() => {
                               onCloseHandler(index);
@@ -707,17 +705,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           againComments={againComments}
           setAgainComments={setAgainComments}
         />
-        {/* 움직이는 모달 */}
-        <Draggable onDrag={(_, data) => trackPos(data)}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              position: 'relative',
-              marginRight: '15px',
-              top: category === 'video' ? '100px' : '-77px',
-            }}
-          >
+{/* 움직이는 모달 */}
+<Draggable onDrag={(_, data) => trackPos(data)}>
+          <div style={{ float:'right', position: 'relative', right: '500px', top: (category === 'video'? '300px' : '70px') }} >
             <DetailedFeedback
               id3={id2}
               modalVisibleId3={modalVisibleId3}
