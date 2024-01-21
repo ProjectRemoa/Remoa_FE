@@ -26,6 +26,7 @@ import { FaCaretDown } from 'react-icons/fa';
 import ModalRange from '../RefModalRange';
 import { useQueryClient } from 'react-query';
 import Meta from '../../../../components/common/Meta';
+import ModalScrap from '../RefModalScrap';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -194,6 +195,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       });
   };
 
+  const [srcapModal, setScrapModal] = useState(false)
   const handleScrap = () => {
     if (postMember.nickname === sessionStorage.getItem('nickname'))
       alert('내 작품에는 불가능합니다.');
@@ -217,12 +219,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         if (res.data.data.isScraped === true) {
           setscrapBoolean(!scrapBoolean);
         }
-
+        setScrapModal(true)
         queryClient.invalidateQueries('references', { refetchActive: true });
       })
       .catch((err) => {
         console.log(err);
       });
+    
   };
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
@@ -282,25 +285,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     return number % 1 === 0;
   }
   const checkPage = () => {
-    if (
-      show > numPages ||
-      typeof show !== Number ||
-      isInteger(show) === false ||
-      show <= 0
-    ) {
-      checking();
-    }
+    if ( Number(show) > numPages || isInteger(Number(show)) === false || Number(show) <= 0 ) checking();
   };
 
   const checkImage = () => {
-    if (
-      show > middle.fileNames.length ||
-      typeof show !== Number ||
-      isInteger(show) === false ||
-      show <= 0
-    ) {
-      checking();
-    }
+    if ( Number(show) > middle.fileNames.length || isInteger(Number(show)) === false || Number(show) <= 0) checking();
   };
 
   // box의 포지션 값
@@ -350,6 +339,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         {' '}
         {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
+        {srcapModal && <ModalScrap setScrapModal={setScrapModal} /> }
         <S.ModalRealTop>
           <AiOutlineLeft
             style={{
@@ -450,7 +440,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     background: 'var(--light-gray, #F0F0F0)',
                   },
                 }}
-                onClick={() => handleScrap()}
+                onClick={() => {
+                  handleScrap()
+                }}
               >
                 <BsBookmark /> &nbsp; 스크랩하기
               </S.DetailFeedbackButton>
@@ -705,6 +697,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           againComments={againComments}
           setAgainComments={setAgainComments}
         />
+
 {/* 움직이는 모달 */}
 <Draggable onDrag={(_, data) => trackPos(data)}>
           <div style={{ float:'right', position: 'relative', right: '500px', top: (category === 'video'? '300px' : '70px') }} >
