@@ -25,11 +25,13 @@ import { formatCount } from '../../../../functions/formatCount';
 import { FaCaretDown } from 'react-icons/fa';
 import ModalRange from '../RefModalRange';
 import { useQueryClient } from 'react-query';
+import Meta from '../../../../components/common/Meta';
+import ModalScrap from '../RefModalScrap';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
-  AuthLayout();
+
   const Navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -76,6 +78,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     axios
       .get(endpoint)
       .then((res) => {
+        console.log(res);
+
         // top : 제목, 콘테스트 이름, 작성일자, 카테고리, 조회수, 좋아요수, 스크랩 수
         setTop({
           postId: res.data.data.postId,
@@ -87,6 +91,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           views: res.data.data.views, // useEffect []안하면 계속 count됨
           likeCount: res.data.data.likeCount,
           scrapCount: res.data.data.scrapCount,
+          thumbnail: res.data.data.thumbnail,
         });
 
         // middle : pdf/사진, 좋아요, 스크랩, filetype
@@ -190,6 +195,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       });
   };
 
+  const [srcapModal, setScrapModal] = useState(false)
   const handleScrap = () => {
     if (postMember.nickname === sessionStorage.getItem('nickname'))
       alert('내 작품에는 불가능합니다.');
@@ -213,12 +219,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         if (res.data.data.isScraped === true) {
           setscrapBoolean(!scrapBoolean);
         }
-
+        setScrapModal(true)
         queryClient.invalidateQueries('references', { refetchActive: true });
       })
       .catch((err) => {
         console.log(err);
       });
+    
   };
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
@@ -278,25 +285,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     return number % 1 === 0;
   }
   const checkPage = () => {
-    if (
-      show > numPages ||
-      typeof show !== Number ||
-      isInteger(show) === false ||
-      show <= 0
-    ) {
-      checking();
-    }
+    if ( Number(show) > numPages || isInteger(Number(show)) === false || Number(show) <= 0 ) checking();
   };
 
   const checkImage = () => {
-    if (
-      show > middle.fileNames.length ||
-      typeof show !== Number ||
-      isInteger(show) === false ||
-      show <= 0
-    ) {
-      checking();
-    }
+    if ( Number(show) > middle.fileNames.length || isInteger(Number(show)) === false || Number(show) <= 0) checking();
   };
 
   // box의 포지션 값
@@ -338,13 +331,15 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const onCloseHandler = () => {
     setPageVisibleId('');
   };
-
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
+      <Meta title={top.title} imageURL={top.thumbnail} />
+              
       <S.MobalBox onClick={(e) => e.stopPropagation()}>
         {' '}
         {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
+        {srcapModal && <ModalScrap setScrapModal={setScrapModal} /> }
         <S.ModalRealTop>
           <AiOutlineLeft
             style={{
@@ -445,7 +440,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     background: 'var(--light-gray, #F0F0F0)',
                   },
                 }}
-                onClick={() => handleScrap()}
+                onClick={() => {
+                  handleScrap()
+                }}
               >
                 <BsBookmark /> &nbsp; 스크랩하기
               </S.DetailFeedbackButton>
@@ -546,14 +543,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                           style={{
                             display: 'flex',
                             position: 'relative',
-                            justifyContent:
-                              selectExpand > 100 ? 'flex-start' : 'center',
+                            justifyContent: 'center'
                           }}
                         >
                           <S.ContentImg
                             style={{
                               width: `${selectExpand}%`,
                               height: 'auto',
+                              overflowX:'srcoll'
                             }}
                             src={srcLink}
                             key={srcLink}
@@ -636,10 +633,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     </S.PdfSizeWrapper>
                   </S.PdfSet>
                   <S.PdfMannage
+                 
                     onContextMenu={(e) => e.preventDefault()}
                     style={{
                       maxHeight: windowSize.height / 1.5,
-                      justifyContent: pageScale < 1 ? 'center' : 'flex-start',
+                      justifyContent: pageScale < 2 ? 'center' : 'flex-start',
+
                     }}
                   >
                     <Document
@@ -657,15 +656,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                           }}
                         >
                           <Page
-                            style={{
-                              width: `${pageScale * 100}%`,
-                              height: 'auto',
-                            }}
-                            scale={pageScale}
+                            width={pageScale*1000}
                             pageNumber={index + 1}
                             renderAnnotationLayer={false}
                             onMouseOver={() => {
                               onModalHandler(index);
+                              console.log()
                             }}
                             onMouseOut={() => {
                               onCloseHandler(index);
@@ -701,17 +697,10 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           againComments={againComments}
           setAgainComments={setAgainComments}
         />
-        {/* 움직이는 모달 */}
-        <Draggable onDrag={(_, data) => trackPos(data)}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              position: 'relative',
-              marginRight: '15px',
-              top: category === 'video' ? '100px' : '-77px',
-            }}
-          >
+
+{/* 움직이는 모달 */}
+<Draggable onDrag={(_, data) => trackPos(data)}>
+          <div style={{ float:'right', position: 'relative', right: '500px', top: (category === 'video'? '300px' : '70px') }} >
             <DetailedFeedback
               id3={id2}
               modalVisibleId3={modalVisibleId3}
