@@ -14,6 +14,8 @@ const {
   ProfileImgIntro,
   ProfileImgBtnWrapper,
   ProfileImgBtn,
+  RequirementMessage,
+  RequirementMark,
   HorizonLine,
   ProfileWrapper,
   ProfileItemWrapper,
@@ -37,6 +39,7 @@ function MyPageProfile() {
   const [idCheckMessage, setIdCheckMessage] = useState("");
   const [idCheckColor, setIdCheckColor] = useState("");
   const [editMessage, setEditMessage] = useState("");
+  const [editMessageColor, setEditMessageColor] = useState(true);
   const { data: profileImage } = useQuery(["user"], getUserProfileImg);
   const { mutate } = useMutation(putUserProfileImg);
 
@@ -188,16 +191,15 @@ function MyPageProfile() {
       oneLineIntroduction,
     };
 
-    if (!profileData.nickname) return alert("닉네임 입력하세요");
-    if (!profileData.university) return alert("대학 입력하세요");
-
-    try {
+    if (!nickname || !university) {
+      setEditMessageColor(false);
+      setEditMessage("아직 필수항목을 모두 입력하지 않았어요.");
+    } else {
       axios.put("/BE/user", profileData);
-    } catch (err) {
-      console.log(err);
+      sessionStorage.setItem("nickname", nickname);
+      setEditMessageColor(true);
+      setEditMessage("수정이 완료되었습니다.");
     }
-    sessionStorage.setItem("nickname", nickname);
-    setEditMessage("수정이 완료되었습니다");
     setTimeout(() => {
       setEditMessage("");
     }, 3000);
@@ -230,6 +232,9 @@ function MyPageProfile() {
       </ProfileImgBtnWrapper>
 
       <ProfileWrapper>
+        <RequirementMessage>
+          <RequirementMark>*</RequirementMark>는 필수 입력 항목입니다.
+        </RequirementMessage>
         <HorizonLine />
 
         <ProfileItemWrapper>
@@ -240,7 +245,10 @@ function MyPageProfile() {
         <HorizonLine />
 
         <ProfileItemWrapper>
-          <Title>닉네임</Title>
+          <Title>
+            닉네임
+            <RequirementMark>*</RequirementMark>
+          </Title>
           <NicknameWrapper>
             <Input
               value={nickname}
@@ -280,7 +288,10 @@ function MyPageProfile() {
         <HorizonLine />
 
         <ProfileItemWrapper>
-          <Title>재학 중 대학</Title>
+          <Title>
+            재학 중 대학
+            <RequirementMark>*</RequirementMark>
+          </Title>
           <Input id="profileUniversity" value={university} disabled />
           <ItemButton type="button" id="popupDom" onClick={togglepopup}>
             검색하기
@@ -301,11 +312,14 @@ function MyPageProfile() {
             value={oneLineIntroduction}
             name="oneLineIntroduction"
             onChange={(e) => handleChangeIntro(e)}
+            placeholder="공백 포함 30자까지 입력할 수 있어요."
           />
         </ProfileItemWrapper>
       </ProfileWrapper>
       <ProfileEditWrapper>
-        <EditMessage>{editMessage}</EditMessage>
+        <EditMessage editMessageColor={editMessageColor}>
+          {editMessage}
+        </EditMessage>
         <EditButton onClick={handleEdit}>수정 완료</EditButton>
       </ProfileEditWrapper>
     </Wrapper>

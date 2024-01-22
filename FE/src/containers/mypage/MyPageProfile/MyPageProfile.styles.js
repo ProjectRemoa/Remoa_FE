@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
@@ -6,11 +6,13 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 53px 0px 90px;
 `;
+
 const ProfileImg = styled.img`
   width: 222px;
   height: 222px;
   border-radius: 50%;
 `;
+
 const ProfileImgIntroWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,6 +22,7 @@ const ProfileImgIntroWrapper = styled.div`
   font-weight: 600;
   margin-top: 22px;
 `;
+
 const ProfileImgIntro = styled.span`
   &:first-child {
     color: #1e1e1e;
@@ -27,12 +30,14 @@ const ProfileImgIntro = styled.span`
     margin-bottom: 5px;
   }
 `;
+
 const ProfileImgBtnWrapper = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 19px;
 `;
+
 const ProfileImgBtn = styled.label`
   width: 140px;
   height: 45px;
@@ -57,35 +62,49 @@ const ProfileImgBtn = styled.label`
     background-color: #dfb71c;
   }
 `;
+
 const ProfileWrapper = styled.form`
   width: 832px;
   text-align: left;
 `;
+
+const RequirementMessage = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+
+const RequirementMark = styled.span`
+  color: #ff0101;
+`;
+
 const HorizonLine = styled.hr`
   width: 832px;
   height: 1px;
   background: #e7e7e7;
   border: 0;
   margin-top: 13px;
-  &:first-child {
+  &:first-of-type {
     background: #464646;
-    margin-top: 30px;
   }
 `;
+
 const ProfileItemWrapper = styled.div`
   margin-top: 22px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 `;
-const Title = styled.span`
+
+const Title = styled.div`
   width: 200px;
   font-size: 20px;
   font-weight: bold;
 `;
+
 const NicknameWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const Input = styled.input`
   box-sizing: border-box;
   width: 271px;
@@ -105,16 +124,19 @@ const Input = styled.input`
     background-color: inherit;
   }
 `;
+
 const NicknameWarningText = styled.span`
   font-size: 12px;
   color: #727272;
   margin-top: 10px;
 `;
+
 const NicknameDuplicationText = styled.span`
   font-size: 12px;
   margin-top: 6px;
   height: 14.4px;
 `;
+
 const ItemButton = styled.button`
   width: 100px;
   height: 42px;
@@ -130,6 +152,7 @@ const ItemButton = styled.button`
     background-color: #a7a7a7;
   }
 `;
+
 const OneLineIntroduction = styled.textarea`
   width: 654px;
   height: 108px;
@@ -143,12 +166,13 @@ const OneLineIntroduction = styled.textarea`
   font-size: 16px;
   font-family: Pretendard-Medium;
   &::placeholder {
-    color: #1f1f1f;
+    color: #a7a7a7;
   }
   &:focus {
     outline: none;
   }
 `;
+
 const ProfileEditWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -156,9 +180,12 @@ const ProfileEditWrapper = styled.div`
   align-items: center;
   margin-top: 39px;
 `;
+
 const EditMessage = styled.span`
   height: 17px;
+  color: ${(props) => (props.editMessageColor ? "#1e1e1e" : "#ff0101")};
 `;
+
 const EditButton = styled.button`
   width: 194px;
   height: 56px;
@@ -181,6 +208,8 @@ const styledComponent = {
   ProfileImgIntro,
   ProfileImgBtnWrapper,
   ProfileImgBtn,
+  RequirementMessage,
+  RequirementMark,
   HorizonLine,
   ProfileWrapper,
   ProfileItemWrapper,
