@@ -25,8 +25,6 @@ import AuthLayout from './layout/AuthLayout';
 function App() {
   return (
     <>
-      <Meta />
-
       <ScrollToTop />
       <Routes>
         <Route path="/login" element={<SocialLoginPage />} />
