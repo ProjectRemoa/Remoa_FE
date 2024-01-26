@@ -191,6 +191,15 @@ function MyPageProfile() {
       oneLineIntroduction,
     };
 
+    // 닉네임 중복확인 안하고 넘어갈 때 수정완료 되는 문제 해결 시 코드 작업할 것
+
+    // if (!(nickname === sessionStorage.getItem("nickname"))) {
+    //   if (!idCheckMessage) {
+    //     alert("중복확인을 눌러주세요.");
+    //     return;
+    //   }
+    // }
+
     if (!nickname || !university) {
       setEditMessageColor(false);
       setEditMessage("아직 필수항목을 모두 입력하지 않았어요.");
