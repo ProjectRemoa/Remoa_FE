@@ -36,7 +36,7 @@ export default function DetailFeedbackComment({
       alert('로그인이 필요한 서비스입니다.');
       navigate('/sociallogin');
     }
-  };*/
+  }*/
 
   const onClickThumb = (feedback_id) => {
     axios

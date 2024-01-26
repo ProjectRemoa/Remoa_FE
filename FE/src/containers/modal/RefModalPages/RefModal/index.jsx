@@ -1,17 +1,17 @@
 import Loading from '../../../../styles/Loading';
 import { S } from './ui';
 import React, { useEffect, useState } from 'react';
-import { AiOutlineLeft } from 'react-icons/ai'
+import { AiOutlineLeft } from 'react-icons/ai';
 import axios from 'axios';
 import { getDate } from '../../../../functions/getDate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RefModalComment from '../RefModalComment';
-import { AiTwotoneEye } from 'react-icons/ai'
-import { AiFillHeart } from 'react-icons/ai'
-import { AiOutlineHeart } from 'react-icons/ai'
-import { BsFillBookmarkFill } from 'react-icons/bs'
-import { BsBookmark } from 'react-icons/bs'
-import { BsThreeDotsVertical } from 'react-icons/bs'
+import { AiTwotoneEye } from 'react-icons/ai';
+import { AiFillHeart } from 'react-icons/ai';
+import { AiOutlineHeart } from 'react-icons/ai';
+import { BsFillBookmarkFill } from 'react-icons/bs';
+import { BsBookmark } from 'react-icons/bs';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import YouTube from 'react-youtube';
@@ -22,14 +22,18 @@ import Draggable from 'react-draggable';
 import AuthLayout from '../../../../layout/AuthLayout';
 import ModalDelete from '../RefModalDelete';
 import { formatCount } from '../../../../functions/formatCount';
-import { FaCaretDown } from "react-icons/fa";
+import { FaCaretDown } from 'react-icons/fa';
 import ModalRange from '../RefModalRange';
+import { useQueryClient } from 'react-query';
+import Meta from '../../../../components/common/Meta';
+import ModalScrap from '../RefModalScrap';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
-  AuthLayout()
+
   const Navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [loading, setLoading] = useState(true);
 
@@ -51,14 +55,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     youtubeLink: '', // category가 영상일 때
   });
   const [comments, setComments] = useState([]); // 댓글 왜 안되지
-  const [againComments, setAgainComments] = useState([]) // 요거 대댓
+  const [againComments, setAgainComments] = useState([]); // 요거 대댓
   const [feedback, setFeedback] = useState([]);
   const [postMember, setPostMember] = useState({
     memberId: 0,
     nickname: '',
     profileImage: '',
   });
-  
+
   // 좋아요, 스크랩
   const [likeBoolean, setLikeBoolean] = useState(false);
   const [scrapBoolean, setscrapBoolean] = useState(false);
@@ -74,6 +78,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     axios
       .get(endpoint)
       .then((res) => {
+        console.log(res);
+
         // top : 제목, 콘테스트 이름, 작성일자, 카테고리, 조회수, 좋아요수, 스크랩 수
         setTop({
           postId: res.data.data.postId,
@@ -85,6 +91,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           views: res.data.data.views, // useEffect []안하면 계속 count됨
           likeCount: res.data.data.likeCount,
           scrapCount: res.data.data.scrapCount,
+          thumbnail: res.data.data.thumbnail,
         });
 
         // middle : pdf/사진, 좋아요, 스크랩, filetype
@@ -124,7 +131,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
         // bottom : 댓글
         setComments(res.data.data.comments);
-        setAgainComments(res.data.data.comments.replies)
+        setAgainComments(res.data.data.comments.replies);
         // 내가 좋아요/스크랩했는지?
         setLikeBoolean(res.data.data.isLiked);
         setscrapBoolean(res.data.data.isScraped);
@@ -146,15 +153,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       .catch((err) => {
         console.log(err);
       });
-
   }, [id2]);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 2500);
   }, [loading]);
-
-
 
   // 모달 닫으면 보이는 페이지 설정하기 !
   let Lo = window.location.href;
@@ -164,9 +168,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setModalVisibleId2('');
   };
 
-
   const handleLike = () => {
-    if (postMember.nickname === sessionStorage.getItem('nickname')) alert("내 작품에는 불가능합니다.")
+    if (postMember.nickname === sessionStorage.getItem('nickname'))
+      alert('내 작품에는 불가능합니다.');
     axios
       .post(`/BE/reference/${id2}/like`)
       .then((res) => {
@@ -183,15 +187,19 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           scrapCount: top.scrapCount,
         });
         setLikeBoolean(!likeBoolean);
+
+        queryClient.invalidateQueries('references', { refetchActive: true });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const [srcapModal, setScrapModal] = useState(false)
   const handleScrap = () => {
-    if (postMember.nickname === sessionStorage.getItem('nickname')) alert("내 작품에는 불가능합니다.")
-    
+    if (postMember.nickname === sessionStorage.getItem('nickname'))
+      alert('내 작품에는 불가능합니다.');
+
     axios
       .post(`/BE/reference/${id2}/scrap`)
       .then((res) => {
@@ -207,13 +215,17 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           likeCount: top.likeCount,
           scrapCount: res.data.data.scrapCount,
         });
+
         if (res.data.data.isScraped === true) {
           setscrapBoolean(!scrapBoolean);
         }
+        setScrapModal(true)
+        queryClient.invalidateQueries('references', { refetchActive: true });
       })
       .catch((err) => {
         console.log(err);
       });
+    
   };
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
@@ -261,27 +273,23 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     }
   };
 
-  const [pageRange, setPageRange] = useState(false)
+  const [pageRange, setPageRange] = useState(false);
   // 페이지 제대로 입력되었는가 확인하기
   const checking = () => {
-    setPageRange(true)
+    setPageRange(true);
     let el = document.getElementById('pageInput');
     el.value = '';
-  }
-  
-  function isInteger(number)  {
+  };
+
+  function isInteger(number) {
     return number % 1 === 0;
   }
   const checkPage = () => {
-    if (show > numPages || typeof show !== Number || isInteger(show)===false || show <= 0 ) {
-      checking()
-    }
+    if ( Number(show) > numPages || isInteger(Number(show)) === false || Number(show) <= 0 ) checking();
   };
 
   const checkImage = () => {
-    if (show > middle.fileNames.length || typeof show !== Number || isInteger(show)===false || show <= 0 ) {
-      checking()
-    }
+    if ( Number(show) > middle.fileNames.length || isInteger(Number(show)) === false || Number(show) <= 0) checking();
   };
 
   // box의 포지션 값
@@ -300,13 +308,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setModalOpenDelete(true);
   };
 
-  const [selectExpand, setSelectExpand] = useState(100)
+  const [selectExpand, setSelectExpand] = useState(100);
 
   const onChangeExpand = (a) => {
-    setSelectExpand(a)
+    setSelectExpand(a);
     let elements = document.getElementsByClassName('image');
-    Array.from(elements).forEach(element => element.style.width = `${a}%`);
-  }
+    Array.from(elements).forEach((element) => (element.style.width = `${a}%`));
+  };
 
   const [expandModalOpenDelete, setExpandModalOpenDelete] = useState(false);
 
@@ -315,55 +323,69 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setExpandModalOpenDelete(!expandModalOpenDelete);
   };
 
+  const [pageVisibleId, setPageVisibleId] = useState('');
 
-  const [pageVisibleId, setPageVisibleId] = useState("")
-
-  const onModalHandler = id => {
-    setPageVisibleId(id)
-  }
+  const onModalHandler = (id) => {
+    setPageVisibleId(id);
+  };
   const onCloseHandler = () => {
-    setPageVisibleId("")
-  }
-
+    setPageVisibleId('');
+  };
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
-      <S.MobalBox onClick={(e) => e.stopPropagation()}> {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
+      <Meta title={top.title} imageURL={top.thumbnail} />
+              
+      <S.MobalBox onClick={(e) => e.stopPropagation()}>
+        {' '}
+        {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
+        {srcapModal && <ModalScrap setScrapModal={setScrapModal} /> }
         <S.ModalRealTop>
-        <AiOutlineLeft style={{    fontSize: '25px',
-          cursor: 'pointer',
-          marginLeft: '5px',
-          fontWeight: '700',
-          float:'left'}} 
-          onClick={onCloseHandler2}
-        />
-        {postMember.nickname === sessionStorage.getItem('nickname') && (
-          <div style={{float:'right'}}>
-            <BsThreeDotsVertical style={{cursor:'pointer'}} onClick={showSelect} />
-            {showSel && (
-              <S.EtcDiv>
-                <S.Functionp onClick={showModalDelete}>삭제하기</S.Functionp>
-                {modalOpenDelete && <ModalDelete setModalOpenDelete={setModalOpenDelete} onDelete={onDelete} />}
-                <div
-                  style={{
-                    width: '138px',
-                    height: '0px',
-                    border: '0.2px solid #B0B0B0',
-                    position: 'relative',
-                  }}
-                />       
-                <S.Functionp onClick={onClickPut}>수정하기</S.Functionp>
-              </S.EtcDiv>
-            )}
-          </div>
-        )}
+          <AiOutlineLeft
+            style={{
+              fontSize: '25px',
+              cursor: 'pointer',
+              marginLeft: '5px',
+              fontWeight: '700',
+              float: 'left',
+            }}
+            onClick={onCloseHandler2}
+          />
+          {postMember.nickname === sessionStorage.getItem('nickname') && (
+            <div style={{ float: 'right' }}>
+              <BsThreeDotsVertical
+                style={{ cursor: 'pointer' }}
+                onClick={showSelect}
+              />
+              {showSel && (
+                <S.EtcDiv>
+                  <S.Functionp onClick={showModalDelete}>삭제하기</S.Functionp>
+                  {modalOpenDelete && (
+                    <ModalDelete
+                      setModalOpenDelete={setModalOpenDelete}
+                      onDelete={onDelete}
+                    />
+                  )}
+                  <div
+                    style={{
+                      width: '138px',
+                      height: '0px',
+                      border: '0.2px solid #B0B0B0',
+                      position: 'relative',
+                    }}
+                  />
+                  <S.Functionp onClick={onClickPut}>수정하기</S.Functionp>
+                </S.EtcDiv>
+              )}
+            </div>
+          )}
         </S.ModalRealTop>
-
         <S.MobalHeader>
           <S.HeaderDiv1>
             <S.DetailTitle>{top.title}</S.DetailTitle>
             <S.DetailTitleInfo>
-              {top.contestName}&nbsp;|&nbsp;{getDate(top.postingTime)}&nbsp;|&nbsp;{top.category}
+              {top.contestName}&nbsp;|&nbsp;{getDate(top.postingTime)}
+              &nbsp;|&nbsp;{top.category}
             </S.DetailTitleInfo>
           </S.HeaderDiv1>
 
@@ -373,42 +395,63 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
               <S.HeaderUserName>{postMember.nickname}</S.HeaderUserName>
               <S.HeaderDetail2>
                 <S.eachIcon>
-                  <AiTwotoneEye style={{lineHeight:'18px', width:'18px', height:'18px' }} />
+                  <AiTwotoneEye
+                    style={{
+                      lineHeight: '18px',
+                      width: '18px',
+                      height: '18px',
+                    }}
+                  />
                   <S.eachText>{formatCount(top.views)}</S.eachText>
                 </S.eachIcon>
                 <S.eachIcon>
-                  <AiFillHeart style={{lineHeight:'18px', width:'18px', height:'18px' }} />
+                  <AiFillHeart
+                    style={{
+                      lineHeight: '18px',
+                      width: '18px',
+                      height: '18px',
+                    }}
+                  />
                   <S.eachText>{formatCount(top.likeCount)}</S.eachText>
                 </S.eachIcon>
                 <S.eachIcon>
-                  <BsFillBookmarkFill style={{lineHeight:'18px', width:'18px', height:'18px' }} />
+                  <BsFillBookmarkFill
+                    style={{
+                      lineHeight: '18px',
+                      width: '18px',
+                      height: '18px',
+                    }}
+                  />
                   <S.eachText>{formatCount(top.scrapCount)}</S.eachText>
                 </S.eachIcon>
               </S.HeaderDetail2>
             </S.HeaderUserInfo>
             <S.DetailFeedbackButtonWrapper>
-            <S.DetailFeedbackButton style={{
-              borderRadius: '12px',
-              border: '1px solid var(--gray, #A7A7A7)',
-              backgroundColor: '#FFF',
-              color:'#464646',
-              fontSize: '16px',
-              fontWeight: '600',
-              letterSpacing: '-0.32px',
-              '&:hover': {
-                background: 'var(--light-gray, #F0F0F0)'
-              }
-            }} onClick={() => handleScrap()}>
-              <BsBookmark /> &nbsp;
-              스크랩하기
-            </S.DetailFeedbackButton>
-            <S.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
-              상세피드백 보기
-            </S.DetailFeedbackButton>
+              <S.DetailFeedbackButton
+                style={{
+                  borderRadius: '12px',
+                  border: '1px solid var(--gray, #A7A7A7)',
+                  backgroundColor: '#FFF',
+                  color: '#464646',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  letterSpacing: '-0.32px',
+                  '&:hover': {
+                    background: 'var(--light-gray, #F0F0F0)',
+                  },
+                }}
+                onClick={() => {
+                  handleScrap()
+                }}
+              >
+                <BsBookmark /> &nbsp; 스크랩하기
+              </S.DetailFeedbackButton>
+              <S.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
+                상세피드백 보기
+              </S.DetailFeedbackButton>
             </S.DetailFeedbackButtonWrapper>
           </S.HeaderDiv2>
         </S.MobalHeader>
-
         <S.MobalContents>
           {category === 'video' ? (
             <YouTube
@@ -424,148 +467,229 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                 },
               }}
               onEnd={(e) => e.target.stopVideo(0)}
-            /> ) : (
-            <S.PdfWrapper>             
-              {middle.fileType === 'jpg' || middle.fileType === 'jpeg' || middle.fileType === 'png' ? 
-              (
-              <>
-              <S.PdfSet>
-                페이지 이동
-                {middle.fileNames.length > 1 && (
-                  <>
-                    <S.PdfPageInput onChange={changePageNum} defaultValue={1} id='pageInput' />
-                    &nbsp; / &nbsp;{middle.fileNames.length}&nbsp;&nbsp;&nbsp;
-                    <S.PdfPageButtonWrapper>
-                      <S.PdfPageButton href={`#${show}`} onClick={checkImage}>
-                        바로보기
-                      </S.PdfPageButton>
-                    </S.PdfPageButtonWrapper>
-                    {pageRange && <ModalRange setPageRange={setPageRange} />}
-                  </>
-                )}
-                <S.PdfSizeWrapper>
-                  페이지 배율 &nbsp;&nbsp;&nbsp;&nbsp;
-                  <S.PdfSelect>
-                    <S.PdfViewText>{selectExpand}%&nbsp;</S.PdfViewText>
-                    <FaCaretDown onClick={showExpandModalDelete} style={{cursor: 'pointer'}} />
-                  </S.PdfSelect>
-                  {expandModalOpenDelete && (
-                    <S.PdfOption>
-                    {[50,75,100,125,150].map((a)=>(
-                    <S.PdfList>
-                      <S.PdfFocus 
-                      class="list" 
-                      onClick={()=> { onChangeExpand(a);}} 
-                      id={a} 
-                      style={(selectExpand===a) ? { fontWeight: '700', color:'#1E1E1E' } : { fontWeight:'400', color:'#727272' }}
-                    >
-                      {a}%
-                    </S.PdfFocus>
-                    </S.PdfList>
-                  ))}
-                  </S.PdfOption>
-                  )}
-                </S.PdfSizeWrapper>
-              </S.PdfSet>
-              <S.PdfMannage style={{ maxHeight: windowSize.height / 1.5, display: 'block', }}>
-                {middle.fileNames.map((srcLink, index) => {
-                return(<div style={{display: 'flex', position:'relative', justifyContent: selectExpand>100 ? 'flex-start':'center'}}>
-                  <S.ContentImg 
-                    style={{width:`${selectExpand}%`,height:'auto'}}
-                    src={srcLink} 
-                    key={srcLink} 
-                    id={index+1} 
-                    className='image' 
-                    onMouseOver={() => {onModalHandler(index)}}
-                    onMouseOut={() => {onCloseHandler(index)}}
-                    />
-                  {pageVisibleId === index ? <S.PdfPageShow>{index+1}페이지</S.PdfPageShow> : ""}     
-                </div>
-                )
-              })}
-              </S.PdfMannage>
-
-              </>
-              ) : (// 여기서부터 pdf
+            />
+          ) : (
+            <S.PdfWrapper>
+              {middle.fileType === 'jpg' ||
+              middle.fileType === 'jpeg' ||
+              middle.fileType === 'png' ? (
                 <>
-                <S.PdfSet>
-                페이지 입력
-                {numPages > 1 && (
-                  <>
-                    <S.PdfPageInput onChange={changePageNum} defaultValue={1} id='pageInput' />
-                    &nbsp; / &nbsp;{numPages}&nbsp;&nbsp;&nbsp;
-                    <S.PdfPageButtonWrapper>
-                      <S.PdfPageButton href={`#${show}`} onClick={checkPage}>
-                        바로보기
-                      </S.PdfPageButton>
-                    </S.PdfPageButtonWrapper>
-                    {pageRange && <ModalRange setPageRange={setPageRange} />}
-                  </>
-                )}
-                <S.PdfSizeWrapper>
-                  페이지 배율 &nbsp;&nbsp;&nbsp;&nbsp;
-                  <S.PdfSelect>
-                    <S.PdfViewText>{pageScale*100}%&nbsp;</S.PdfViewText>
-                    <FaCaretDown onClick={showExpandModalDelete} style={{cursor: 'pointer'}} />
-                  </S.PdfSelect>
-                  {expandModalOpenDelete && (
-                    <S.PdfOption>
-                    {[50,75,100,125,150].map((a)=>(
-                    <S.PdfList>
-                      <S.PdfFocus 
-                      class="list" 
-                      onClick={()=> { setPageScale(a/100);}} 
-                      id={a} 
-                      style={(pageScale*100===a) ? { fontWeight: '700', color:'#1E1E1E' } : { fontWeight:'400', color:'#727272' }}
+                  <S.PdfSet>
+                    페이지 이동
+                    {middle.fileNames.length > 1 && (
+                      <>
+                        <S.PdfPageInput
+                          onChange={changePageNum}
+                          defaultValue={1}
+                          id="pageInput"
+                        />
+                        &nbsp; / &nbsp;{middle.fileNames.length}
+                        &nbsp;&nbsp;&nbsp;
+                        <S.PdfPageButtonWrapper>
+                          <S.PdfPageButton
+                            href={`#${show}`}
+                            onClick={checkImage}
+                          >
+                            바로보기
+                          </S.PdfPageButton>
+                        </S.PdfPageButtonWrapper>
+                        {pageRange && (
+                          <ModalRange setPageRange={setPageRange} />
+                        )}
+                      </>
+                    )}
+                    <S.PdfSizeWrapper>
+                      페이지 배율 &nbsp;&nbsp;&nbsp;&nbsp;
+                      <S.PdfSelect>
+                        <S.PdfViewText>{selectExpand}%&nbsp;</S.PdfViewText>
+                        <FaCaretDown
+                          onClick={showExpandModalDelete}
+                          style={{ cursor: 'pointer' }}
+                        />
+                      </S.PdfSelect>
+                      {expandModalOpenDelete && (
+                        <S.PdfOption>
+                          {[50, 75, 100, 125, 150].map((a) => (
+                            <S.PdfList>
+                              <S.PdfFocus
+                                class="list"
+                                onClick={() => {
+                                  onChangeExpand(a);
+                                }}
+                                id={a}
+                                style={
+                                  selectExpand === a
+                                    ? { fontWeight: '700', color: '#1E1E1E' }
+                                    : { fontWeight: '400', color: '#727272' }
+                                }
+                              >
+                                {a}%
+                              </S.PdfFocus>
+                            </S.PdfList>
+                          ))}
+                        </S.PdfOption>
+                      )}
+                    </S.PdfSizeWrapper>
+                  </S.PdfSet>
+                  <S.PdfMannage
+                    style={{
+                      maxHeight: windowSize.height / 1.5,
+                      display: 'block',
+                    }}
+                  >
+                    {middle.fileNames.map((srcLink, index) => {
+                      return (
+                        <div
+                          style={{
+                            display: 'flex',
+                            position: 'relative',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <S.ContentImg
+                            style={{
+                              width: `${selectExpand}%`,
+                              height: 'auto',
+                              overflowX:'srcoll'
+                            }}
+                            src={srcLink}
+                            key={srcLink}
+                            id={index + 1}
+                            className="image"
+                            onMouseOver={() => {
+                              onModalHandler(index);
+                            }}
+                            onMouseOut={() => {
+                              onCloseHandler(index);
+                            }}
+                          />
+                          {pageVisibleId === index ? (
+                            <S.PdfPageShow>{index + 1}페이지</S.PdfPageShow>
+                          ) : (
+                            ''
+                          )}
+                        </div>
+                      );
+                    })}
+                  </S.PdfMannage>
+                </>
+              ) : (
+                // 여기서부터 pdf
+                <>
+                  <S.PdfSet>
+                    페이지 입력
+                    {numPages > 1 && (
+                      <>
+                        <S.PdfPageInput
+                          onChange={changePageNum}
+                          defaultValue={1}
+                          id="pageInput"
+                        />
+                        &nbsp; / &nbsp;{numPages}&nbsp;&nbsp;&nbsp;
+                        <S.PdfPageButtonWrapper>
+                          <S.PdfPageButton
+                            href={`#${show}`}
+                            onClick={checkPage}
+                          >
+                            바로보기
+                          </S.PdfPageButton>
+                        </S.PdfPageButtonWrapper>
+                        {pageRange && (
+                          <ModalRange setPageRange={setPageRange} />
+                        )}
+                      </>
+                    )}
+                    <S.PdfSizeWrapper>
+                      페이지 배율 &nbsp;&nbsp;&nbsp;&nbsp;
+                      <S.PdfSelect>
+                        <S.PdfViewText>{pageScale * 100}%&nbsp;</S.PdfViewText>
+                        <FaCaretDown
+                          onClick={showExpandModalDelete}
+                          style={{ cursor: 'pointer' }}
+                        />
+                      </S.PdfSelect>
+                      {expandModalOpenDelete && (
+                        <S.PdfOption>
+                          {[50, 75, 100, 125, 150].map((a) => (
+                            <S.PdfList>
+                              <S.PdfFocus
+                                class="list"
+                                onClick={() => {
+                                  setPageScale(a / 100);
+                                }}
+                                id={a}
+                                style={
+                                  pageScale * 100 === a
+                                    ? { fontWeight: '700', color: '#1E1E1E' }
+                                    : { fontWeight: '400', color: '#727272' }
+                                }
+                              >
+                                {a}%
+                              </S.PdfFocus>
+                            </S.PdfList>
+                          ))}
+                        </S.PdfOption>
+                      )}
+                    </S.PdfSizeWrapper>
+                  </S.PdfSet>
+                  <S.PdfMannage
+                 
+                    onContextMenu={(e) => e.preventDefault()}
+                    style={{
+                      maxHeight: windowSize.height / 1.5,
+                      justifyContent: pageScale < 2 ? 'center' : 'flex-start',
+
+                    }}
+                  >
+                    <Document
+                      file={middle.fileNames[0]}
+                      onLoadSuccess={onDocumentLoadSuccess}
                     >
-                      {a}%
-                    </S.PdfFocus>
-                    </S.PdfList>
-                  ))}
-                  </S.PdfOption>
-                  )}
-                </S.PdfSizeWrapper>
-              </S.PdfSet>
-              <S.PdfMannage
-                onContextMenu={(e) => e.preventDefault()}
-                style={{
-                  maxHeight: windowSize.height / 1.5,
-                  justifyContent: pageScale < 1 ? 'center' : 'flex-start',
-                }}
-              >
-                <Document
-                  file={middle.fileNames[0]}
-                  onLoadSuccess={onDocumentLoadSuccess}
-                >
-                  {Array.from(new Array(numPages), (_, index) => (
-                    <div key={index + 1} id={index + 1} style={{display: 'flex', justifyContent:'center', position:'relative'}}>
-                      <Page
-                      style={{width:`${pageScale*100}%`, height:'auto'}}
-                        scale={pageScale}
-                        pageNumber={index + 1}
-                        renderAnnotationLayer={false}
-                        onMouseOver={() => {onModalHandler(index)}}
-                    onMouseOut={() => {onCloseHandler(index)}}
-                      />
-                      {pageVisibleId === index ? (<S.PdfPageShow>{index+1}페이지</S.PdfPageShow>) : ""}    
-                    </div>
-                  ))}
-                </Document>
-              </S.PdfMannage>
-                </>)
-              }
+                      {Array.from(new Array(numPages), (_, index) => (
+                        <div
+                          key={index + 1}
+                          id={index + 1}
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            position: 'relative',
+                          }}
+                        >
+                          <Page
+                            width={pageScale*1000}
+                            pageNumber={index + 1}
+                            renderAnnotationLayer={false}
+                            onMouseOver={() => {
+                              onModalHandler(index);
+                              console.log()
+                            }}
+                            onMouseOut={() => {
+                              onCloseHandler(index);
+                            }}
+                          />
+                          {pageVisibleId === index ? (
+                            <S.PdfPageShow>{index + 1}페이지</S.PdfPageShow>
+                          ) : (
+                            ''
+                          )}
+                        </div>
+                      ))}
+                    </Document>
+                  </S.PdfMannage>
+                </>
+              )}
               <div style={{ height: '50px', width: 'auto' }} />
             </S.PdfWrapper>
           )}
         </S.MobalContents>
-
         <S.TraceBox onClick={() => handleLike()}>
           <S.TraceBoxAlign>
-            <AiOutlineHeart style={{color:likeBoolean ? '#B0B0B0' : 'red'}} />
+            <AiOutlineHeart
+              style={{ color: likeBoolean ? '#B0B0B0' : 'red' }}
+            />
             <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
           </S.TraceBoxAlign>
         </S.TraceBox>
-
         <RefModalComment
           postId={id2}
           comments={comments}
@@ -574,9 +698,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           setAgainComments={setAgainComments}
         />
 
-                      {/* 움직이는 모달 */}
-        <Draggable onDrag={(_, data) => trackPos(data)}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative', marginRight: '15px', top: category==='video'? '100px' : '-77px' }}>
+{/* 움직이는 모달 */}
+<Draggable onDrag={(_, data) => trackPos(data)}>
+          <div style={{ float:'right', position: 'relative', right: '500px', top: (category === 'video'? '300px' : '70px') }} >
             <DetailedFeedback
               id3={id2}
               modalVisibleId3={modalVisibleId3}

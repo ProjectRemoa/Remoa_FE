@@ -3,24 +3,26 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { S } from './ui';
 
-function ModalDelete({ setModalOpenDelete }) {
+function ModalScrap({ setScrapModal }) {
 
   const closeModal = () => {
-    setModalOpenDelete(false);
+    setScrapModal(false)
   };
 
   return (
-    <div className={styles.container}>
+    <S.Wrapper className={styles.container} style={{ display: 'block'}}>
     <AiOutlineClose 
       className={styles.close} 
       onClick={closeModal}
       style={{marginTop:'18px', marginRight:'18px', width:'24px', height:'24px'}}
     />
-    <AiFillCheckCircle />
-      <p>스크랩 되었습니다</p>
-      <p>마이페이지의 스크랩한 작업물에서 확인가능해요</p>
-    </div>
+    <AiFillCheckCircle style={{ fontSize:'40px', color:'#FADA5E' }} />
+      <S.Span>스크랩 되었습니다</S.Span>
+      <S.Span style={{ fontSize: '14px', letterSpacing: '-0.28px', fontWeight: '500', color: 'var(--deepgray, #727272)' }}>
+        마이페이지의 내 활동 관리에서 확인 가능해요
+      </S.Span>
+    </S.Wrapper>
   );
 }
 
-export default ModalDelete;
+export default ModalScrap;
