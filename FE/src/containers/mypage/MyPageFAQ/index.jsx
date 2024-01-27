@@ -31,6 +31,8 @@ function MyPageFAQ() {
   const [inquiryPage, setInquiryPage] = useState(1);
   const [filter, setFilter] = useState(filterOptions[0].value);
   const [sortOption, setSortOption] = useState(filterOptions[0].key);
+  const [noticeDatas, setNoticeDatas] = useState([]);
+  const [inquiryDatas, setInquiryDatas] = useState([]);
 
   const { data: noticeData, isLoading: isNoticeLoading } = useQuery(
     ["noticeData", noticePage],
@@ -44,6 +46,8 @@ function MyPageFAQ() {
   );
 
   useEffect(() => {
+    setNoticeDatas(noticeData?.notices);
+    setInquiryDatas(inquiryData?.inquiries);
     setSortOption(filterOptions[0].key);
     setFilter(filterOptions[0].value);
     if (
@@ -61,8 +65,10 @@ function MyPageFAQ() {
       );
     }
   }, [
+    noticeData?.notices,
     noticePage,
     noticeData?.totalPages,
+    inquiryData?.inquiries,
     inquiryPage,
     inquiryData?.totalPages,
     queryClient,
@@ -72,7 +78,33 @@ function MyPageFAQ() {
     setInput(input);
   };
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    const inputData = input.toUpperCase().trim();
+    if (sortOption === "title") {
+      setNoticeDatas(
+        noticeData.notices.filter((notice) =>
+          notice.title.toUpperCase().includes(inputData)
+        )
+      );
+      setInquiryDatas(
+        inquiryData.inquiries.filter((inquiry) =>
+          inquiry.title.toUpperCase().includes(inputData)
+        )
+      );
+    }
+    if (sortOption === "author") {
+      setNoticeDatas(
+        noticeData.notices.filter((notice) =>
+          notice.author.toUpperCase().includes(inputData)
+        )
+      );
+      setInquiryDatas(
+        inquiryData.inquiries.filter((inquiry) =>
+          inquiry.author.toUpperCase().includes(inputData)
+        )
+      );
+    }
+  };
 
   const onKeyDownSearch = (e) => {
     if (e.key === "Enter") {
@@ -88,7 +120,7 @@ function MyPageFAQ() {
         <Wrapper>
           <TableComponent
             title="공지사항"
-            data={noticeData?.notices}
+            data={noticeDatas}
             category={"notice"}
           />
           <MyPaginate
@@ -100,7 +132,7 @@ function MyPageFAQ() {
 
           <TableComponent
             title="문의사항"
-            data={inquiryData?.inquiries}
+            data={inquiryDatas}
             category={"inquiry"}
           />
           <MyPaginate

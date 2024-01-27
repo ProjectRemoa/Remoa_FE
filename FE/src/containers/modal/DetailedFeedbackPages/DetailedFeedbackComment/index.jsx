@@ -15,6 +15,7 @@ export default function DetailFeedbackComment({
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
+    if(contents.length > 1000) setContents(contents.substr(0, 1000))
   };
 
   /*const onClickFeedback = (feedbackId) => {
@@ -35,7 +36,7 @@ export default function DetailFeedbackComment({
       alert('로그인이 필요한 서비스입니다.');
       navigate('/sociallogin');
     }
-  };*/
+  }*/
 
   const onClickThumb = (feedback_id) => {
     axios
@@ -130,7 +131,7 @@ export default function DetailFeedbackComment({
                   <br />
                   <S.ModifyText
                     required
-                    placeholder='상세 피드백을 수정하세요.'
+                    placeholder='해당 작업물에 대한 의견을 최대 1000자까지 남길 수 있어요!'
                     onChange={onChangeContents}
                     defaultValue={feedbacks.feedback}
                   />

@@ -25,6 +25,7 @@ export default function DetaileFeedback({
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
+    if(contents.length > 1000) setContents(contents.substr(0, 1000))
   };
 
   const [selected, setSelected] = useState(1);
@@ -140,7 +141,7 @@ export default function DetaileFeedback({
             onChange={onChangeContents}
             value={contents}
             required
-            placeholder="피드백을 남겨주세요"
+            placeholder="해당 작업물에 대한 의견을 최대 1000자까지 남길 수 있어요!"
           />
         </S.RegBottom>
       </S.ModalWriteFeed>

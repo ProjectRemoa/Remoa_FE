@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from "react";
-import Footer from "./Footer/Footer";
-import Header from "./Header";
-import { useNavigate } from "react-router";
-import styles from "./Layout.module.css";
+import Header from './Header';
+import Footer from './Footer/Footer';
+import styles from './Layout.module.css';
+import { useLocation } from 'react-router-dom';
 
 function Layout(props) {
+  const { pathname } = useLocation();
+
   return (
     <>
-      <div className={styles.layout}>
-        <Header />
-        <main className={styles.main}>{props.children}</main>
-        {/*<Footer />*/}
-      </div>
+      <Header />
+      <main
+        className={styles.main}
+        style={{
+          backgroundColor: pathname === '/sociallogin' ? '#f5f5f5' : 'white',
+        }}
+      >
+        <div className={styles.content}>{props.children}</div>
+      </main>
+      <Footer />
     </>
   );
 }

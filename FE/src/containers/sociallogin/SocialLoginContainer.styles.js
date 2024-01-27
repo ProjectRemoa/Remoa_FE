@@ -1,26 +1,27 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   font-family: Pretendard-Medium;
+  display: flex;
+  justify-content: center;
   width: 100%;
-  height: calc(100vh - 80px);
-  background-color: #f6f6f5;
 `;
 
 const Container = styled.div`
-  background-color: white;
-  margin-top: 104px;
+  display: inline-block;
   width: 560px;
   height: 480px;
+  margin: 0 auto;
   border-radius: 24px;
-  display: inline-block;
+  background-color: white;
+  margin-top: 104px;
 `;
 
 const OuterWrapper = styled.div`
-  align-items: center;
-  justify-content: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const OuterBox = styled.div`
@@ -30,12 +31,13 @@ const OuterBox = styled.div`
 const TextBox = styled.div`
   font-size: 24px;
   font-weight: 700;
-  color: #1E1E1E;
+  color: #1e1e1e;
+  text-align: center;
   margin-bottom: 38px;
-`
-  
+`;
+
 const InnerBox = styled.div`
-  margin-bottom:31px;
+  margin-bottom: 31px;
 `;
 
 const CommentBox = styled.div`
@@ -50,17 +52,17 @@ const CommentBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding : 3px;
+  padding: 3px;
   margin-bottom: 18px;
-`
-  
+`;
+
 const LoginBox = styled.div`
   text-align: center;
-`
+`;
 
 const LoginInfoBox = styled.div`
   margin-bottom: 3px;
-`
+`;
 
 const S = {
   Wrapper,

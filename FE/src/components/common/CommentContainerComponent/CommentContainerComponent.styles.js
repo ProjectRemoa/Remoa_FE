@@ -34,7 +34,7 @@ const Button = styled.button`
 
 const SectionContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 217px;
   margin-left: 24px;
 `;
 
@@ -49,7 +49,9 @@ const HorizonLine = styled.hr`
   background: #e7e7e7;
   border: 0;
 `;
-const Contents = styled.div``;
+const Contents = styled.div`
+  height: 164px;
+`;
 
 const CommentsContainer = styled.div`
   height: 60px;

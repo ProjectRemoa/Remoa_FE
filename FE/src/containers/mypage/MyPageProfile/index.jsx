@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import MyPageUniversityModal from "../MyPageUniversityModal";
-import styledComponent from "./MyPageProfile.styles";
 import { useMutation, useQuery } from "react-query";
 import {
   getUserProfileImg,
-  postUserProfileImg,
+  putUserProfileImg,
 } from "../../../apis/mypage/user";
+import MyPageUniversityModal from "../MyPageUniversityModal";
+import styledComponent from "./MyPageProfile.styles";
 const {
   Wrapper,
   ProfileImg,
@@ -38,7 +38,7 @@ function MyPageProfile() {
   const [idCheckColor, setIdCheckColor] = useState("");
   const [editMessage, setEditMessage] = useState("");
   const { data: profileImage } = useQuery(["user"], getUserProfileImg);
-  const { mutate } = useMutation(postUserProfileImg);
+  const { mutate } = useMutation(putUserProfileImg);
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
     userData;
@@ -66,19 +66,26 @@ function MyPageProfile() {
 
   const handleChangeProfileImgFile = (event) => {
     const file = event.target.files[0];
-    if (file.size > 2000000) {
-      alert("2MB 이하의 파일을 업로드해주세요.");
-    } else {
-      console.log(file);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setPreviewImage(reader.result);
+    const reader = new FileReader();
+    if (file?.size > 2000000) {
+      alert("2MB 이하의 파일만 업로드할 수 있습니다.");
+      return;
+    }
+    reader.onload = (e) => {
+      let img = new Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        if (img.width < 110 || img.height < 110) {
+          alert("최소 규격보다 작은 사진입니다. (최소 110x110)");
+          return;
+        }
+        setPreviewImage(img.src);
       };
-      if (file) {
-        reader.readAsDataURL(file);
-      } else {
-        setPreviewImage(null);
-      }
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewImage(null);
     }
   };
 
@@ -132,6 +139,7 @@ function MyPageProfile() {
   const handleChangePhone = (e) => {
     const { name, value } = e.target;
     const isOnlyNum = /^[0-9]*$/g.test(value);
+    if (!isOnlyNum) alert("숫자 외에는 입력하실 수 없습니다.");
     const phoneRegExp = !isOnlyNum || (isOnlyNum && value.length > 11);
     return phoneRegExp
       ? null
@@ -240,7 +248,7 @@ function MyPageProfile() {
               onChange={(e) => handleChangeNickname(e)}
             />
             <NicknameWarningText>
-              닉네임은 최대 6글자까지 가능합니다.
+              닉네임은 최대 8글자까지 가능합니다.
             </NicknameWarningText>
             <NicknameDuplicationText
               style={{

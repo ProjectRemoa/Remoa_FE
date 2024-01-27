@@ -1,91 +1,66 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import img from "../../images/LEMOA_TEXT_MARK.png";
-import LoginCheck from "../../containers/sociallogin/LoginCheck";
-import S from "./Header.styles";
+import { useLocation, useNavigate } from 'react-router-dom';
+import img from '../../images/LEMOA_TEXT_MARK.png';
+import LoginCheck from '../../containers/sociallogin/LoginCheck';
+import * as S from './Header.styles';
 
+const CATEGORY_LINKS = [
+  {
+    name: '레퍼런스',
+    link: '/',
+    index: null,
+    identifier: 'reference',
+  },
+  {
+    name: '작업물 관리',
+    link: '/manage',
+    index: '/list',
+    identifier: 'manage',
+  },
+  {
+    name: '마이페이지',
+    link: '/mypage',
+    index: '/profile',
+    identifier: 'mypage',
+  },
+];
 function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [isLogin, setIsLogin] = useState(false);
+  const { pathname } = useLocation();
 
-  useEffect(() => {
-    if (sessionStorage.getItem("id") !== null) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, []);
-
-  const noticeOnClick = () => {};
-
-  const loginOnClick = () => {
-    navigate("/login");
-  };
-
-  const logoutOnClick = () => {
-    axios.defaults.withCredentials = true;
-    // 404 error 발생
-    axios
-      .post(`/user/logout`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    sessionStorage.removeItem("id");
-    navigate("/");
-  };
-
-  const bellOnClick = () => {};
-
-  const shareOnClick = () => {};
-
-  const signupOnClick = () => {
-    navigate("/signup");
-  };
   return (
     <S.Header>
-      <S.Contents>
+      <S.HeaderInner>
+        <S.Logo href="/">
+          <img src={img} alt="Remoa Logo" />
+        </S.Logo>
+
         <S.Items>
-          <S.Item>
-            <S.Logo href="/">
-              <img src={img} alt="로고대체" />
-            </S.Logo>
-          </S.Item>
-          <S.Item>
-            <Link to="/">
-              레퍼런스
-              {Boolean(
-                location.pathname.includes("/ref") || location.pathname === "/"
-              ) && <S.HoverlineUnder1 />}
-            </Link>
-          </S.Item>
-          <S.Item>
-            <Link to="/manage/list">
-              작업물 관리
-              {Boolean(location.pathname.includes("/manage")) && (
-                <S.HoverlineUnder2 />
-              )}
-            </Link>
-          </S.Item>
-          <S.Item>
-            <Link to="/mypage/profile">
-              마이페이지
-              {Boolean(location.pathname.includes("/mypage")) && (
-                <S.HoverlineUnder3 />
-              )}
-            </Link>
-          </S.Item>
+          {CATEGORY_LINKS.map((item) => {
+            const isActive =
+              (pathname.startsWith(item.link) &&
+                pathname.includes(item.identifier)) ||
+              (item.identifier === 'reference' &&
+                (pathname === '/' || pathname.startsWith('/ref')));
+
+            return (
+              <S.Item
+                key={item.name}
+                className={isActive ? 'active' : ''}
+                onClick={() =>
+                  navigate(item.index ? item.link + item.index : item.link)
+                }
+              >
+                {item.name}
+              </S.Item>
+            );
+          })}
         </S.Items>
-      </S.Contents>
-      <S.Contents>
-        <LoginCheck />
-      </S.Contents>
+
+        {/* 로그인 / 로그아웃 시 변경되는 메뉴 */}
+        <S.UserAction>
+          <LoginCheck />
+        </S.UserAction>
+      </S.HeaderInner>
     </S.Header>
   );
 }

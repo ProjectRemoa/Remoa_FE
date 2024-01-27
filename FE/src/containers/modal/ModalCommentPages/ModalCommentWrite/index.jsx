@@ -7,6 +7,7 @@ export default function ModalCommentWrite({ postId, setComments }) {
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
+    if(contents.length > 300) setContents(contents.substr(0, 300))
   };
 
   const onSumbitHandler = (e) => {
@@ -42,7 +43,7 @@ export default function ModalCommentWrite({ postId, setComments }) {
         <S.CommentButton onClick={onSumbitHandler}>등록</S.CommentButton>
       </S.CommentWriteHeader>
       <S.WriteInput
-        placeholder='해당 작업물에 대한 의견을 자유롭게 남겨주세요!
+        placeholder='해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
         욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.'
         onChange={onChangeContents}
         value={contents}
