@@ -39,7 +39,7 @@ function ManageFeedbackContainer() {
     let endpoint;
     endpoint = `/BE/user/receive?category=${categoryName}&page=${1}`; // api 수정 필요
     getComment(endpoint);
-  }, []);
+  }, [categoryName]);
 
   const getComment = (endpoint) => {
     console.log(endpoint);
@@ -58,8 +58,6 @@ function ManageFeedbackContainer() {
             },
           },
         } = response;
-
-        console.log(response);
 
         setData(contents);
       } catch (err) {
