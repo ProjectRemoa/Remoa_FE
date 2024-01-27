@@ -37,7 +37,7 @@ function ManageFeedbackContainer() {
 
   useEffect(() => {
     let endpoint;
-    endpoint = `/BE/user/activity?comment=${2}&scrap=${1}`; // api 수정 필요
+    endpoint = `/BE/user/receive?category=${categoryName}&page=${1}`; // api 수정 필요
     getComment(endpoint);
   }, []);
 
@@ -47,30 +47,20 @@ function ManageFeedbackContainer() {
       try {
         const response = await axios.get(endpoint);
         console.log(response);
-        /*
+        
         const {
           data: {
             data: {
-              references,
-              totalOfAllReferences,
+              contents,
+              totalOfAllComments,
               totalOfPageElements,
               totalPages,
             },
           },
         } = response;
-        */
-        const {
-          data: {
-            data: { content, posts },
-          },
-        } = response;
+
         console.log(response);
 
-        console.log("content", content);
-        console.log("posts", posts);
-
-        let contents = []; // 배열로 만들어준 다음 data에 넣어야함 (map 때문에)
-        contents.push(content);
         setData(contents);
       } catch (err) {
         console.log(err);
