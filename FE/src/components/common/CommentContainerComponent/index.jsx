@@ -112,7 +112,9 @@ function CommentContainerComponent({
                   {data.commentId ? (
                     <>
                       <CommentsContainer>
-                        <MyCommentTitle>내가 작성한 코멘트</MyCommentTitle>
+                        <MyCommentTitle>
+                          {isFromManage === true ? <>내가 받은 코멘트</> : <>내가 작성한 코멘트</>}
+                        </MyCommentTitle>
                         <OneComment>
                           가장 먼저 작성한 코멘트 1개만 노출됩니다
                         </OneComment>
@@ -198,11 +200,7 @@ function CommentContainerComponent({
                   //else onClickModal(data.postId);
                 }}
               >
-                {isFromManage === true ? (
-                  <>상세 피드백 팝업</>
-                ) : (
-                  <>내 피드백 바로가기</>
-                )}
+                  {isFromManage === true ? <>상세 피드백 팝업</> : <>내 피드백 바로가기</>}
               </Button>
             </div>
           </AsideContainer>
