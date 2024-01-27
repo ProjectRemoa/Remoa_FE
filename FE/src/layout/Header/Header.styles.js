@@ -10,7 +10,7 @@ export const Header = styled.nav`
   width: 100%;
   height: 80px;
   background-color: #fada5e;
-  z-index: 3;
+  z-index: 10;
 `;
 
 export const Logo = styled.a`
