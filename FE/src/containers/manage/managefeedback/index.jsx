@@ -39,7 +39,6 @@ function ManageFeedbackContainer() {
 
   useEffect(() => {
     let endpoint;
-    console.log(categoryName + "의 " + 1 + "페이지 요청");
     endpoint = `/BE/user/receive?category=${categoryName}&page=${1}`; 
     setPage(1);
     getComment(endpoint);
@@ -47,7 +46,6 @@ function ManageFeedbackContainer() {
 
   useEffect(() => {
     let endpoint;
-    console.log(categoryName + "의 "+page+"페이지 요청")
     endpoint = `/BE/user/receive?category=${categoryName}&page=${page}`; 
     getComment(endpoint);
   }, [page])
