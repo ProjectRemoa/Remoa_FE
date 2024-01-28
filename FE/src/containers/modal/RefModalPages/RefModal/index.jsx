@@ -1,6 +1,6 @@
 import Loading from '../../../../styles/Loading';
 import { S } from './ui';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai';
 import axios from 'axios';
 import { getDate } from '../../../../functions/getDate';
@@ -153,6 +153,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       .catch((err) => {
         console.log(err);
       });
+
   }, [id2]);
   useEffect(() => {
     setTimeout(() => {
@@ -236,7 +237,16 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
   const [, setPageNumber] = useState(1);
-  const [pageScale, setPageScale] = useState(0.5);
+  const [pageScale, setPageScale] = useState(1);
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (container && pageScale>1) {
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+        const middleScrollLeft = maxScrollLeft / 2;
+        container.scrollLeft = middleScrollLeft;
+    }
+  },[pageScale]);
+
 
   function onDocumentLoadSuccess({ numPages }) {
     console.log('pdf 로드 성공');
@@ -309,7 +319,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
 
   const [selectExpand, setSelectExpand] = useState(100);
-
+  useEffect(() => {
+    const container = scrollRef2.current;
+    if (container && selectExpand>100) {
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+        const middleScrollLeft = maxScrollLeft / 2;
+        container.scrollLeft = middleScrollLeft;
+    }
+  },[selectExpand]);
   const onChangeExpand = (a) => {
     setSelectExpand(a);
     let elements = document.getElementsByClassName('image');
@@ -331,6 +348,24 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const onCloseHandler = () => {
     setPageVisibleId('');
   };
+
+  const scrollRef = useRef();
+  const scrollRef2 = useRef();
+
+  const [picturePlus, setPicturePlus] = useState(42.5)
+  const onChangePlus=(e)=>{
+    switch (e){
+      case 125 :
+        setPicturePlus(52.5)
+        break;
+      case 150 :
+        setPicturePlus(65.5)
+        break;
+      default : 
+      setPicturePlus(42.5)
+      break;
+    }
+  }
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
       <Meta title={top.title} imageURL={top.thumbnail} />
@@ -515,6 +550,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                                 class="list"
                                 onClick={() => {
                                   onChangeExpand(a);
+                                  onChangePlus(a)
                                 }}
                                 id={a}
                                 style={
@@ -533,24 +569,23 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   </S.PdfSet>
                   <S.PdfMannage
                     style={{
+                      display:'block', // 지우면안됨,,,
                       maxHeight: windowSize.height / 1.5,
-                      display: 'block',
+                      textAlign:'center'
                     }}
+                    ref={scrollRef2} 
                   >
                     {middle.fileNames.map((srcLink, index) => {
                       return (
                         <div
-                          style={{
-                            display: 'flex',
-                            position: 'relative',
-                            justifyContent: 'center'
-                          }}
+                        style={{
+                          position: 'relative',
+                        }}
                         >
                           <S.ContentImg
                             style={{
                               width: `${selectExpand}%`,
                               height: 'auto',
-                              overflowX:'srcoll'
                             }}
                             src={srcLink}
                             key={srcLink}
@@ -564,7 +599,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                             }}
                           />
                           {pageVisibleId === index ? (
-                            <S.PdfPageShow>{index + 1}페이지</S.PdfPageShow>
+                            <S.PdfPageShow 
+                            style={{
+                              left:`${picturePlus}%`
+                            }}
+                          >{index + 1}페이지</S.PdfPageShow>
                           ) : (
                             ''
                           )}
@@ -633,11 +672,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     </S.PdfSizeWrapper>
                   </S.PdfSet>
                   <S.PdfMannage
-                 
+                    ref={scrollRef} 
                     onContextMenu={(e) => e.preventDefault()}
                     style={{
                       maxHeight: windowSize.height / 1.5,
-                      justifyContent: pageScale < 2 ? 'center' : 'flex-start',
+                      justifyContent: pageScale <= 1 ? 'center' : 'flex-start',
 
                     }}
                   >
@@ -700,7 +739,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
 {/* 움직이는 모달 */}
 <Draggable onDrag={(_, data) => trackPos(data)}>
-          <div style={{ float:'right', position: 'relative', right: '500px', top: (category === 'video'? '300px' : '70px') }} >
+          <div style={{ float:'right', position: 'relative', right: '500px', top: (category === 'video'? '300px' : '70px'),zIndex:2 }} >
             <DetailedFeedback
               id3={id2}
               modalVisibleId3={modalVisibleId3}

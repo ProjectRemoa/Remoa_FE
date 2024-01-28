@@ -173,13 +173,10 @@ export const S = {
     background: #fada5e;
   `,
     PdfMannage: styled.div`
-    overflow-y: scroll;
     width: 99%;
-    overflow-x: scroll;
     overflow: scroll;
     position: relative;
     display: flex;
-    justify-content: flex-start;
     align-items: flex-start;
     padding-top: 4px;
     padding-bottom: 4px;
@@ -273,7 +270,7 @@ export const S = {
     list-style: none;
     padding-left: 0px;
     right: 30px;
- z-index: 1;
+    z-index: 1;
   `,
   PdfList: styled.li`
     width: auto;
