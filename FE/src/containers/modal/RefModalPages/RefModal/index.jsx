@@ -569,7 +569,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   </S.PdfSet>
                   <S.PdfMannage
                     style={{
-                      display:'block', // 지우면안됨,,,
+                      display:'block',
                       maxHeight: windowSize.height / 1.5,
                       textAlign:'center'
                     }}
