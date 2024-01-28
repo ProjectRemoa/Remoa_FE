@@ -46,7 +46,7 @@ function ManageShareContainer() {
       setUploads([]); // 초기화
     }
     if (name === "design") setChecked([0, 0, 0, 1, 0, 0]);
-    if (name === "it") setChecked([0, 0, 0, 0, 1, 0]);
+    if (name === "digital") setChecked([0, 0, 0, 0, 1, 0]);
     if (name === "etc") setChecked([0, 0, 0, 0, 0, 1]);
   };
 
@@ -301,7 +301,7 @@ function ManageShareContainer() {
                   </S.Category>
                   <S.Category
                     checked={checked[4]}
-                    onClick={() => onChangeCategory("it")}
+                    onClick={() => onChangeCategory("digital")}
                   >
                     IT/디지털
                   </S.Category>

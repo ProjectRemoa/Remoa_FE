@@ -15,6 +15,8 @@ function ManageFeedbackContainer() {
 
   const [page, setPage] = useState(1);
   const [tp, setTP] = useState(1);
+  const [toac, setToac] = useState();
+  const [tope, setTope] = useState();
 
   const [data, setData] = useState([]);
 
@@ -27,7 +29,7 @@ function ManageFeedbackContainer() {
     if (category === "marketing") setCheckIdx(2);
     if (category === "video") setCheckIdx(3);
     if (category === "design") setCheckIdx(4);
-    if (category === "it") setCheckIdx(5);
+    if (category === "digital") setCheckIdx(5);
     if (category === "etc") setCheckIdx(6);
   };
 
@@ -37,9 +39,18 @@ function ManageFeedbackContainer() {
 
   useEffect(() => {
     let endpoint;
-    endpoint = `/BE/user/receive?category=${categoryName}&page=${1}`; // api 수정 필요
+    console.log(categoryName + "의 " + 1 + "페이지 요청");
+    endpoint = `/BE/user/receive?category=${categoryName}&page=${1}`; 
+    setPage(1);
     getComment(endpoint);
   }, [categoryName]);
+
+  useEffect(() => {
+    let endpoint;
+    console.log(categoryName + "의 "+page+"페이지 요청")
+    endpoint = `/BE/user/receive?category=${categoryName}&page=${page}`; 
+    getComment(endpoint);
+  }, [page])
 
   const getComment = (endpoint) => {
     console.log(endpoint);
@@ -60,6 +71,10 @@ function ManageFeedbackContainer() {
         } = response;
 
         setData(contents);
+        setToac(totalOfAllComments);
+        setTope(totalOfPageElements);
+        setTP(totalPages);
+        
       } catch (err) {
         console.log(err);
         return err;
@@ -94,7 +109,7 @@ function ManageFeedbackContainer() {
           ) : (
             <div>
               {/* 선택 글 삭제 */}
-              <S.SelectBox>총 {data.length}개</S.SelectBox>
+              <S.SelectBox>총 {toac}개</S.SelectBox>
               {/* 정렬순 */}
               <S.SortBox>
                 <Dropdown
