@@ -105,7 +105,7 @@ function ManageFeedbackContainer() {
               </S.ButtonRegister>
             </S.ManageListNo>
           ) : (
-            <div>
+            <>
               {/* 선택 글 삭제 */}
               <S.SelectBox>총 {toac}개</S.SelectBox>
               {/* 정렬순 */}
@@ -124,7 +124,7 @@ function ManageFeedbackContainer() {
                 totalPages={tp}
                 isFromManage={true}
               />
-            </div>
+            </>
           )}
         </S.ManageListBox>
       </>
