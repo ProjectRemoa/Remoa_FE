@@ -74,8 +74,8 @@ function CommentContainerComponent({
     <>
       {Array.isArray(data) ? (
         <>
-          {data.map((data) => (
-            <ContentsContainer key={data.postId}>
+          {data.map((data, index) => (
+            <ContentsContainer key={index}>
               <AsideContainer>
                 <Img src={data.thumbnail} alt="thumbnail" />
                 <div

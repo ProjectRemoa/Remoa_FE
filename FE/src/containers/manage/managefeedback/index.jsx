@@ -81,7 +81,7 @@ function ManageFeedbackContainer() {
       <S.Line />
       <>
         <S.ManageListBox>
-          {!data ? (
+          {data.length === 0 ? (
             <S.ManageListNo>
               <S.NoManageText>아직 받은 코멘트가 없어요</S.NoManageText>
               <S.NoManageSubText>
@@ -92,7 +92,7 @@ function ManageFeedbackContainer() {
               </S.ButtonRegister>
             </S.ManageListNo>
           ) : (
-            <>
+            <div>
               {/* 선택 글 삭제 */}
               <S.SelectBox>총 {data.length}개</S.SelectBox>
               {/* 정렬순 */}
@@ -111,7 +111,7 @@ function ManageFeedbackContainer() {
                 totalPages={tp}
                 isFromManage={true}
               />
-            </>
+            </div>
           )}
         </S.ManageListBox>
       </>
