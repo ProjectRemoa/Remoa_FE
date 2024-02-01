@@ -74,8 +74,8 @@ function CommentContainerComponent({
     <>
       {Array.isArray(data) ? (
         <>
-          {data.map((data) => (
-            <ContentsContainer key={data.postId}>
+          {data.map((data, index) => (
+            <ContentsContainer key={index}>
               <AsideContainer>
                 <Img src={data.thumbnail} alt="thumbnail" />
                 <div
@@ -112,7 +112,13 @@ function CommentContainerComponent({
                   {data.commentId ? (
                     <>
                       <CommentsContainer>
-                        <MyCommentTitle>내가 작성한 코멘트</MyCommentTitle>
+                        <MyCommentTitle>
+                          {isFromManage === true ? (
+                            <>내가 받은 코멘트</>
+                          ) : (
+                            <>내가 작성한 코멘트</>
+                          )}
+                        </MyCommentTitle>
                         <OneComment>
                           가장 먼저 작성한 코멘트 1개만 노출됩니다
                         </OneComment>
@@ -141,7 +147,12 @@ function CommentContainerComponent({
                       }}
                     >
                       <span style={{ fontSize: "18px", fontWeight: 700 }}>
-                        내 피드백 바로가기 버튼을 눌러보세요!
+                        {isFromManage ? (
+                          <>상세 피드백 팝업 버튼을 </>
+                        ) : (
+                          <>내 피드백 바로가기 버튼을 </>
+                        )}
+                        눌러보세요!
                       </span>
                       <div
                         style={{
@@ -155,8 +166,19 @@ function CommentContainerComponent({
                           노출된다면 피드백을 작성했기 때문이에요.
                         </div>
                         <div style={{ marginTop: "5px" }}>
-                          좌측의 내 피드백 바로가기 버튼을 눌러 내 피드백에 대한
-                          반응을 확인해보세요!
+                          좌측의
+                          {isFromManage ? (
+                            <> 상세 피드백 팝업 버튼을 </>
+                          ) : (
+                            <> 내 피드백 바로가기 버튼을 </>
+                          )}
+                          눌러
+                          {isFromManage ? (
+                            <> 내 작업물에 대한 피드백을 </>
+                          ) : (
+                            <> 내 피드백에 대한 반응을 </>
+                          )}
+                          확인해보세요!
                         </div>
                       </div>
                     </div>

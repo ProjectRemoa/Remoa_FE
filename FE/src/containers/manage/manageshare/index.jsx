@@ -46,7 +46,7 @@ function ManageShareContainer() {
       setUploads([]); // 초기화
     }
     if (name === "design") setChecked([0, 0, 0, 1, 0, 0]);
-    if (name === "it") setChecked([0, 0, 0, 0, 1, 0]);
+    if (name === "digital") setChecked([0, 0, 0, 0, 1, 0]);
     if (name === "etc") setChecked([0, 0, 0, 0, 0, 1]);
   };
 
@@ -246,11 +246,11 @@ function ManageShareContainer() {
               <td>
                 <input
                   required
-                  type="email"
-                  placeholder="작품명을 입력해주세요"
+                  type="text"
+                  placeholder="작품명을 입력해주세요 (최대 20자)"
                   onChange={onChangeName}
                   value={name}
-                  maxLength={40}
+                  maxLength={20}
                 />
               </td>
             </tr>
@@ -261,10 +261,10 @@ function ManageShareContainer() {
                 <input
                   required
                   type="text"
-                  placeholder="공모전을 검색하거나 등록해보세요"
+                  placeholder="참가하신 공모전의 정확한 명칭을 입력해주세요. (최대 30자)"
                   onChange={onChangeComp}
                   value={comp}
-                  maxLength={60}
+                  maxLength={30}
                 />
               </td>
             </tr>
@@ -301,7 +301,7 @@ function ManageShareContainer() {
                   </S.Category>
                   <S.Category
                     checked={checked[4]}
-                    onClick={() => onChangeCategory("it")}
+                    onClick={() => onChangeCategory("digital")}
                   >
                     IT/디지털
                   </S.Category>

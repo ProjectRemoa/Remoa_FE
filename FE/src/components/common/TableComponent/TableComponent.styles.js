@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 1260px;
   &:nth-child(2) {
     margin: 68px 0 186px;
   }
@@ -53,11 +53,13 @@ const TheadValue = styled.td`
   height: 56px;
   border-top: 3px solid #1e1e1e;
   border-bottom: 1px solid #b0b0b0;
+  padding: 0;
 `;
 
 const Tbody = styled.tbody`
   text-align: center;
   cursor: pointer;
+  color: #727272;
 `;
 
 const TbodyValue = styled.td`
