@@ -15,6 +15,8 @@ function ManageFeedbackContainer() {
 
   const [page, setPage] = useState(1);
   const [tp, setTP] = useState(1);
+  const [toac, setToac] = useState();
+  const [tope, setTope] = useState();
 
   const [data, setData] = useState([]);
 
@@ -27,7 +29,7 @@ function ManageFeedbackContainer() {
     if (category === "marketing") setCheckIdx(2);
     if (category === "video") setCheckIdx(3);
     if (category === "design") setCheckIdx(4);
-    if (category === "it") setCheckIdx(5);
+    if (category === "digital") setCheckIdx(5);
     if (category === "etc") setCheckIdx(6);
   };
 
@@ -37,9 +39,16 @@ function ManageFeedbackContainer() {
 
   useEffect(() => {
     let endpoint;
-    endpoint = `/BE/user/activity?comment=${2}&scrap=${1}`; // api 수정 필요
+    endpoint = `/BE/user/receive?category=${categoryName}&page=${1}`; 
+    setPage(1);
     getComment(endpoint);
-  }, []);
+  }, [categoryName]);
+
+  useEffect(() => {
+    let endpoint;
+    endpoint = `/BE/user/receive?category=${categoryName}&page=${page}`; 
+    getComment(endpoint);
+  }, [page])
 
   const getComment = (endpoint) => {
     console.log(endpoint);
@@ -47,31 +56,23 @@ function ManageFeedbackContainer() {
       try {
         const response = await axios.get(endpoint);
         console.log(response);
-        /*
+        
         const {
           data: {
             data: {
-              references,
-              totalOfAllReferences,
+              contents,
+              totalOfAllComments,
               totalOfPageElements,
               totalPages,
             },
           },
         } = response;
-        */
-        const {
-          data: {
-            data: { content, posts },
-          },
-        } = response;
-        console.log(response);
 
-        console.log("content", content);
-        console.log("posts", posts);
-
-        let contents = []; // 배열로 만들어준 다음 data에 넣어야함 (map 때문에)
-        contents.push(content);
         setData(contents);
+        setToac(totalOfAllComments);
+        setTope(totalOfPageElements);
+        setTP(totalPages);
+        
       } catch (err) {
         console.log(err);
         return err;
@@ -93,7 +94,7 @@ function ManageFeedbackContainer() {
       <S.Line />
       <>
         <S.ManageListBox>
-          {!data ? (
+          {data.length === 0 ? (
             <S.ManageListNo>
               <S.NoManageText>아직 받은 코멘트가 없어요</S.NoManageText>
               <S.NoManageSubText>
@@ -106,7 +107,7 @@ function ManageFeedbackContainer() {
           ) : (
             <>
               {/* 선택 글 삭제 */}
-              <S.SelectBox>총 {data.length}개</S.SelectBox>
+              <S.SelectBox>총 {toac}개</S.SelectBox>
               {/* 정렬순 */}
               <S.SortBox>
                 <Dropdown

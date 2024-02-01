@@ -81,11 +81,17 @@ const SortBox = styled.div`
 
 const ManageListNo = styled.div`
   margin-top: 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
 `;
 
 const NoManageText = styled.p`
   font-size: 24px;
   font-weight: 700;
+  margin-bottom: 4px;
 `;
 
 const NoManageSubText = styled.p`
