@@ -1,7 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-function Meta({ title = 'Remoa', imageURL = 'https://example.com/image.jpg' }) {
+function Meta({
+  title = 'Remoa',
+  imageURL = 'https://remoafiles.s3.ap-northeast-2.amazonaws.com/img/ogImage.png',
+}) {
   return (
     <Helmet>
       <title>{title}</title>
