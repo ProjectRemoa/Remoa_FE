@@ -50,6 +50,7 @@ export default function RefListContainer({ search: searchKeyword }) {
       (page) => page.path === location.pathname
     );
     setCategory(currentCategory);
+    setPage(1);
 
     modalLocation();
   }, [location.pathname]);

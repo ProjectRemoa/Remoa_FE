@@ -33,28 +33,36 @@ function TableComponent({ title, data, category }) {
         <Table>
           <Thead>
             <Trow>
-              <TheadValue>번호</TheadValue>
-              <TheadValue width="70%">제목</TheadValue>
-              <TheadValue>작성자</TheadValue>
-              <TheadValue>작성일</TheadValue>
-              <TheadValue>조회수</TheadValue>
+              <TheadValue width="4.7%">번호</TheadValue>
+              <TheadValue width="72%">제목</TheadValue>
+              <TheadValue width="7%">작성자</TheadValue>
+              <TheadValue width="9.2%">작성일</TheadValue>
+              <TheadValue width="6.7%">조회수</TheadValue>
             </Trow>
           </Thead>
-          {data?.map((item, index) => (
-            <Tbody key={index}>
-              <Trow
-                onClick={() =>
-                  navigate(`/mypage/faq/${category}/${item.noticeId}`)
-                }
-              >
-                <TbodyValue>{item.noticeId}</TbodyValue>
-                <TbodyValue>{item.title}</TbodyValue>
-                <TbodyValue>{item.author}</TbodyValue>
-                <TbodyValue>{item.postingTime}</TbodyValue>
-                <TbodyValue>{item.view}</TbodyValue>
-              </Trow>
-            </Tbody>
-          ))}
+          {data?.map((item, index) => {
+            let author = "";
+            if (item.author?.length > 3) {
+              author = item.author?.slice(0, 3) + "...";
+            } else {
+              author = item.author;
+            }
+            return (
+              <Tbody key={index}>
+                <Trow
+                  onClick={() =>
+                    navigate(`/mypage/faq/${category}/${item.noticeId}`)
+                  }
+                >
+                  <TbodyValue>{item.noticeId}</TbodyValue>
+                  <TbodyValue>{item.title}</TbodyValue>
+                  <TbodyValue>{author}</TbodyValue>
+                  <TbodyValue>{item.postingTime}</TbodyValue>
+                  <TbodyValue>{item.view}</TbodyValue>
+                </Trow>
+              </Tbody>
+            );
+          })}
         </Table>
       </TableWrapper>
     </Wrapper>

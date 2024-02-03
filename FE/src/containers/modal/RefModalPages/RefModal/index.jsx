@@ -1,6 +1,6 @@
 import Loading from '../../../../styles/Loading';
 import { S } from './ui';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai';
 import axios from 'axios';
 import { getDate } from '../../../../functions/getDate';
@@ -26,6 +26,7 @@ import { FaCaretDown } from 'react-icons/fa';
 import ModalRange from '../RefModalRange';
 import { useQueryClient } from 'react-query';
 import Meta from '../../../../components/common/Meta';
+import ModalScrap from '../RefModalScrap';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -152,6 +153,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       .catch((err) => {
         console.log(err);
       });
+
   }, [id2]);
   useEffect(() => {
     setTimeout(() => {
@@ -194,6 +196,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       });
   };
 
+  const [srcapModal, setScrapModal] = useState(false)
   const handleScrap = () => {
     if (postMember.nickname === sessionStorage.getItem('nickname'))
       alert('내 작품에는 불가능합니다.');
@@ -217,12 +220,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         if (res.data.data.isScraped === true) {
           setscrapBoolean(!scrapBoolean);
         }
-
+        setScrapModal(true)
         queryClient.invalidateQueries('references', { refetchActive: true });
       })
       .catch((err) => {
         console.log(err);
       });
+    
   };
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
@@ -233,7 +237,16 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const windowSize = useWindowSize();
   const [numPages, setNumPages] = useState(0);
   const [, setPageNumber] = useState(1);
-  const [pageScale, setPageScale] = useState(0.5);
+  const [pageScale, setPageScale] = useState(1);
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (container && pageScale>1) {
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+        const middleScrollLeft = maxScrollLeft / 2;
+        container.scrollLeft = middleScrollLeft;
+    }
+  },[pageScale]);
+
 
   function onDocumentLoadSuccess({ numPages }) {
     console.log('pdf 로드 성공');
@@ -282,25 +295,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     return number % 1 === 0;
   }
   const checkPage = () => {
-    if (
-      show > numPages ||
-      typeof show !== Number ||
-      isInteger(show) === false ||
-      show <= 0
-    ) {
-      checking();
-    }
+    if ( Number(show) > numPages || isInteger(Number(show)) === false || Number(show) <= 0 ) checking();
   };
 
   const checkImage = () => {
-    if (
-      show > middle.fileNames.length ||
-      typeof show !== Number ||
-      isInteger(show) === false ||
-      show <= 0
-    ) {
-      checking();
-    }
+    if ( Number(show) > middle.fileNames.length || isInteger(Number(show)) === false || Number(show) <= 0) checking();
   };
 
   // box의 포지션 값
@@ -320,7 +319,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
 
   const [selectExpand, setSelectExpand] = useState(100);
-
+  useEffect(() => {
+    const container = scrollRef2.current;
+    if (container && selectExpand>100) {
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+        const middleScrollLeft = maxScrollLeft / 2;
+        container.scrollLeft = middleScrollLeft;
+    }
+  },[selectExpand]);
   const onChangeExpand = (a) => {
     setSelectExpand(a);
     let elements = document.getElementsByClassName('image');
@@ -342,6 +348,24 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const onCloseHandler = () => {
     setPageVisibleId('');
   };
+
+  const scrollRef = useRef();
+  const scrollRef2 = useRef();
+
+  const [picturePlus, setPicturePlus] = useState(42.5)
+  const onChangePlus=(e)=>{
+    switch (e){
+      case 125 :
+        setPicturePlus(52.5)
+        break;
+      case 150 :
+        setPicturePlus(65.5)
+        break;
+      default : 
+      setPicturePlus(42.5)
+      break;
+    }
+  }
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
       <Meta title={top.title} imageURL={top.thumbnail} />
@@ -350,6 +374,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         {' '}
         {/* stopPropagation으로 내부 클릭할 시에 모달창 안 닫히게 */}
         {loading && <Loading />}
+        {srcapModal && <ModalScrap setScrapModal={setScrapModal} /> }
         <S.ModalRealTop>
           <AiOutlineLeft
             style={{
@@ -450,7 +475,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     background: 'var(--light-gray, #F0F0F0)',
                   },
                 }}
-                onClick={() => handleScrap()}
+                onClick={() => {
+                  handleScrap()
+                }}
               >
                 <BsBookmark /> &nbsp; 스크랩하기
               </S.DetailFeedbackButton>
@@ -523,6 +550,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                                 class="list"
                                 onClick={() => {
                                   onChangeExpand(a);
+                                  onChangePlus(a)
                                 }}
                                 id={a}
                                 style={
@@ -541,24 +569,23 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   </S.PdfSet>
                   <S.PdfMannage
                     style={{
+                      display:'block',
                       maxHeight: windowSize.height / 1.5,
-                      display: 'block',
+                      textAlign:'center'
                     }}
+                    ref={scrollRef2} 
                   >
                     {middle.fileNames.map((srcLink, index) => {
                       return (
                         <div
-                          style={{
-                            display: 'flex',
-                            position: 'relative',
-                            justifyContent: 'center'
-                          }}
+                        style={{
+                          position: 'relative',
+                        }}
                         >
                           <S.ContentImg
                             style={{
                               width: `${selectExpand}%`,
                               height: 'auto',
-                              overflowX:'srcoll'
                             }}
                             src={srcLink}
                             key={srcLink}
@@ -572,7 +599,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                             }}
                           />
                           {pageVisibleId === index ? (
-                            <S.PdfPageShow>{index + 1}페이지</S.PdfPageShow>
+                            <S.PdfPageShow 
+                            style={{
+                              left:`${picturePlus}%`
+                            }}
+                          >{index + 1}페이지</S.PdfPageShow>
                           ) : (
                             ''
                           )}
@@ -641,11 +672,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     </S.PdfSizeWrapper>
                   </S.PdfSet>
                   <S.PdfMannage
-                 
+                    ref={scrollRef} 
                     onContextMenu={(e) => e.preventDefault()}
                     style={{
                       maxHeight: windowSize.height / 1.5,
-                      justifyContent: pageScale < 2 ? 'center' : 'flex-start',
+                      justifyContent: pageScale <= 1 ? 'center' : 'flex-start',
 
                     }}
                   >
@@ -705,9 +736,10 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           againComments={againComments}
           setAgainComments={setAgainComments}
         />
+
 {/* 움직이는 모달 */}
 <Draggable onDrag={(_, data) => trackPos(data)}>
-          <div style={{ float:'right', position: 'relative', right: '500px', top: (category === 'video'? '300px' : '70px') }} >
+          <div style={{ float:'right', position: 'relative', right: '500px', top: (category === 'video'? '300px' : '70px'),zIndex:2 }} >
             <DetailedFeedback
               id3={id2}
               modalVisibleId3={modalVisibleId3}

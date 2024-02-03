@@ -1,6 +1,6 @@
 import { S } from './ui';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DetailFeedbackComment from '../DetailedFeedbackComment'
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
