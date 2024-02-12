@@ -49,8 +49,6 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
   const [userData, setUserData] = useState({});
   const [profileImage, setProfileImage] = useState("");
 
-  const { nickname } = userData;
-
   const getProfileImg = async () => {
     try {
       const res = await axios.get("/BE/user/img");
@@ -82,7 +80,7 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
         </tr>
         <tr>
           <td style={{position:'relative', left:'40px'}}>
-          <S.Nickname>{nickname}</S.Nickname>
+          <S.Nickname>{userData.nickname}</S.Nickname>
           <S.WriteInput wrap="hard" onChange={onChangeContents} value={contents} 
           placeholder='해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
           욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.' />

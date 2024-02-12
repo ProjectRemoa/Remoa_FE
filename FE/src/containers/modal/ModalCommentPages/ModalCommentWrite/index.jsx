@@ -7,7 +7,7 @@ export default function ModalCommentWrite({ postId, setComments }) {
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
-    if(contents.length > 300) setContents(contents.substr(0, 300))
+    if(contents.length > 300) setContents(contents.substring(0, 300))
   };
 
   const onSumbitHandler = (e) => {

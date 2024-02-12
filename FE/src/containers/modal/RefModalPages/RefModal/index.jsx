@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import axios from "axios";
 import { getDate } from "../../../../functions/getDate";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import RefModalComment from "../RefModalComment";
 import { AiTwotoneEye } from "react-icons/ai";
 import { AiFillHeart } from "react-icons/ai";
@@ -19,7 +19,6 @@ import useWindowSize from "../../../../functions/useWindowSize";
 import DetailedFeedback from "../../DetailedFeedbackPages/DetailedFeedback";
 import { pdfjs, Document, Page } from "react-pdf";
 import Draggable from "react-draggable";
-import AuthLayout from "../../../../layout/AuthLayout";
 import ModalDelete from "../RefModalDelete";
 import { formatCount } from "../../../../functions/formatCount";
 import { FaCaretDown } from "react-icons/fa";
@@ -53,8 +52,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     scrapCount: 0,
     youtubeLink: "", // category가 영상일 때
   });
-  const [comments, setComments] = useState([]); // 댓글 왜 안되지
-  const [againComments, setAgainComments] = useState([]); // 요거 대댓
+  const [comments, setComments] = useState([]); 
+  const [againComments, setAgainComments] = useState([]); 
   const [feedback, setFeedback] = useState([]);
   const [postMember, setPostMember] = useState({
     memberId: 0,
@@ -159,9 +158,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     }, 2500);
   }, [loading]);
 
-  // 모달 닫으면 보이는 페이지 설정하기 !
-  let Lo = window.location.href;
-  const location = useLocation();
 
   const onCloseHandler2 = () => {
     setModalVisibleId2("");
@@ -327,12 +323,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const [selectExpand, setSelectExpand] = useState(100);
   useEffect(() => {
     const container = scrollRef2.current;
-    if (container && selectExpand > 100) {
+    if (container && selectExpand > 100) { // 배율 확대될 때 스크롤 중앙으로
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
       const middleScrollLeft = maxScrollLeft / 2;
       container.scrollLeft = middleScrollLeft;
     }
   }, [selectExpand]);
+
   const onChangeExpand = (a) => {
     setSelectExpand(a);
     let elements = document.getElementsByClassName("image");
@@ -358,7 +355,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const scrollRef = useRef();
   const scrollRef2 = useRef();
 
-  const [picturePlus, setPicturePlus] = useState(42.5);
+  const [picturePlus, setPicturePlus] = useState(42.5); // 확대될 때 페이지 표기를 중앙 정렬하기 위함
   const onChangePlus = (e) => {
     switch (e) {
       case 125:
