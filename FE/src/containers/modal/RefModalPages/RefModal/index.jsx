@@ -323,7 +323,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const [selectExpand, setSelectExpand] = useState(100);
   useEffect(() => {
     const container = scrollRef2.current;
-    if (container && selectExpand > 100) { // 배율 확대될 때 스크롤 중앙으로
+    if (container && selectExpand > 100) { // 배율 확대될 때 스크롤 중앙
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
       const middleScrollLeft = maxScrollLeft / 2;
       container.scrollLeft = middleScrollLeft;
