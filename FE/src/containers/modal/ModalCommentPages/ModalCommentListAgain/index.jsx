@@ -30,10 +30,10 @@ export default function ModalCommentListAgain({replies,setAgainComments, againCo
     <S.Differentiate />
     <table style={{display: 'inherit'}}>
       <tr>
-        <td rowspan="2" width={30}>
+        <td rowSpan="2" width={30}>
           <MdOutlineSubdirectoryArrowRight style={{ fontSize: '23px' }} />
         </td>
-        <td rowspan="2" width={40}>
+        <td rowSpan="2" width={40}>
           <SS.ProfileSize src={replies.member.profileImage}
           style={{position:'relative'}}
            /> 

@@ -63,7 +63,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   // 좋아요, 스크랩
   const [likeBoolean, setLikeBoolean] = useState(false);
-  const [scrapBoolean, setscrapBoolean] = useState(false);
+  const [, setScrapBoolean] = useState(false);
 
   const [showSel, setShowSel] = useState(false);
   const showSelect = () => {
@@ -73,85 +73,53 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
-    axios
-      .get(endpoint)
-      .then((res) => {
-        console.log(res);
 
-        // top : 제목, 콘테스트 이름, 작성일자, 카테고리, 조회수, 좋아요수, 스크랩 수
-        setTop({
-          postId: res.data.data.postId,
-          title: res.data.data.title,
-          contestName: res.data.data.contestName,
-          contestAwardType: res.data.data.contestAwardType,
-          category: res.data.data.category,
-          postingTime: res.data.data.postingTime,
-          views: res.data.data.views, // useEffect []안하면 계속 count됨
-          likeCount: res.data.data.likeCount,
-          scrapCount: res.data.data.scrapCount,
-          thumbnail: res.data.data.thumbnail,
+    axios.get(endpoint)
+        .then((res) => {
+            const data = res.data.data;
+
+            const { postId, title, contestName, contestAwardType, category, postingTime, views, likeCount, scrapCount, thumbnail, fileNames, youtubeLink, comments, isLiked, isScraped, feedbacks, postMember } = data;
+            const fileType = category !== "video" ? fileNames[1].substring(fileNames[1].lastIndexOf(".") + 1,fileNames[1].length).toLowerCase() : "";
+            const videoId = (category === "video" && youtubeLink.includes("?v=")) ? youtubeLink.split("?v=")[1] : (youtubeLink.includes("youtu.be") ? youtubeLink.split("/")[3] : "");
+
+            setTop({
+                postId,
+                title,
+                contestName,
+                contestAwardType,
+                category,
+                postingTime,
+                views,
+                likeCount,
+                scrapCount,
+                thumbnail
+            });
+
+            setMiddle({
+                fileNames: fileNames.filter((_, index) => index !== 0),
+                likeCount,
+                scrapCount,
+                fileType,
+                youtubeLink: videoId
+            });
+
+            setComments(comments);
+            setAgainComments(comments.replies);
+            setLikeBoolean(isLiked);
+            setScrapBoolean(isScraped);
+            setCategory(category);
+            setFeedback(feedbacks);
+            setPostMember({
+                memberId: postMember.memberId,
+                nickname: postMember.nickname,
+                profileImage: postMember.profileImage
+            });
+        })
+        .catch((err) => {
+            console.log(err);
         });
+}, [id2]);
 
-        // middle : pdf/사진, 좋아요, 스크랩, filetype
-        let fileLength;
-        let fileDot;
-        let fileType = "";
-        if (res.data.data.category !== "video") {
-          // 영상 아닌 경우
-          // 영상인 경우 fileType은 '값
-          fileLength = res.data.data.fileNames[1].length;
-          fileDot = res.data.data.fileNames[1].lastIndexOf(".");
-          fileType = res.data.data.fileNames[1]
-            .substring(fileDot + 1, fileLength)
-            .toLocaleLowerCase();
-        }
-
-        let videoId;
-        let link = res.data.data.youtubeLink;
-        if (res.data.data.category === "video") {
-          if (link.includes("?v=")) {
-            videoId = link.split("?v=")[1]; // watch?v= 형식인 경우
-          } else if (link.includes("youtu.be")) {
-            // youtu.be/id~ 인 경우
-            videoId = link.split("/")[3];
-          } else console.log(videoId);
-        }
-
-        setMiddle({
-          fileNames: res.data.data.fileNames.filter(
-            (item, index) => index !== 0
-          ),
-          likeCount: res.data.data.likeCount,
-          scrapCount: res.data.data.scrapCount,
-          fileType: fileType,
-          youtubeLink: videoId, // videoId만 출력해야함
-        });
-
-        // bottom : 댓글
-        setComments(res.data.data.comments);
-        setAgainComments(res.data.data.comments.replies);
-        // 내가 좋아요/스크랩했는지?
-        setLikeBoolean(res.data.data.isLiked);
-        setscrapBoolean(res.data.data.isScraped);
-
-        // 카테고리 따라서 뜨는 뷰어 다르게
-        setCategory(res.data.data.category);
-
-        // 피드백 담아서 넘기기
-        setFeedback(res.data.data.feedbacks);
-
-        // 유저 정보 받기
-        setPostMember({
-          memberId: res.data.data.postMember.memberId,
-          nickname: res.data.data.postMember.nickname,
-          profileImage: res.data.data.postMember.profileImage,
-        });
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id2]);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -163,64 +131,57 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setModalVisibleId2("");
   };
 
-  const handleLike = () => {
-    if (postMember.nickname === sessionStorage.getItem("nickname"))
-      alert("내 작품에는 불가능합니다.");
-    axios
-      .post(`/BE/reference/${id2}/like`)
-      .then((res) => {
-        console.log(res);
-        setTop({
-          postId: top.postId,
-          title: top.title,
-          contestName: top.contestName,
-          contestAwardType: top.contestAwardType,
-          category: top.category,
-          postingTime: top.postingTime,
-          views: top.views, // useEffect []안하면 계속 count됨
-          likeCount: res.data.data.likeCount,
-          scrapCount: top.scrapCount,
-        });
-        setLikeBoolean(!likeBoolean);
+const handleLike = () => {
+    const userNickname = sessionStorage.getItem("nickname");
+    
+    if (postMember.nickname === userNickname) {
+        alert("내 작품에는 불가능합니다.");
+        return;
+    }
 
-        queryClient.invalidateQueries("references", { refetchActive: true });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    axios.post(`/BE/reference/${id2}/like`)
+        .then((res) => {
+            console.log(res);
+            const { likeCount } = res.data.data;
+
+            setTop(prevTop => ({
+                ...prevTop,
+                likeCount
+            }));
+            setLikeBoolean(prevLikeBoolean => !prevLikeBoolean);
+
+            queryClient.invalidateQueries("references", { refetchActive: true });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
 
   const [srcapModal, setScrapModal] = useState(false);
+
   const handleScrap = () => {
-    if (postMember.nickname === sessionStorage.getItem("nickname"))
-      alert("내 작품에는 불가능합니다.");
+    const userNickname = sessionStorage.getItem("nickname");
+    if (postMember.nickname === userNickname) {
+        alert("내 작품에는 불가능합니다.");
+        return;
+    }
+    axios.post(`/BE/reference/${id2}/scrap`)
+        .then((res) => {
+            console.log(res);
+            const { scrapCount, isScraped } = res.data.data;
+            setTop(prevTop => ({
+                ...prevTop,
+                scrapCount
+            }));
 
-    axios
-      .post(`/BE/reference/${id2}/scrap`)
-      .then((res) => {
-        console.log(res);
-        setTop({
-          postId: top.postId,
-          title: top.title,
-          contestName: top.contestName,
-          contestAwardType: top.contestAwardType,
-          category: top.category,
-          postingTime: top.postingTime,
-          views: top.views, // useEffect []안하면 계속 count됨
-          likeCount: top.likeCount,
-          scrapCount: res.data.data.scrapCount,
+            if (isScraped) setScrapBoolean(prevScrapBoolean => !prevScrapBoolean);
+            setScrapModal(true);
+            queryClient.invalidateQueries("references", { refetchActive: true });
+        })
+        .catch((err) => {
+            console.log(err);
         });
-
-        if (res.data.data.isScraped === true) {
-          setscrapBoolean(!scrapBoolean);
-        }
-        setScrapModal(true);
-        queryClient.invalidateQueries("references", { refetchActive: true });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+};
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
   const onModalHandler3 = (id) => {

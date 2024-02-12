@@ -22,12 +22,20 @@ export default function DetaileFeedback({
   const navigate = useNavigate();
 
   const [contents, setContents] = useState('');
-
+  const [timer, setTimer] = useState(null); // 디바운싱 구현
   const onChangeContents = (event) => {
-    setContents(event.target.value);
-    if(contents.length > 1000) setContents(contents.substring(0, 1000))
-  };
+    const inputValue = event.target.value;
+    if (inputValue.length > 300) {
+        setContents(inputValue.substring(0, 1000));
+        return;
+    }
+    if (timer) clearTimeout(timer)
 
+    const newTimer = setTimeout(() => {
+        setContents(inputValue);
+    }, 500); 
+    setTimer(newTimer);
+  };
   const [selected, setSelected] = useState(1);
 
   const handleSelect = (e) => {

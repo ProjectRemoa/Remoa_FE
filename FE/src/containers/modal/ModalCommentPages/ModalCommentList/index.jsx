@@ -13,13 +13,24 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
 
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState('');
+  const [timer, setTimer] = useState(null); // 디바운싱 구현
 
   // 수정할 member id
   const [putMemberId, setPutMemberId] = useState(0);
 
   const onChangeContents = (event) => {
-    setContents(event.target.value);
-    if(contents.length > 300) setContents(contents.substring(0, 300))
+    const inputValue = event.target.value;
+    if (inputValue.length > 300) {
+        setContents(inputValue.substring(0, 300));
+        return;
+    }
+    if (timer) clearTimeout(timer)
+
+    const newTimer = setTimeout(() => {
+        setContents(inputValue);
+    }, 500); 
+    console.log(contents)
+    setTimer(newTimer);
   };
 
   const onPutHandler = (commentId) => {
@@ -85,7 +96,7 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
             <S.AgainTable>
               <tbody>
                 <tr style={{ display: 'flex', position: 'relative' }}>
-                  <td style={{ width: '40px' }} rowspan="3">
+                  <td style={{ width: '40px' }} rowSpan="3">
                     <S.ProfileSize src={comments.member.profileImage} alt='' />
                   </td>
                   <td>
