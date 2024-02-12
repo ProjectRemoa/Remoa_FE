@@ -21,8 +21,7 @@ function ModalDelete({ setModalOpenDelete, onDelete }) {
       <S.Button onClick={onDelete}>네</S.Button>
       <S.Button 
         onClick={closeModal}
-        style={{border: '1px solid var(--gray, #A7A7A7)',
-          background: '#FFF',marginLeft: '10px'}}>
+        style={{border: '1px solid var(--gray, #A7A7A7)', background: '#FFF',marginLeft: '10px'}}>
         아니오
       </S.Button>
     </S.ButtonWrapper>

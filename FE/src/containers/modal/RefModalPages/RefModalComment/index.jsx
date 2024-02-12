@@ -6,7 +6,7 @@ import React from 'react';
 export default function RefModalComment({ comments, setComments, postId, setAgainComments, againComments }) {
   return (
     <S.CommentWrapper>
-      <div style={{background: 'var(--line, #E1E2E5)', width: 'auto', height: '1px', flexShrink: '0' }} />
+      <S.CommentWriteWrapperInnerDiv />
       <ModalCommentWrite postId={postId} setComments={setComments}/>
       <ModalCommentList
         comments={comments}

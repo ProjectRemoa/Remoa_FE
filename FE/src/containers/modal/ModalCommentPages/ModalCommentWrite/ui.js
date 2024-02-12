@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const S = {
   CommentWrapper: styled.div`
@@ -13,12 +13,18 @@ export const S = {
     left: 0px;
     box-sizing: border-box;
   `,
+  CommentWriteWrapperInnerDiv:styled.div`
+    background: var(--line, #E1E2E5);
+    width: auto;
+    height: 1px;
+    flex-shrink: 0
+  `,
   CommentWriteWrapper: styled.form`
     display: block;
     height: auto;
   `,
   CommentTitle: styled.span`
-    color: var(--black, #1E1E1E);
+    color: var(--black, #1e1e1e);
     font-size: 20px;
     font-weight: 600;
     line-height: 130%;
@@ -28,8 +34,8 @@ export const S = {
   `,
   CommentButton: styled.button`
     border-radius: 12px;
-    border: 1px solid #A7A7A7;
-    background: #FFF;
+    border: 1px solid #a7a7a7;
+    background: #fff;
     color: #464646;
     font-size: 16px;
     font-weight: 600;
@@ -41,17 +47,17 @@ export const S = {
   `,
   WriteInput: styled.textarea`
     border-radius: 10px;
-    background: var(--light-gray, #F0F0F0);
-    width: 1196px;
+    background: #fff;
+    width: 96.5%;
     height: 132px;
-    font-family: 'Inter';
+    font-family: "Inter";
     font-size: 15px;
     line-height: 25px;
     resize: none;
-    border: none;
+    border: 1px solid #a7a7a7;
     padding: 20px;
     ::placeholder {
-      color: var(--gray, #A7A7A7);
+      color: var(--gray, #a7a7a7);
       font-size: 16px;
       font-weight: 500;
       line-height: 150%;

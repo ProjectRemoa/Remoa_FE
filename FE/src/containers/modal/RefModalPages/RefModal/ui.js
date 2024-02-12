@@ -1,6 +1,12 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const S = {
+  Drag:styled.div`
+    float: right;
+    position: relative;
+    right: 500px;
+    z-index: 2;
+  `,
   ModalWrapper: styled.div`
     position: fixed;
     top: 0;
@@ -33,8 +39,8 @@ export const S = {
     margin: 20px;
     margin-bottom: 46px;
   `,
-  ModalRealTop:styled.div`
-  display: block;
+  ModalRealTop: styled.div`
+    display: block;
   `,
   MobalHeader: styled.div`
     margin-top: 58px;
@@ -54,7 +60,7 @@ export const S = {
     width: 35%;
   `,
   DetailTitle: styled.div`
-    color: var(--black, #1E1E1E);
+    color: var(--black, #1e1e1e);
     font-family: Pretendard;
     font-size: 28px;
     font-style: normal;
@@ -86,7 +92,7 @@ export const S = {
     display: flex;
     width: 297px;
     float: right;
-    margin-right:15px;
+    margin-right: 15px;
   `,
   HeaderUserName: styled.span`
     font-size: 14px;
@@ -107,15 +113,15 @@ export const S = {
     right: 0;
     top: 3px;
   `,
-  eachIcon:styled.span`
+  eachIcon: styled.span`
     line-height: 18px;
     font-size: 18px;
   `,
-  eachText:styled.span`
+  eachText: styled.span`
     position: relative;
     top: -3px;
   `,
-  DetailFeedbackButtonWrapper:styled.div`
+  DetailFeedbackButtonWrapper: styled.div`
     display: flex;
     position: relative;
     width: auto;
@@ -136,13 +142,13 @@ export const S = {
     display: flex;
     padding: 14px;
     border-radius: 12px;
-    background: var(--loyal-yellow, #FADA5E);
+    background: var(--loyal-yellow, #fada5e);
     line-height: normal;
     letter-spacing: -0.32px;
-    color: #1E1E1E;
+    color: #1e1e1e;
     border: none;
     :hover {
-      background: #DFB71C;
+      background: #dfb71c;
     }
   `,
   TraceBoxLike: styled.span`
@@ -155,12 +161,12 @@ export const S = {
     padding: 16px 32px;
   `,
   TraceBox: styled.div`
-    display: inline-flex;
+    display: flex;
     justify-content: center;
     gap: 5px;
     border-radius: 12px;
-    border: 1px solid var(--gray, #A7A7A7);
-    background: #FFF;
+    border: 1px solid var(--gray, #a7a7a7);
+    background: #fff;
     width: 115px;
     height: 56px;
     margin-bottom: 46px;
@@ -172,7 +178,7 @@ export const S = {
     width: 100%;
     background: #fada5e;
   `,
-    PdfMannage: styled.div`
+  PdfMannage: styled.div`
     width: 99%;
     overflow: scroll;
     position: relative;
@@ -219,23 +225,23 @@ export const S = {
     width: 80px;
     border-radius: 16px;
     border: 1px solid var(--deepgray, #727272);
-    background: #FFF;
+    background: #fff;
   `,
   PdfSizeWrapper: styled.div`
     position: absolute;
     right: 70px;
     width: auto;
   `,
-  PdfViewText:styled.div`
+  PdfViewText: styled.div`
     width: 40px;
     display: inline-block;
   `,
-  PdfPageShow:styled.div`
+  PdfPageShow: styled.div`
     position: absolute;
     bottom: 0;
     z-index: 20;
     border-radius: 30px;
-    background: #FADA5E;
+    background: #fada5e;
     width: 188px;
     height: 40px;
     color: var(--, #464646);
@@ -251,7 +257,7 @@ export const S = {
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.32px;
-    background: #FFF;
+    background: #fff;
     width: 82px;
     box-sizing: border-box;
     height: 32px;
@@ -263,10 +269,10 @@ export const S = {
     position: absolute;
     width: 82px;
     height: 144px;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 2px;
-    border: 1px solid var(--line, #E1E2E5);
-    background: #FFF;
+    border: 1px solid var(--line, #e1e2e5);
+    background: #fff;
     list-style: none;
     padding-left: 0px;
     right: 30px;
@@ -276,8 +282,8 @@ export const S = {
     width: auto;
     height: 24px;
     margin: 4px;
-    :hover{
-      background: var(--light-gray, #F0F0F0);
+    :hover {
+      background: var(--light-gray, #f0f0f0);
       cursor: pointer;
     }
   `,
@@ -332,7 +338,13 @@ export const S = {
     text-align: center;
     cursor: pointer;
     :hover {
-      background: #F0F0F0;
+      background: #f0f0f0;
     }
   `,
+  Line:styled.div`
+    width: 138px;
+    height: 0px;
+    border: 0.2px solid #B0B0B0;
+    position: relative;
+  `
 };

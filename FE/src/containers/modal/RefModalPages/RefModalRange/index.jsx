@@ -17,10 +17,10 @@ function ModalRange({ setPageRange }) {
       style={{marginTop:'18px', marginRight:'18px', width:'24px', height:'24px'}}
     />
     <FaExclamationCircle className={styles.exclamationCircle} />
-    <div style={{position: 'absolute', width: '100%', justifyContent: 'center', display: 'flex', top: '35px'}}>
-    <S.AskDelete>존재하지 않는 페이지입니다</S.AskDelete>
-    <S.AskHelp>이 문서에는 없는 페이지입니다. 다른 페이지로 이동해보세요</S.AskHelp>
-    </div>
+    <S.LetterWrap>
+      <S.AskDelete>존재하지 않는 페이지입니다</S.AskDelete>
+      <S.AskHelp>이 문서에는 없는 페이지입니다. 다른 페이지로 이동해보세요</S.AskHelp>
+    </S.LetterWrap>
     </div>
   );
 }

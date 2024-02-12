@@ -15,28 +15,8 @@ export default function DetailFeedbackComment({
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
-    if(contents.length > 1000) setContents(contents.substr(0, 1000))
+    if(contents.length > 1000) setContents(contents.substring(0, 1000))
   };
-
-  /*const onClickFeedback = (feedbackId) => {
-    console.log('feedbackId : ' + feedbackId);
-    if (sessionStorage.getItem('nickname') !== null) {
-      axios
-        .post(`/BE/reference/feedback/${feedbackId}/like`)
-        .then((res) => {
-          console.log(res);
-          axios.get(`/BE/reference/${id3}`).then((res) => {
-            setFeedback(res.data.data.feedbacks);
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      alert('로그인이 필요한 서비스입니다.');
-      navigate('/sociallogin');
-    }
-  }*/
 
   const onClickThumb = (feedback_id) => {
     axios
@@ -144,21 +124,11 @@ export default function DetailFeedbackComment({
                   </S.ModifyFin>
                 </div>
               ) : (
-                <div
-                  style={{
-                    backgroundColor: 'floralwhite',
-                    height: 'auto',
-                    fontSize: '18px',
-                    lineHeight: '22px',
-                    textAlign: 'left',
-                    width: '100%',
-                    wordBreak: 'break-all'
-                  }}
-                >
+                <S.FeedbackView>
                   {feedbacks.feedback}
-                </div>
+                </S.FeedbackView>
               )}
-                            <S.ButtonWrapper>
+              <S.ButtonWrapper>
                 <S.HeaderButton
                   onClick={() => onClickThumb(feedbacks.feedbackId)}
                 >

@@ -16,6 +16,14 @@ export const S = {
     background: #FFF;
     box-shadow: 0px 0px 4px 0px rgba(63, 63, 63, 0.18);
   `,
+  FeedbackSelect:styled.select`
+  width: 55px;
+  height: 32px;
+  border-radius: 2px;
+  position: relative;
+  bottom: 6px;
+  border: 1px solid var(--line, #E1E2E5);
+  `,
   ModalHeader: styled.div`
     height: 80px;
     width: 100%;

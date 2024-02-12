@@ -42,16 +42,12 @@ export default function DetaileSeedbackCommentAgain() {
                 </S.HeaderButton>
               </td>
               <td>
-                <S.HeaderButton
-                  style={{ top: '-3px', position: 'relative', color: 'black' }}
-                >
+                <S.HeaderButton>
                   수정
                 </S.HeaderButton>
               </td>
               <td>
-                <S.HeaderButton
-                  style={{ top: '-3px', position: 'relative', color: 'black' }}
-                >
+                <S.HeaderButton>
                   삭제
                 </S.HeaderButton>
               </td>

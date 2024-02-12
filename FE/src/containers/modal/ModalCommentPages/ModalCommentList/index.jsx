@@ -3,7 +3,6 @@ import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import React, { useState } from 'react';
 import axios from 'axios';
 import ModalCommentWriteAgain from '../ModalCommentWriteAgain';
-import { useEffect } from 'react';
 import ModalCommentListAgain from '../ModalCommentListAgain';
 
 export default function ModalCommentList({ comments, postId, setComments, setAgainComments, againComments }) {
@@ -20,7 +19,7 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
-    if(contents.length > 300) setContents(contents.substr(0, 300))
+    if(contents.length > 300) setContents(contents.substring(0, 300))
   };
 
   const onPutHandler = (commentId) => {
@@ -39,23 +38,15 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
       .catch((err) => {
         console.log(err);
       });
-    //navigate('/');
-
-    //return data;
-    // } else {
-    //  console.log(isEdit);
-    //}
   };
   
   const onDelete = (commentId) => {
-    console.log();
     axios
       .delete(`/BE/reference/comment/${commentId}`)
       .then((response) => {
         console.log(response);
         setComments(response.data.data);
         alert('댓글 삭제가 완료되었습니다.');
-        // if (response.status === 200) alert(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -67,7 +58,6 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
         .post(`/BE/comment/${commentId}/like`)
         .then((res) => {
           console.log(res);
-          //setThumb(res.data.data.LikeCount);
           axios
             .get(`/BE/reference/${postId}`)
             .then((res) => {
@@ -77,7 +67,6 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
             .catch((err) => {
               console.log(err);
             });
-          //alert('댓글을 추천하였습니다.');
         })
         .catch((err) => {
           console.log(err);
@@ -86,9 +75,8 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
 
     // 대댓글
     const [openWriteAgain, setOpenWriteAgain] = useState('')
-    const showAgain=(commentId)=>{
-      setOpenWriteAgain(commentId)
-    }
+    const showAgain = (commentId) => { setOpenWriteAgain(commentId) }
+
   return (
     <div style={{ marginTop: '20px' }}>
       {comments &&
@@ -98,7 +86,7 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
               <tbody>
                 <tr style={{ display: 'flex', position: 'relative' }}>
                   <td style={{ width: '40px' }} rowspan="3">
-                    <S.ProfileSize src={comments.member.profileImage} />
+                    <S.ProfileSize src={comments.member.profileImage} alt='' />
                   </td>
                   <td>
                     <S.ProfileName>{comments.member.nickname}</S.ProfileName>

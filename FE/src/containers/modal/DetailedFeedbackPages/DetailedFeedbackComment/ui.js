@@ -13,6 +13,15 @@ export const S = {
   FeedWrapperHeader: styled.div`
     display: flex;
   `,
+  FeedbackView: styled.div`
+  background-color: floralwhite;
+  height: auto;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: left;
+  width: 100%;
+  word-break: break-all
+  `,
   HeaderButton: styled.button`
     width: 80px;
     height: 27px;

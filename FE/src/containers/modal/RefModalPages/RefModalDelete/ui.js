@@ -34,5 +34,12 @@ export const S = {
     font-weight: 600;
     line-height: 48px;
     letter-spacing: -0.32px;
+  `,
+  LetterWrap:styled.div`
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    top: 35px
   `
 }

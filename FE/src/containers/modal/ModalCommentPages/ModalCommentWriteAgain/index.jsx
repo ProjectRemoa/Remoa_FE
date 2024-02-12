@@ -8,7 +8,7 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
   const [contents, setContents] = useState('');
   const onChangeContents = (event) => {
     setContents(event.target.value);
-    if(contents.length > 300) setContents(contents.substr(0, 300))
+    if(contents.length > 300) setContents(contents.substring(0, 300))
   };
 
   const onSumbitHandler = (e) => {
@@ -23,7 +23,6 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
           console.log(response);
           setAgainComments(response.data.data.replies);
           alert('대댓글 등록이 완료되었습니다.');
-          //if (response.status === 200) alert(response.data);
         })
         .catch((err) => {
           alert('통신 오류');
@@ -35,16 +34,13 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
     }
     setContents('');
   };
-  const onCloseHandler = () => {
-  	setOpenWriteAgain("")
-  }
+
+  const onCloseHandler = () => { setOpenWriteAgain("") }
 
   const getProfile = async () => {
     try {
       const res = await axios.get("/BE/user", { withCredentials: true });
-      if (res.status === 200) {
-        setUserData(res.data.data);
-      }
+      if (res.status === 200) setUserData(res.data.data);
     } catch (err) {
       console.log(err);
     }
