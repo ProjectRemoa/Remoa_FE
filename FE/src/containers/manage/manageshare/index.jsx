@@ -238,7 +238,7 @@ function ManageShareContainer() {
 
   const location = useLocation();
 
-  useEffect(() => { // 수정 페이지에서 이탈 시에
+  useEffect(() => { // 수정 페이지에서 이탈 시에 실행
     if (!location.pathname.includes(`/manage/put`)) {
       setIsEdit(false)
     }
