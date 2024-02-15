@@ -4,19 +4,20 @@ import axios from 'axios';
 
 export default function ModalCommentWrite({ postId, setComments }) {
   const [contents, setContents] = useState('');
-  const [timer, setTimer] = useState(null); // 디바운싱 구현
+  // const [timer, setTimer] = useState(null); // 디바운싱 구현
   const onChangeContents = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length > 300) {
         setContents(inputValue.substring(0, 300));
         return;
     }
-    if (timer) clearTimeout(timer)
+    setContents(inputValue);
+    // if (timer) clearTimeout(timer)
 
-    const newTimer = setTimeout(() => {
-        setContents(inputValue);
-    }, 500); 
-    setTimer(newTimer);
+    // const newTimer = setTimeout(() => {
+    //     setContents(inputValue);
+    // }, 500); 
+    // setTimer(newTimer);
   };
 
   const onSumbitHandler = (e) => {

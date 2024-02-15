@@ -13,7 +13,7 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
 
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState('');
-  const [timer, setTimer] = useState(null); // 디바운싱 구현
+  // const [timer, setTimer] = useState(null); // 디바운싱 구현
 
   // 수정할 member id
   const [putMemberId, setPutMemberId] = useState(0);
@@ -24,13 +24,14 @@ export default function ModalCommentList({ comments, postId, setComments, setAga
         setContents(inputValue.substring(0, 300));
         return;
     }
-    if (timer) clearTimeout(timer)
+    setContents(inputValue)
+    // if (timer) clearTimeout(timer)
 
-    const newTimer = setTimeout(() => {
-        setContents(inputValue);
-    }, 500); 
-    console.log(contents)
-    setTimer(newTimer);
+    // const newTimer = setTimeout(() => {
+    //     setContents(inputValue);
+    // }, 500); 
+    // console.log(contents)
+    // setTimer(newTimer);
   };
 
   const onPutHandler = (commentId) => {

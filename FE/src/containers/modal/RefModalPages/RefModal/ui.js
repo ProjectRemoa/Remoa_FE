@@ -239,7 +239,7 @@ export const S = {
   PdfPageShow: styled.div`
     position: absolute;
     bottom: 0;
-    z-index: 20;
+    z-index: 2;
     border-radius: 30px;
     background: #fada5e;
     width: 188px;
