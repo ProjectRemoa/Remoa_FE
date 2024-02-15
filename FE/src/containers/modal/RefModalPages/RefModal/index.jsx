@@ -26,6 +26,8 @@ import ModalRange from "../RefModalRange";
 import { useQueryClient } from "react-query";
 import Meta from "../../../../components/common/Meta";
 import ModalScrap from "../RefModalScrap";
+import { useRecoilState } from "recoil";
+import { editState } from "../../../../state/editState";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -141,7 +143,6 @@ const handleLike = () => {
 
     axios.post(`/BE/reference/${id2}/like`)
         .then((res) => {
-            console.log(res);
             const { likeCount } = res.data.data;
 
             setTop(prevTop => ({
@@ -225,13 +226,13 @@ const handleLike = () => {
   };
 
   // 레퍼런스 수정
+  const [isEdit, setIsEdit] = useRecoilState(editState)
   const onClickPut = () => {
     if (
       window.confirm("레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다.")
     ) {
-      alert("수정 기능은 구현 중~");
-      Navigate("/");
-      //Navigate(`/manage/put/:${id2}`);
+      setIsEdit(true)
+      Navigate(`/manage/put/${id2}`);
     } else {
     }
   };
