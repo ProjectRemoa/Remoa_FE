@@ -90,7 +90,7 @@ export default function ModalCommentList({
       });
   };
 
-  // 대댓글
+  // 대댓
   const [openWriteAgain, setOpenWriteAgain] = useState("");
   const showAgain = (commentId) => {
     setOpenWriteAgain(commentId);
