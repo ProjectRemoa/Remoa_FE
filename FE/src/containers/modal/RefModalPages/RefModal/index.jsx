@@ -739,10 +739,10 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   color: likeBoolean ? "#B0B0B0" : "#fada5e",
                   width: "24px",
                   height: "24px",
-                  marginTop:'-2px'
+                  marginTop: "-2px",
                 }}
               />
-              <span style={{ marginTop: "1px" }}>
+              <span style={{ marginTop: "1px", fontSize: "19px" }}>
                 &nbsp;{formatCount(top.likeCount)}
               </span>
             </S.TraceBoxAlign>

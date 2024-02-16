@@ -97,7 +97,7 @@ export default function ModalCommentList({
   };
 
   return (
-    <div>
+    <div style={{backgroundColor:'skyblue'}}>
       {comments &&
         comments.map((comments, index) => (
           <S.AgainWrapper key={index}>
