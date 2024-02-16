@@ -45,15 +45,19 @@ export const S = {
     position: relative;
   `,
   FeedWrapperButton: styled.div`
+    cursor: move;
     height: 26px;
     width: 72px;
     margin-top: 12px;
     position: relative;
+    display: flex;
+    justify-content: center;
     box-shadow: none;
     border-radius: 10px;
     background: var(--loyal-yellow, #FADA5E);
   `,
   WrapperSearch: styled.a`
+    cursor: pointer;
     text-decoration-line: none;
     color: #1E1E1E;
     font-weight: 600;

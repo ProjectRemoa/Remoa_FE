@@ -3,13 +3,13 @@ import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import { S } from './ui';
 import { S as SS } from '../ModalCommentList/ui'
 
-
 export default function ModalCommentListAgain({replies,setAgainComments, againComments, postId, commentId}) {
   replies.sort((a, b) => {
     return  new Date(a.repliedTime)-new Date(b.repliedTime);
   });
   
   // 수정 삭제 명세서 최신화하고 진행해야
+  // 등록 시 로그인 여부 체크 / 수정 삭제는 아이디 같은 사람만
   const onDelete = (commentId) => {
     axios
       .delete(`/BE/reference/${postId}/comment/${commentId}`)

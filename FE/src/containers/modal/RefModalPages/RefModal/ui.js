@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
 export const S = {
-  Drag:styled.div`
+  Drag: styled.div`
     float: right;
     position: relative;
-    right: 500px;
-    z-index: 2;
+    z-index: 22;
   `,
   ModalWrapper: styled.div`
     position: fixed;
@@ -15,7 +14,6 @@ export const S = {
     height: 100%;
     display: flex;
     justify-content: center;
-
     z-index: 11;
     background-color: rgba(0, 0, 0, 0.1);
     cursor: default;
@@ -131,26 +129,6 @@ export const S = {
     padding-right: 13px;
     gap: 8px;
   `,
-  DetailFeedbackButton: styled.button`
-    width: 180px;
-    height: 47px;
-    font-size: 16px;
-    font-weight: 600;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    padding: 14px;
-    border-radius: 12px;
-    background: var(--loyal-yellow, #fada5e);
-    line-height: normal;
-    letter-spacing: -0.32px;
-    color: #1e1e1e;
-    border: none;
-    :hover {
-      background: #dfb71c;
-    }
-  `,
   TraceBoxLike: styled.span`
     font-size: 18px;
     font-weight: 500;
@@ -158,18 +136,9 @@ export const S = {
     letter-spacing: -0.36px;
   `,
   TraceBoxAlign: styled.div`
-    padding: 16px 32px;
-  `,
-  TraceBox: styled.div`
-    display: flex;
+    padding: 16px;
     justify-content: center;
-    gap: 5px;
-    border-radius: 12px;
-    border: 1px solid var(--gray, #a7a7a7);
-    background: #fff;
-    width: 115px;
-    height: 56px;
-    margin-bottom: 46px;
+    display: flex;
   `,
   ContentImg: styled.img`
     margin-bottom: 10px;
@@ -214,6 +183,7 @@ export const S = {
     text-align: center;
   `,
   PdfPageButton: styled.a`
+    cursor: pointer;
     text-decoration-line: none;
     font-size: 14px;
     font-weight: 500;
@@ -221,6 +191,7 @@ export const S = {
     color: #464646;
   `,
   PdfPageButtonWrapper: styled.button`
+    cursor: default;
     height: 28px;
     width: 80px;
     border-radius: 16px;
@@ -341,10 +312,10 @@ export const S = {
       background: #f0f0f0;
     }
   `,
-  Line:styled.div`
+  Line: styled.div`
     width: 138px;
     height: 0px;
-    border: 0.2px solid #B0B0B0;
+    border: 0.2px solid #b0b0b0;
     position: relative;
-  `
+  `,
 };

@@ -11,7 +11,7 @@ export const S = {
   `,
   AskHelp: styled.p`
     position: absolute;
-    top: 100px;
+    top: 105px;
     color: var(--deepgray, #727272);
     font-size: 14px;
     font-weight: 500;
@@ -24,22 +24,4 @@ export const S = {
     width: auto;
     display: flex;
   `,
-  Button:styled.div`
-    width: 180px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--loyal-yellow, #FADA5E);
-    color: var(--, #464646);
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 48px;
-    letter-spacing: -0.32px;
-  `,
-  LetterWrap:styled.div`
-    position: absolute;
-    width: 100%;
-    justify-content: center;
-    display: flex;
-    top: 35px
-  `
 }

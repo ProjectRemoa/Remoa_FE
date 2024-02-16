@@ -22,13 +22,12 @@ import Draggable from "react-draggable";
 import ModalDelete from "../RefModalDelete";
 import { formatCount } from "../../../../functions/formatCount";
 import { FaCaretDown } from "react-icons/fa";
-import ModalRange from "../RefModalRange";
 import { useQueryClient } from "react-query";
 import Meta from "../../../../components/common/Meta";
 import ModalScrap from "../RefModalScrap";
 import { useRecoilState } from "recoil";
 import { editState } from "../../../../state/editState";
-
+import btnStyle from "../../../../layout/Button.module.css";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
@@ -54,8 +53,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     scrapCount: 0,
     youtubeLink: "", // category가 영상일 때
   });
-  const [comments, setComments] = useState([]); 
-  const [againComments, setAgainComments] = useState([]); 
+  const [comments, setComments] = useState([]);
+  const [againComments, setAgainComments] = useState([]);
   const [feedback, setFeedback] = useState([]);
   const [postMember, setPostMember] = useState({
     memberId: 0,
@@ -76,51 +75,83 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   useEffect(() => {
     const endpoint = `/BE/reference/${id2}`;
 
-    axios.get(endpoint)
-        .then((res) => {
-            const data = res.data.data;
+    axios
+      .get(endpoint)
+      .then((res) => {
+        const data = res.data.data;
 
-            const { postId, title, contestName, contestAwardType, category, postingTime, views, likeCount, scrapCount, thumbnail, fileNames, youtubeLink, comments, isLiked, isScraped, feedbacks, postMember } = data;
-            const fileType = category !== "video" ? fileNames[1].substring(fileNames[1].lastIndexOf(".") + 1,fileNames[1].length).toLowerCase() : "";
-            const videoId = (category === "video" && youtubeLink.includes("?v=")) ? youtubeLink.split("?v=")[1] : (youtubeLink.includes("youtu.be") ? youtubeLink.split("/")[3] : "");
+        const {
+          postId,
+          title,
+          contestName,
+          contestAwardType,
+          category,
+          postingTime,
+          views,
+          likeCount,
+          scrapCount,
+          thumbnail,
+          fileNames,
+          youtubeLink,
+          comments,
+          isLiked,
+          isScraped,
+          feedbacks,
+          postMember,
+        } = data;
+        const fileType =
+          category !== "video"
+            ? fileNames[1]
+                .substring(
+                  fileNames[1].lastIndexOf(".") + 1,
+                  fileNames[1].length
+                )
+                .toLowerCase()
+            : "";
+        const videoId =
+          category === "video" && youtubeLink.includes("?v=")
+            ? youtubeLink.split("?v=")[1]
+            : youtubeLink.includes("youtu.be")
+            ? youtubeLink.split("/")[3]
+            : "";
 
-            setTop({
-                postId,
-                title,
-                contestName,
-                contestAwardType,
-                category,
-                postingTime,
-                views,
-                likeCount,
-                scrapCount,
-                thumbnail
-            });
-
-            setMiddle({
-                fileNames: fileNames.filter((_, index) => index !== 0),
-                likeCount,
-                scrapCount,
-                fileType,
-                youtubeLink: videoId
-            });
-
-            setComments(comments);
-            setAgainComments(comments.replies);
-            setLikeBoolean(isLiked);
-            setScrapBoolean(isScraped);
-            setCategory(category);
-            setFeedback(feedbacks);
-            setPostMember({
-                memberId: postMember.memberId,
-                nickname: postMember.nickname,
-                profileImage: postMember.profileImage
-            });
-        })
-        .catch((err) => {
-            console.log(err);
+        setTop({
+          postId,
+          title,
+          contestName,
+          contestAwardType,
+          category,
+          postingTime,
+          views,
+          likeCount,
+          scrapCount,
+          thumbnail,
         });
-}, [id2]);
+
+        setMiddle({
+          fileNames: fileNames.filter((_, index) => index !== 0),
+          likeCount,
+          scrapCount,
+          fileType,
+          youtubeLink: videoId,
+        });
+
+        setComments(comments);
+        setAgainComments(comments.replies);
+        setLikeBoolean(isLiked);
+        setScrapBoolean(isScraped);
+        setCategory(category);
+        setFeedback(feedbacks);
+        setPostMember({
+          memberId: postMember.memberId,
+          nickname: postMember.nickname,
+          profileImage: postMember.profileImage,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id2]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -128,61 +159,69 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     }, 2500);
   }, [loading]);
 
-
   const onCloseHandler2 = () => {
     setModalVisibleId2("");
   };
 
-const handleLike = () => {
+  const handleLike = () => {
     const userNickname = sessionStorage.getItem("nickname");
-    
+    if (userNickname === null) {
+      alert("로그인이 필요한 서비스입니다.");
+      Navigate("/sociallogin");
+    }
     if (postMember.nickname === userNickname) {
-        alert("내 작품에는 불가능합니다.");
-        return;
+      alert("내 작품에는 불가능합니다.");
+      return;
     }
 
-    axios.post(`/BE/reference/${id2}/like`)
-        .then((res) => {
-            const { likeCount } = res.data.data;
+    axios
+      .post(`/BE/reference/${id2}/like`)
+      .then((res) => {
+        const { likeCount } = res.data.data;
 
-            setTop(prevTop => ({
-                ...prevTop,
-                likeCount
-            }));
-            setLikeBoolean(prevLikeBoolean => !prevLikeBoolean);
+        setTop((prevTop) => ({
+          ...prevTop,
+          likeCount,
+        }));
+        setLikeBoolean((prevLikeBoolean) => !prevLikeBoolean);
 
-            queryClient.invalidateQueries("references", { refetchActive: true });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
+        queryClient.invalidateQueries("references", { refetchActive: true });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const [srcapModal, setScrapModal] = useState(false);
 
   const handleScrap = () => {
     const userNickname = sessionStorage.getItem("nickname");
-    if (postMember.nickname === userNickname) {
-        alert("내 작품에는 불가능합니다.");
-        return;
+    if (userNickname === null) {
+      alert("로그인이 필요한 서비스입니다.");
+      Navigate("/sociallogin");
     }
-    axios.post(`/BE/reference/${id2}/scrap`)
-        .then((res) => {
-            console.log(res);
-            const { scrapCount, isScraped } = res.data.data;
-            setTop(prevTop => ({
-                ...prevTop,
-                scrapCount
-            }));
+    if (postMember.nickname === userNickname) {
+      alert("내 작품에는 불가능합니다.");
+      return;
+    }
+    axios
+      .post(`/BE/reference/${id2}/scrap`)
+      .then((res) => {
+        console.log(res);
+        const { scrapCount, isScraped } = res.data.data;
+        setTop((prevTop) => ({
+          ...prevTop,
+          scrapCount,
+        }));
 
-            if (isScraped) setScrapBoolean(prevScrapBoolean => !prevScrapBoolean);
-            setScrapModal(true);
-            queryClient.invalidateQueries("references", { refetchActive: true });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
+        if (isScraped) setScrapBoolean((prevScrapBoolean) => !prevScrapBoolean);
+        setScrapModal(true);
+        queryClient.invalidateQueries("references", { refetchActive: true });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
   const onModalHandler3 = (id) => {
@@ -226,21 +265,19 @@ const handleLike = () => {
   };
 
   // 레퍼런스 수정
-  const [isEdit, setIsEdit] = useRecoilState(editState)
+  const [isEdit, setIsEdit] = useRecoilState(editState);
   const onClickPut = () => {
     if (
       window.confirm("레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다.")
     ) {
-      setIsEdit(true)
+      setIsEdit(true);
       Navigate(`/manage/put/${id2}`);
     } else {
     }
   };
 
-  const [pageRange, setPageRange] = useState(false);
   // 페이지 제대로 입력되었는가 확인하기
   const checking = () => {
-    setPageRange(true);
     let el = document.getElementById("pageInput");
     el.value = "";
   };
@@ -253,8 +290,10 @@ const handleLike = () => {
       Number(show) > numPages ||
       isInteger(Number(show)) === false ||
       Number(show) <= 0
-    )
+    ) {
       checking();
+      alert("페이지를 제대로 입력해 주세요.");
+    }
   };
 
   const checkImage = () => {
@@ -262,8 +301,10 @@ const handleLike = () => {
       Number(show) > middle.fileNames.length ||
       isInteger(Number(show)) === false ||
       Number(show) <= 0
-    )
+    ) {
       checking();
+      alert("페이지를 제대로 입력해 주세요.");
+    }
   };
 
   // box의 포지션 값
@@ -285,7 +326,8 @@ const handleLike = () => {
   const [selectExpand, setSelectExpand] = useState(100);
   useEffect(() => {
     const container = scrollRef2.current;
-    if (container && selectExpand > 100) { // 배율 확대될 때 스크롤 중앙
+    if (container && selectExpand > 100) {
+      // 배율 확대될 때 스크롤 중앙
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
       const middleScrollLeft = maxScrollLeft / 2;
       container.scrollLeft = middleScrollLeft;
@@ -420,28 +462,37 @@ const handleLike = () => {
               </S.HeaderDetail2>
             </S.HeaderUserInfo>
             <S.DetailFeedbackButtonWrapper>
-              <S.DetailFeedbackButton
-                style={{
-                  borderRadius: "12px",
-                  border: "1px solid var(--gray, #A7A7A7)",
-                  backgroundColor: "#FFF",
-                  color: "#464646",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  letterSpacing: "-0.32px",
-                  "&:hover": {
-                    background: "var(--light-gray, #F0F0F0)",
-                  },
-                }}
+              <button
+                className={btnStyle.white}
                 onClick={() => {
                   handleScrap();
                 }}
               >
-                <BsBookmark /> &nbsp; 스크랩하기
-              </S.DetailFeedbackButton>
-              <S.DetailFeedbackButton onClick={() => onModalHandler3(id2)}>
-                상세피드백 보기
-              </S.DetailFeedbackButton>
+                <BsBookmark /> &nbsp; <span>스크랩하기</span>
+              </button>
+              <button
+                onClick={() => onModalHandler3(id2)}
+                className={btnStyle.yellow}
+              >
+                <span>상세피드백 보기</span>
+              </button>
+              {/* 움직이는 모달 */}
+              <Draggable onDrag={(_, data) => trackPos(data)}>
+                <S.Drag>
+                  <DetailedFeedback
+                    id3={id2}
+                    modalVisibleId3={modalVisibleId3}
+                    setModalVisibleId3={setModalVisibleId3}
+                    numPages={numPages}
+                    media={middle.fileNames}
+                    link={middle.youtubeLink}
+                    // 피드백 전체 넘겼습니다.
+                    feedbacks={feedback}
+                    // 혹시 몰라 피드백을 수정할 수 있는 setFeedback도 같이 넘깁니다.
+                    setFeedback={setFeedback}
+                  />
+                </S.Drag>
+              </Draggable>
             </S.DetailFeedbackButtonWrapper>
           </S.HeaderDiv2>
         </S.MobalHeader>
@@ -486,9 +537,6 @@ const handleLike = () => {
                             바로보기
                           </S.PdfPageButton>
                         </S.PdfPageButtonWrapper>
-                        {pageRange && (
-                          <ModalRange setPageRange={setPageRange} />
-                        )}
                       </>
                     )}
                     <S.PdfSizeWrapper>
@@ -593,9 +641,6 @@ const handleLike = () => {
                             바로보기
                           </S.PdfPageButton>
                         </S.PdfPageButtonWrapper>
-                        {pageRange && (
-                          <ModalRange setPageRange={setPageRange} />
-                        )}
                       </>
                     )}
                     <S.PdfSizeWrapper>
@@ -680,14 +725,29 @@ const handleLike = () => {
             </S.PdfWrapper>
           )}
         </S.MobalContents>
-        <S.TraceBox onClick={() => handleLike()}>
-          <S.TraceBoxAlign>
-            <AiOutlineHeart
-              style={{ color: likeBoolean ? "#B0B0B0" : "red" }}
-            />
-            <S.TraceBoxLike> &nbsp;{formatCount(top.likeCount)}</S.TraceBoxLike>
-          </S.TraceBoxAlign>
-        </S.TraceBox>
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <button
+            className={btnStyle.white}
+            onClick={() => handleLike()}
+            style={{ height: "56px", width: "115px", marginBottom: "45px" }}
+          >
+            <S.TraceBoxAlign>
+              <AiFillHeart
+                style={{
+                  color: likeBoolean ? "#B0B0B0" : "#fada5e",
+                  width: "24px",
+                  height: "24px",
+                  marginTop:'-2px'
+                }}
+              />
+              <span style={{ marginTop: "1px" }}>
+                &nbsp;{formatCount(top.likeCount)}
+              </span>
+            </S.TraceBoxAlign>
+          </button>
+        </div>
         <RefModalComment
           postId={id2}
           comments={comments}
@@ -695,23 +755,6 @@ const handleLike = () => {
           againComments={againComments}
           setAgainComments={setAgainComments}
         />
-        {/* 움직이는 모달 */}
-        <Draggable onDrag={(_, data) => trackPos(data)}>
-          <S.Drag style={{ top: category === "video" ? "300px" : "70px", }} >
-            <DetailedFeedback
-              id3={id2}
-              modalVisibleId3={modalVisibleId3}
-              setModalVisibleId3={setModalVisibleId3}
-              numPages={numPages}
-              media={middle.fileNames}
-              link={middle.youtubeLink}
-              // 피드백 전체 넘겼습니다.
-              feedbacks={feedback}
-              // 혹시 몰라 피드백을 수정할 수 있는 setFeedback도 같이 넘깁니다.
-              setFeedback={setFeedback}
-            />
-          </S.Drag>
-        </Draggable>
       </S.MobalBox>
     </S.ModalWrapper>
   );

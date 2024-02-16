@@ -40,7 +40,7 @@ export const S = {
     font-weight: 500;
     line-height: 150%;
     letter-spacing: -0.32px;
-    font-family: Pretendard;
+    font-family: Inter;
     font-style: normal;
   `,
   EditButton: styled.div`

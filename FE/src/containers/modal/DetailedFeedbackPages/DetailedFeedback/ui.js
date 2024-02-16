@@ -1,28 +1,25 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const S = {
   ModalWrapper: styled.div`
     cursor: move;
-    position:absolute;
-
-    top: ${(props) => (props.state) ? "293px":"-100vh"};
-    right: ${(props) => (props.state) && "567px"};
-    //top:-100vh;
+    position: absolute;
+    top: 80px;
+    right: 0px;
     width: 484px;
     height: 829px;
-    z-index: 9;
     border-radius: 8px;
-    border: 1px solid var(--line, #D5D5D5);
-    background: #FFF;
+    border: 1px solid var(--line, #d5d5d5);
+    background: #fff;
     box-shadow: 0px 0px 4px 0px rgba(63, 63, 63, 0.18);
   `,
-  FeedbackSelect:styled.select`
-  width: 55px;
-  height: 32px;
-  border-radius: 2px;
-  position: relative;
-  bottom: 6px;
-  border: 1px solid var(--line, #E1E2E5);
+  FeedbackSelect: styled.select`
+    width: 55px;
+    height: 32px;
+    border-radius: 2px;
+    position: relative;
+    bottom: 6px;
+    border: 1px solid var(--line, #e1e2e5);
   `,
   ModalHeader: styled.div`
     height: 80px;
@@ -30,17 +27,17 @@ export const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid #E1E2E5;
+    border-bottom: 1px solid #e1e2e5;
   `,
   HeaderText: styled.span`
-    color: var(--black, #1E1E1E);
+    color: var(--black, #1e1e1e);
     font-size: 20px;
     font-weight: 700;
     line-height: 130%;
     letter-spacing: -0.4px;
   `,
   FeedbackText: styled.span`
-    color: var(--black, #1E1E1E);
+    color: var(--black, #1e1e1e);
     font-size: 18px;
     font-weight: 700;
     line-height: 40px;
@@ -53,11 +50,11 @@ export const S = {
     line-height: 40px;
     letter-spacing: -0.32px;
     margin-left: 21px;
-`,
+  `,
   ModalWriteFeed: styled.div`
     height: 230px;
     width: 100%;
-    border-top: 1px solid #E1E2E5;
+    border-top: 1px solid #e1e2e5;
     box-sizing: border-box;
     position: absolute;
     bottom: 0px;
@@ -80,14 +77,14 @@ export const S = {
     width: 428px;
     height: 139px;
     border-radius: 10px;
-    background: var(--light-gray, #F0F0F0);
-    font-family: 'Inter';
+    background: var(--light-gray, #f0f0f0);
+    font-family: "Inter";
     resize: none;
     border: none;
     padding: 17px;
     box-sizing: border-box;
-        ::placeholder {
-      color: var(--gray, #A7A7A7);
+    ::placeholder {
+      color: var(--gray, #a7a7a7);
       font-size: 16px;
       font-weight: 500;
       letter-spacing: -0.32px;
@@ -102,20 +99,20 @@ export const S = {
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    border: 1px solid var(--gray, #A7A7A7);
-    background: #FFF;
-    color: var(--black, #1E1E1E);
+    border: 1px solid var(--gray, #a7a7a7);
+    background: #fff;
+    color: var(--black, #1e1e1e);
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.32px;
   `,
   Feedback: styled.div`
-  width: 450px;
-  height: 380px;
-  position: absolute;
-  top: 105px;
-  margin-left: 28px;
-  overflow-y: scroll;
-  box-sizing: border-box;
-`,
+    width: 450px;
+    height: 380px;
+    position: absolute;
+    top: 105px;
+    margin-left: 28px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+  `,
 };

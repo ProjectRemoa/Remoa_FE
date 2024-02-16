@@ -3,8 +3,10 @@ import { S } from './ui';
 import { useState, useEffect } from 'react';
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import { S as SS } from '../ModalCommentList/ui'
+import { useNavigate } from 'react-router-dom';
 
 export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWriteAgain,comments,postId,  setAgainComments, againComments }) {
+  const navigate = useNavigate();
   const [contents, setContents] = useState('');
   const onChangeContents = (event) => {
     const inputValue = event.target.value;
@@ -16,6 +18,10 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
   };
 
   const onSumbitHandler = (e) => {
+    if (sessionStorage.getItem('nickname') === null) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/sociallogin');
+    }
     if (contents) {
       e.preventDefault();
       const UploadComment = {

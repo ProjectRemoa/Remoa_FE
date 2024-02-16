@@ -13,11 +13,11 @@ export const S = {
     left: 0px;
     box-sizing: border-box;
   `,
-  CommentWriteWrapperInnerDiv:styled.div`
-    background: var(--line, #E1E2E5);
+  CommentWriteWrapperInnerDiv: styled.div`
+    background: var(--line, #e1e2e5);
     width: auto;
     height: 1px;
-    flex-shrink: 0
+    flex-shrink: 0;
   `,
   CommentWriteWrapper: styled.form`
     display: block;
@@ -30,7 +30,7 @@ export const S = {
     line-height: 130%;
     letter-spacing: -0.4px;
     position: absolute;
-    left: 30px;
+    left: 20px;
   `,
   CommentButton: styled.button`
     border-radius: 12px;
