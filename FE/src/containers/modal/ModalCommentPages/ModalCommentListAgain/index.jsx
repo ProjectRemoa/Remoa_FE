@@ -40,14 +40,14 @@ export default function ModalCommentListAgain({
             <div style={{ gridArea: "1 / 2 / 2 / 3" }}>
             <SS.ProfileSize src={replies.member.profileImage} style={{ position:'relative' }} alt='프로필 이미지' />
             </div>
-            <div style={{ gridArea: "1 / 3 / 2 / 4" , paddingLeft:'12px'}}>
+            <div style={{ gridArea: "1 / 3 / 2 / 4", paddingLeft:'12px'}}>
               {replies.member.nickname}
               <br />
               <S.Nickname>{replies.content}</S.Nickname>
             </div>
             <div style={{ gridArea: "2 / 1 / 3 / 2" }}></div>
             <div style={{ gridArea: "2 / 2 / 3 / 3" }}></div>
-            <div style={{ gridArea: "2 / 3 / 3 / 4" , paddingLeft:'12px' }}>
+            <div style={{ gridArea: "2 / 3 / 3 / 4", paddingLeft:'12px' }}>
               답글 | 수정하기 | 삭제하기
             </div>
           </S.Parent>
