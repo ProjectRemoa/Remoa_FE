@@ -35,6 +35,7 @@ export const S = {
     top: 0px;
   `,
   Comment: styled.pre`
+    display: inline;
     color: var(--, #464646);
     font-size: 16px;
     font-weight: 500;
@@ -42,6 +43,8 @@ export const S = {
     letter-spacing: -0.32px;
     font-family: Inter;
     font-style: normal;
+    font-family: Pretendard;
+    word-break: break-all;
   `,
   EditButton: styled.div`
     position: absolute;

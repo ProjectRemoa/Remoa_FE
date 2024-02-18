@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import RefModalComment from "../RefModalComment";
 import { AiTwotoneEye } from "react-icons/ai";
 import { AiFillHeart } from "react-icons/ai";
-import { AiOutlineHeart } from "react-icons/ai";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { BsBookmark } from "react-icons/bs";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -373,6 +372,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         break;
     }
   };
+
   return (
     <S.ModalWrapper onClick={onCloseHandler2}>
       <Meta title={top.title} imageURL={top.thumbnail} />
@@ -680,6 +680,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     ref={scrollRef}
                     onContextMenu={(e) => e.preventDefault()}
                     style={{
+                  
                       maxHeight: windowSize.height / 1.5,
                       justifyContent: pageScale <= 1 ? "center" : "flex-start",
                     }}
@@ -693,9 +694,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                           key={index + 1}
                           id={index + 1}
                           style={{
+             
                             display: "flex",
                             justifyContent: "center",
                             position: "relative",
+            
                           }}
                         >
                           <Page

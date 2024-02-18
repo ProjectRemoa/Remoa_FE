@@ -107,12 +107,23 @@ export const S = {
     letter-spacing: -0.32px;
   `,
   Feedback: styled.div`
-    width: 450px;
-    height: 380px;
+    width: 484px;
+    height: 520px;
     position: absolute;
-    top: 105px;
-    margin-left: 28px;
-    overflow-y: scroll;
+    top: 80px;
+    overflow: scroll;
     box-sizing: border-box;
+
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb:end {
+      border-radius: 20px;
+      background: var(--disabled-gray, #b0b0b0);
+    }
+
+    &::-webkit-scrollbar-track {
+    }
   `,
 };

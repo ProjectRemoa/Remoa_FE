@@ -110,6 +110,39 @@ export default function DetaileFeedback({
             <S.FeedbackText>피드백</S.FeedbackText>
             <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>
           </S.RegExplain>
+          {/* <S.PdfSizeWrapper>
+                      페이지 배율 &nbsp;&nbsp;&nbsp;&nbsp;
+                      <S.PdfSelect>
+                        <S.PdfViewText>{selectExpand}%&nbsp;</S.PdfViewText>
+                        <FaCaretDown
+                          onClick={showExpandModalDelete}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </S.PdfSelect>
+                      {expandModalOpenDelete && (
+                        <S.PdfOption>
+                          {[50, 75, 100, 125, 150].map((a) => (
+                            <S.PdfList>
+                              <S.PdfFocus
+                                class="list"
+                                onClick={() => {
+                                  onChangeExpand(a);
+                                  onChangePlus(a);
+                                }}
+                                id={a}
+                                style={
+                                  selectExpand === a
+                                    ? { fontWeight: "700", color: "#1E1E1E" }
+                                    : { fontWeight: "400", color: "#727272" }
+                                }
+                              >
+                                {a}%
+                              </S.PdfFocus>
+                            </S.PdfList>
+                          ))}
+                        </S.PdfOption>
+                      )}
+                    </S.PdfSizeWrapper> */}
           <S.FeedbackSelect onChange={handleSelect} disabled={link} >
             {opti &&
               opti.map((a) => {

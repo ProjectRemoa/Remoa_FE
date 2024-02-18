@@ -2,7 +2,14 @@ import styled from 'styled-components';
 
 export const S = {
   EachFeedWrapper: styled.div`
-  background-color: aliceblue;
+  padding: 0 28px;
+  overflow-x: hidden;
+  `,
+  Line: styled.div`
+    width: 428px;
+    height: 1px;
+    flex-shrink: 0;
+    background: var(--line, #E1E2E5);
   `,
   ProfileSize: styled.img`
     width: 40px;
@@ -12,26 +19,38 @@ export const S = {
   `,
   FeedWrapperHeader: styled.div`
     display: flex;
+    align-items: center;
+    width: 100%;
+    height: 78px;
   `,
-  FeedbackView: styled.div`
-  background-color: floralwhite;
+  FeedbackView: styled.pre`
+  color: var(--deepgray, #727272);
+  font-family: Pretendard;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 22.5px */
+  letter-spacing: -0.45px;
   height: auto;
-  font-size: 18px;
-  line-height: 22px;
-  text-align: left;
   width: 100%;
-  word-break: break-all
+  word-break: break-all;
+  margin-bottom: 11px;
   `,
-  HeaderButton: styled.button`
-    width: 80px;
-    height: 27px;
-    box-shadow: none;
-  `,
-  ThumbCount: styled.p`
-    display: inline;
-    color: black;
+  HeaderButton: styled.span`
+  cursor: pointer;
+    color: var(--gray, #A7A7A7);
     text-align: center;
-    position: relative;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.28px;
+  `,
+  Nbsp:styled.span`
+    color: var(--gray, #A7A7A7);
+    font-size: 14px;
+    font-weight: 500;
   `,
   ProfileName: styled.div`
     color: var(--black, #1E1E1E);
@@ -45,10 +64,9 @@ export const S = {
     position: relative;
   `,
   FeedWrapperButton: styled.div`
-    cursor: move;
     height: 26px;
     width: 72px;
-    margin-top: 12px;
+    margin-top: 20px;
     position: relative;
     display: flex;
     justify-content: center;

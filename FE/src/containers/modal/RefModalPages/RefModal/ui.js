@@ -105,10 +105,10 @@ export const S = {
     display: flex;
     height: 18px;
     flex-shrink: 0;
-    width: 145px;
+    width: 165px;
     justify-content: space-between;
     position: absolute;
-    right: 0;
+    right: 10px;
     top: 3px;
   `,
   eachIcon: styled.span`
@@ -158,6 +158,19 @@ export const S = {
     background-color: white;
     padding: 5% 0% 5% 0%;
     margin-left: 0.5%;
+    &::-webkit-scrollbar {
+      width: 18px;
+      height: 18px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background: var(--disabled-gray, #b0b0b0);
+    }
+
+    &::-webkit-scrollbar-track {
+      background: aliceblue;
+    }
   `,
   PdfSet: styled.div`
     height: 50px;

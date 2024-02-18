@@ -97,7 +97,7 @@ export default function ModalCommentList({
   };
 
   return (
-    <div style={{backgroundColor:'skyblue'}}>
+    <div style={{ backgroundColor: "skyblue" }}>
       {comments &&
         comments.map((comments, index) => (
           <S.AgainWrapper key={index}>
@@ -134,7 +134,9 @@ export default function ModalCommentList({
                         />
                       </div>
                     ) : (
-                      <S.Comment>{comments.comment}</S.Comment>
+                      <div style={{ position: "relative" }}>
+                        <S.Comment>{comments.comment}</S.Comment>
+                      </div>
                     )}
                   </td>
                 </tr>
