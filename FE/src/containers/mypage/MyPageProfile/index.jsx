@@ -131,7 +131,7 @@ function MyPageProfile() {
         setIdCheckMessage("중복된 닉네임이 존재합니다.");
         setIdCheckColor("#ff0101");
       } else {
-        setIdCheckMessage("사용가능한 닉네임입니다.");
+        setIdCheckMessage("사용 가능한 닉네임입니다.");
         setIdCheckColor("#0075ff");
       }
     } catch (err) {
@@ -191,14 +191,12 @@ function MyPageProfile() {
       oneLineIntroduction,
     };
 
-    // 닉네임 중복확인 안하고 넘어갈 때 수정완료 되는 문제 해결 시 코드 작업할 것
-
-    // if (!(nickname === sessionStorage.getItem("nickname"))) {
-    //   if (!idCheckMessage) {
-    //     alert("중복확인을 눌러주세요.");
-    //     return;
-    //   }
-    // }
+    if (!(nickname === sessionStorage.getItem("nickname"))) {
+      if (!idCheckMessage) {
+        alert("중복확인을 눌러주세요.");
+        return;
+      }
+    }
 
     if (!nickname || !university) {
       setEditMessageColor(false);
