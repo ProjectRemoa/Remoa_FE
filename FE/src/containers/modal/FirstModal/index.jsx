@@ -48,10 +48,7 @@ export default function FirstModal({ setModalOpen }) {
           </S.Howtable>
           </S.InfoDiv>
 
-          <S.ChangeProfile
-            style={{ cursor: 'pointer' }}
-            onClick={ onClickChange }
-          >
+          <S.ChangeProfile onClick={ onClickChange }>
             프로필 변경 바로가기
           </S.ChangeProfile>
           <S.Close

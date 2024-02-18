@@ -1,6 +1,6 @@
 import { S } from './ui';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import DetailFeedbackComment from '../DetailedFeedbackComment'
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -22,12 +22,21 @@ export default function DetaileFeedback({
   const navigate = useNavigate();
 
   const [contents, setContents] = useState('');
-
+  // const [timer, setTimer] = useState(null); // 디바운싱 구현
   const onChangeContents = (event) => {
-    setContents(event.target.value);
-    if(contents.length > 1000) setContents(contents.substr(0, 1000))
-  };
+    const inputValue = event.target.value;
+    if (inputValue.length > 300) {
+        setContents(inputValue.substring(0, 1000));
+        return;
+    }
+    setContents(inputValue);
+    // if (timer) clearTimeout(timer)
 
+    // const newTimer = setTimeout(() => {
+    //     setContents(inputValue);
+    // }, 500); 
+    // setTimer(newTimer);
+  };
   const [selected, setSelected] = useState(1);
 
   const handleSelect = (e) => {
@@ -101,18 +110,7 @@ export default function DetaileFeedback({
             <S.FeedbackText>피드백</S.FeedbackText>
             <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>
           </S.RegExplain>
-          <select
-            onChange={handleSelect}
-            style={{
-              width: "55px",
-              height: "32px",
-              borderRadius: "2px",
-              position: "relative",
-              bottom: "6px",
-              border: "1px solid var(--line, #E1E2E5)",
-            }}
-            disabled={link}
-          >
+          <S.FeedbackSelect onChange={handleSelect} disabled={link} >
             {opti &&
               opti.map((a) => {
                 return (
@@ -133,7 +131,7 @@ export default function DetaileFeedback({
               })}
 
             {/* 사진*/}
-          </select>
+          </S.FeedbackSelect>
           <S.FeedbackSend onClick={onSumbitHandler}>등록</S.FeedbackSend>
         </S.RegTop>
         <S.RegBottom>

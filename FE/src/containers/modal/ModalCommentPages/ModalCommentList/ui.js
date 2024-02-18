@@ -1,14 +1,14 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const S = {
   WriteInput: styled.textarea`
     width: 97%;
     height: auto;
     padding: 20px;
-    font-family: 'Inter';
+    font-family: "Inter";
     resize: none;
     border-radius: 8px;
-    border: 1px solid var(--gray, #A7A7A7);
+    border: 1px solid var(--gray, #a7a7a7);
     ::placeholder {
       color: var(--, #464646);
       font-size: 16px;
@@ -27,7 +27,7 @@ export const S = {
     left: 0;
   `,
   ProfileName: styled.div`
-    color: var(--black, #1E1E1E);
+    color: var(--black, #1e1e1e);
     font-size: 16px;
     font-weight: 700;
     letter-spacing: -0.32px;
@@ -40,22 +40,21 @@ export const S = {
     font-weight: 500;
     line-height: 150%;
     letter-spacing: -0.32px;
-font-family: Pretendard;
-font-style: normal;
+    font-family: Inter;
+    font-style: normal;
   `,
   EditButton: styled.div`
     position: absolute;
     right: 0px;
     top: 0px;
-    color: var(--gray, #A7A7A7);
+    color: var(--gray, #a7a7a7);
     font-size: 14px;
     font-weight: 500;
     letter-spacing: -0.28px;
     cursor: pointer;
-
   `,
   CommentTableBottom: styled.div`
-    color: var(--gray, #A7A7A7);
+    color: var(--gray, #a7a7a7);
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;
@@ -72,16 +71,17 @@ font-style: normal;
     position: absolute;
     right: 2%;
     border-radius: 16px;
-    border: 1px solid var(--line, #E1E2E5);
-    background: #FFF;
+    border: 1px solid var(--line, #e1e2e5);
+    background: #fff;
     width: 51px;
     height: 28px;
-    color: var(--gray, #A7A7A7);
+    color: var(--gray, #a7a7a7);
     font-weight: 500;
     line-height: 18px;
     letter-spacing: -0.28px;
     cursor: pointer;
     display: inline;
+    top: 80px;
   `,
   AgainWrapper: styled.div`
     width: 100%;

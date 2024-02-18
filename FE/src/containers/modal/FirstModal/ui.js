@@ -85,6 +85,7 @@ export const S = {
     background: #FADA5E;
     color: var(--black, #1E1E1E);
     text-align: center;
+    cursor: pointer;
     /* button */
     font-family: Pretendard;
     font-size: 16px;

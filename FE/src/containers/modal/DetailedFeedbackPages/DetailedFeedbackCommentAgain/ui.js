@@ -11,6 +11,9 @@ export const S = {
     width: 80px;
     height: 27px;
     box-shadow: none;
+    color: 'black';
+    top: '-3px';
+    position: 'relative'
   `,
   ThumbCount: styled.p`
     display: inline;

@@ -34,20 +34,20 @@ export const S = {
     display: inline;
   `,
   CloseButton: styled.div`
-  cursor: pointer;
-  display: inline-flex;
-padding: 12px 22px;
-justify-content: center;
-align-items: center;
-gap: 8px;
-  border-radius: 8px;
-background: var(--loyal-yellow, #FADA5E);
+    cursor: pointer;
+    display: inline-flex;
+    padding: 12px 22px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    background: var(--loyal-yellow, #FADA5E);
   `,
   Nickname: styled.div`
-  display: flex;
+    display: flex;
     color: var(--black, #1E1E1E);
-font-size: 16px;
-font-weight: 700;
-letter-spacing: -0.32px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.32px;
   `
 }

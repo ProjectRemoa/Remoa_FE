@@ -22,11 +22,10 @@ import SignUpPage from './page/SignUpPage';
 import KakaoLogin from './containers/sociallogin/KakaoLogin/index.jsx';
 import AuthLayout from './layout/AuthLayout';
 
+
 function App() {
   return (
     <>
-      <Meta />
-
       <ScrollToTop />
       <Routes>
         <Route path="/login" element={<SocialLoginPage />} />

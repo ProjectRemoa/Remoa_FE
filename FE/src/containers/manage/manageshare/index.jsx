@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
+import { useLocation } from 'react-router-dom';
 import S from './ManageShareContainer.styles'
 import { useRecoilState } from "recoil";
 import { editState } from "../../../state/editState";
@@ -234,6 +235,14 @@ function ManageShareContainer() {
         alert("통신 오류");
       });
   };
+
+  const location = useLocation();
+
+  useEffect(() => { // 수정 페이지에서 이탈 시에 실행
+    if (!location.pathname.includes(`/manage/put`)) {
+      setIsEdit(false)
+    }
+  }, [location.pathname])
 
   return (
     <S.ManageShareContainer>

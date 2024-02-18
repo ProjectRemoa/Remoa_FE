@@ -36,7 +36,7 @@ function RefModalFollow({ member, location }) {
     }
 
     try {
-      const response = await axios.post(`/BE/follow/${member.memberId}`);
+      await axios.post(`/BE/follow/${member.memberId}`);
       refetchFollowData();
       setIsFollowing(!isFollowing);
     } catch (error) {
@@ -50,7 +50,6 @@ function RefModalFollow({ member, location }) {
         navigate('/sociallogin');
       }
       console.log(error);
-
       return error;
     }
   };
