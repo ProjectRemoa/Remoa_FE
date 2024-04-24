@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 export const S = {
+  Differentiate: styled.div`
+    width: 100%;
+    height: 1px;
+    background: var(--line, #E1E2E5);
+  `,
   WriteInput: styled.textarea`
     width: 97%;
     height: auto;
@@ -69,22 +74,6 @@ export const S = {
     height: 27px;
     box-shadow: none;
     float: right;
-  `,
-  ThumbCount: styled.button`
-    position: absolute;
-    right: 2%;
-    border-radius: 16px;
-    border: 1px solid var(--line, #e1e2e5);
-    background: #fff;
-    width: 51px;
-    height: 28px;
-    color: var(--gray, #a7a7a7);
-    font-weight: 500;
-    line-height: 18px;
-    letter-spacing: -0.28px;
-    cursor: pointer;
-    display: inline;
-    top: 80px;
   `,
   AgainWrapper: styled.div`
     width: 100%;

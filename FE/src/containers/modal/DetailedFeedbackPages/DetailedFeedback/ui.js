@@ -13,12 +13,14 @@ export const S = {
     background: #fff;
     box-shadow: 0px 0px 4px 0px rgba(63, 63, 63, 0.18);
   `,
-  FeedbackSelect: styled.select`
+  FeedbackSelect: styled.div`
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
     width: 55px;
     height: 32px;
     border-radius: 2px;
     position: relative;
-    bottom: 6px;
     border: 1px solid var(--line, #e1e2e5);
   `,
   ModalHeader: styled.div`
@@ -65,6 +67,10 @@ export const S = {
     display: flex;
     box-sizing: border-box;
     padding: 12px 28px;
+    & > *:last-child {
+      position: absolute;
+      left: 383px;
+  }
   `,
   RegExplain: styled.span`
     line-height: 24px;
@@ -72,6 +78,8 @@ export const S = {
   RegBottom: styled.div`
     width: 100%;
     height: auto;
+    display: flex;
+    justify-content: center;
   `,
   WriteInput: styled.textarea`
     width: 428px;
@@ -125,5 +133,24 @@ export const S = {
 
     &::-webkit-scrollbar-track {
     }
+  `,
+  SelectWrapper: styled.div`
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    position: absolute;
+    padding: 4px;
+    text-align: center;
+    gap: 4px;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    border-radius: 2px;
+    border: 1px solid var(--line, #e1e2e5);
+    background: #fff;
+    box-shadow: 0px 0px 4px 0px rgba(63, 63, 63, 0.18);
+    top: 50px;
+    left: 176px;
   `,
 };

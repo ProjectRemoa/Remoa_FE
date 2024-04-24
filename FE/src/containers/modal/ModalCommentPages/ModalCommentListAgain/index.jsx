@@ -2,6 +2,8 @@ import axios from "axios";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import { S } from "./ui";
 import { S as SS } from "../ModalCommentList/ui";
+import { B } from "../../../../styles/Button";
+import { BsFillHandThumbsUpFill } from "react-icons/bs";
 
 export default function ModalCommentListAgain({
   replies,
@@ -34,56 +36,49 @@ export default function ModalCommentListAgain({
         replies.map((replies) => (
           <S.Parent>
             <div
-              style={{ gridArea: "1 / 1 / 2 / 2", justifyContent: "center", display:'flex' }}>
+              style={{
+                gridArea: "1 / 1 / 2 / 2",
+                justifyContent: "center",
+                display: "flex",
+              }}
+            >
               <MdOutlineSubdirectoryArrowRight style={{ fontSize: "23px" }} />
             </div>
             <div style={{ gridArea: "1 / 2 / 2 / 3" }}>
-            <SS.ProfileSize src={replies.member.profileImage} style={{ position:'relative' }} alt='프로필 이미지' />
+              <SS.ProfileSize
+                src={replies.member.profileImage}
+                style={{ position: "relative" }}
+                alt=""
+              />
             </div>
-            <div style={{ gridArea: "1 / 3 / 2 / 4", paddingLeft:'12px'}}>
-              {replies.member.nickname}
-              <br />
-              <S.Nickname>{replies.content}</S.Nickname>
+            <div
+              style={{
+                gridArea: "1 / 3 / 2 / 4",
+                paddingLeft: "12px",
+              }}
+            >
+              <S.Nickname>{replies.member.nickname}</S.Nickname>
+              <S.Content>{replies.content}</S.Content>
             </div>
             <div style={{ gridArea: "2 / 1 / 3 / 2" }}></div>
             <div style={{ gridArea: "2 / 2 / 3 / 3" }}></div>
-            <div style={{ gridArea: "2 / 3 / 3 / 4", paddingLeft:'12px' }}>
-              답글 | 수정하기 | 삭제하기
+            <div
+              style={{
+                gridArea: "2 / 3 / 3 / 4",
+                paddingLeft: "12px",
+              }}
+            >
+              {replies.member.nickname ===
+                sessionStorage.getItem("nickname") && (
+                <S.Edit>수정하기 &nbsp;|&nbsp; 삭제하기</S.Edit>
+              )}
+              <B.LikeButton
+                style={{ top: "-22px", position: "relative", left: "1136px" }}
+              >
+                <BsFillHandThumbsUpFill />0
+              </B.LikeButton>
             </div>
           </S.Parent>
-          // <div>
-          //   <S.Differentiate />
-          //   <table style={{ display: "inherit" }}>
-          //     <tr>
-          //       <td
-          //         rowSpan="2"
-          //         style={{
-          //           width: "52px",
-          //           display: "flex",
-          //           justifyContent: "center",
-          //         }}
-          //       >
-          //         <MdOutlineSubdirectoryArrowRight
-          //           style={{ fontSize: "23px" }}
-          //         />
-          //       </td>
-          //       <td rowSpan="2">
-          //         <SS.ProfileSize
-          //           src={replies.member.profileImage}
-          //           style={{ position: "relative" }}
-          //         />
-          //       </td>
-          //       <td style={{ width: "auto" }}>{replies.member.nickname}</td>
-          //     </tr>
-          //     <tr>
-          //       <td>
-          //         <S.Nickname>{replies.content}</S.Nickname>
-          //       </td>
-          //     </tr>
-          //   </table>
-          //   <span>대댓글 좋아요 {replies.likeCount}</span>
-          //   <button onClick={onDelete}>삭제</button>
-          // </div>
         ))}
     </>
   );

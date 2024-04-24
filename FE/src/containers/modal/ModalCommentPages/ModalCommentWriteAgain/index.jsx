@@ -75,7 +75,6 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
 
   return (
     <div style={{display: openWriteAgain === id ? "block" : "none"}}>
-      <S.Differentiate />  
       <table>
         <tr>
           <td rowSpan="2">
@@ -101,7 +100,6 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
           </td>
         </tr>
       </table>
-      <S.Differentiate />
     </div>
   )
 }

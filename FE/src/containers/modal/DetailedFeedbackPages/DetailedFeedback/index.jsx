@@ -1,9 +1,12 @@
-import { S } from './ui';
-import axios from 'axios';
-import React, { useState } from 'react';
-import DetailFeedbackComment from '../DetailedFeedbackComment'
-import { useNavigate } from 'react-router-dom';
-import { AiOutlineClose } from 'react-icons/ai';
+import { S } from "./ui";
+import axios from "axios";
+import React, { useState } from "react";
+import DetailFeedbackComment from "../DetailedFeedbackComment";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineClose } from "react-icons/ai";
+import btnStyle from "../../../../layout/Button.module.css";
+import { FaCaretDown } from "react-icons/fa";
+import { useEffect } from "react";
 
 export default function DetaileFeedback({
   id3,
@@ -14,27 +17,27 @@ export default function DetaileFeedback({
   link,
   feedbacks,
   setFeedback,
-  isFromManage
+  isFromManage,
 }) {
   feedbacks.sort((a, b) => {
-    return  new Date(a.feedbackTime)-new Date(b.feedbackTime);
+    return new Date(a.feedbackTime) - new Date(b.feedbackTime);
   });
   const navigate = useNavigate();
 
-  const [contents, setContents] = useState('');
+  const [contents, setContents] = useState("");
   // const [timer, setTimer] = useState(null); // 디바운싱 구현
   const onChangeContents = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length > 300) {
-        setContents(inputValue.substring(0, 1000));
-        return;
+      setContents(inputValue.substring(0, 1000));
+      return;
     }
     setContents(inputValue);
     // if (timer) clearTimeout(timer)
 
     // const newTimer = setTimeout(() => {
     //     setContents(inputValue);
-    // }, 500); 
+    // }, 500);
     // setTimer(newTimer);
   };
   const [selected, setSelected] = useState(1);
@@ -47,39 +50,57 @@ export default function DetaileFeedback({
   const pageCount = Array.from({ length: media.length }, (v, i) => i + 1);
 
   const onSumbitHandler = (e) => {
-    if (sessionStorage.getItem('nickname') === null) {
-      alert('로그인이 필요한 서비스입니다.');
-      navigate('/sociallogin');
-    } else if (sessionStorage.getItem('nickname') === ''){
-      
+    if (sessionStorage.getItem("nickname") === null) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/sociallogin");
+    } else if (sessionStorage.getItem("nickname") === "") {
     } else {
-      e.preventDefault();
-      const UploaSeedback = {
-        feedback: contents,
-      };
-      axios
-        .post(`/BE/reference/${id3}/${selected}`, UploaSeedback)
-        .then((response) => {
-          console.log(response);
-          alert('댓글 등록이 완료되었습니다.');
+      if (pagesArray.includes(selected)) {
+        alert("이미 해당 페이지 등록하셨습니다.")
+      } else {
+        e.preventDefault();
+        if (!contents) return alert("내용이 비어있습니다.")
+        const UploaSeedback = {
+          feedback: contents,
+        };
+        axios
+          .post(`/BE/reference/${id3}/${selected}`, UploaSeedback)
+          .then((response) => {
+            console.log(response);
+            alert("댓글 등록이 완료되었습니다.");
+            // 새로운 피드백 배열
+            setFeedback(response.data.data);
 
-           // 새로운 피드백 배열
-          setFeedback(response.data.data);
-        })
-        .catch((err) => {
-          alert('통신 오류');
-          console.log(err);
-        });
+            const newItems = [...pagesArray];
+            newItems.push(selected);
+            setPagesArray(newItems);
+          })
+          .catch((err) => {
+            alert("통신 오류");
+            console.log(err);
+          });
+          // 입력된 피드백 초기화
+        setContents("");
+        
+      }
     }
-
-    // 입력된 피드백 초기화
-    setContents('');
   };
+
+  const [expandModalOpenDelete, setExpandModalOpenDelete] = useState(false);
+  // 모달창 노출
+  const showExpandModalDelete = () => {
+    setExpandModalOpenDelete(!expandModalOpenDelete);
+  };
+
+  const [pagesArray,setPagesArray] = useState([])
+  useEffect(()=>{
+    setPagesArray(feedbacks.map((feedback) => feedback.page))
+  },[feedbacks])
 
   return (
     <S.ModalWrapper
       state={isFromManage}
-      style={{display: modalVisibleId3 !== id3 && 'none'}}
+      style={{ display: modalVisibleId3 !== id3 && "none" }}
     >
       <S.ModalHeader>
         <S.HeaderText>상세 피드백 뷰어</S.HeaderText>
@@ -87,11 +108,13 @@ export default function DetaileFeedback({
           onClick={() => {
             setModalVisibleId3("");
           }}
-          style={{ fontSize: '24px',
-          cursor: 'pointer',
-          display: 'block',
-          position: 'absolute',
-          left: '432px'}}
+          style={{
+            fontSize: "24px",
+            cursor: "pointer",
+            display: "block",
+            position: "absolute",
+            left: "432px",
+          }}
         />
       </S.ModalHeader>
 
@@ -100,8 +123,7 @@ export default function DetaileFeedback({
           link={link}
           feedbacks={feedbacks}
           setFeedback={setFeedback}
-          id={id3}
-        />
+          id={id3}/>
       </S.Feedback>
 
       <S.ModalWriteFeed>
@@ -110,62 +132,72 @@ export default function DetaileFeedback({
             <S.FeedbackText>피드백</S.FeedbackText>
             <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>
           </S.RegExplain>
-          {/* <S.PdfSizeWrapper>
-                      페이지 배율 &nbsp;&nbsp;&nbsp;&nbsp;
-                      <S.PdfSelect>
-                        <S.PdfViewText>{selectExpand}%&nbsp;</S.PdfViewText>
-                        <FaCaretDown
-                          onClick={showExpandModalDelete}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </S.PdfSelect>
-                      {expandModalOpenDelete && (
-                        <S.PdfOption>
-                          {[50, 75, 100, 125, 150].map((a) => (
-                            <S.PdfList>
-                              <S.PdfFocus
-                                class="list"
-                                onClick={() => {
-                                  onChangeExpand(a);
-                                  onChangePlus(a);
-                                }}
-                                id={a}
-                                style={
-                                  selectExpand === a
-                                    ? { fontWeight: "700", color: "#1E1E1E" }
-                                    : { fontWeight: "400", color: "#727272" }
-                                }
-                              >
-                                {a}%
-                              </S.PdfFocus>
-                            </S.PdfList>
-                          ))}
-                        </S.PdfOption>
-                      )}
-                    </S.PdfSizeWrapper> */}
-          <S.FeedbackSelect onChange={handleSelect} disabled={link} >
-            {opti &&
-              opti.map((a) => {
-                return (
-                  <option value={a} key={a}>
-                    {a}
-                  </option>
-                );
-              })}
-
-            {/* pdf  */}
-            {pageCount &&
-              pageCount.map((a) => {
-                return (
-                  <option value={a} key={a}>
-                    {a}
-                  </option>
-                );
-              })}
-
-            {/* 사진*/}
+          <S.FeedbackSelect
+            onChange={handleSelect}
+            disabled={link}
+            style={{ left: "10px", alignItems: "center" }}
+          >
+            {selected}
+            {selected && (
+              <FaCaretDown
+                style={{ marginLeft: "5px" }}
+                onClick={showExpandModalDelete}
+              />
+            )}
           </S.FeedbackSelect>
-          <S.FeedbackSend onClick={onSumbitHandler}>등록</S.FeedbackSend>
+
+          {expandModalOpenDelete && opti && (
+            <S.SelectWrapper>
+              {opti.map((a) => (
+                <S.FeedbackSelect
+                  key={a}
+                  style={{
+                    width: "46px",
+                    height: "24px",
+                    border: "none",
+                    bottom: 0,
+                    color: selected === a ? "#1E1E1E" : "#727272",
+                    fontWeight: selected === a ? 700 : 500,
+                  }}
+                  onClick={() => setSelected(a)}
+                >
+                  {a}
+                </S.FeedbackSelect>
+              ))}
+            </S.SelectWrapper>
+          )}
+
+          {/* pdf  */}
+          {expandModalOpenDelete && pageCount && (
+            <S.SelectWrapper>
+              {pageCount.map((a) => (
+                <S.FeedbackSelect
+                  key={a}
+                  style={{
+                    width: "46px",
+                    height: "24px",
+                    border: "none",
+                    bottom: 0,
+                    color: selected === a ? "#1E1E1E" : "#727272",
+                    fontWeight: selected === a ? 700 : 500,
+                  }}
+                  onClick={() => setSelected(a)}
+                >
+                  {a}
+                </S.FeedbackSelect>
+              ))}
+            </S.SelectWrapper>
+          )}
+
+          {/* 사진*/}
+
+          <button
+            className={btnStyle.yellow}
+            onClick={onSumbitHandler}
+            style={{ width: "72px", height: "43px", right: 0, fontWeight: 600 }}
+          >
+            등록
+          </button>
         </S.RegTop>
         <S.RegBottom>
           <S.WriteInput
@@ -178,4 +210,4 @@ export default function DetaileFeedback({
       </S.ModalWriteFeed>
     </S.ModalWrapper>
   );
-};
+}

@@ -1,6 +1,7 @@
 import { S } from "./ui";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
 import React, { useState } from "react";
+import { B } from "../../../../styles/Button";
 import axios from "axios";
 import ModalCommentWriteAgain from "../ModalCommentWriteAgain";
 import ModalCommentListAgain from "../ModalCommentListAgain";
@@ -97,7 +98,7 @@ export default function ModalCommentList({
   };
 
   return (
-    <div style={{ backgroundColor: "skyblue" }}>
+    <div>
       {comments &&
         comments.map((comments, index) => (
           <S.AgainWrapper key={index}>
@@ -175,18 +176,23 @@ export default function ModalCommentList({
                             </div>
                           </>
                         )}
-                        <S.ThumbCount
+                        <B.LikeButton
+                          style={{
+                            left: "1035px",
+                            position: "relative",
+                          }}
                           onClick={() => onClickThumb(comments.commentId)}
                         >
                           <BsFillHandThumbsUpFill />
                           <span>{comments.likeCount}</span>
-                        </S.ThumbCount>
+                        </B.LikeButton>
                       </S.CommentTableBottom>
                     )}
                   </td>
                 </tr>
               </tbody>
             </S.AgainTable>
+            <S.Differentiate style={{ margin: "20px 0px" }} />
             <ModalCommentWriteAgain
               openWriteAgain={openWriteAgain}
               setOpenWriteAgain={setOpenWriteAgain}
