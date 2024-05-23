@@ -9,14 +9,9 @@ function KakaoLogin() {
 
   const sendToken = () => {
     // back에 인가 코드 보내기
-    console.log("인가코드 : " + sessionStorage.getItem("kakao"));
-    console.log("=============================");
-    // url이 자동으로 인코딩되지 않아 encodeURI 함수 사용
-    // BE 측에서 CORS 설정하면 withCredentials 설정 안해도 ok
     axios
-      .get(`/BE/login/kakao?code=` + encodeURI(code))
+      .get(`/BE/login/kakao?code=${code}`)
       .then((res) => {
-        console.log(res);
         // 성공
         if (res.status === 201) {
           // 201 : 회원가입
@@ -28,7 +23,8 @@ function KakaoLogin() {
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인
-          sessionStorage.setItem("nickname", res.data.data);
+          sessionStorage.setItem("nickname", res.data.data.nickname);
+          sessionStorage.setItem("token", res.data.data.token);
           alert("환영합니다! " + sessionStorage.getItem("nickname") + "님!");
           navigate("/");
         }
@@ -45,7 +41,7 @@ function KakaoLogin() {
   useEffect(() => {
     sendToken();
   }, []);
-  
+
   return <div></div>;
 }
 
