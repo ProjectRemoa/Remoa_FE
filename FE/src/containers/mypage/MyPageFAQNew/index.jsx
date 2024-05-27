@@ -13,6 +13,8 @@ const {
   SubmitButton,
 } = styledComponent;
 
+const token = sessionStorage.getItem("token");
+
 function MyPageFAQNew() {
   const navigate = useNavigate();
   const { category } = useParams();
@@ -31,10 +33,14 @@ function MyPageFAQNew() {
 
   const handleSubmit = async () => {
     try {
-      await axios.post(`/BE/${category}`, {
-        title,
-        content,
-      });
+      await axios.post(
+        `/BE/${category}`,
+        {
+          title,
+          content,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       alert(`${type}에 글이 등록되었습니다!`);
       navigate("/mypage/faq");
     } catch (err) {
