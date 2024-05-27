@@ -10,6 +10,7 @@ export default function DetailFeedbackComment({
   setFeedback,
   id,
 }) {
+  const token = sessionStorage.getItem("token");
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
 
@@ -52,7 +53,13 @@ export default function DetailFeedbackComment({
 
   useEffect(() => {
     axios
-      .get(`/BE/reference/${id}`)
+      .get(`/BE/reference/${id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+        }
+      })
       .then((res) => {
         console.log(res);
         setFeedback(res.data.data.feedbacks);
@@ -71,7 +78,13 @@ export default function DetailFeedbackComment({
       alert("내용이 수정되지 않았습니다.");
     } else {
       axios
-        .put(`/BE/reference/feedback/${feedback_id}`, UploadComment)
+        .put(`/BE/reference/feedback/${feedback_id}`, UploadComment,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+          }
+        })
         .then((response) => {
           console.log(response);
           setFeedback(response.data.data);
@@ -86,7 +99,13 @@ export default function DetailFeedbackComment({
 
   const onClickDelete = (feedback_id) => {
     axios
-      .delete(`/BE/reference/feedback/${feedback_id}`)
+      .delete(`/BE/reference/feedback/${feedback_id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+        }
+      })
       .then((response) => {
         console.log(response);
         setFeedback(response.data.data);

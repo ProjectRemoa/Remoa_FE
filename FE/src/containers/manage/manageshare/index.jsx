@@ -219,12 +219,11 @@ function ManageShareContainer() {
     Object.values(uploads).forEach((file) => formdata.append("file", file));
 
     axios.defaults.withCredentials = true;
-
+    const token = sessionStorage.getItem("token");
     axios
       .post("/BE/reference", formdata, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      })
+        headers: { "Content-Type": "multipart/form-data",
+        'Authorization': `Bearer ${token}` }, withCredentials: true})
       .then((response) => {
         if (response.status === 200) {
           alert("정상 등록되었습니다.");

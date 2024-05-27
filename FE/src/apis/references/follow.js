@@ -7,7 +7,6 @@ import axios from 'axios';
 export const fetchFollowData = async (memberId) => {
   try {
     console.log('팔로우 데이터 조회 시작');
-
     const response = await axios.get(`/BE/follow/${memberId}`);
     console.log('팔로우 데이터 조회 성공', response.data);
     return response.data.data;

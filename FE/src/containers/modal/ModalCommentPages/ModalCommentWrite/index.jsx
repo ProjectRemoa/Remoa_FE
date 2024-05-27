@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 export default function ModalCommentWrite({ postId, setComments }) {
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
   const [contents, setContents] = useState("");
   // const [timer, setTimer] = useState(null); // 디바운싱 구현
@@ -33,7 +34,13 @@ export default function ModalCommentWrite({ postId, setComments }) {
         comment: contents,
       };
       axios
-        .post(`/BE/reference/${postId}/comment`, UploadComment)
+        .post(`/BE/reference/${postId}/comment`, UploadComment,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+          }
+        })
         .then((response) => {
           console.log(response);
           setComments(response.data.data);

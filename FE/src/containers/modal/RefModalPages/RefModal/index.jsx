@@ -32,7 +32,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 export default function RefModal({ id2, setModalVisibleId2 }) {
   const Navigate = useNavigate();
   const queryClient = useQueryClient();
-
+  const token = sessionStorage.getItem("token");
   const [loading, setLoading] = useState(true);
 
   const [top, setTop] = useState({
@@ -75,7 +75,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     const endpoint = `/BE/reference/${id2}`;
 
     axios
-      .get(endpoint)
+      .get(endpoint,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+          }
+        })
       .then((res) => {
         const data = res.data.data;
 
@@ -164,26 +170,37 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   const handleLike = () => {
     const userNickname = sessionStorage.getItem("nickname");
+
     if (userNickname === null) {
       alert("로그인이 필요한 서비스입니다.");
       Navigate("/sociallogin");
+      return; // 로그인이 필요한 경우 이후 코드가 실행되지 않도록 return 추가
     }
     if (postMember.nickname === userNickname) {
       alert("내 작품에는 불가능합니다.");
       return;
     }
-
+  
     axios
-      .post(`/BE/reference/${id2}/like`)
+      .post(
+        `/BE/reference/${id2}/like`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+          }
+        }
+      )
       .then((res) => {
         const { likeCount } = res.data.data;
-
+  
         setTop((prevTop) => ({
           ...prevTop,
           likeCount,
         }));
         setLikeBoolean((prevLikeBoolean) => !prevLikeBoolean);
-
+  
         queryClient.invalidateQueries("references", { refetchActive: true });
       })
       .catch((err) => {
@@ -204,7 +221,14 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       return;
     }
     axios
-      .post(`/BE/reference/${id2}/scrap`)
+      .post(`/BE/reference/${id2}/scrap`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+        }
+      })
       .then((res) => {
         console.log(res);
         const { scrapCount, isScraped } = res.data.data;
@@ -253,7 +277,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   // 레퍼런스 삭제
   const onDelete = () => {
     axios
-      .delete(`/BE/user/reference/${id2}`)
+      .delete(`/BE/user/reference/${id2}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+        }
+      })
       .then((response) => {
         window.location.reload();
         Navigate("/manage/list");
@@ -266,13 +296,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   // 레퍼런스 수정
   const [isEdit, setIsEdit] = useRecoilState(editState);
   const onClickPut = () => {
-    if (
+      // setIsEdit(true);
       window.confirm("레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다.")
-    ) {
-      setIsEdit(true);
-      Navigate(`/manage/put/${id2}`);
-    } else {
-    }
+      // Navigate(`/manage/put/${id2}`);
   };
 
   // 페이지 제대로 입력되었는가 확인하기

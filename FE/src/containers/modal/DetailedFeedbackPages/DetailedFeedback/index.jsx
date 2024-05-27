@@ -19,6 +19,7 @@ export default function DetaileFeedback({
   setFeedback,
   isFromManage,
 }) {
+  const token = sessionStorage.getItem("token");
   feedbacks.sort((a, b) => {
     return new Date(a.feedbackTime) - new Date(b.feedbackTime);
   });
@@ -64,7 +65,12 @@ export default function DetaileFeedback({
           feedback: contents,
         };
         axios
-          .post(`/BE/reference/${id3}/${selected}`, UploaSeedback)
+          .post(`/BE/reference/${id3}/${selected}`, UploaSeedback        ,{
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
+            }
+          })
           .then((response) => {
             console.log(response);
             alert("댓글 등록이 완료되었습니다.");

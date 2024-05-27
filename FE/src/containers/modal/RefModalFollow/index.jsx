@@ -23,7 +23,7 @@ function RefModalFollow({ member, location }) {
 
   const { followData, refetchFollowData } = useFollowData(member.memberId);
   const [isFollowing, setIsFollowing] = useState(member.isFollow);
-
+  console.log(followData)
   const onClickMemberFeed = (memberId) => {
     navigate(`/user/list/${memberId}`);
   };
