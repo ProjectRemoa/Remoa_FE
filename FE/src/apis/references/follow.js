@@ -1,14 +1,21 @@
-import { useRecoilState } from 'recoil';
-import { followState, followStateLoading } from '../../state/followState';
-import { useQuery } from 'react-query';
-import { useEffect } from 'react';
-import axios from 'axios';
+import { useRecoilState } from "recoil";
+import { followState, followStateLoading } from "../../state/followState";
+import { useQuery } from "react-query";
+import { useEffect } from "react";
+import axios from "axios";
+
+const token = sessionStorage.getItem("token");
 
 export const fetchFollowData = async (memberId) => {
   try {
-    console.log('팔로우 데이터 조회 시작');
-    const response = await axios.get(`/BE/follow/${memberId}`);
-    console.log('팔로우 데이터 조회 성공', response.data);
+    console.log("팔로우 데이터 조회 시작");
+
+    const response = await axios.get(`/BE/follow/${memberId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("팔로우 데이터 조회 성공", response.data);
     return response.data.data;
   } catch (error) {
     console.log(error);
@@ -22,7 +29,7 @@ export const useFollowData = (memberId) => {
     useRecoilState(followStateLoading);
 
   const query = useQuery(
-    ['follow', memberId],
+    ["follow", memberId],
     () => fetchFollowData(memberId),
     {
       refetchOnWindowFocus: false,
