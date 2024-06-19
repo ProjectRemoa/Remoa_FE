@@ -1,4 +1,4 @@
-import { S } from "./ui";
+import { S } from "./DetailedFeedback.styles";
 import axios from "axios";
 import React, { useState } from "react";
 import DetailFeedbackComment from "../DetailedFeedbackComment";
@@ -24,9 +24,8 @@ export default function DetaileFeedback({
     return new Date(a.feedbackTime) - new Date(b.feedbackTime);
   });
   const navigate = useNavigate();
-
   const [contents, setContents] = useState("");
-  // const [timer, setTimer] = useState(null); // 디바운싱 구현
+
   const onChangeContents = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length > 300) {
@@ -34,12 +33,6 @@ export default function DetaileFeedback({
       return;
     }
     setContents(inputValue);
-    // if (timer) clearTimeout(timer)
-
-    // const newTimer = setTimeout(() => {
-    //     setContents(inputValue);
-    // }, 500);
-    // setTimer(newTimer);
   };
   const [selected, setSelected] = useState(1);
 

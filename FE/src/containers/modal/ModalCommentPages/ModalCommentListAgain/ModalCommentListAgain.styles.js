@@ -44,5 +44,6 @@ export const S = {
     font-weight: 500;
     line-height: normal;
     letter-spacing: -0.28px;
+    cursor: pointer;
   `,
 };

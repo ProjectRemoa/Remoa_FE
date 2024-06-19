@@ -1,12 +1,11 @@
-import axios from 'axios'
-import { S } from './ui';
+import { S } from './ModalCommentWriteAgain.styles';
 import { useState, useEffect } from 'react';
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
-import { S as SS } from '../ModalCommentList/ui'
-import { useNavigate } from 'react-router-dom';
+import { S as SS } from '../ModalCommentList/ModalCommentList.styles'
+import { postCommentAgain } from '../../../../apis/modal/commentAgain';
+import { getUserInfo, imsi } from '../../../../apis/mypage/user';
 
-export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWriteAgain,comments,postId,  setAgainComments, againComments }) {
-  const navigate = useNavigate();
+export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWriteAgain,comments,postId,  setAgainComments }) {
   const [contents, setContents] = useState('');
   const onChangeContents = (event) => {
     const inputValue = event.target.value;
@@ -17,30 +16,17 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
     setContents(inputValue)
   };
 
-  const onSumbitHandler = (e) => {
-    if (sessionStorage.getItem('nickname') === null) {
-      alert('로그인이 필요한 서비스입니다.');
-      navigate('/sociallogin');
-    }
+  const onSumbitHandler = async (e) => {
+    e.preventDefault();
     if (contents) {
-      e.preventDefault();
-      const UploadComment = {
-        comment:contents,
-      };
-      axios
-        .post(`/BE/reference/${postId}/comment/${comments.commentId}`, UploadComment)
-        .then((response) => {
-          console.log(response);
-          setAgainComments(response.data.data.replies);
-          alert('대댓글 등록이 완료되었습니다.');
-        })
-        .catch((err) => {
-          alert('통신 오류');
-          console.log(err);
-        });
+      try {
+        const response = await postCommentAgain(postId, comments.commentId,{Comment:contents})
+        setAgainComments(response.data.replies);
+      } catch (err) {
+        console.log(err);
+      }
     } else {
-      e.preventDefault()
-      alert('내용을 입력하세요!')
+      alert('내용을 입력하세요!');
     }
     setContents('');
   };
@@ -48,24 +34,16 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
   const onCloseHandler = () => { setOpenWriteAgain("") }
 
   const getProfile = async () => {
-    try {
-      const res = await axios.get("/BE/user", { withCredentials: true });
-      if (res.status === 200) setUserData(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
+    const res = await getUserInfo()
+    setUserData(res.data.nickname);
   };
 
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState('');
   const [profileImage, setProfileImage] = useState("");
 
   const getProfileImg = async () => {
-    try {
-      const res = await axios.get("/BE/user/img");
-      if (res.status === 200) setProfileImage(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
+    const res = await imsi();
+    setProfileImage(res.data);
   };
 
   useEffect(() => {
@@ -77,19 +55,17 @@ export default function ModalCommentWriteAgain({id, openWriteAgain, setOpenWrite
     <div style={{display: openWriteAgain === id ? "block" : "none"}}>
       <table>
         <tr>
-          <td rowSpan="2">
+          <td rowSpan="2"  style={{border:'1px solid red'}}>
             <MdOutlineSubdirectoryArrowRight style={{ fontSize: '23px' }} />
 
           </td>
-          <td rowSpan="2">
+          <td rowSpan="2"  style={{border:'1px solid red'}}>
           <SS.ProfileSize src={profileImage} style={{position:'relative'}} />
-          </td>
-          <td>
           </td>
         </tr>
         <tr>
-          <td style={{position:'relative', left:'40px'}}>
-          <S.Nickname>{userData.nickname}</S.Nickname>
+          <td style={{position:'relative', border:'1px solid red'}}>
+          <S.Nickname>{userData}</S.Nickname>
           <S.WriteInput wrap="hard" onChange={onChangeContents} value={contents} 
           placeholder='해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
           욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다.' />

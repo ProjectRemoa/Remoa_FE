@@ -36,7 +36,7 @@ export const S = {
     font-size: 16px;
     font-weight: 700;
     letter-spacing: -0.32px;
-    margin-left: 12px;
+    margin-left: 8px;
     top: 0px;
   `,
   Comment: styled.pre`
@@ -53,7 +53,7 @@ export const S = {
   `,
   EditButton: styled.div`
     position: absolute;
-    right: 0px;
+    right: 22px;
     top: 0px;
     color: var(--gray, #a7a7a7);
     font-size: 14px;

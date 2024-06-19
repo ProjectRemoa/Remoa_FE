@@ -1,4 +1,4 @@
-import { S } from '../../ModalCommentPages/ModalCommentWrite/ui';
+import { S } from '../../ModalCommentPages/ModalCommentWrite/ModalCommentWrite.styles';
 import ModalCommentList from '../../ModalCommentPages/ModalCommentList';
 import ModalCommentWrite from '../../ModalCommentPages/ModalCommentWrite';
 import React from 'react';

@@ -1,16 +1,11 @@
 import Loading from "../../../../styles/Loading";
-import { S } from "./ui";
+import { S } from "./RefModal.styles";
 import React, { useEffect, useState, useRef } from "react";
-import { AiOutlineLeft } from "react-icons/ai";
-import axios from "axios";
 import { getDate } from "../../../../functions/getDate";
 import { useNavigate } from "react-router-dom";
 import RefModalComment from "../RefModalComment";
-import { AiTwotoneEye } from "react-icons/ai";
-import { AiFillHeart } from "react-icons/ai";
-import { BsFillBookmarkFill } from "react-icons/bs";
-import { BsBookmark } from "react-icons/bs";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { AiTwotoneEye, AiFillHeart, AiOutlineLeft } from "react-icons/ai";
+import { BsFillBookmarkFill, BsBookmark, BsThreeDotsVertical } from "react-icons/bs";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import YouTube from "react-youtube";
@@ -27,12 +22,14 @@ import ModalScrap from "../RefModalScrap";
 import { useRecoilState } from "recoil";
 import { editState } from "../../../../state/editState";
 import btnStyle from "../../../../layout/Button.module.css";
+import { deleteReference, getReference, likeReference, scrapReference } from "../../../../apis/modal/reference";
+import { useCheckLike } from "../../../../hooks/checkMyWork";
+import { checking, isInteger } from "../../../../functions/checkPage";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
   const Navigate = useNavigate();
   const queryClient = useQueryClient();
-  const token = sessionStorage.getItem("token");
   const [loading, setLoading] = useState(true);
 
   const [top, setTop] = useState({
@@ -60,10 +57,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     nickname: "",
     profileImage: "",
   });
+  const { checkLike } = useCheckLike(postMember.nickname);
 
   // 좋아요, 스크랩
   const [likeBoolean, setLikeBoolean] = useState(false);
-  const [, setScrapBoolean] = useState(false);
+  const [scrapBoolean, setScrapBoolean] = useState(false);
 
   const [showSel, setShowSel] = useState(false);
   const showSelect = () => {
@@ -72,19 +70,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const [category, setCategory] = useState("");
 
   useEffect(() => {
-    const endpoint = `/BE/reference/${id2}`;
-
-    axios
-      .get(endpoint,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
-          }
-        })
-      .then((res) => {
-        const data = res.data.data;
-
+    const fetchReference = async () => {
+      try {
+        const data = await getReference(id2);
         const {
           postId,
           title,
@@ -103,7 +91,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           isScraped,
           feedbacks,
           postMember,
-        } = data;
+        } = data.data;
+
         const fileType =
           category !== "video"
             ? fileNames[1]
@@ -152,10 +141,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           nickname: postMember.nickname,
           profileImage: postMember.profileImage,
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    };
+
+    fetchReference();
   }, [id2]);
 
   useEffect(() => {
@@ -164,87 +155,41 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     }, 2500);
   }, [loading]);
 
-  const onCloseHandler2 = () => {
-    setModalVisibleId2("");
+  const handleLike = async () => {
+    checkLike();
+    try {
+      const response = await likeReference(id2)
+      const { likeCount } = response.data;
+  
+      setTop((prevTop) => ({
+        ...prevTop,
+        likeCount,
+      }));
+      setLikeBoolean((prevLikeBoolean) => !prevLikeBoolean);
+      queryClient.invalidateQueries("references", { refetchActive: true });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleLike = () => {
-    const userNickname = sessionStorage.getItem("nickname");
+const [srcapModal, setScrapModal] = useState(false);
 
-    if (userNickname === null) {
-      alert("로그인이 필요한 서비스입니다.");
-      Navigate("/sociallogin");
-      return; // 로그인이 필요한 경우 이후 코드가 실행되지 않도록 return 추가
-    }
-    if (postMember.nickname === userNickname) {
-      alert("내 작품에는 불가능합니다.");
-      return;
-    }
-  
-    axios
-      .post(
-        `/BE/reference/${id2}/like`,
-        {},
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
-          }
-        }
-      )
-      .then((res) => {
-        const { likeCount } = res.data.data;
-  
-        setTop((prevTop) => ({
-          ...prevTop,
-          likeCount,
-        }));
-        setLikeBoolean((prevLikeBoolean) => !prevLikeBoolean);
-  
-        queryClient.invalidateQueries("references", { refetchActive: true });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const [srcapModal, setScrapModal] = useState(false);
-
-  const handleScrap = () => {
-    const userNickname = sessionStorage.getItem("nickname");
-    if (userNickname === null) {
-      alert("로그인이 필요한 서비스입니다.");
-      Navigate("/sociallogin");
-    }
-    if (postMember.nickname === userNickname) {
-      alert("내 작품에는 불가능합니다.");
-      return;
-    }
-    axios
-      .post(`/BE/reference/${id2}/scrap`,
-      {},
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
-        }
-      })
-      .then((res) => {
-        console.log(res);
-        const { scrapCount, isScraped } = res.data.data;
-        setTop((prevTop) => ({
-          ...prevTop,
-          scrapCount,
-        }));
-
-        if (isScraped) setScrapBoolean((prevScrapBoolean) => !prevScrapBoolean);
-        setScrapModal(true);
-        queryClient.invalidateQueries("references", { refetchActive: true });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+const handleScrap = async () => {
+  checkLike();
+  try {
+    const response = await scrapReference(id2)
+    const { scrapCount } = response.data;
+    setTop((prevTop) => ({
+      ...prevTop,
+      scrapCount,
+    }));
+    setScrapBoolean((prevScrapBoolean) => !prevScrapBoolean);
+    if (!scrapBoolean) setScrapModal(true);
+    queryClient.invalidateQueries("references", { refetchActive: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
   const onModalHandler3 = (id) => {
@@ -255,6 +200,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const [numPages, setNumPages] = useState(0);
   const [, setPageNumber] = useState(1);
   const [pageScale, setPageScale] = useState(1);
+
   useEffect(() => {
     const container = scrollRef.current;
     if (container && pageScale > 1) {
@@ -265,7 +211,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   }, [pageScale]);
 
   function onDocumentLoadSuccess({ numPages }) {
-    console.log("pdf 로드 성공");
     setNumPages(Number(numPages));
     setPageNumber(1);
   }
@@ -275,41 +220,24 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
 
   // 레퍼런스 삭제
-  const onDelete = () => {
-    axios
-      .delete(`/BE/user/reference/${id2}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
-        }
-      })
-      .then((response) => {
-        window.location.reload();
-        Navigate("/manage/list");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+const onDelete = async () => {
+  try {
+    const response = await deleteReference(id2)
+    window.location.reload();
+    Navigate("/manage/list");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   // 레퍼런스 수정
   const [isEdit, setIsEdit] = useRecoilState(editState);
   const onClickPut = () => {
-      // setIsEdit(true);
-      window.confirm("레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다.")
-      // Navigate(`/manage/put/${id2}`);
+    // setIsEdit(true);
+    window.confirm("레퍼런스를 수정하게되면 표지사진, 첨부파일이 삭제됩니다.");
+    // Navigate(`/manage/put/${id2}`);
   };
 
-  // 페이지 제대로 입력되었는가 확인하기
-  const checking = () => {
-    let el = document.getElementById("pageInput");
-    el.value = "";
-  };
-
-  function isInteger(number) {
-    return number % 1 === 0;
-  }
   const checkPage = () => {
     if (
       Number(show) > numPages ||
@@ -400,7 +328,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
 
   return (
-    <S.ModalWrapper onClick={onCloseHandler2}>
+    <S.ModalWrapper
+      onClick={() => {
+        setModalVisibleId2("");
+      }}
+    >
       <Meta title={top.title} imageURL={top.thumbnail} />
 
       <S.MobalBox onClick={(e) => e.stopPropagation()}>
@@ -417,7 +349,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
               fontWeight: "700",
               float: "left",
             }}
-            onClick={onCloseHandler2}
+            onClick={() => {
+              setModalVisibleId2("");
+            }}
           />
           {postMember.nickname === sessionStorage.getItem("nickname") && (
             <div style={{ float: "right" }}>
@@ -463,7 +397,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                       height: "18px",
                     }}
                   />
-                  <S.eachText>{formatCount(top.views)}</S.eachText>
+                  <S.eachText>{formatCount(parseInt(top.views/2))}</S.eachText>
                 </S.eachIcon>
                 <S.eachIcon>
                   <AiFillHeart
@@ -494,7 +428,17 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   handleScrap();
                 }}
               >
-                <BsBookmark /> &nbsp; <span>스크랩하기</span>
+                {!scrapBoolean ? (
+                  <>
+                    <BsBookmark style={{ color: "#B0B0B0" }} /> &nbsp;{" "}
+                    <span>스크랩하기</span>
+                  </>
+                ) : (
+                  <>
+                    <BsFillBookmarkFill style={{ color: "#fada5e" }} /> &nbsp;{" "}
+                    <span>스크랩하기</span>
+                  </>
+                )}
               </button>
               <button
                 onClick={() => onModalHandler3(id2)}
@@ -706,7 +650,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     ref={scrollRef}
                     onContextMenu={(e) => e.preventDefault()}
                     style={{
-                  
                       maxHeight: windowSize.height / 1.5,
                       justifyContent: pageScale <= 1 ? "center" : "flex-start",
                     }}
@@ -720,11 +663,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                           key={index + 1}
                           id={index + 1}
                           style={{
-             
                             display: "flex",
                             justifyContent: "center",
                             position: "relative",
-            
                           }}
                         >
                           <Page
@@ -765,7 +706,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
             <S.TraceBoxAlign>
               <AiFillHeart
                 style={{
-                  color: likeBoolean ? "#B0B0B0" : "#fada5e",
+                  color: !likeBoolean ? "#B0B0B0" : "#fada5e",
                   width: "24px",
                   height: "24px",
                   marginTop: "-2px",

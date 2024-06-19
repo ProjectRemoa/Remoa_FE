@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "../axiosInterceptors";
 
 const token = sessionStorage.getItem("token");
 
@@ -14,6 +15,23 @@ export const getUserProfileImg = async (token) => {
     console.log(err);
   }
 };
+export const imsi = async () => {
+  try {
+    const response = await axiosInstance.get(`user/img`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+export const getUserInfo = async() => {
+  try {
+    const response = await axiosInstance.get(`user`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
 
 export const putUserProfileImg = async (newImage) => {
   try {

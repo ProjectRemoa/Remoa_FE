@@ -76,18 +76,18 @@ export default function RefListContainer({ search: searchKeyword }) {
 
   // 팔로잉 모달 위치
   function modalLocation(i) {
-    if (window.innerWidth <= 1023) {
-      if (i % 2 === 0) {
-        return 2;
-      } else return 0;
-    } else if (window.innerWidth <= 1439) {
-      if (i % 3 === 0) {
-        return 3;
-      } else return 0;
-    } else {
-      if (i % 4 === 0) {
-        return 4;
-      } else return 0;
+    const width = window.innerWidth;
+  
+    const conditions = [
+      { maxWidth: 1023, divisor: 2 },
+      { maxWidth: 1439, divisor: 3 },
+      { maxWidth: Infinity, divisor: 4 }
+    ];
+  
+    for (const condition of conditions) {
+      if (width <= condition.maxWidth) {
+        return i % condition.divisor === 0 ? condition.divisor : 0;
+      }
     }
   }
 

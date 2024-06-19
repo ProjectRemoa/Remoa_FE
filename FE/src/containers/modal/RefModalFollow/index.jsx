@@ -45,7 +45,6 @@ function RefModalFollow({ member, location }) {
       refetchFollowData();
       setIsFollowing(!isFollowing);
     } catch (error) {
-      // TODO : 리프레쉬 토큰 로직 확인
       if (error.response && error.response.status === 401) {
         alert("로그인이 필요한 서비스입니다.");
 

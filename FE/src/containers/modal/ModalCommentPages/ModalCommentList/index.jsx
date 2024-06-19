@@ -1,10 +1,11 @@
-import { S } from "./ui";
+import { S } from "./ModalCommentList.styles";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { B } from "../../../../styles/Button";
-import axios from "axios";
 import ModalCommentWriteAgain from "../ModalCommentWriteAgain";
 import ModalCommentListAgain from "../ModalCommentListAgain";
+import { deleteComment, likeComment, putComment } from "../../../../apis/modal/comment";
+import { getReference } from "../../../../apis/modal/reference";
 
 export default function ModalCommentList({
   comments,
@@ -19,9 +20,7 @@ export default function ModalCommentList({
 
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
-  // const [timer, setTimer] = useState(null); // 디바운싱 구현
-
-  // 수정할 member id
+  const [originalContent, setOriginalContent] = useState('');
   const [putMemberId, setPutMemberId] = useState(0);
 
   const onChangeContents = (event) => {
@@ -31,64 +30,55 @@ export default function ModalCommentList({
       return;
     }
     setContents(inputValue);
-    // if (timer) clearTimeout(timer)
-
-    // const newTimer = setTimeout(() => {
-    //     setContents(inputValue);
-    // }, 500);
-    // console.log(contents)
-    // setTimer(newTimer);
   };
 
-  const onPutHandler = (commentId) => {
-    const UploadComment = {
-      comment: contents,
-    };
-    if (!contents) UploadComment.comment = contents;
-    axios
-      .put(`/BE/reference/comment/${commentId}`, UploadComment)
-      .then((response) => {
-        console.log(response);
-        setComments(response.data.data);
-        alert("댓글 수정이 완료되었습니다.");
-        setPutMemberId(0);
-      })
-      .catch((err) => {
-        console.log(err);
+  useEffect(() => {
+    // 초기 데이터로 상태 설정
+    setContents(comments.content);
+    setOriginalContent(comments.content);
+  }, [comments.content]);
+
+  const onPutHandler = async (commentId) => {
+    try {
+      if (contents === originalContent) {
+        alert('변경된 내용이 없습니다.');
+        return;
+      }
+      
+      const response = await putComment(commentId, {
+        comment: contents,
       });
+      console.log(response);
+      setComments(response.data);
+      alert("댓글 수정이 완료되었습니다.");
+      setPutMemberId(0);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onDelete = (commentId) => {
-    axios
-      .delete(`/BE/reference/comment/${commentId}`)
-      .then((response) => {
-        console.log(response);
-        setComments(response.data.data);
-        alert("댓글 삭제가 완료되었습니다.");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const onDelete = async (commentId) => {
+    try {
+      const response = await deleteComment(commentId);
+      console.log(response);
+      setComments(response.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onClickThumb = (commentId) => {
-    axios
-      .post(`/BE/comment/${commentId}/like`)
-      .then((res) => {
-        console.log(res);
-        axios
-          .get(`/BE/reference/${postId}`)
-          .then((res) => {
-            console.log(res);
-            setComments(res.data.data.comments);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
+  const onClickThumb = async (commentId) => {
+    try {
+      const res = await likeComment(commentId);
+      try {
+        const res = await getReference(postId);
+        setComments(res.data.comments);
+      } catch (err) {
         console.log(err);
-      });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // 대댓
@@ -131,12 +121,13 @@ export default function ModalCommentList({
                           placeholder="해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
                           욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
                           onChange={onChangeContents}
-                          defaultValue={comments.comment}
+                          defaultValue={comments.content}
+                          style={{padding:'10px'}}
                         />
                       </div>
                     ) : (
                       <div style={{ position: "relative" }}>
-                        <S.Comment>{comments.comment}</S.Comment>
+                        <S.Comment>{comments.content}</S.Comment>
                       </div>
                     )}
                   </td>
@@ -206,6 +197,8 @@ export default function ModalCommentList({
               replies={comments.replies}
               postId={postId}
               commentId={comments.commentId}
+              setAgainComments={setAgainComments}
+              againComments={againComments}
             />
           </S.AgainWrapper>
         ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { S } from './ui';
+import { S } from './FirstModal.styles'
 import { useNavigate } from 'react-router-dom';
 
 export default function FirstModal({ setModalOpen }) {

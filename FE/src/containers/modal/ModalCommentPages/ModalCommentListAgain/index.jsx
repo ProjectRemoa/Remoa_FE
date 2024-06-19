@@ -1,9 +1,9 @@
-import axios from "axios";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
-import { S } from "./ui";
-import { S as SS } from "../ModalCommentList/ui";
+import { S } from "./ModalCommentListAgain.styles";
+import { S as SS } from "../ModalCommentList/ModalCommentList.styles";
 import { B } from "../../../../styles/Button";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import { deleteCommentAgain, putCommentAgain } from "../../../../apis/modal/commentAgain";
 
 export default function ModalCommentListAgain({
   replies,
@@ -12,24 +12,40 @@ export default function ModalCommentListAgain({
   postId,
   commentId,
 }) {
-  replies.sort((a, b) => {
-    return new Date(a.repliedTime) - new Date(b.repliedTime);
-  });
+  if (Array.isArray(replies)) {
+    replies.sort((a, b) => {
+      return new Date(a.commentRepliedTime) - new Date(b.commentRepliedTime);
+    });
+  }
 
-  // 수정 삭제 명세서 최신화하고 진행해야
-  // 등록 시 로그인 여부 체크 / 수정 삭제는 아이디 같은 사람만
-  const onDelete = (commentId) => {
-    axios
-      .delete(`/BE/reference/${postId}/comment/${commentId}`)
-      .then((response) => {
-        console.log(response);
-        alert("댓글 삭제가 완료되었습니다.");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const onDelete = async (commentReplyId) => {
+    try {
+      const response = await deleteCommentAgain(commentId, commentReplyId);
+      setAgainComments(response.data)
+    } catch (err) {
+      console.log(err);
+    }
   };
-
+/* 
+  const onPutHandler = async (commentReplyId) => {
+    try {
+      if (contents === originalContent) {
+        alert('변경된 내용이 없습니다.');
+        return;
+      }
+      
+      const response = await putCommentAgain(commentReplyId, {
+        comment: contents,
+      });
+      console.log(response);
+      setComments(response.data);
+      alert("댓글 수정이 완료되었습니다.");
+      setPutMemberId(0);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+*/
   return (
     <>
       {replies &&
@@ -70,7 +86,7 @@ export default function ModalCommentListAgain({
             >
               {replies.member.nickname ===
                 sessionStorage.getItem("nickname") && (
-                <S.Edit>수정하기 &nbsp;|&nbsp; 삭제하기</S.Edit>
+                <S.Edit><span>수정하기</span> &nbsp;|&nbsp; <span onClick={onDelete(replies.commentReplyId)}>삭제하기</span></S.Edit>
               )}
               <B.LikeButton
                 style={{ top: "-22px", position: "relative", left: "1136px" }}
