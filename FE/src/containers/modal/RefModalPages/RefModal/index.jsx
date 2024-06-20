@@ -50,15 +50,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     youtubeLink: "", // category가 영상일 때
   });
   const [comments, setComments] = useState([]);
-  const [againComments, setAgainComments] = useState([]);
-  const [feedback, setFeedback] = useState([]);
+  const [feedbacks, setFeedback] = useState([]);
   const [postMember, setPostMember] = useState({
     memberId: 0,
     nickname: "",
     profileImage: "",
   });
   const { checkLike } = useCheckLike(postMember.nickname);
-
   // 좋아요, 스크랩
   const [likeBoolean, setLikeBoolean] = useState(false);
   const [scrapBoolean, setScrapBoolean] = useState(false);
@@ -131,7 +129,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         });
 
         setComments(comments);
-        setAgainComments(comments.replies);
         setLikeBoolean(isLiked);
         setScrapBoolean(isScraped);
         setCategory(category);
@@ -190,7 +187,6 @@ const handleScrap = async () => {
     console.log(err);
   }
 };
-
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
   const onModalHandler3 = (id) => {
     setModalVisibleId3(id);
@@ -456,9 +452,7 @@ const onDelete = async () => {
                     numPages={numPages}
                     media={middle.fileNames}
                     link={middle.youtubeLink}
-                    // 피드백 전체 넘겼습니다.
-                    feedbacks={feedback}
-                    // 혹시 몰라 피드백을 수정할 수 있는 setFeedback도 같이 넘깁니다.
+                    feedbacks={feedbacks}
                     setFeedback={setFeedback}
                   />
                 </S.Drag>
@@ -722,8 +716,6 @@ const onDelete = async () => {
           postId={id2}
           comments={comments}
           setComments={setComments}
-          againComments={againComments}
-          setAgainComments={setAgainComments}
         />
       </S.MobalBox>
     </S.ModalWrapper>

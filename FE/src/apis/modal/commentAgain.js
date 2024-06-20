@@ -5,7 +5,16 @@ export const postCommentAgain = async (referenceId, commentId, params) => {
     const response = await axiosInstance.post(`reference/${referenceId}/comment/${commentId}`, params);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error postCommentAgain:', error);
+  }
+};
+
+export const likeCommentAgain = async (replyId) => {
+  try {
+    const response = await axiosInstance.post(`reference/comment_reply/${replyId}/like`);
+    return response;
+  } catch (error) {
+    console.error('Error likeComment:', error);
   }
 };
 
@@ -14,7 +23,7 @@ export const putCommentAgain = async (commentId, replyId, params) => {
     const response = await axiosInstance.put(`reference/comment/${commentId}/reply/${replyId}`, params);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error putCommentAgain:', error);
   }
 };
 
@@ -23,6 +32,6 @@ export const deleteCommentAgain = async (commentId, replyId) => {
     const response = await axiosInstance.delete(`reference/comment/${commentId}/reply/${replyId}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error deleteCommentAgain:', error);
   }
 };

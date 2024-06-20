@@ -4,23 +4,17 @@ import React, { useState, useEffect } from "react";
 import { B } from "../../../../styles/Button";
 import ModalCommentWriteAgain from "../ModalCommentWriteAgain";
 import ModalCommentListAgain from "../ModalCommentListAgain";
-import { deleteComment, likeComment, putComment } from "../../../../apis/modal/comment";
+import {
+  deleteComment,
+  likeComment,
+  putComment,
+} from "../../../../apis/modal/comment";
 import { getReference } from "../../../../apis/modal/reference";
 
-export default function ModalCommentList({
-  comments,
-  postId,
-  setComments,
-  setAgainComments,
-  againComments,
-}) {
-  comments.sort((a, b) => {
-    return new Date(a.commentedTime) - new Date(b.commentedTime);
-  });
-
+export default function ModalCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
-  const [originalContent, setOriginalContent] = useState('');
+  const [originalContent, setOriginalContent] = useState("");
   const [putMemberId, setPutMemberId] = useState(0);
 
   const onChangeContents = (event) => {
@@ -31,51 +25,39 @@ export default function ModalCommentList({
     }
     setContents(inputValue);
   };
-
+  // [{},{} 배열 형태로 들어옴]
   useEffect(() => {
     // 초기 데이터로 상태 설정
     setContents(comments.content);
     setOriginalContent(comments.content);
-  }, [comments.content]);
+  }, [comments]);
 
   const onPutHandler = async (commentId) => {
-    try {
-      if (contents === originalContent) {
-        alert('변경된 내용이 없습니다.');
-        return;
-      }
-      
-      const response = await putComment(commentId, {
-        comment: contents,
-      });
-      console.log(response);
-      setComments(response.data);
-      alert("댓글 수정이 완료되었습니다.");
-      setPutMemberId(0);
-    } catch (err) {
-      console.log(err);
+    if (contents === originalContent) {
+      alert("변경된 내용이 없습니다.");
+      return;
     }
+
+    const response = await putComment(commentId, {
+      comment: contents,
+    });
+    console.log(response);
+    setComments(response.data);
+    alert("댓글 수정이 완료되었습니다.");
+    setPutMemberId(0);
   };
 
   const onDelete = async (commentId) => {
-    try {
-      const response = await deleteComment(commentId);
-      console.log(response);
-      setComments(response.data);
-    } catch (err) {
-      console.log(err);
-    }
+    const response = await deleteComment(commentId);
+    console.log(response);
+    setComments(response.data);
   };
 
   const onClickThumb = async (commentId) => {
+    const res = await likeComment(commentId);
     try {
-      const res = await likeComment(commentId);
-      try {
-        const res = await getReference(postId);
-        setComments(res.data.comments);
-      } catch (err) {
-        console.log(err);
-      }
+      const res = await getReference(postId);
+      setComments(res.data.comments);
     } catch (err) {
       console.log(err);
     }
@@ -105,7 +87,7 @@ export default function ModalCommentList({
 
                 <tr>
                   <td style={{ textAlign: "left", paddingLeft: "52px" }}>
-                    {putMemberId === comments.commentId ? (
+                    {putMemberId === comments.commentId ? ( // 일치할 때만 수정 가능한 칸
                       <div id={comments.commentId}>
                         <S.EditButton
                           onClick={() => {
@@ -122,7 +104,7 @@ export default function ModalCommentList({
                           욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
                           onChange={onChangeContents}
                           defaultValue={comments.content}
-                          style={{padding:'10px'}}
+                          style={{ padding: "10px" }}
                         />
                       </div>
                     ) : (
@@ -190,16 +172,16 @@ export default function ModalCommentList({
               id={comments.commentId}
               postId={postId}
               comments={comments}
-              setAgainComments={setAgainComments}
-              againComments={againComments}
+              setComments={setComments}
             />
-            <ModalCommentListAgain
-              replies={comments.replies}
-              postId={postId}
-              commentId={comments.commentId}
-              setAgainComments={setAgainComments}
-              againComments={againComments}
-            />
+            {comments?.commentReplies.map((reply) => (
+              <ModalCommentListAgain
+                reply={reply}
+                postId={postId}
+                commentId={comments.commentId}
+                setComments={setComments}
+              />
+            ))} 
           </S.AgainWrapper>
         ))}
     </div>

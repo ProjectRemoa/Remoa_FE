@@ -3,7 +3,7 @@ import ModalCommentList from '../../ModalCommentPages/ModalCommentList';
 import ModalCommentWrite from '../../ModalCommentPages/ModalCommentWrite';
 import React from 'react';
 
-export default function RefModalComment({ comments, setComments, postId, setAgainComments, againComments }) {
+export default function RefModalComment({ comments, setComments, postId }) {
   return (
     <S.CommentWrapper>
       <S.CommentWriteWrapperInnerDiv />
@@ -12,8 +12,6 @@ export default function RefModalComment({ comments, setComments, postId, setAgai
         comments={comments}
         postId={postId}
         setComments={setComments}
-        setAgainComments={setAgainComments}
-        againComments={againComments}
       />
     </S.CommentWrapper>
   );

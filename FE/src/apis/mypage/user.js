@@ -18,7 +18,7 @@ export const getUserProfileImg = async (token) => {
 export const imsi = async () => {
   try {
     const response = await axiosInstance.get(`user/img`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -27,7 +27,7 @@ export const imsi = async () => {
 export const getUserInfo = async() => {
   try {
     const response = await axiosInstance.get(`user`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error('Error fetching data:', error);
   }

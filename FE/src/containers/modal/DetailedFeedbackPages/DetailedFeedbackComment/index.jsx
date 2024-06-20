@@ -46,12 +46,11 @@ export default function DetailFeedbackComment({
 
   useEffect(() => {
     axios
-      .get(`/BE/reference/${id}`,
-      {
+      .get(`/BE/reference/${id}`, {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 담습니다.
+        },
       })
       .then((res) => {
         console.log(res);
@@ -71,12 +70,11 @@ export default function DetailFeedbackComment({
       alert("내용이 수정되지 않았습니다.");
     } else {
       axios
-        .put(`/BE/reference/feedback/${feedback_id}`, UploadComment,
-        {
+        .put(`/BE/reference/feedback/${feedback_id}`, UploadComment, {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
-          }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 담습니다.
+          },
         })
         .then((response) => {
           console.log(response);
@@ -92,12 +90,11 @@ export default function DetailFeedbackComment({
 
   const onClickDelete = (feedback_id) => {
     axios
-      .delete(`/BE/reference/feedback/${feedback_id}`,
-      {
+      .delete(`/BE/reference/feedback/${feedback_id}`, {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 담습니다.
+        },
       })
       .then((response) => {
         console.log(response);
@@ -123,69 +120,79 @@ export default function DetailFeedbackComment({
               </B.LikeButton>
             </S.FeedWrapperHeader>
             <S.Line />
-            <div>
-              {putMemberId === feedbacks.feedbackId ? (
-                <div id={feedbacks.feedbackId}>
-                  <S.FeedWrapperButton>
-                {link ? (
-                  <S.WrapperSearch>동영상</S.WrapperSearch>
+            {feedbacks.feedbackInfos.map((feedback, index) => (
+              <div key={index}>
+                {putMemberId === feedback.feedbackId ? (
+                  <div id={feedback.feedbackId}>
+                    <S.FeedWrapperButton>
+                      {link ? (
+                        <S.WrapperSearch>동영상</S.WrapperSearch>
+                      ) : (
+                        <S.WrapperSearch href={`#${feedback.page}`}>
+                          {feedback.page}페이지
+                        </S.WrapperSearch>
+                      )}
+                    </S.FeedWrapperButton>
+                    <S.ModifyText
+                      required
+                      placeholder="해당 작업물에 대한 의견을 최대 1000자까지 남길 수 있어요!"
+                      onChange={onChangeContents}
+                      defaultValue={feedback.feedback}
+                    />
+                    <S.ModifyFin
+                      onClick={() => {
+                        return onPutHandler(feedback.feedbackId);
+                      }}
+                    >
+                      수정 완료하기
+                    </S.ModifyFin>
+                  </div>
                 ) : (
-                  <S.WrapperSearch href={`#${feedbacks.page}`}>
-                    {feedbacks.page}페이지
-                  </S.WrapperSearch>
-                )}
-              </S.FeedWrapperButton>
-                  <S.ModifyText
-                    required
-                    placeholder="해당 작업물에 대한 의견을 최대 1000자까지 남길 수 있어요!"
-                    onChange={onChangeContents}
-                    defaultValue={feedbacks.feedback}
-                  />
-                  <S.ModifyFin
-                    onClick={() => {
-                      return onPutHandler(feedbacks.feedbackId);
-                    }}
-                  >
-                    수정 완료하기
-                  </S.ModifyFin>
-                </div>
-              ) : (
-                <>
-                <S.FeedWrapperButton>
-                {link ? (
-                  <S.WrapperSearch>동영상</S.WrapperSearch>
-                ) : (
-                  <S.WrapperSearch href={`#${feedbacks.page}`}>
-                    {feedbacks.page}페이지
-                  </S.WrapperSearch>
-                )}
-              </S.FeedWrapperButton>
-                <S.FeedbackView>{feedbacks.feedback}</S.FeedbackView>
-                </>
-              )}
-              <S.ButtonWrapper>
-                <S.HeaderButton>답글</S.HeaderButton>
-                <S.Nbsp> &nbsp;|&nbsp; </S.Nbsp>
-                {feedbacks.member.nickname ===
-                  sessionStorage.getItem("nickname") && (
                   <>
-                    <S.HeaderButton
-                      onClick={() => setPutMemberId(feedbacks.feedbackId)}
-                    >
-                      수정하기
-                    </S.HeaderButton>
-                    <S.Nbsp> &nbsp;|&nbsp; </S.Nbsp>
-                    <S.HeaderButton
-                      onClick={() => onClickDelete(feedbacks.feedbackId)}
-                    >
-                      삭제하기
-                    </S.HeaderButton>
+                    <S.FeedWrapperButton>
+                      {link ? (
+                        <S.WrapperSearch>동영상</S.WrapperSearch>
+                      ) : (
+                        <S.WrapperSearch href={`#${feedback.page}`}>
+                          {feedback.page}페이지
+                        </S.WrapperSearch>
+                      )}
+                    </S.FeedWrapperButton>
+                    <S.FeedbackView>{feedback.feedback}</S.FeedbackView>
                   </>
                 )}
-              </S.ButtonWrapper>
-              {/* <DetaileSeedbackCommentAgain /> */}
-            </div>
-            <S.Line style={{height:'8px', width:'477px',left:'-21px',position:'relative',marginTop:'22px'}} />
+                <S.ButtonWrapper>
+                  <S.HeaderButton>답글</S.HeaderButton>
+                  <S.Nbsp> &nbsp;|&nbsp; </S.Nbsp>
+                  {feedbacks.member.nickname ===
+                    sessionStorage.getItem("nickname") && (
+                    <>
+                      <S.HeaderButton
+                        onClick={() => setPutMemberId(feedback.feedbackId)}
+                      >
+                        수정하기
+                      </S.HeaderButton>
+                      <S.Nbsp> &nbsp;|&nbsp; </S.Nbsp>
+                      <S.HeaderButton
+                        onClick={() => onClickDelete(feedback.feedbackId)}
+                      >
+                        삭제하기
+                      </S.HeaderButton>
+                    </>
+                  )}
+                </S.ButtonWrapper>
+                {/* <DetaileSeedbackCommentAgain /> */}
+              </div>
+            ))}
+            <S.Line
+              style={{
+                height: "8px",
+                width: "477px",
+                left: "-21px",
+                position: "relative",
+                marginTop: "22px",
+              }}
+            />
           </div>
         ))}
     </S.EachFeedWrapper>

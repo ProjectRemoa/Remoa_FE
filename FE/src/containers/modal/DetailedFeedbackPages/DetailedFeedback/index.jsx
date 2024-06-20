@@ -2,11 +2,11 @@ import { S } from "./DetailedFeedback.styles";
 import axios from "axios";
 import React, { useState } from "react";
 import DetailFeedbackComment from "../DetailedFeedbackComment";
-import { useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import btnStyle from "../../../../layout/Button.module.css";
 import { FaCaretDown } from "react-icons/fa";
 import { useEffect } from "react";
+import { useCheckLike } from "../../../../hooks/checkMyWork";
 
 export default function DetaileFeedback({
   id3,
@@ -23,9 +23,8 @@ export default function DetaileFeedback({
   feedbacks.sort((a, b) => {
     return new Date(a.feedbackTime) - new Date(b.feedbackTime);
   });
-  const navigate = useNavigate();
   const [contents, setContents] = useState("");
-
+  const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length > 300) {
@@ -44,44 +43,39 @@ export default function DetaileFeedback({
   const pageCount = Array.from({ length: media.length }, (v, i) => i + 1);
 
   const onSumbitHandler = (e) => {
-    if (sessionStorage.getItem("nickname") === null) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/sociallogin");
-    } else if (sessionStorage.getItem("nickname") === "") {
+    checkLike()
+    if (pagesArray.includes(selected)) {
+      alert("이미 해당 페이지 등록하셨습니다.");
     } else {
-      if (pagesArray.includes(selected)) {
-        alert("이미 해당 페이지 등록하셨습니다.")
-      } else {
-        e.preventDefault();
-        if (!contents) return alert("내용이 비어있습니다.")
-        const UploaSeedback = {
-          feedback: contents,
-        };
-        axios
-          .post(`/BE/reference/${id3}/${selected}`, UploaSeedback        ,{
+      e.preventDefault();
+      if (!contents) return alert("내용이 비어있습니다.");
+      axios
+        .post(
+          `/BE/reference/${id3}/${selected}`,
+          {
+            feedback: contents,
+          },
+          {
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰을 담습니다.
-            }
-          })
-          .then((response) => {
-            console.log(response);
-            alert("댓글 등록이 완료되었습니다.");
-            // 새로운 피드백 배열
-            setFeedback(response.data.data);
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          alert("댓글 등록이 완료되었습니다.");
+          // 새로운 피드백 배열
+          setFeedback(response.data.data);
 
-            const newItems = [...pagesArray];
-            newItems.push(selected);
-            setPagesArray(newItems);
-          })
-          .catch((err) => {
-            alert("통신 오류");
-            console.log(err);
-          });
-          // 입력된 피드백 초기화
-        setContents("");
-        
-      }
+          const newItems = [...pagesArray];
+          newItems.push(selected);
+          setPagesArray(newItems);
+        })
+        .catch((err) => {
+          alert("통신 오류");
+          console.log(err);
+        });
+      setContents("");
     }
   };
 
@@ -91,10 +85,11 @@ export default function DetaileFeedback({
     setExpandModalOpenDelete(!expandModalOpenDelete);
   };
 
-  const [pagesArray,setPagesArray] = useState([])
-  useEffect(()=>{
-    setPagesArray(feedbacks.map((feedback) => feedback.page))
-  },[feedbacks])
+  const [pagesArray, setPagesArray] = useState([]);
+  useEffect(() => {
+    const pageArray = feedbacks.map((feedback) => feedback.feedbackInfos.map((feedback) => feedback.page))
+    setPagesArray(pageArray[0]);
+  }, [feedbacks]);
 
   return (
     <S.ModalWrapper
@@ -122,7 +117,8 @@ export default function DetaileFeedback({
           link={link}
           feedbacks={feedbacks}
           setFeedback={setFeedback}
-          id={id3}/>
+          id={id3}
+        />
       </S.Feedback>
 
       <S.ModalWriteFeed>

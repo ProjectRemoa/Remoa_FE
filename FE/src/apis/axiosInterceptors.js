@@ -38,7 +38,6 @@ axiosInstance.interceptors.response.use(
         case 401:
           console.error('Unauthorized');
           alert('인증이 필요합니다.');
-          window.location.href = '/sociallogin';
           break;
         case 403:
           console.error('Forbidden');
