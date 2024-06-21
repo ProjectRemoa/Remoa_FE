@@ -142,7 +142,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         console.error("Error fetching data:", err);
       }
     };
-
     fetchReference();
   }, [id2]);
 

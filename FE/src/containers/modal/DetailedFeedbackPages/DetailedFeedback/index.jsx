@@ -20,9 +20,7 @@ export default function DetaileFeedback({
   isFromManage,
 }) {
   const token = sessionStorage.getItem("token");
-  feedbacks.sort((a, b) => {
-    return new Date(a.feedbackTime) - new Date(b.feedbackTime);
-  });
+
   const [contents, setContents] = useState("");
   const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
