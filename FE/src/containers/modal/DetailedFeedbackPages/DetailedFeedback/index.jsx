@@ -20,7 +20,6 @@ export default function DetaileFeedback({
   isFromManage,
 }) {
   const token = sessionStorage.getItem("token");
-
   const [contents, setContents] = useState("");
   const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
