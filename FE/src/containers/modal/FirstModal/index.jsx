@@ -14,6 +14,7 @@ export default function FirstModal({ setModalOpen }) {
   return (
     <>
       <S.ModalWrapper>
+        
         {/*style={{ display: modalOpen === false && 'none' }}>*/}
         <S.Modal>
           <S.Up>
@@ -26,6 +27,7 @@ export default function FirstModal({ setModalOpen }) {
           </S.Up>
           <S.InfoDiv>
           <S.Howtable>
+          <tbody>
             <tr>
               <td>✔️</td>
               <S.HowWrapper>
@@ -45,6 +47,7 @@ export default function FirstModal({ setModalOpen }) {
                 </S.How>
               </S.HowWrapper>
             </tr>
+            </tbody>
           </S.Howtable>
           </S.InfoDiv>
 

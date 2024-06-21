@@ -174,8 +174,9 @@ export default function ModalCommentList({ comments, postId, setComments }) {
               comments={comments}
               setComments={setComments}
             />
-            {comments?.commentReplies.map((reply) => (
+            {comments?.commentReplies.map((reply,index) => (
               <ModalCommentListAgain
+                key={index}
                 reply={reply}
                 postId={postId}
                 commentId={comments.commentId}

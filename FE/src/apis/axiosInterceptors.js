@@ -1,34 +1,35 @@
 import axios from 'axios';
-import getAccessToken from '../functions/getToken';
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: '/BE/',
-  timeout: 10000, 
+  baseURL: '/BE/', // 절대 경로 사용
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${getAccessToken()}`, // 토큰이 있으면 토큰을 불러오고 아니면 null값
   },
 });
 
-// 요청
+// 요청 인터셉터
 axiosInstance.interceptors.request.use(
   (config) => {
-    return config; // 요청을 보내기 전
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
   },
   (error) => {
-    return Promise.reject(error); // 요청 오류
+    return Promise.reject(error);
   }
 );
 
-// 응답
+// 응답 인터셉터
 axiosInstance.interceptors.response.use(
   (response) => {
-    return response; // 2xx 범위
+    return response;
   },
   (error) => {
     if (error.response) {
-      // 서버가 응답을 했지만 상태 코드는 2xx 범위가 아님
       const { status } = error.response;
       switch (status) {
         case 400:
@@ -37,7 +38,7 @@ axiosInstance.interceptors.response.use(
           break;
         case 401:
           console.error('Unauthorized');
-          alert('인증이 필요합니다.');
+          alert('로그인이 되지 않았거나 인증이 이루어지지 않았습니다.');
           break;
         case 403:
           console.error('Forbidden');

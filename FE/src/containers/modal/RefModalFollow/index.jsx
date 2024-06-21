@@ -30,11 +30,6 @@ function RefModalFollow({ member, location }) {
   };
 
   const handleMemberFollow = async () => {
-    if (!nickname) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/sociallogin");
-      return;
-    }
 
     try {
       await axios.post(

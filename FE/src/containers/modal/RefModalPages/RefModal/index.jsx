@@ -513,8 +513,8 @@ const onDelete = async () => {
                       </S.PdfSelect>
                       {expandModalOpenDelete && (
                         <S.PdfOption>
-                          {[50, 75, 100, 125, 150].map((a) => (
-                            <S.PdfList>
+                          {[50, 75, 100, 125, 150].map((a,index) => (
+                            <S.PdfList key={index}>
                               <S.PdfFocus
                                 class="list"
                                 onClick={() => {
@@ -550,6 +550,7 @@ const onDelete = async () => {
                           style={{
                             position: "relative",
                           }}
+                          key={index}
                         >
                           <S.ContentImg
                             style={{
@@ -617,8 +618,8 @@ const onDelete = async () => {
                       </S.PdfSelect>
                       {expandModalOpenDelete && (
                         <S.PdfOption>
-                          {[50, 75, 100, 125, 150].map((a) => (
-                            <S.PdfList>
+                          {[50, 75, 100, 125, 150].map((a,index) => (
+                            <S.PdfList key={index}>
                               <S.PdfFocus
                                 class="list"
                                 onClick={() => {

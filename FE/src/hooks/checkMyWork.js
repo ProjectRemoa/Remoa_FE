@@ -6,7 +6,6 @@ export const useCheckLike = (postMemberNickname) => {
   const checkLike = () => {
     const userNickname = sessionStorage.getItem('nickname');
     if (userNickname === null) {
-      alert('로그인이 필요한 서비스입니다.');
       navigate('/sociallogin');
       return;
     }

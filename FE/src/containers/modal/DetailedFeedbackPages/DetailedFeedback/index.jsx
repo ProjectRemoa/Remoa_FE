@@ -1,5 +1,4 @@
 import { S } from "./DetailedFeedback.styles";
-import axios from "axios";
 import React, { useState } from "react";
 import DetailFeedbackComment from "../DetailedFeedbackComment";
 import { AiOutlineClose } from "react-icons/ai";
@@ -7,6 +6,7 @@ import btnStyle from "../../../../layout/Button.module.css";
 import { FaCaretDown } from "react-icons/fa";
 import { useEffect } from "react";
 import { useCheckLike } from "../../../../hooks/checkMyWork";
+import { postFeedbackComment } from "../../../../apis/modal/feedbackComment";
 
 export default function DetaileFeedback({
   id3,
@@ -20,7 +20,7 @@ export default function DetaileFeedback({
   isFromManage,
 }) {
   const token = sessionStorage.getItem("token");
-  
+
   const [contents, setContents] = useState("");
   const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
@@ -40,39 +40,22 @@ export default function DetaileFeedback({
   const opti = Array.from({ length: numPages }, (v, i) => i + 1);
   const pageCount = Array.from({ length: media.length }, (v, i) => i + 1);
 
-  const onSumbitHandler = (e) => {
-    checkLike()
+  const onSumbitHandler = async (e) => {
+    e.preventDefault();
+    checkLike();
     if (pagesArray.includes(selected)) {
       alert("이미 해당 페이지 등록하셨습니다.");
     } else {
-      e.preventDefault();
       if (!contents) return alert("내용이 비어있습니다.");
-      axios
-        .post(
-          `/BE/reference/${id3}/${selected}`,
-          {
-            feedback: contents,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((response) => {
-          alert("댓글 등록이 완료되었습니다.");
-          // 새로운 피드백 배열
-          setFeedback(response.data.data);
 
-          const newItems = [...pagesArray];
-          newItems.push(selected);
-          setPagesArray(newItems);
-        })
-        .catch((err) => {
-          alert("통신 오류");
-          console.log(err);
-        });
+      const response = await postFeedbackComment(id3, selected, {
+        feedbacks: contents,
+      });
+      setFeedback(response.data.data);
+      const newItems = [...pagesArray];
+      newItems.push(selected);
+      setPagesArray(newItems);
+
       setContents("");
     }
   };
@@ -85,7 +68,9 @@ export default function DetaileFeedback({
 
   const [pagesArray, setPagesArray] = useState([]);
   useEffect(() => {
-    const pageArray = feedbacks.map((feedback) => feedback.feedbackInfos.map((feedback) => feedback.page))
+    const pageArray = feedbacks.map((feedback) =>
+      feedback.feedbackInfos.map((feedback) => feedback.page)
+    );
     setPagesArray(pageArray[0]);
   }, [feedbacks]);
 
