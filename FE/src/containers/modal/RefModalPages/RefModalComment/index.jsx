@@ -1,14 +1,14 @@
-import { S } from '../../ModalCommentPages/ModalCommentWrite/ModalCommentWrite.styles';
-import ModalCommentList from '../../ModalCommentPages/ModalCommentList';
-import ModalCommentWrite from '../../ModalCommentPages/ModalCommentWrite';
+import { S } from '../../CommentPages/CommentWrite/CommentWrite.styles';
+import CommentList from '../../CommentPages/CommentList';
+import CommentWrite from '../../CommentPages/CommentWrite';
 import React from 'react';
 
 export default function RefModalComment({ comments, setComments, postId }) {
   return (
     <S.CommentWrapper>
       <S.CommentWriteWrapperInnerDiv />
-      <ModalCommentWrite postId={postId} setComments={setComments}/>
-      <ModalCommentList
+      <CommentWrite postId={postId} setComments={setComments}/>
+      <CommentList
         comments={comments}
         postId={postId}
         setComments={setComments}

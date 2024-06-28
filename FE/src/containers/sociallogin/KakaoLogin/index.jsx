@@ -18,8 +18,6 @@ function KakaoLogin() {
           sessionStorage.setItem("email", res.data.data.email);
           sessionStorage.setItem("id", res.data.data.id);
 
-          // 회원가입하는 회원이면 modal창을 켜야함
-          sessionStorage.setItem("new", true);
           navigate("/sociallogin");
         } else if (res.status === 200) {
           // 200 : 로그인

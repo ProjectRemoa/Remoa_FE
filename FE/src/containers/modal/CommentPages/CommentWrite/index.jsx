@@ -1,8 +1,8 @@
-import { S } from "./ModalCommentWrite.styles";
+import { S } from "./CommentWrite.styles";
 import React, { useState } from "react";
 import { postComment } from "../../../../apis/modal/comment";
 
-export default function ModalCommentWrite({ postId, setComments }) {
+export default function CommentWrite({ postId, setComments }) {
   const [comment, setCommentChange] = useState("");
   const onChangeComments = (event) => {
     const inputValue = event.target.value;

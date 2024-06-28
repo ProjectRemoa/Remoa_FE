@@ -1,9 +1,9 @@
-import { S } from "./ModalCommentList.styles";
+import { S } from "./CommentList.styles";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
 import React, { useState, useEffect } from "react";
 import { B } from "../../../../styles/Button";
-import ModalCommentWriteAgain from "../ModalCommentWriteAgain";
-import ModalCommentListAgain from "../ModalCommentListAgain";
+import CommentWriteReply from "../CommentWriteReply";
+import CommentListReply from "../CommentListReply";
 import {
   deleteComment,
   likeComment,
@@ -73,20 +73,16 @@ export default function ModalCommentList({ comments, postId, setComments }) {
     <div>
       {comments &&
         comments.map((comments, index) => (
-          <S.AgainWrapper key={index}>
-            <S.AgainTable>
+          <>
+            <S.AgainTable key={index}>
               <tbody>
-                <tr style={{ display: "flex", position: "relative" }}>
-                  <td style={{ width: "40px" }} rowSpan="3">
+                <tr>
+                  <td style={{width:'40px'}}>
                     <S.ProfileSize src={comments.member.profileImage} alt="" />
                   </td>
                   <td>
                     <S.ProfileName>{comments.member.nickname}</S.ProfileName>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style={{ textAlign: "left", paddingLeft: "52px" }}>
+                    <div style={{margin:"10px 0px"}}>
                     {putMemberId === comments.commentId ? ( // 일치할 때만 수정 가능한 칸
                       <div id={comments.commentId}>
                         <S.EditButton
@@ -108,15 +104,11 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                         />
                       </div>
                     ) : (
-                      <div style={{ position: "relative" }}>
+                      <div>
                         <S.Comment>{comments.content}</S.Comment>
                       </div>
                     )}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style={{ height: "28px", paddingLeft: "52px" }}>
+                    </div>
                     {putMemberId !== comments.commentId && (
                       <S.CommentTableBottom>
                         <div
@@ -151,8 +143,8 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                         )}
                         <B.LikeButton
                           style={{
-                            left: "1035px",
-                            position: "relative",
+                            position: "absolute",
+                            right: 0,
                           }}
                           onClick={() => onClickThumb(comments.commentId)}
                         >
@@ -166,7 +158,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
               </tbody>
             </S.AgainTable>
             <S.Differentiate style={{ margin: "20px 0px" }} />
-            <ModalCommentWriteAgain
+            <CommentWriteReply
               openWriteAgain={openWriteAgain}
               setOpenWriteAgain={setOpenWriteAgain}
               id={comments.commentId}
@@ -174,16 +166,16 @@ export default function ModalCommentList({ comments, postId, setComments }) {
               comments={comments}
               setComments={setComments}
             />
-            {comments?.commentReplies.map((reply,index) => (
-              <ModalCommentListAgain
+            {comments?.commentReplies.map((reply, index) => (
+              <CommentListReply
                 key={index}
                 reply={reply}
                 postId={postId}
                 commentId={comments.commentId}
                 setComments={setComments}
               />
-            ))} 
-          </S.AgainWrapper>
+            ))}
+          </>
         ))}
     </div>
   );

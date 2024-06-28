@@ -1,6 +1,6 @@
-import { S } from "./DetailedFeedback.styles";
+import { S } from "./FeedbackCommentWrite.styles";
 import React, { useState } from "react";
-import DetailFeedbackComment from "../DetailedFeedbackComment";
+import FeedbackCommentList from "../FeedbackCommentList";
 import { AiOutlineClose } from "react-icons/ai";
 import btnStyle from "../../../../layout/Button.module.css";
 import { FaCaretDown } from "react-icons/fa";
@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useCheckLike } from "../../../../hooks/checkMyWork";
 import { postFeedbackComment } from "../../../../apis/modal/feedbackComment";
 
-export default function DetaileFeedback({
+export default function FeedbackCommentWrite({
   id3,
   modalVisibleId3,
   setModalVisibleId3,
@@ -19,8 +19,6 @@ export default function DetaileFeedback({
   setFeedback,
   isFromManage,
 }) {
-  const token = sessionStorage.getItem("token");
-
   const [contents, setContents] = useState("");
   const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
@@ -37,27 +35,26 @@ export default function DetaileFeedback({
     setSelected(e.target.value);
   };
 
-  const opti = Array.from({ length: numPages }, (v, i) => i + 1);
-  const pageCount = Array.from({ length: media.length }, (v, i) => i + 1);
+  const opti = Array.from({ length: numPages }, (v, i) => i + 1); // pdf
+  const pageCount = Array.from({ length: media.length }, (v, i) => i + 1); // image
+  const optiLength = opti.length;
+  const pageCountLength = pageCount.length;
 
   const onSumbitHandler = async (e) => {
     e.preventDefault();
     checkLike();
-    if (pagesArray.includes(selected)) {
-      alert("이미 해당 페이지 등록하셨습니다.");
-    } else {
-      if (!contents) return alert("내용이 비어있습니다.");
+  if (!contents) return alert("내용이 비어있습니다.");
 
       const response = await postFeedbackComment(id3, selected, {
         feedbacks: contents,
       });
       setFeedback(response.data.data);
-      const newItems = [...pagesArray];
-      newItems.push(selected);
-      setPagesArray(newItems);
+      // const newItems = [...pagesArray];
+      // newItems.push(selected);
+      // setPagesArray(newItems);
 
       setContents("");
-    }
+    
   };
 
   const [expandModalOpenDelete, setExpandModalOpenDelete] = useState(false);
@@ -66,13 +63,14 @@ export default function DetaileFeedback({
     setExpandModalOpenDelete(!expandModalOpenDelete);
   };
 
-  const [pagesArray, setPagesArray] = useState([]);
-  useEffect(() => {
-    const pageArray = feedbacks.map((feedback) =>
-      feedback.feedbackInfos.map((feedback) => feedback.page)
-    );
-    setPagesArray(pageArray[0]);
-  }, [feedbacks]);
+  // const [pagesArray, setPagesArray] = useState([]);
+  // useEffect(() => {
+  //   const pageArray = feedbacks.map((feedback) =>
+  //     feedback.feedbackInfos.map((feedback) => feedback.page)
+  //   );
+  //   console.log(pageArray[0])
+  //   setPagesArray(pageArray[0]);
+  // }, [feedbacks]);
 
   return (
     <S.ModalWrapper
@@ -96,7 +94,7 @@ export default function DetaileFeedback({
       </S.ModalHeader>
 
       <S.Feedback>
-        <DetailFeedbackComment
+        <FeedbackCommentList
           link={link}
           feedbacks={feedbacks}
           setFeedback={setFeedback}
@@ -112,20 +110,18 @@ export default function DetaileFeedback({
           </S.RegExplain>
           <S.FeedbackSelect
             onChange={handleSelect}
+            onClick={showExpandModalDelete}
             disabled={link}
             style={{ left: "10px", alignItems: "center" }}
           >
             {selected}
             {selected && (
-              <FaCaretDown
-                style={{ marginLeft: "5px" }}
-                onClick={showExpandModalDelete}
-              />
+              <FaCaretDown style={{ marginLeft: "5px" }} />
             )}
           </S.FeedbackSelect>
 
-          {expandModalOpenDelete && opti && (
-            <S.SelectWrapper>
+          {expandModalOpenDelete && (pageCountLength < optiLength) && (
+            <S.SelectWrapper style={{ height: `${optiLength * 30}px`, overflowY: optiLength * 30 > 100 ? 'auto' : 'hidden' }}>
               {opti.map((a) => (
                 <S.FeedbackSelect
                   key={a}
@@ -146,8 +142,8 @@ export default function DetaileFeedback({
           )}
 
           {/* pdf  */}
-          {expandModalOpenDelete && pageCount && (
-            <S.SelectWrapper>
+          {expandModalOpenDelete && (pageCountLength > optiLength) && (
+            <S.SelectWrapper style={{ height: `${pageCountLength * 30}px`, overflowY: pageCountLength * 30 > 100 ? 'auto' : 'hidden' }}>
               {pageCount.map((a) => (
                 <S.FeedbackSelect
                   key={a}

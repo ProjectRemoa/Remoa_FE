@@ -22,7 +22,7 @@ export const S = {
   CommentWriteWrapper: styled.form`
     display: block;
     height: auto;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   `,
   CommentTitle: styled.span`
     color: var(--black, #1e1e1e);

@@ -1,37 +1,37 @@
 import axiosInstance from "../axiosInterceptors";
 
-export const postCommentAgain = async (referenceId, commentId, params) => {
+export const postCommentReply = async (referenceId, commentId, params) => {
   try {
     const response = await axiosInstance.post(`reference/${referenceId}/comment/${commentId}`, params);
     return response.data;
   } catch (error) {
-    console.error('Error postCommentAgain:', error);
+    console.error('Error postCommentReply:', error);
   }
 };
 
-export const likeCommentAgain = async (replyId) => {
+export const likeCommentReply = async (replyId) => {
   try {
     const response = await axiosInstance.post(`reference/comment_reply/${replyId}/like`);
     return response;
   } catch (error) {
-    console.error('Error likeComment:', error);
+    console.error('Error likeCommentReply:', error);
   }
 };
 
-export const putCommentAgain = async (commentId, replyId, params) => {
+export const putCommentReply = async (commentId, replyId, params) => {
   try {
     const response = await axiosInstance.put(`reference/comment/${commentId}/reply/${replyId}`, params);
     return response.data;
   } catch (error) {
-    console.error('Error putCommentAgain:', error);
+    console.error('Error putCommentReply:', error);
   }
 };
 
-export const deleteCommentAgain = async (commentId, replyId) => {
+export const deleteCommentReply = async (commentId, replyId) => {
   try {
     const response = await axiosInstance.delete(`reference/comment/${commentId}/reply/${replyId}`);
     return response.data;
   } catch (error) {
-    console.error('Error deleteCommentAgain:', error);
+    console.error('Error deleteCommentReply:', error);
   }
 };

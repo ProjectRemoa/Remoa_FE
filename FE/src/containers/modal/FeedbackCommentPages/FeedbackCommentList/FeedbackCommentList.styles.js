@@ -33,6 +33,7 @@ export const S = {
   letter-spacing: -0.45px;
   height: auto;
   width: 100%;
+  cursor: default;
   word-break: break-all;
   margin-bottom: 11px;
   `,
@@ -62,6 +63,7 @@ export const S = {
   `,
   ButtonWrapper: styled.div`
     position: relative;
+    width: 70%;
   `,
   FeedWrapperButton: styled.div`
     height: 26px;
@@ -83,15 +85,21 @@ export const S = {
     line-height: 26px;
     text-align: center;
   `,
-  ModifyFin:styled.button`
-    width:150px;
-    height:37.5px;
-    box-shadow:none;
+  ModifyFin:styled.p`
+    position: relative;
+    float: right;
+    bottom: 15px;
+    color: var(--gray, #a7a7a7);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.28px;
+    cursor: pointer;
   `,
   ModifyText:styled.textarea`
+  margin-top: 10px;
     border-radius: 10px;
-    width: 90%;
-    min-height: 90px;
+    width: 100%;
+    min-height: auto;
     font-family: 'Inter';
     font-size: 15px;
     line-height: 25px;

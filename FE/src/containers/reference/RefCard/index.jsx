@@ -136,7 +136,7 @@ function RefCard({
               <>
                 {/* 조회수 */}
                 <RefCardFunctionIcon>
-                  <TbEyeFilled className="views" /> {formatCount(parseInt(views/2))}
+                  <TbEyeFilled className="views" /> {formatCount(views)}
                 </RefCardFunctionIcon>
 
                 {/* 좋아요 */}

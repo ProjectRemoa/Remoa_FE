@@ -36,7 +36,6 @@ export const S = {
     font-size: 16px;
     font-weight: 700;
     letter-spacing: -0.32px;
-    margin-left: 8px;
     top: 0px;
   `,
   Comment: styled.pre`
@@ -75,12 +74,10 @@ export const S = {
     box-shadow: none;
     float: right;
   `,
-  AgainWrapper: styled.div`
+  AgainTable: styled.table`
+    position: relative;
     width: 100%;
     height: auto;
-  `,
-  AgainTable: styled.table`
-    width: 100%;
-    position: relative;
+    margin-top: 20px;
   `,
 };

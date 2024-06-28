@@ -4,8 +4,7 @@ export const S = {
     WriteInput: styled.textarea`
     font-family: 'Inter';
     border-radius: 8px;
-    width: 1092px;
-    height: 108px;
+    width: 100%;
     color: var(--, #464646);
     font-size: 16px;
     font-weight: 500;
@@ -39,6 +38,7 @@ export const S = {
     background: var(--loyal-yellow, #FADA5E);
   `,
   Nickname: styled.div`
+    margin-bottom: 10px;
     display: flex;
     color: var(--black, #1E1E1E);
     font-size: 16px;

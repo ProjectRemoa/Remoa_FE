@@ -1,11 +1,11 @@
-import { S } from "./ModalCommentWriteAgain.styles";
+import { S } from "./CommentWriteReply.styles";
 import { useState, useEffect } from "react";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
-import { S as SS } from "../ModalCommentList/ModalCommentList.styles";
-import { postCommentAgain } from "../../../../apis/modal/commentAgain";
+import { S as SS } from "../CommentList/CommentList.styles";
+import { postCommentReply } from "../../../../apis/modal/commentReply";
 import { getUserInfo, getUserProfileImg } from "../../../../apis/mypage/user";
 
-export default function ModalCommentWriteAgain({
+export default function CommentWriteReply({
   id,
   openWriteAgain,
   setOpenWriteAgain,
@@ -31,7 +31,7 @@ export default function ModalCommentWriteAgain({
       return;
     }
     if (contents) {
-      const response = await postCommentAgain(postId, comments.commentId, {
+      const response = await postCommentReply(postId, comments.commentId, {
         commentReply: contents,
       });
       setComments(response.data);
@@ -76,14 +76,14 @@ export default function ModalCommentWriteAgain({
   }, []);
 
   return (
-    <div style={{ display: openWriteAgain === id ? "block" : "none" }}>
+    <div style={{ display: openWriteAgain === id ? "block" : "none", marginBottom:'10px' }}>
       <table>
         <tbody>
           <tr>
-            <td rowSpan="2" style={{ border: "1px solid red" }}>
+            <td rowSpan="2">
               <MdOutlineSubdirectoryArrowRight style={{ fontSize: "23px" }} />
             </td>
-            <td rowSpan="2" style={{ border: "1px solid red" }}>
+            <td rowSpan="2">
               <SS.ProfileSize
                 src={profileImage}
                 style={{ position: "relative" }}
@@ -91,7 +91,7 @@ export default function ModalCommentWriteAgain({
             </td>
           </tr>
           <tr>
-            <td style={{ position: "relative", border: "1px solid red" }}>
+            <td style={{ position: "relative", width:'100%' }}>
               <S.Nickname>{userData}</S.Nickname>
               <S.WriteInput
                 wrap="hard"

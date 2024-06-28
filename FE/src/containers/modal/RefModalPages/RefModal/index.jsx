@@ -5,12 +5,16 @@ import { getDate } from "../../../../functions/getDate";
 import { useNavigate } from "react-router-dom";
 import RefModalComment from "../RefModalComment";
 import { AiTwotoneEye, AiFillHeart, AiOutlineLeft } from "react-icons/ai";
-import { BsFillBookmarkFill, BsBookmark, BsThreeDotsVertical } from "react-icons/bs";
+import {
+  BsFillBookmarkFill,
+  BsBookmark,
+  BsThreeDotsVertical,
+} from "react-icons/bs";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import YouTube from "react-youtube";
 import useWindowSize from "../../../../functions/useWindowSize";
-import DetailedFeedback from "../../DetailedFeedbackPages/DetailedFeedback";
+import FeedbackCommentWrite from "../../FeedbackCommentPages/FeedbackCommentWrite";
 import { pdfjs, Document, Page } from "react-pdf";
 import Draggable from "react-draggable";
 import ModalDelete from "../RefModalDelete";
@@ -22,7 +26,12 @@ import ModalScrap from "../RefModalScrap";
 import { useRecoilState } from "recoil";
 import { editState } from "../../../../state/editState";
 import btnStyle from "../../../../layout/Button.module.css";
-import { deleteReference, getReference, likeReference, scrapReference } from "../../../../apis/modal/reference";
+import {
+  deleteReference,
+  getReference,
+  likeReference,
+  scrapReference,
+} from "../../../../apis/modal/reference";
 import { useCheckLike } from "../../../../hooks/checkMyWork";
 import { checking, isInteger } from "../../../../functions/checkPage";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -38,10 +47,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     contestAwardType: "",
     category: "",
     postingTime: "",
-    views: 0,
     likeCount: 0,
     scrapCount: 0,
   });
+  const [views, setViews] = useState(0);
+
   const [middle, setMiddle] = useState({
     fileNames: [],
     fileType: "",
@@ -114,11 +124,11 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
           contestAwardType,
           category,
           postingTime,
-          views,
           likeCount,
           scrapCount,
           thumbnail,
         });
+        setViews(views);
 
         setMiddle({
           fileNames: fileNames.filter((_, index) => index !== 0),
@@ -146,6 +156,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   }, [id2]);
 
   useEffect(() => {
+    setViews((prevViews) => prevViews - 1);
+  }, []);
+  useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 2500);
@@ -154,9 +167,9 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   const handleLike = async () => {
     checkLike();
     try {
-      const response = await likeReference(id2)
+      const response = await likeReference(id2);
       const { likeCount } = response.data;
-  
+
       setTop((prevTop) => ({
         ...prevTop,
         likeCount,
@@ -168,24 +181,24 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     }
   };
 
-const [srcapModal, setScrapModal] = useState(false);
+  const [srcapModal, setScrapModal] = useState(false);
 
-const handleScrap = async () => {
-  checkLike();
-  try {
-    const response = await scrapReference(id2)
-    const { scrapCount } = response.data;
-    setTop((prevTop) => ({
-      ...prevTop,
-      scrapCount,
-    }));
-    setScrapBoolean((prevScrapBoolean) => !prevScrapBoolean);
-    if (!scrapBoolean) setScrapModal(true);
-    queryClient.invalidateQueries("references", { refetchActive: true });
-  } catch (err) {
-    console.log(err);
-  }
-};
+  const handleScrap = async () => {
+    checkLike();
+    try {
+      const response = await scrapReference(id2);
+      const { scrapCount } = response.data;
+      setTop((prevTop) => ({
+        ...prevTop,
+        scrapCount,
+      }));
+      setScrapBoolean((prevScrapBoolean) => !prevScrapBoolean);
+      if (!scrapBoolean) setScrapModal(true);
+      queryClient.invalidateQueries("references", { refetchActive: true });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const [modalVisibleId3, setModalVisibleId3] = useState(false);
   const onModalHandler3 = (id) => {
     setModalVisibleId3(id);
@@ -215,15 +228,11 @@ const handleScrap = async () => {
   };
 
   // 레퍼런스 삭제
-const onDelete = async () => {
-  try {
-    const response = await deleteReference(id2)
+  const onDelete = async () => {
+    const response = await deleteReference(id2);
     window.location.reload();
     Navigate("/manage/list");
-  } catch (err) {
-    console.log(err);
-  }
-};
+  };
 
   // 레퍼런스 수정
   const [isEdit, setIsEdit] = useRecoilState(editState);
@@ -392,7 +401,7 @@ const onDelete = async () => {
                       height: "18px",
                     }}
                   />
-                  <S.eachText>{formatCount(parseInt(top.views/2))}</S.eachText>
+                  <S.eachText>{formatCount(parseInt(views))}</S.eachText>
                 </S.eachIcon>
                 <S.eachIcon>
                   <AiFillHeart
@@ -444,7 +453,7 @@ const onDelete = async () => {
               {/* 움직이는 모달 */}
               <Draggable onDrag={(_, data) => trackPos(data)}>
                 <S.Drag>
-                  <DetailedFeedback
+                  <FeedbackCommentWrite
                     id3={id2}
                     modalVisibleId3={modalVisibleId3}
                     setModalVisibleId3={setModalVisibleId3}
@@ -513,7 +522,7 @@ const onDelete = async () => {
                       </S.PdfSelect>
                       {expandModalOpenDelete && (
                         <S.PdfOption>
-                          {[50, 75, 100, 125, 150].map((a,index) => (
+                          {[50, 75, 100, 125, 150].map((a, index) => (
                             <S.PdfList key={index}>
                               <S.PdfFocus
                                 class="list"
@@ -618,7 +627,7 @@ const onDelete = async () => {
                       </S.PdfSelect>
                       {expandModalOpenDelete && (
                         <S.PdfOption>
-                          {[50, 75, 100, 125, 150].map((a,index) => (
+                          {[50, 75, 100, 125, 150].map((a, index) => (
                             <S.PdfList key={index}>
                               <S.PdfFocus
                                 class="list"

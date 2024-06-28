@@ -51,7 +51,7 @@ export const S = {
   HeaderDiv1: styled.div`
     height: auto;
     width: 65%;
-    text-align: left;
+    padding-left: 20px;
   `,
   HeaderDiv2: styled.div`
     height: auto;

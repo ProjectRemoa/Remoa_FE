@@ -6,7 +6,7 @@ import Cateogry from '../../../components/common/Category';
 import RefSearch from '../../../containers/reference/RefSearchBar';
 import RefListWrapper from '../../../containers/reference/RefListWrapper';
 import FirstModal from '../../../containers/modal/FirstModal';
-
+import { getUserProfileImg } from '../../../apis/mypage/user';
 import { pageLinks } from '../../../containers/reference/constants';
 
 function RefPage() {
@@ -16,6 +16,20 @@ function RefPage() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [checkIdx, setCheckIdx] = useState();
   const [modalOpen, setModalOpen] = useState(false);
+
+  const getProfileImg = async () => {
+    const response = await getUserProfileImg()
+    return response
+  };
+   useEffect(() => {
+    // 로그인 되어있고, 로컬 스토리지에 modalShown 없고, 프로필이 기본 이미지일 때 모달 표시
+    const profile = getProfileImg()
+    const defaultImg = "https://remoa.s3.ap-northeast-2.amazonaws.com/img/flow_noname_image.png"
+    if (sessionStorage.getItem('token') && !sessionStorage.getItem('modalShown') && profile === defaultImg ) {
+      setModalOpen(true);
+      sessionStorage.setItem('modalShown', 'true'); // 모달이 표시되었음을 저장
+    }
+  }, []);
 
   const handleSearch = (keyword) => {
     setSearchKeyword(keyword);
@@ -33,12 +47,6 @@ function RefPage() {
       }
     });
   };
-
-  useEffect(() => {
-    if (sessionStorage.getItem('new') === 'true') {
-      setModalOpen(true);
-    }
-  }, []);
 
   useEffect(() => {
     handleCategorySelection(window.location.href);

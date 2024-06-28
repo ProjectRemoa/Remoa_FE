@@ -70,7 +70,8 @@ export const S = {
     & > *:last-child {
       position: absolute;
       left: 383px;
-  }
+    }
+    align-items: center;
   `,
   RegExplain: styled.span`
     line-height: 24px;
@@ -85,10 +86,9 @@ export const S = {
     width: 428px;
     height: 139px;
     border-radius: 10px;
-    background: var(--light-gray, #f0f0f0);
     font-family: "Inter";
     resize: none;
-    border: none;
+    border: 1px solid gray;
     padding: 17px;
     box-sizing: border-box;
     ::placeholder {
@@ -135,22 +135,21 @@ export const S = {
     }
   `,
   SelectWrapper: styled.div`
+    padding: 4px;
+    max-height: 100px;
+    border: 1px solid #e1e2e5;
     width: auto;
     display: flex;
     flex-direction: column;
-    z-index: 2;
-    position: absolute;
-    padding: 4px;
+    position: relative;
     text-align: center;
     gap: 4px;
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
     border-radius: 2px;
-    border: 1px solid var(--line, #e1e2e5);
     background: #fff;
-    box-shadow: 0px 0px 4px 0px rgba(63, 63, 63, 0.18);
-    top: 50px;
-    left: 176px;
+    top: 80px;
+    left: -47px;
   `,
 };
