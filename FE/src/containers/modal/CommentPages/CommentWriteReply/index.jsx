@@ -14,7 +14,7 @@ export default function CommentWriteReply({
   setComments,
 }) {
   const [contents, setContents] = useState("");
-  const token = sessionStorage.getItem("token");
+  const token = sessionStorage.getItem("accessToken");
   const onChangeContents = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length > 300) {

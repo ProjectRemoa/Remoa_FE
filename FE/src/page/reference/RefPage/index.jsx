@@ -17,18 +17,19 @@ function RefPage() {
   const [checkIdx, setCheckIdx] = useState();
   const [modalOpen, setModalOpen] = useState(false);
 
-  const getProfileImg = async () => {
-    const response = await getUserProfileImg()
-    return response
-  };
-   useEffect(() => {
-    // 로그인 되어있고, 로컬 스토리지에 modalShown 없고, 프로필이 기본 이미지일 때 모달 표시
-    const profile = getProfileImg()
-    const defaultImg = "https://remoa.s3.ap-northeast-2.amazonaws.com/img/flow_noname_image.png"
-    if (sessionStorage.getItem('token') && !sessionStorage.getItem('modalShown') && profile === defaultImg ) {
-      setModalOpen(true);
-      sessionStorage.setItem('modalShown', 'true'); // 모달이 표시되었음을 저장
-    }
+
+  useEffect(() => {
+    const checkProfileAndShowModal = async () => {
+      // 로그인 되어있고, 로컬 스토리지에 modalShown 없고, 프로필이 기본 이미지일 때 모달 표시
+      const profile = await getUserProfileImg();
+      const defaultImg = "https://remoa.s3.ap-northeast-2.amazonaws.com/img/flow_noname_image.png"
+      if (sessionStorage.getItem('accessToken') && !sessionStorage.getItem('modalShown') && profile === defaultImg) {
+        setModalOpen(true);
+        sessionStorage.setItem('modalShown', 'true'); // 모달이 표시되었음을 저장
+      }
+    };
+
+    checkProfileAndShowModal();
   }, []);
 
   const handleSearch = (keyword) => {

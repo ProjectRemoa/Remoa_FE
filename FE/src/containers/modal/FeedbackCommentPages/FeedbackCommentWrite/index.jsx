@@ -4,7 +4,6 @@ import FeedbackCommentList from "../FeedbackCommentList";
 import { AiOutlineClose } from "react-icons/ai";
 import btnStyle from "../../../../layout/Button.module.css";
 import { FaCaretDown } from "react-icons/fa";
-import { useEffect } from "react";
 import { useCheckLike } from "../../../../hooks/checkMyWork";
 import { postFeedbackComment } from "../../../../apis/modal/feedbackComment";
 
@@ -34,21 +33,20 @@ export default function FeedbackCommentWrite({
   const handleSelect = (e) => {
     setSelected(e.target.value);
   };
-
   const opti = Array.from({ length: numPages }, (v, i) => i + 1); // pdf
   const pageCount = Array.from({ length: media.length }, (v, i) => i + 1); // image
   const optiLength = opti.length;
   const pageCountLength = pageCount.length;
 
-  const onSumbitHandler = async (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     checkLike();
   if (!contents) return alert("내용이 비어있습니다.");
-
+      console.log(id3,selected)
       const response = await postFeedbackComment(id3, selected, {
-        feedbacks: contents,
+        feedback: contents,
       });
-      setFeedback(response.data.data);
+      setFeedback(response.data);
       // const newItems = [...pagesArray];
       // newItems.push(selected);
       // setPagesArray(newItems);
@@ -167,7 +165,7 @@ export default function FeedbackCommentWrite({
 
           <button
             className={btnStyle.yellow}
-            onClick={onSumbitHandler}
+            onClick={onSubmitHandler}
             style={{ width: "72px", height: "43px", right: 0, fontWeight: 600 }}
           >
             등록

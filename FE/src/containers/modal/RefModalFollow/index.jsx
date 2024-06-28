@@ -20,7 +20,7 @@ const {
 function RefModalFollow({ member, location }) {
   const navigate = useNavigate();
   const nickname = sessionStorage.getItem("nickname");
-  const token = sessionStorage.getItem("token");
+  const token = sessionStorage.getItem("accessToken");
 
   const { followData, refetchFollowData } = useFollowData(member.memberId);
   const [isFollowing, setIsFollowing] = useState(member.isFollow);

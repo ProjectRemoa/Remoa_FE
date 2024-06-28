@@ -1,6 +1,6 @@
 import axios from "axios";
 import axiosInstance from "../axiosInterceptors";
-const token = sessionStorage.getItem("token");
+const token = sessionStorage.getItem("accessToken");
 
 export const getUserProfileImg = async() => {
   try {

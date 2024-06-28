@@ -34,6 +34,7 @@ import {
 } from "../../../../apis/modal/reference";
 import { useCheckLike } from "../../../../hooks/checkMyWork";
 import { checking, isInteger } from "../../../../functions/checkPage";
+import { tokenRefresh } from "../../../../functions/getToken";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
@@ -153,11 +154,10 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       }
     };
     fetchReference();
+
   }, [id2]);
 
-  useEffect(() => {
-    setViews((prevViews) => prevViews - 1);
-  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
