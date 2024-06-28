@@ -24,7 +24,14 @@ function KakaoLogin() {
         } else if (res.status === 200) {
           // 200 : 로그인
           sessionStorage.setItem("nickname", res.data.data.nickname);
-          sessionStorage.setItem("token", res.data.data.token);
+          sessionStorage.setItem(
+            "accessToken",
+            res.data.data.remoaToken.accessToken
+          );
+          sessionStorage.setItem(
+            "refreshToken",
+            res.data.data.remoaToken.refreshToken
+          );
           alert("환영합니다! " + sessionStorage.getItem("nickname") + "님!");
           navigate("/");
         }
