@@ -42,7 +42,7 @@ export default function RefListContainer({ search: searchKeyword }) {
     page: page,
     sort: sortOption,
     category: category.keyword,
-    title: searchKeyword,
+    searchQuery: searchKeyword,
   });
 
   useEffect(() => {
@@ -77,13 +77,13 @@ export default function RefListContainer({ search: searchKeyword }) {
   // 팔로잉 모달 위치
   function modalLocation(i) {
     const width = window.innerWidth;
-  
+
     const conditions = [
       { maxWidth: 1023, divisor: 2 },
       { maxWidth: 1439, divisor: 3 },
-      { maxWidth: Infinity, divisor: 4 }
+      { maxWidth: Infinity, divisor: 4 },
     ];
-  
+
     for (const condition of conditions) {
       if (width <= condition.maxWidth) {
         return i % condition.divisor === 0 ? condition.divisor : 0;
