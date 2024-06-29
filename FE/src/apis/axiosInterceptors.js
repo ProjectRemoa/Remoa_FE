@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getRefreshToken } from "../functions/getRefreshToken";
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
@@ -46,6 +47,10 @@ axiosInstance.interceptors.response.use(
         case 404:
           console.error("Not Found");
           alert("페이지를 찾을 수 없습니다.");
+          break;
+        case 423:
+          console.log("토큰 만료!");
+          getRefreshToken();
           break;
         case 500:
           console.error("Internal Server Error");
