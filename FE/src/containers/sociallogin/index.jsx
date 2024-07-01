@@ -10,8 +10,8 @@ function SocialLoginContainer() {
   const navigate = useNavigate();
 
   const isNotLogin = () => {
-    // alert("이미 로그인 되어있습니다.");
-    // navigate("/");
+    alert("이미 로그인 되어있습니다.");
+    navigate("/");
   };
 
   useEffect(() => {

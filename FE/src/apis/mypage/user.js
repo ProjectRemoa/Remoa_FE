@@ -16,7 +16,11 @@ export const getUserInfo = async() => {
     const response = await axiosInstance.get(`user`);
     return response.data.data;
   } catch (error) {
-    console.error('Error fetching UserInfo data:', error);
+    // console.error('Error fetching UserInfo data:', error);
+    sessionStorage.removeItem("accessToken")
+    sessionStorage.removeItem("refreshToken")
+    sessionStorage.removeItem("nickname")
+    window.location.href="/sociallogin"
   }
 }
 
