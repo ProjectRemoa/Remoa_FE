@@ -1,13 +1,7 @@
-import axios from "axios";
-
-const token = sessionStorage.getItem("token");
+import axiosInstance from "../axiosInterceptors";
 
 export const getFollow = async (type) => {
-  const response = await axios.get(`/BE/${type}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axiosInstance.get(`${type}`);
   const {
     data: {
       data,
@@ -18,9 +12,5 @@ export const getFollow = async (type) => {
 };
 
 export const postFollow = async (memberId) => {
-  return await axios.post(`/BE/follow/${memberId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return await axiosInstance.post(`follow/${memberId}`);
 };

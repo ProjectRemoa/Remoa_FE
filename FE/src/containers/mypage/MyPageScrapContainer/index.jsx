@@ -36,7 +36,7 @@ function MyPageScrapContainer() {
     if (category === "marketing") setCheckIdx(2);
     if (category === "video") setCheckIdx(3);
     if (category === "design") setCheckIdx(4);
-    if (category === "it") setCheckIdx(5);
+    if (category === "digital") setCheckIdx(5);
     if (category === "etc") setCheckIdx(6);
   };
 
@@ -103,7 +103,7 @@ function MyPageScrapContainer() {
                 총 {scrapData?.posts.length}개
               </span>
             </div>
-            {!scrapData?.posts ? (
+            {scrapData?.posts.length === 0 ? (
               <div
                 style={{
                   display: "flex",

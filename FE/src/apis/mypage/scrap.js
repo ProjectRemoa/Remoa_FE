@@ -1,18 +1,16 @@
-import axios from "axios";
-
-const token = sessionStorage.getItem("token");
+import axiosInstance from "../axiosInterceptors";
 
 export const getScrap = async (pageNumber) => {
-  const response = await axios.get(`/BE/user/scrap?page=${pageNumber}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const {
-    data: {
-      data: { posts, totalPages },
-    },
-  } = response;
+  try {
+    const response = await axiosInstance.get(`user/scrap?page=${pageNumber}`);
+    const {
+      data: {
+        data: { posts, totalPages },
+      },
+    } = response;
 
-  return { posts, totalPages };
+    return { posts, totalPages };
+  } catch (err) {
+    console.log(err);
+  }
 };
