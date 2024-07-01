@@ -100,10 +100,10 @@ function MyPageScrapContainer() {
               <span
                 style={{ fontFamily: "Pretendard-Medium", fontSize: "15px" }}
               >
-                총 {scrapData.posts.length}개
+                총 {scrapData?.posts.length}개
               </span>
             </div>
-            {!scrapData.posts ? (
+            {!scrapData?.posts ? (
               <div
                 style={{
                   display: "flex",
@@ -138,7 +138,7 @@ function MyPageScrapContainer() {
             ) : (
               <>
                 <ScrapListContainer>
-                  {scrapData.posts.map((scrapData, index) => (
+                  {scrapData?.posts.map((scrapData, index) => (
                     <RefCard
                       key={scrapData.postId}
                       data={scrapData}
