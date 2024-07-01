@@ -36,7 +36,7 @@ function MyPageScrapContainer() {
     if (category === "marketing") setCheckIdx(2);
     if (category === "video") setCheckIdx(3);
     if (category === "design") setCheckIdx(4);
-    if (category === "it") setCheckIdx(5);
+    if (category === "digital") setCheckIdx(5);
     if (category === "etc") setCheckIdx(6);
   };
 
@@ -100,10 +100,10 @@ function MyPageScrapContainer() {
               <span
                 style={{ fontFamily: "Pretendard-Medium", fontSize: "15px" }}
               >
-                총 {scrapData.posts.length}개
+                총 {scrapData?.posts.length}개
               </span>
             </div>
-            {!scrapData.posts ? (
+            {scrapData?.posts.length === 0 ? (
               <div
                 style={{
                   display: "flex",
@@ -138,7 +138,7 @@ function MyPageScrapContainer() {
             ) : (
               <>
                 <ScrapListContainer>
-                  {scrapData.posts.map((scrapData, index) => (
+                  {scrapData?.posts.map((scrapData, index) => (
                     <RefCard
                       key={scrapData.postId}
                       data={scrapData}

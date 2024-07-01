@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "../../../apis/axiosInterceptors";
 import { useState, useEffect, useRef } from "react";
 import { useMutation, useQuery } from "react-query";
 import {
@@ -33,7 +34,6 @@ const {
 } = styledComponent;
 
 function MyPageProfile() {
-  const token = sessionStorage.getItem("token");
   const imgRef = useRef();
   const [userData, setUserData] = useState({});
   const [previewImage, setPreviewImage] = useState("");
@@ -42,9 +42,7 @@ function MyPageProfile() {
   const [idCheckColor, setIdCheckColor] = useState("");
   const [editMessage, setEditMessage] = useState("");
   const [editMessageColor, setEditMessageColor] = useState(true);
-  const { data: profileImage, isLoading } = useQuery([token], () =>
-    getUserProfileImg(token)
-  );
+  const { data: profileImage, isLoading } = useQuery("", getUserProfileImg);
   const { mutate } = useMutation(putUserProfileImg);
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
@@ -58,11 +56,7 @@ function MyPageProfile() {
 
   const getProfile = async () => {
     try {
-      const res = await axios.get("/BE/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axiosInstance.get("user");
       setUserData(res.data.data);
     } catch (err) {
       console.log(err);
@@ -103,12 +97,8 @@ function MyPageProfile() {
   // 기본 사진으로 변경
 
   const handleChangeDefaultImg = () => {
-    axios
-      .delete(`/BE/user/img`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    axiosInstance
+      .delete(`user/img`)
       .then(() => {
         window.location.reload();
       })
@@ -214,12 +204,8 @@ function MyPageProfile() {
       setEditMessageColor(false);
       setEditMessage("아직 필수항목을 모두 입력하지 않았어요.");
     } else {
-      axios
-        .put("/BE/user", profileData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+      axiosInstance
+        .put("user", profileData)
         .then(() => {
           sessionStorage.setItem("nickname", nickname);
           setEditMessageColor(true);

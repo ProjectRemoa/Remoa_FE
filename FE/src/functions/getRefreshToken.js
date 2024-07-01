@@ -17,13 +17,14 @@ export const getRefreshToken = async () => {
         }
       )
       .then((res) => {
-        console.log(res.data.data.remoaToken.accessToken);
         sessionStorage.setItem(
           "accessToken",
           res.data.data.remoaToken.accessToken
         );
-      });
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
 };

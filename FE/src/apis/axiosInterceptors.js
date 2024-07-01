@@ -49,7 +49,7 @@ axiosInstance.interceptors.response.use(
           alert("페이지를 찾을 수 없습니다.");
           break;
         case 423:
-          console.log("토큰 만료!");
+          console.error("토큰 만료!");
           getRefreshToken();
           break;
         case 500:

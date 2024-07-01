@@ -1,13 +1,7 @@
-import axios from "axios";
-
-const token = sessionStorage.getItem("token");
+import axiosInstance from "../axiosInterceptors";
 
 export const getOneComment = async () => {
-  const response = await axios.get(`/BE/user/comment?page=${1}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axiosInstance.get(`user/comment?page=${1}`);
   const {
     data: {
       data: { contents },
@@ -17,11 +11,7 @@ export const getOneComment = async () => {
 };
 
 export const getComment = async (pageNum) => {
-  const response = await axios.get(`/BE/user/comment?page=${pageNum}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axiosInstance.get(`user/comment?page=${pageNum}`);
   const {
     data: {
       data: { contents, totalPages },
