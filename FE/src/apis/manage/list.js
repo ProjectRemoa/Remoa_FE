@@ -1,8 +1,8 @@
-import axios from "axios";
+import axiosInstance from "../axiosInterceptors";
 
 export const getWork = async (endpoint) => {
-  try {      
-    const response = await axios.get(endpoint);
+  try {
+    const response = await axiosInstance.get(endpoint);
     const {
       data: {
         data: {
@@ -13,9 +13,13 @@ export const getWork = async (endpoint) => {
         },
       },
     } = response;
-    return { references, totalOfAllReferences, totalOfPageElements, totalPages };
-  }
-  catch (err) {
+    return {
+      references,
+      totalOfAllReferences,
+      totalOfPageElements,
+      totalPages,
+    };
+  } catch (err) {
     console.log(err);
     return err;
   }
