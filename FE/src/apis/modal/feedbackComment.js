@@ -2,7 +2,7 @@ import axiosInstance from "../axiosInterceptors";
 
 export const postFeedbackComment = async (referenceId, pageNumber, params) => {
   try {
-    const response = await axiosInstance.post(`reference/${referenceId}/${pageNumber}`, params);
+    const response = await axiosInstance.post(`reference/feedback/${referenceId}/${pageNumber}`, params);
     return response.data;
   } catch (error) {
     console.error('Error postFeedbackComment:', error);

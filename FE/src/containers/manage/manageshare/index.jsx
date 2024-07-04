@@ -12,7 +12,7 @@ function getByteLength(s, b, i, c) {
   return b;
 }
 
-const token = sessionStorage.getItem("token");
+const token = sessionStorage.getItem("refreshToken");
 
 function ManageShareContainer() {
   const [name, setName] = useState("");

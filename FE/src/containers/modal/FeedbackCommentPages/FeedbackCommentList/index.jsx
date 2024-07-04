@@ -8,12 +8,14 @@ import {
   deleteFeedbackComment,
 } from "../../../../apis/modal/feedbackComment";
 import { getReference } from "../../../../apis/modal/reference";
+
 export default function FeedbackCommentList({
   feedbacks,
   link,
   setFeedback,
   id,
 }) {
+
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
 
@@ -51,14 +53,14 @@ export default function FeedbackCommentList({
       const response = await putFeedbackComment(feedback_id, {
         feedback: contents,
       })
-      setFeedback(response.data.data);
+      setFeedback(response.data);
       setPutMemberId(0);
     }
   };
 
   const onClickDelete = async (feedback_id) => {
     const response = await deleteFeedbackComment(feedback_id)
-    setFeedback(response.data.data);
+    setFeedback(response.data);
   };
 
   return (

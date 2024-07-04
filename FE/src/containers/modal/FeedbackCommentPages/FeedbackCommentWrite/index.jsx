@@ -6,6 +6,8 @@ import btnStyle from "../../../../layout/Button.module.css";
 import { FaCaretDown } from "react-icons/fa";
 import { useCheckLike } from "../../../../hooks/checkMyWork";
 import { postFeedbackComment } from "../../../../apis/modal/feedbackComment";
+import axiosInstance from "../../../../apis/axiosInterceptors";
+import AutoCloseModal from "../../../../components/common/AutoCloseModal";
 
 export default function FeedbackCommentWrite({
   id3,
@@ -17,8 +19,11 @@ export default function FeedbackCommentWrite({
   feedbacks,
   setFeedback,
   isFromManage,
+  countPage,
 }) {
   const [contents, setContents] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
   const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
     const inputValue = event.target.value;
@@ -41,34 +46,35 @@ export default function FeedbackCommentWrite({
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     checkLike();
-  if (!contents) return alert("내용이 비어있습니다.");
-      console.log(id3,selected)
+    if (!contents) return alert("내용이 비어있습니다.");
+
+    let user = undefined;
+    let pageContainsResult = false;
+    const res = await axiosInstance.get("user");
+    if (res.data.data) {
+      user = countPage.find((item) => item.nickname === res.data.data.nickname);
+      console.log(countPage, res.data.data)
+      if (user?.pages.includes(selected)) {
+        pageContainsResult = true;
+      }
+    }
+
+    if (pageContainsResult) {
+      setShowModal(true);
+      return;
+    } else {
       const response = await postFeedbackComment(id3, selected, {
         feedback: contents,
       });
       setFeedback(response.data);
-      // const newItems = [...pagesArray];
-      // newItems.push(selected);
-      // setPagesArray(newItems);
-
       setContents("");
-    
+    }
   };
-
   const [expandModalOpenDelete, setExpandModalOpenDelete] = useState(false);
   // 모달창 노출
   const showExpandModalDelete = () => {
     setExpandModalOpenDelete(!expandModalOpenDelete);
   };
-
-  // const [pagesArray, setPagesArray] = useState([]);
-  // useEffect(() => {
-  //   const pageArray = feedbacks.map((feedback) =>
-  //     feedback.feedbackInfos.map((feedback) => feedback.page)
-  //   );
-  //   console.log(pageArray[0])
-  //   setPagesArray(pageArray[0]);
-  // }, [feedbacks]);
 
   return (
     <S.ModalWrapper
@@ -109,17 +115,20 @@ export default function FeedbackCommentWrite({
           <S.FeedbackSelect
             onChange={handleSelect}
             onClick={showExpandModalDelete}
-            disabled={link}
+            disabled={!!link}
             style={{ left: "10px", alignItems: "center" }}
           >
             {selected}
-            {selected && (
-              <FaCaretDown style={{ marginLeft: "5px" }} />
-            )}
+            {selected && <FaCaretDown style={{ marginLeft: "5px" }} />}
           </S.FeedbackSelect>
 
-          {expandModalOpenDelete && (pageCountLength < optiLength) && (
-            <S.SelectWrapper style={{ height: `${optiLength * 30}px`, overflowY: optiLength * 30 > 100 ? 'auto' : 'hidden' }}>
+          {expandModalOpenDelete && pageCountLength < optiLength && (
+            <S.SelectWrapper
+              style={{
+                height: `${optiLength * 30}px`,
+                overflowY: optiLength * 30 > 100 ? "auto" : "hidden",
+              }}
+            >
               {opti.map((a) => (
                 <S.FeedbackSelect
                   key={a}
@@ -140,8 +149,13 @@ export default function FeedbackCommentWrite({
           )}
 
           {/* pdf  */}
-          {expandModalOpenDelete && (pageCountLength > optiLength) && (
-            <S.SelectWrapper style={{ height: `${pageCountLength * 30}px`, overflowY: pageCountLength * 30 > 100 ? 'auto' : 'hidden' }}>
+          {expandModalOpenDelete && pageCountLength > optiLength && (
+            <S.SelectWrapper
+              style={{
+                height: `${pageCountLength * 30}px`,
+                overflowY: pageCountLength * 30 > 100 ? "auto" : "hidden",
+              }}
+            >
               {pageCount.map((a) => (
                 <S.FeedbackSelect
                   key={a}
@@ -180,6 +194,11 @@ export default function FeedbackCommentWrite({
           />
         </S.RegBottom>
       </S.ModalWriteFeed>
+      {showModal && (
+        <AutoCloseModal onClose={() => setShowModal(false)} duration={1000}>
+          <S.PageModalText>이미 해당 페이지에 대한 피드백을 작성했어요.</S.PageModalText>
+        </AutoCloseModal>
+      )}
     </S.ModalWrapper>
   );
 }

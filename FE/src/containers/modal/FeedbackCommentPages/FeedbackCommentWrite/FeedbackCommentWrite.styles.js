@@ -119,20 +119,14 @@ export const S = {
     height: 520px;
     position: absolute;
     top: 80px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     box-sizing: border-box;
+    padding-right: 15px; /* Add padding to accommodate custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #b0b0b0 transparent;
 
-    &::-webkit-scrollbar {
-      width: 7px;
-    }
-
-    &::-webkit-scrollbar-thumb:end {
-      border-radius: 20px;
-      background: var(--disabled-gray, #b0b0b0);
-    }
-
-    &::-webkit-scrollbar-track {
-    }
+   
   `,
   SelectWrapper: styled.div`
     padding: 4px;
@@ -151,5 +145,11 @@ export const S = {
     background: #fff;
     top: 80px;
     left: -47px;
+  `,
+  PageModalText: styled.p`
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 100%;
   `,
 };

@@ -76,7 +76,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     setShowSel(!showSel);
   };
   const [category, setCategory] = useState("");
-
+  const [countPage, setCountPage] = useState([]);
   useEffect(() => {
     const fetchReference = async () => {
       try {
@@ -163,6 +163,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
     }, 2500);
   }, [loading]);
 
+  useEffect(() => {
+    setCountPage(feedbacks.map(feedback => ({
+      pages: feedback.feedbackInfos.map(info => info.page),
+      nickname: feedback.member.nickname
+    })));
+  }, [feedbacks]);
   const handleLike = async () => {
     checkLike();
     try {
@@ -461,6 +467,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     link={middle.youtubeLink}
                     feedbacks={feedbacks}
                     setFeedback={setFeedback}
+                    countPage={countPage}
                   />
                 </S.Drag>
               </Draggable>

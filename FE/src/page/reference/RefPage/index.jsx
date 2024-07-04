@@ -21,11 +21,14 @@ function RefPage() {
   useEffect(() => {
     const checkProfileAndShowModal = async () => {
       // 로그인 되어있고, 로컬 스토리지에 modalShown 없고, 프로필이 기본 이미지일 때 모달 표시
-      const profile = await getUserProfileImg();
-      const defaultImg = "https://remoa.s3.ap-northeast-2.amazonaws.com/img/flow_noname_image.png"
-      if (sessionStorage.getItem('accessToken') && !sessionStorage.getItem('modalShown') && profile === defaultImg) {
-        setModalOpen(true);
-        sessionStorage.setItem('modalShown', 'true'); // 모달이 표시되었음을 저장
+
+      if (sessionStorage.getItem('accessToken') && !sessionStorage.getItem('modalShown')) {
+        const profile = await getUserProfileImg();
+        const defaultImg = "https://remoa.s3.ap-northeast-2.amazonaws.com/img/flow_noname_image.png"
+        if (profile===defaultImg) {
+          setModalOpen(true);
+          sessionStorage.setItem('modalShown', 'true');
+        }
       }
     };
 
