@@ -1,11 +1,11 @@
-import React, {  useState , useEffect} from "react";
-import {S} from "./ManageFeedbackContainer.styles"
+import axiosInstance from "../../../apis/axiosInterceptors";
+import React, { useState, useEffect } from "react";
+import { S } from "./ManageFeedbackContainer.styles";
 import Dropdown from "../../../components/common/Dropdown";
 import { filterOptions } from "../../reference/constants";
 import { useNavigate } from "react-router";
-import axios from "axios";
-import Category from "../../../components/common/Category"
-import CommentContainerComponent from "../../../components/common/CommentContainerComponent"
+import Category from "../../../components/common/Category";
+import CommentContainerComponent from "../../../components/common/CommentContainerComponent";
 
 function ManageFeedbackContainer() {
   const [checkIdx, setCheckIdx] = useState(0);
@@ -39,24 +39,22 @@ function ManageFeedbackContainer() {
 
   useEffect(() => {
     let endpoint;
-    endpoint = `/BE/user/receive?category=${categoryName}&page=${1}`; 
+    endpoint = `user/receive?category=${categoryName}&page=${1}`;
     setPage(1);
     getComment(endpoint);
   }, [categoryName]);
 
   useEffect(() => {
     let endpoint;
-    endpoint = `/BE/user/receive?category=${categoryName}&page=${page}`; 
+    endpoint = `user/receive?category=${categoryName}&page=${page}`;
     getComment(endpoint);
-  }, [page])
+  }, [page]);
 
   const getComment = (endpoint) => {
-    console.log(endpoint);
     const fetchData = async () => {
       try {
-        const response = await axios.get(endpoint);
-        console.log(response);
-        
+        const response = await axiosInstance.get(endpoint);
+
         const {
           data: {
             data: {
@@ -72,7 +70,6 @@ function ManageFeedbackContainer() {
         setToac(totalOfAllComments);
         setTope(totalOfPageElements);
         setTP(totalPages);
-        
       } catch (err) {
         console.log(err);
         return err;

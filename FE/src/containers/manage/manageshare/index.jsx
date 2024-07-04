@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../../../apis/axiosInterceptors";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
@@ -219,15 +219,11 @@ function ManageShareContainer() {
     // file은 따로 넣고
     Object.values(uploads).forEach((file) => formdata.append("file", file));
 
-    axios.defaults.withCredentials = true;
-
-    axios
-      .post("/BE/reference", formdata, {
+    axiosInstance
+      .post("reference", formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
-        withCredentials: true,
       })
       .then((response) => {
         if (response.status === 200) {
