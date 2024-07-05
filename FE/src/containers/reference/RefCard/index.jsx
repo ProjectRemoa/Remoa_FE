@@ -1,16 +1,17 @@
-import { FaHeart } from 'react-icons/fa';
+import { FaHeart } from "react-icons/fa";
 
-import StyledComponents from './RefCard.styles';
-import { useEffect, useState } from 'react';
+import StyledComponents from "./RefCard.styles";
+import { useEffect, useState } from "react";
 
-import RefModalFollow from '../../modal/RefModalFollow';
-import { useParams } from 'react-router-dom';
+import RefModalFollow from "../../modal/RefModalFollow";
+import { useParams } from "react-router-dom";
 
-import { TbEyeFilled } from 'react-icons/tb';
-import { BsFillBookmarkFill } from 'react-icons/bs';
+import { TbEyeFilled } from "react-icons/tb";
+import { BsFillBookmarkFill } from "react-icons/bs";
 
-import BeforeChecked from '../../../images/before_checked.svg';
-import AfterChecked from '../../../images/after_checked.svg';
+import BeforeChecked from "../../../images/before_checked.svg";
+import AfterChecked from "../../../images/after_checked.svg";
+import { scrapReference } from "../../../apis/modal/reference";
 
 const {
   RefCardWrapper,
@@ -61,7 +62,7 @@ function RefCard({
   };
 
   const handleProfileModal = () => {
-    if (window.location.href.includes('manage') === true) {
+    if (window.location.href.includes("manage") === true) {
       // 작업물 관리에서는 프로필 띄우지 않음
     } else {
       if (postId === selectedPostId) {
@@ -132,7 +133,7 @@ function RefCard({
           </RefCardProfileName>
 
           <RefCardFunctionWrapper>
-            {!id || window.location.href.includes('user/list') ? (
+            {!id || window.location.href.includes("user/list") ? (
               <>
                 {/* 조회수 */}
                 <RefCardFunctionIcon>
@@ -141,7 +142,7 @@ function RefCard({
 
                 {/* 좋아요 */}
                 <RefCardFunctionIcon>
-                  <FaHeart style={{ color: isLikedPost ? '#FADA5E' : '' }} />{' '}
+                  <FaHeart style={{ color: isLikedPost ? "#FADA5E" : "" }} />{" "}
                   {formatCount(likeCount)}
                 </RefCardFunctionIcon>
 
@@ -149,15 +150,22 @@ function RefCard({
                 <RefCardFunctionIcon>
                   <BsFillBookmarkFill
                     style={{
-                      color: isScrapedPost ? '#FADA5E' : '',
+                      color: isScrapedPost ? "#FADA5E" : "",
                     }}
-                  />{' '}
+                  />{" "}
                   {formatCount(scrapCount)}
                 </RefCardFunctionIcon>
               </>
             ) : (
               <RefCardFunctionIcon>
-                <ScrapButton>스크랩 해제</ScrapButton>
+                <ScrapButton
+                  onClick={async () => {
+                    await scrapReference(postId);
+                    window.location.reload();
+                  }}
+                >
+                  스크랩 해제
+                </ScrapButton>
               </RefCardFunctionIcon>
             )}
           </RefCardFunctionWrapper>
