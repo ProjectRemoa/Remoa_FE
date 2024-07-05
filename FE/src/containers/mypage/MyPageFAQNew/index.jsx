@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../../../apis/axiosInterceptors";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styledComponent from "./MyPageFAQNew.styles";
@@ -12,8 +12,6 @@ const {
   Textarea,
   SubmitButton,
 } = styledComponent;
-
-const token = sessionStorage.getItem("token");
 
 function MyPageFAQNew() {
   const navigate = useNavigate();
@@ -33,14 +31,10 @@ function MyPageFAQNew() {
 
   const handleSubmit = async () => {
     try {
-      await axios.post(
-        `/BE/${category}`,
-        {
-          title,
-          content,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axiosInstance.post(`${category}`, {
+        title,
+        content,
+      });
       alert(`${type}에 글이 등록되었습니다!`);
       navigate("/mypage/faq");
     } catch (err) {
