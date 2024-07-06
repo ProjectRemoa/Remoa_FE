@@ -1,10 +1,8 @@
-import axios from "axios";
+import axiosInstance from "../apis/axiosInterceptors";
 import { useRecoilState } from "recoil";
 import { loginState } from "../state/loginState";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const token = sessionStorage.getItem("token");
 
 export const useAuth = () => {
   const navigate = useNavigate();
@@ -18,20 +16,13 @@ export const useAuth = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.put(
-        "/BE/api/member/logout",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axiosInstance.put("api/member/logout");
 
       sessionStorage.removeItem("nickname");
       sessionStorage.removeItem("email");
       sessionStorage.removeItem("new");
-      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("refreshToken");
 
       setIsLogin(false);
 

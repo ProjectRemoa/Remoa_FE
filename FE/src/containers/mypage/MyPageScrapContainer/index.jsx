@@ -21,23 +21,54 @@ function MyPageScrapContainer() {
   const { id } = useParams();
   const [scrapPage, setScrapPage] = useState(1);
   const [checkIdx, setCheckIdx] = useState(0);
+  const [scrapData, setScrapData] = useState([]);
+  const [categoryName, setCategoryName] = useState("all");
+
+  const { data, isLoading } = useQuery(["categoryName"], () =>
+    getScrap(scrapPage, categoryName)
+  );
+
+  // if (!isLoading) console.log(data.posts);
+  // console.log(scrapData);
 
   useEffect(() => {
     modalLocation();
-  }, []);
-
-  const { data: scrapData, isLoading } = useQuery(["scrap"], () =>
-    getScrap(scrapPage)
-  );
+    console.log(isLoading);
+    if (!isLoading) {
+      console.log(data.posts);
+      console.log(categoryName);
+      setScrapData(data.posts);
+    }
+  }, [data, categoryName]);
 
   const handleCategoryClick = (category) => {
-    if (category === "all") setCheckIdx(0);
-    if (category === "idea") setCheckIdx(1);
-    if (category === "marketing") setCheckIdx(2);
-    if (category === "video") setCheckIdx(3);
-    if (category === "design") setCheckIdx(4);
-    if (category === "digital") setCheckIdx(5);
-    if (category === "etc") setCheckIdx(6);
+    setCategoryName(category);
+    switch (category) {
+      case "all":
+        setCheckIdx(0);
+        break;
+      case "idea":
+        setCheckIdx(1);
+        break;
+      case "marketing":
+        setCheckIdx(2);
+        break;
+      case "video":
+        setCheckIdx(3);
+        break;
+      case "design":
+        setCheckIdx(4);
+        break;
+      case "digital":
+        setCheckIdx(5);
+        break;
+      case "etc":
+        setCheckIdx(6);
+        break;
+
+      default:
+        break;
+    }
   };
 
   //////////////////////////////////////////////
@@ -100,10 +131,10 @@ function MyPageScrapContainer() {
               <span
                 style={{ fontFamily: "Pretendard-Medium", fontSize: "15px" }}
               >
-                총 {scrapData?.posts.length}개
+                총 {scrapData.length}개
               </span>
             </div>
-            {scrapData?.posts.length === 0 ? (
+            {scrapData.length === 0 ? (
               <div
                 style={{
                   display: "flex",
@@ -138,7 +169,7 @@ function MyPageScrapContainer() {
             ) : (
               <>
                 <ScrapListContainer>
-                  {scrapData?.posts.map((scrapData, index) => (
+                  {scrapData.map((scrapData, index) => (
                     <RefCard
                       key={scrapData.postId}
                       data={scrapData}
