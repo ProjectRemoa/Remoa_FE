@@ -7,6 +7,7 @@ import RefCard from "../../reference/RefCard";
 import RefModal from "../../modal/RefModalPages/RefModal";
 import Category from "../../../components/common/Category";
 import styledComponent from "./MyPageScrapContainer.styles";
+import Dropdown from "../../../components/common/Dropdown";
 const {
   ScrapContainer,
   MoreSearch,
@@ -16,33 +17,37 @@ const {
   MyPaginate,
 } = styledComponent;
 
+const filterOptions = [
+  {
+    key: "desc",
+    value: "최신순",
+  },
+  {
+    key: "asc",
+    value: "오래된순",
+  },
+];
+
 function MyPageScrapContainer() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [scrapPage, setScrapPage] = useState(1);
   const [checkIdx, setCheckIdx] = useState(0);
-  const [scrapData, setScrapData] = useState([]);
   const [categoryName, setCategoryName] = useState("all");
+  const [filter, setFilter] = useState(filterOptions[0].value); // 필터 값 (한글)
+  const [sortOption, setSortOption] = useState(filterOptions[0].key); // 필터 값 (영어)
 
-  const { data, isLoading } = useQuery(["categoryName"], () =>
-    getScrap(scrapPage, categoryName)
+  const { data, isLoading } = useQuery(
+    ["categoryName", scrapPage, categoryName, sortOption],
+    () => getScrap(scrapPage, categoryName, sortOption),
+    { keepPreviousData: true }
   );
-
-  // if (!isLoading) console.log(data.posts);
-  // console.log(scrapData);
 
   useEffect(() => {
     modalLocation();
-    console.log(isLoading);
-    if (!isLoading) {
-      console.log(data.posts);
-      console.log(categoryName);
-      setScrapData(data.posts);
-    }
-  }, [data, categoryName]);
+  }, [data]);
 
   const handleCategoryClick = (category) => {
-    setCategoryName(category);
     switch (category) {
       case "all":
         setCheckIdx(0);
@@ -69,6 +74,9 @@ function MyPageScrapContainer() {
       default:
         break;
     }
+    setCategoryName(category);
+    setSortOption(filterOptions[0].key);
+    setFilter(filterOptions[0].value);
   };
 
   //////////////////////////////////////////////
@@ -131,10 +139,16 @@ function MyPageScrapContainer() {
               <span
                 style={{ fontFamily: "Pretendard-Medium", fontSize: "15px" }}
               >
-                총 {scrapData.length}개
+                총 {data.posts.length}개
               </span>
+              <Dropdown
+                filter={filter}
+                setFilter={setFilter}
+                setSortOption={setSortOption}
+                filterOptions={filterOptions}
+              />
             </div>
-            {scrapData.length === 0 ? (
+            {data.posts.length === 0 ? (
               <div
                 style={{
                   display: "flex",
@@ -169,7 +183,7 @@ function MyPageScrapContainer() {
             ) : (
               <>
                 <ScrapListContainer>
-                  {scrapData.map((scrapData, index) => (
+                  {data?.posts.map((scrapData, index) => (
                     <RefCard
                       key={scrapData.postId}
                       data={scrapData}
@@ -180,15 +194,22 @@ function MyPageScrapContainer() {
                     />
                   ))}
                 </ScrapListContainer>
+
+                {/* 내 활동 관리에서 스크랩한 작업물에 작업물 양에 따른 더보기 버튼 UI 생성 */}
+
                 {id === "work" ? (
-                  <MoreButtonContainer>
-                    <MoreButton onClick={() => navigate("/mypage/scrap")}>
-                      더 보기 &gt;
-                    </MoreButton>
-                  </MoreButtonContainer>
+                  data.posts.length > 20 ? (
+                    <MoreButtonContainer>
+                      <MoreButton onClick={() => navigate("/mypage/scrap")}>
+                        더 보기 &gt;
+                      </MoreButton>
+                    </MoreButtonContainer>
+                  ) : (
+                    ""
+                  )
                 ) : (
                   <MyPaginate
-                    pageCount={scrapData?.totalPages}
+                    pageCount={data?.totalPages}
                     previousLabel="<"
                     nextLabel=">"
                     onPageChange={(e) => setScrapPage(e.selected + 1)}

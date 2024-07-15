@@ -10,9 +10,9 @@ export const getOneComment = async () => {
   return contents[0];
 };
 
-export const getComment = async (pageNum) => {
+export const getComment = async (pageNum, sortOption) => {
   const response = await axiosInstance.get(
-    `user/comment-feedback?page=${pageNum}`
+    `user/comment-feedback?page=${pageNum}&sort=${sortOption}`
   );
   const {
     data: {
