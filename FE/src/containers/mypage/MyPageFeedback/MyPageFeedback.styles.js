@@ -78,6 +78,7 @@ const HorizonLine = styled.hr`
   height: 1px;
   background: #e7e7e7;
   border: 0;
+  margin: 20px 0;
 `;
 const Contents = styled.div`
   /* display: flex;
