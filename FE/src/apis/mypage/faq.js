@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "../axiosInterceptors";
 
 export const getNotices = async (noticePageNumber) => {
   const response = await axios.get(`/BE/notice?page=${noticePageNumber}`);
@@ -19,17 +20,18 @@ export const getNoticesDetail = async (postId) => {
 };
 
 export const getInquiries = async (inquiryPageNumber) => {
-  const response = await axios.get(`/BE/inquiry?page=${inquiryPageNumber}`);
+  const response = await axiosInstance.get(`inquiry?page=${inquiryPageNumber}`);
   const {
     data: {
       data: { inquiries, totalPages },
     },
   } = response;
+
   return { inquiries, totalPages };
 };
 
 export const getInquiriesDetail = async (postId) => {
-  const response = await axios.get(`/BE/inquiry/view?view=${postId}`);
+  const response = await axiosInstance.get(`inquiry/view?view=${postId}`);
   const {
     data: { data },
   } = response;

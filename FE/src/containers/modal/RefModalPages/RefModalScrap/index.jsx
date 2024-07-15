@@ -1,19 +1,14 @@
 import styles from '../../../../layout/Modal.module.css'
-import { AiOutlineClose } from 'react-icons/ai'
-import { AiFillCheckCircle } from 'react-icons/ai'
-import { S } from './ui';
+import { AiOutlineClose, AiFillCheckCircle } from 'react-icons/ai'
+import { S } from './RefModalScrap.styles';
 
 function ModalScrap({ setScrapModal }) {
-
-  const closeModal = () => {
-    setScrapModal(false)
-  };
 
   return (
     <S.Wrapper className={styles.container} style={{ display: 'block'}}>
     <AiOutlineClose 
       className={styles.close} 
-      onClick={closeModal}
+      onClick={() => {setScrapModal(false)}}
       style={{marginTop:'18px', marginRight:'18px', width:'24px', height:'24px'}}
     />
     <AiFillCheckCircle style={{ fontSize:'40px', color:'#FADA5E' }} />

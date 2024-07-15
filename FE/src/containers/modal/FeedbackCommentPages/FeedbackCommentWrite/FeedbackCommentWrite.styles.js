@@ -13,12 +13,14 @@ export const S = {
     background: #fff;
     box-shadow: 0px 0px 4px 0px rgba(63, 63, 63, 0.18);
   `,
-  FeedbackSelect: styled.select`
+  FeedbackSelect: styled.div`
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
     width: 55px;
     height: 32px;
     border-radius: 2px;
     position: relative;
-    bottom: 6px;
     border: 1px solid var(--line, #e1e2e5);
   `,
   ModalHeader: styled.div`
@@ -65,6 +67,11 @@ export const S = {
     display: flex;
     box-sizing: border-box;
     padding: 12px 28px;
+    & > *:last-child {
+      position: absolute;
+      left: 383px;
+    }
+    align-items: center;
   `,
   RegExplain: styled.span`
     line-height: 24px;
@@ -72,15 +79,16 @@ export const S = {
   RegBottom: styled.div`
     width: 100%;
     height: auto;
+    display: flex;
+    justify-content: center;
   `,
   WriteInput: styled.textarea`
     width: 428px;
     height: 139px;
     border-radius: 10px;
-    background: var(--light-gray, #f0f0f0);
     font-family: "Inter";
     resize: none;
-    border: none;
+    border: 1px solid gray;
     padding: 17px;
     box-sizing: border-box;
     ::placeholder {
@@ -107,12 +115,41 @@ export const S = {
     letter-spacing: -0.32px;
   `,
   Feedback: styled.div`
-    width: 450px;
-    height: 380px;
+    width: 484px;
+    height: 520px;
     position: absolute;
-    top: 105px;
-    margin-left: 28px;
+    top: 80px;
     overflow-y: scroll;
+    overflow-x: hidden;
     box-sizing: border-box;
+    padding-right: 15px; /* Add padding to accommodate custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #b0b0b0 transparent;
+
+   
+  `,
+  SelectWrapper: styled.div`
+    padding: 4px;
+    max-height: 100px;
+    border: 1px solid #e1e2e5;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    text-align: center;
+    gap: 4px;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    border-radius: 2px;
+    background: #fff;
+    top: 80px;
+    left: -47px;
+  `,
+  PageModalText: styled.p`
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 100%;
   `,
 };

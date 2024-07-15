@@ -1,26 +1,20 @@
-import { S } from "./ui";
+import { S } from "./CommentList.styles";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
-import React, { useState } from "react";
-import axios from "axios";
-import ModalCommentWriteAgain from "../ModalCommentWriteAgain";
-import ModalCommentListAgain from "../ModalCommentListAgain";
+import React, { useState, useEffect } from "react";
+import { B } from "../../../../styles/Button";
+import CommentWriteReply from "../CommentWriteReply";
+import CommentListReply from "../CommentListReply";
+import {
+  deleteComment,
+  likeComment,
+  putComment,
+} from "../../../../apis/modal/comment";
+import { getReference } from "../../../../apis/modal/reference";
 
-export default function ModalCommentList({
-  comments,
-  postId,
-  setComments,
-  setAgainComments,
-  againComments,
-}) {
-  comments.sort((a, b) => {
-    return new Date(a.commentedTime) - new Date(b.commentedTime);
-  });
-
+export default function ModalCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
-  // const [timer, setTimer] = useState(null); // 디바운싱 구현
-
-  // 수정할 member id
+  const [originalContent, setOriginalContent] = useState("");
   const [putMemberId, setPutMemberId] = useState(0);
 
   const onChangeContents = (event) => {
@@ -30,64 +24,43 @@ export default function ModalCommentList({
       return;
     }
     setContents(inputValue);
-    // if (timer) clearTimeout(timer)
-
-    // const newTimer = setTimeout(() => {
-    //     setContents(inputValue);
-    // }, 500);
-    // console.log(contents)
-    // setTimer(newTimer);
   };
+  // [{},{} 배열 형태로 들어옴]
+  useEffect(() => {
+    // 초기 데이터로 상태 설정
+    setContents(comments.content);
+    setOriginalContent(comments.content);
+  }, [comments]);
 
-  const onPutHandler = (commentId) => {
-    const UploadComment = {
+  const onPutHandler = async (commentId) => {
+    if (contents === originalContent) {
+      alert("변경된 내용이 없습니다.");
+      return;
+    }
+
+    const response = await putComment(commentId, {
       comment: contents,
-    };
-    if (!contents) UploadComment.comment = contents;
-    axios
-      .put(`/BE/reference/comment/${commentId}`, UploadComment)
-      .then((response) => {
-        console.log(response);
-        setComments(response.data.data);
-        alert("댓글 수정이 완료되었습니다.");
-        setPutMemberId(0);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    });
+    console.log(response);
+    setComments(response.data);
+    alert("댓글 수정이 완료되었습니다.");
+    setPutMemberId(0);
   };
 
-  const onDelete = (commentId) => {
-    axios
-      .delete(`/BE/reference/comment/${commentId}`)
-      .then((response) => {
-        console.log(response);
-        setComments(response.data.data);
-        alert("댓글 삭제가 완료되었습니다.");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const onDelete = async (commentId) => {
+    const response = await deleteComment(commentId);
+    console.log(response);
+    setComments(response.data);
   };
 
-  const onClickThumb = (commentId) => {
-    axios
-      .post(`/BE/comment/${commentId}/like`)
-      .then((res) => {
-        console.log(res);
-        axios
-          .get(`/BE/reference/${postId}`)
-          .then((res) => {
-            console.log(res);
-            setComments(res.data.data.comments);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const onClickThumb = async (commentId) => {
+    const res = await likeComment(commentId);
+    try {
+      const res = await getReference(postId);
+      setComments(res.data.comments);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // 대댓
@@ -97,24 +70,20 @@ export default function ModalCommentList({
   };
 
   return (
-    <div style={{backgroundColor:'skyblue'}}>
+    <div>
       {comments &&
         comments.map((comments, index) => (
-          <S.AgainWrapper key={index}>
-            <S.AgainTable>
+          <>
+            <S.AgainTable key={index}>
               <tbody>
-                <tr style={{ display: "flex", position: "relative" }}>
-                  <td style={{ width: "40px" }} rowSpan="3">
+                <tr>
+                  <td style={{width:'40px'}}>
                     <S.ProfileSize src={comments.member.profileImage} alt="" />
                   </td>
                   <td>
                     <S.ProfileName>{comments.member.nickname}</S.ProfileName>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style={{ textAlign: "left", paddingLeft: "52px" }}>
-                    {putMemberId === comments.commentId ? (
+                    <div style={{margin:"10px 0px"}}>
+                    {putMemberId === comments.commentId ? ( // 일치할 때만 수정 가능한 칸
                       <div id={comments.commentId}>
                         <S.EditButton
                           onClick={() => {
@@ -130,17 +99,16 @@ export default function ModalCommentList({
                           placeholder="해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
                           욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
                           onChange={onChangeContents}
-                          defaultValue={comments.comment}
+                          defaultValue={comments.content}
+                          style={{ padding: "10px" }}
                         />
                       </div>
                     ) : (
-                      <S.Comment>{comments.comment}</S.Comment>
+                      <div>
+                        <S.Comment>{comments.content}</S.Comment>
+                      </div>
                     )}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style={{ height: "28px", paddingLeft: "52px" }}>
+                    </div>
                     {putMemberId !== comments.commentId && (
                       <S.CommentTableBottom>
                         <div
@@ -173,33 +141,41 @@ export default function ModalCommentList({
                             </div>
                           </>
                         )}
-                        <S.ThumbCount
+                        <B.LikeButton
+                          style={{
+                            position: "absolute",
+                            right: 0,
+                          }}
                           onClick={() => onClickThumb(comments.commentId)}
                         >
                           <BsFillHandThumbsUpFill />
                           <span>{comments.likeCount}</span>
-                        </S.ThumbCount>
+                        </B.LikeButton>
                       </S.CommentTableBottom>
                     )}
                   </td>
                 </tr>
               </tbody>
             </S.AgainTable>
-            <ModalCommentWriteAgain
+            <S.Differentiate style={{ margin: "20px 0px" }} />
+            <CommentWriteReply
               openWriteAgain={openWriteAgain}
               setOpenWriteAgain={setOpenWriteAgain}
               id={comments.commentId}
               postId={postId}
               comments={comments}
-              setAgainComments={setAgainComments}
-              againComments={againComments}
+              setComments={setComments}
             />
-            <ModalCommentListAgain
-              replies={comments.replies}
-              postId={postId}
-              commentId={comments.commentId}
-            />
-          </S.AgainWrapper>
+            {comments?.commentReplies.map((reply, index) => (
+              <CommentListReply
+                key={index}
+                reply={reply}
+                postId={postId}
+                commentId={comments.commentId}
+                setComments={setComments}
+              />
+            ))}
+          </>
         ))}
     </div>
   );

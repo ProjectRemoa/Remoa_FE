@@ -1,15 +1,15 @@
-import { React, useEffect,  useRef,  useState } from "react";
+import { React, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import S from "./ManageListContainer.styles"
-import { filterOptions } from "../../reference/constants"
-import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles"
+import S from "./ManageListContainer.styles";
+import { filterOptions } from "../../reference/constants";
+import StyledComponents from "../../reference/RefListWrapper/RefListWrapper.styles";
 import Dropdown from "../../../components/common/Dropdown";
 import RefCard from "../../reference/RefCard";
 import RefModal from "../../modal/RefModalPages/RefModal";
 import ManageDeleteContainer from "../manageDeleteContainer";
 import { useLocation } from "react-router";
-import BACK from "../../../images/back.svg"
-import Category from "../../../components/common/Category"
+import BACK from "../../../images/back.svg";
+import Category from "../../../components/common/Category";
 import { getWork } from "../../../apis/manage/list";
 import { useQuery } from "react-query";
 import Loading from "../../../styles/Loading";
@@ -36,7 +36,7 @@ function ManageListContainer() {
   const [isOtherUser, setIsOtherUser] = useState(false);
   const [name, setName] = useState();
   const [deletedData, setDeletedData] = useState([]);
-  
+
   const onChangeEndpoint = () => {
     let endpoint;
     const pathSegments = location.pathname.split("/");
@@ -44,19 +44,18 @@ function ManageListContainer() {
     if (window.location.href.includes("user/list")) {
       setIsOtherUser(true);
       // 다른 사람의 작업물
-      endpoint = `/BE/user/reference/${param}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+      endpoint = `user/reference/${param}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
     } else {
       setIsOtherUser(false);
-      endpoint = `/BE/user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+      endpoint = `user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
     }
     return endpoint;
-  }
+  };
 
-  const { data, isLoading } = useQuery(['list'],
-    () => {
-      let endpoint = onChangeEndpoint();
-      return getWork(endpoint); // data에 들어감
-    })
+  const { data, isLoading } = useQuery(["list"], () => {
+    let endpoint = onChangeEndpoint();
+    return getWork(endpoint); // data에 들어감
+  });
 
   useEffect(() => {
     if (data) {
@@ -67,11 +66,10 @@ function ManageListContainer() {
 
       if (data.references && data.references.length > 0) {
         setName(data.references[0].postMember.nickname);
-      }   
+      }
     }
+  }, [data]);
 
-  }, [data])
-  
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -104,23 +102,21 @@ function ManageListContainer() {
       };
 
       fetchData();
-    }
-    else {
+    } else {
       // 첫 렌더링 생략
       isMounted.current = true;
     }
-   
   }, [categoryName, sortOption, pageNumber]);
-
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
+    console.log(category);
     if (category === "all") setCheckIdx(0);
     if (category === "idea") setCheckIdx(1);
     if (category === "marketing") setCheckIdx(2);
     if (category === "video") setCheckIdx(3);
     if (category === "design") setCheckIdx(4);
-    if (category === "it") setCheckIdx(5);
+    if (category === "digital") setCheckIdx(5);
     if (category === "etc") setCheckIdx(6);
 
     setPageNumber(1);
@@ -130,16 +126,17 @@ function ManageListContainer() {
     setSortOption(filterOptions[0].key);
     setFilter(filterOptions[0].value);
     setCategoryName(category);
+    console.log(category);
   };
-  
+
   const onClickRegister = () => {
     if (isOtherUser) navigate(-1);
     else navigate("/manage/share");
   };
 
   const onClickBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   return (
     <>

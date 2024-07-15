@@ -17,13 +17,11 @@ export const S = {
   `,
   Modal:styled.div`
     box-sizing: border-box;
-    position: absolute;
     width: 460px;
     height: 448px;
     background: #FFFFFF;
     border: 0.5px solid #B0B0B0;
     border-radius: 10px;
-    justify-content: center;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 700;
@@ -40,7 +38,7 @@ export const S = {
   Warn:styled.div`
     letter-spacing: -0.28px;
     font-size: 14px;
-    line-height: 16px;
+    line-height: 100%;
     margin-bottom: 18px;
     font-weight: 500;
     color: #727272;
@@ -52,7 +50,11 @@ export const S = {
     margin-bottom: 18px;
   `,
   Up:styled.div`
-    position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   `,
   How:styled.div`
     text-align: left;

@@ -1,6 +1,6 @@
 import styles from "../../../../layout/Modal.module.css";
 import { AiOutlineClose } from "react-icons/ai";
-import { S } from "./ui";
+import { S } from "./RefModalDelete.styles";
 import btnStyle from "../../../../layout/Button.module.css";
 
 function ModalDelete({ setModalOpenDelete, onDelete }) {

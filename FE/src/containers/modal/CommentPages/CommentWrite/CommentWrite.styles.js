@@ -22,8 +22,7 @@ export const S = {
   CommentWriteWrapper: styled.form`
     display: block;
     height: auto;
-    margin-bottom: 40px;
-    background-color: pink;
+    margin-bottom: 20px;
   `,
   CommentTitle: styled.span`
     color: var(--black, #1e1e1e);
@@ -32,20 +31,19 @@ export const S = {
     line-height: 130%;
     letter-spacing: -0.4px;
     position: absolute;
-    left: 20px;
+    left: 17px;
   `,
   CommentButton: styled.button`
-    border-radius: 12px;
-    border: 1px solid #a7a7a7;
-    background: #fff;
-    color: #464646;
+    border-radius: 8px;
+    background: #FADA5E;
+    color: #000000;
     font-size: 16px;
     font-weight: 600;
     width: 72px;
     height: 40px;
     letter-spacing: -0.32px;
     position: absolute;
-    right: 30px;
+    right: 17px;
   `,
   WriteInput: styled.textarea`
     border-radius: 10px;

@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 export const S = {
+  Differentiate: styled.div`
+    width: 100%;
+    height: 1px;
+    background: var(--line, #E1E2E5);
+  `,
   WriteInput: styled.textarea`
     width: 97%;
     height: auto;
@@ -31,10 +36,10 @@ export const S = {
     font-size: 16px;
     font-weight: 700;
     letter-spacing: -0.32px;
-    margin-left: 12px;
     top: 0px;
   `,
   Comment: styled.pre`
+    display: inline;
     color: var(--, #464646);
     font-size: 16px;
     font-weight: 500;
@@ -42,10 +47,12 @@ export const S = {
     letter-spacing: -0.32px;
     font-family: Inter;
     font-style: normal;
+    font-family: Pretendard;
+    word-break: break-all;
   `,
   EditButton: styled.div`
     position: absolute;
-    right: 0px;
+    right: 22px;
     top: 0px;
     color: var(--gray, #a7a7a7);
     font-size: 14px;
@@ -67,28 +74,10 @@ export const S = {
     box-shadow: none;
     float: right;
   `,
-  ThumbCount: styled.button`
-    position: absolute;
-    right: 2%;
-    border-radius: 16px;
-    border: 1px solid var(--line, #e1e2e5);
-    background: #fff;
-    width: 51px;
-    height: 28px;
-    color: var(--gray, #a7a7a7);
-    font-weight: 500;
-    line-height: 18px;
-    letter-spacing: -0.28px;
-    cursor: pointer;
-    display: inline;
-    top: 80px;
-  `,
-  AgainWrapper: styled.div`
+  AgainTable: styled.table`
+    position: relative;
     width: 100%;
     height: auto;
-  `,
-  AgainTable: styled.table`
-    width: 100%;
-    position: relative;
+    margin-top: 20px;
   `,
 };

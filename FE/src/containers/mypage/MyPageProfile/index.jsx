@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "../../../apis/axiosInterceptors";
 import { useState, useEffect, useRef } from "react";
 import { useMutation, useQuery } from "react-query";
 import {
@@ -6,6 +7,7 @@ import {
   putUserProfileImg,
 } from "../../../apis/mypage/user";
 import MyPageUniversityModal from "../MyPageUniversityModal";
+import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageProfile.styles";
 const {
   Wrapper,
@@ -47,7 +49,7 @@ function MyPageProfile() {
   const [idCheckColor, setIdCheckColor] = useState("");
   const [editMessage, setEditMessage] = useState("");
   const [editMessageColor, setEditMessageColor] = useState(true);
-  const { data: profileImage } = useQuery(["user"], getUserProfileImg);
+  const { data: profileImage, isLoading } = useQuery("", getUserProfileImg);
   const { mutate } = useMutation(putUserProfileImg);
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
@@ -61,7 +63,7 @@ function MyPageProfile() {
 
   const getProfile = async () => {
     try {
-      const res = await axios.get("/BE/user");
+      const res = await axiosInstance.get("user");
       setUserData(res.data.data);
     } catch (err) {
       console.log(err);
@@ -102,8 +104,8 @@ function MyPageProfile() {
   // 기본 사진으로 변경
 
   const handleChangeDefaultImg = () => {
-    instance
-      .delete(`/BE/user/img`)
+    axiosInstance
+      .delete(`user/img`)
       .then(() => {
         window.location.reload();
       })
@@ -209,10 +211,14 @@ function MyPageProfile() {
       setEditMessageColor(false);
       setEditMessage("아직 필수항목을 모두 입력하지 않았어요.");
     } else {
-      axios.put("/BE/user", profileData);
-      sessionStorage.setItem("nickname", nickname);
-      setEditMessageColor(true);
-      setEditMessage("수정이 완료되었습니다.");
+      axiosInstance
+        .put("user", profileData)
+        .then(() => {
+          sessionStorage.setItem("nickname", nickname);
+          setEditMessageColor(true);
+          setEditMessage("수정이 완료되었습니다.");
+        })
+        .catch((err) => console.log(err));
     }
     setTimeout(() => {
       setEditMessage("");
@@ -220,123 +226,133 @@ function MyPageProfile() {
   };
 
   return (
-    <Wrapper>
-      <ProfileImg src={previewImage || profileImage} alt="profileImg" />
-      <ProfileImgIntroWrapper>
-        <ProfileImgIntro>
-          {sessionStorage.getItem("nickname")}님
-        </ProfileImgIntro>
-        <ProfileImgIntro>오늘은 어떤 공모전에 참여하시나요?</ProfileImgIntro>
-      </ProfileImgIntroWrapper>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Wrapper>
+          <ProfileImg src={previewImage || profileImage} alt="profileImg" />
+          <ProfileImgIntroWrapper>
+            <ProfileImgIntro>
+              {sessionStorage.getItem("nickname")}님
+            </ProfileImgIntro>
+            <ProfileImgIntro>
+              오늘은 어떤 공모전에 참여하시나요?
+            </ProfileImgIntro>
+          </ProfileImgIntroWrapper>
 
-      <ProfileImgBtnWrapper>
-        <ProfileImgBtn onClick={handleClickImg}>프로필 사진 변경</ProfileImgBtn>
-        <input
-          type="file"
-          ref={imgRef}
-          id="ProfileImg"
-          name="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={handleChangeProfileImgFile}
-        />
-        <ProfileImgBtn onClick={handleChangeDefaultImg}>
-          기본 사진으로 변경
-        </ProfileImgBtn>
-      </ProfileImgBtnWrapper>
-
-      <ProfileWrapper>
-        <RequirementMessage>
-          <RequirementMark>*</RequirementMark>는 필수 입력 항목입니다.
-        </RequirementMessage>
-        <HorizonLine />
-
-        <ProfileItemWrapper>
-          <Title>계정</Title>
-          {email}
-        </ProfileItemWrapper>
-
-        <HorizonLine />
-
-        <ProfileItemWrapper>
-          <Title>
-            닉네임
-            <RequirementMark>*</RequirementMark>
-          </Title>
-          <NicknameWrapper>
-            <Input
-              value={nickname}
-              name="nickname"
-              onChange={(e) => handleChangeNickname(e)}
+          <ProfileImgBtnWrapper>
+            <ProfileImgBtn onClick={handleClickImg}>
+              프로필 사진 변경
+            </ProfileImgBtn>
+            <input
+              type="file"
+              ref={imgRef}
+              id="ProfileImg"
+              name="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleChangeProfileImgFile}
             />
-            <NicknameWarningText>
-              닉네임은 최대 8글자까지 가능합니다.
-            </NicknameWarningText>
-            <NicknameDuplicationText
-              style={{
-                color: idCheckColor,
-              }}
-            >
-              {idCheckMessage}
-            </NicknameDuplicationText>
-          </NicknameWrapper>
-          <ItemButton
-            type="button"
-            onClick={() => handleNicknameDuplicationCheck(nickname)}
-          >
-            중복확인
-          </ItemButton>
-        </ProfileItemWrapper>
+            <ProfileImgBtn onClick={handleChangeDefaultImg}>
+              기본 사진으로 변경
+            </ProfileImgBtn>
+          </ProfileImgBtnWrapper>
 
-        <HorizonLine />
+          <ProfileWrapper>
+            <RequirementMessage>
+              <RequirementMark>*</RequirementMark>는 필수 입력 항목입니다.
+            </RequirementMessage>
+            <HorizonLine />
 
-        <ProfileItemWrapper>
-          <Title>휴대전화</Title>
-          <Input
-            value={phoneNumber}
-            name="phoneNumber"
-            onChange={(e) => handleChangePhone(e)}
-          />
-        </ProfileItemWrapper>
+            <ProfileItemWrapper>
+              <Title>계정</Title>
+              {email}
+            </ProfileItemWrapper>
 
-        <HorizonLine />
+            <HorizonLine />
 
-        <ProfileItemWrapper>
-          <Title>
-            재학 중 대학
-            <RequirementMark>*</RequirementMark>
-          </Title>
-          <Input id="profileUniversity" value={university} disabled />
-          <ItemButton type="button" id="popupDom" onClick={togglepopup}>
-            검색하기
-          </ItemButton>
-          {isOpenPopup && (
-            <MyPageUniversityModal
-              changeUniversity={handleChangeUniversity}
-              close={togglepopup}
-            />
-          )}
-        </ProfileItemWrapper>
+            <ProfileItemWrapper>
+              <Title>
+                닉네임
+                <RequirementMark>*</RequirementMark>
+              </Title>
+              <NicknameWrapper>
+                <Input
+                  value={nickname}
+                  name="nickname"
+                  onChange={(e) => handleChangeNickname(e)}
+                />
+                <NicknameWarningText>
+                  닉네임은 최대 8글자까지 가능합니다.
+                </NicknameWarningText>
+                <NicknameDuplicationText
+                  style={{
+                    color: idCheckColor,
+                  }}
+                >
+                  {idCheckMessage}
+                </NicknameDuplicationText>
+              </NicknameWrapper>
+              <ItemButton
+                type="button"
+                onClick={() => handleNicknameDuplicationCheck(nickname)}
+              >
+                중복확인
+              </ItemButton>
+            </ProfileItemWrapper>
 
-        <HorizonLine />
+            <HorizonLine />
 
-        <ProfileItemWrapper>
-          <Title>한줄 소개</Title>
-          <OneLineIntroduction
-            value={oneLineIntroduction}
-            name="oneLineIntroduction"
-            onChange={(e) => handleChangeIntro(e)}
-            placeholder="공백 포함 30자까지 입력할 수 있어요."
-          />
-        </ProfileItemWrapper>
-      </ProfileWrapper>
-      <ProfileEditWrapper>
-        <EditMessage editMessageColor={editMessageColor}>
-          {editMessage}
-        </EditMessage>
-        <EditButton onClick={handleEdit}>수정 완료</EditButton>
-      </ProfileEditWrapper>
-    </Wrapper>
+            <ProfileItemWrapper>
+              <Title>휴대전화</Title>
+              <Input
+                value={phoneNumber}
+                name="phoneNumber"
+                onChange={(e) => handleChangePhone(e)}
+              />
+            </ProfileItemWrapper>
+
+            <HorizonLine />
+
+            <ProfileItemWrapper>
+              <Title>
+                재학 중 대학
+                <RequirementMark>*</RequirementMark>
+              </Title>
+              <Input id="profileUniversity" value={university} disabled />
+              <ItemButton type="button" id="popupDom" onClick={togglepopup}>
+                검색하기
+              </ItemButton>
+              {isOpenPopup && (
+                <MyPageUniversityModal
+                  changeUniversity={handleChangeUniversity}
+                  close={togglepopup}
+                />
+              )}
+            </ProfileItemWrapper>
+
+            <HorizonLine />
+
+            <ProfileItemWrapper>
+              <Title>한줄 소개</Title>
+              <OneLineIntroduction
+                value={oneLineIntroduction}
+                name="oneLineIntroduction"
+                onChange={(e) => handleChangeIntro(e)}
+                placeholder="공백 포함 30자까지 입력할 수 있어요."
+              />
+            </ProfileItemWrapper>
+          </ProfileWrapper>
+          <ProfileEditWrapper>
+            <EditMessage editMessageColor={editMessageColor}>
+              {editMessage}
+            </EditMessage>
+            <EditButton onClick={handleEdit}>수정 완료</EditButton>
+          </ProfileEditWrapper>
+        </Wrapper>
+      )}
+    </>
   );
 }
 
