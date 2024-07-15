@@ -142,7 +142,8 @@ function MyPageFAQ() {
             onPageChange={(e) => setInquiryPage(e.selected + 1)}
           />
 
-          <SearchWrapper>
+          {/* 검색창 주석처리 */}
+          {/* <SearchWrapper>
             <Dropdown
               filter={filter}
               setFilter={setFilter}
@@ -157,7 +158,7 @@ function MyPageFAQ() {
             <SearchIcon type="button">
               <FaMagnifyingGlass onClick={handleClick} color="#a7a7a7" />
             </SearchIcon>
-          </SearchWrapper>
+          </SearchWrapper> */}
         </Wrapper>
       )}
     </>
