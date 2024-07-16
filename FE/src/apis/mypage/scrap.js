@@ -1,9 +1,9 @@
 import axiosInstance from "../axiosInterceptors";
 
-export const getScrap = async (pageNumber, categoryName) => {
+export const getScrap = async (pageNumber, categoryName, sortOption) => {
   try {
     const response = await axiosInstance.get(
-      `user/scrap?page=${pageNumber}&category=${categoryName}`
+      `user/scrap?page=${pageNumber}&category=${categoryName}&sort=${sortOption}`
     );
     const {
       data: {
