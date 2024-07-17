@@ -9,9 +9,9 @@ export const postFeedbackComment = async (referenceId, pageNumber, params) => {
   }
 };
 
-export const likeFeedbackComment = async (feedbackId) => {
+export const likeFeedbackComment = async (feedbackId,feedbackMemberId) => {
   try {
-    const response = await axiosInstance.post(`reference/feedback/${feedbackId}/like`);
+    const response = await axiosInstance.post(`reference/feedback/${feedbackId}/${feedbackMemberId}/like`);
     return response.data;
   } catch (error) {
     console.error('Error likeFeedbackComment:', error);

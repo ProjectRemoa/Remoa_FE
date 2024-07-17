@@ -20,7 +20,8 @@ export const S = {
     flex-shrink: 0;
   `,
   CommentWriteWrapper: styled.form`
-    display: block;
+    display: flex;
+    flex-direction: column;
     height: auto;
     margin-bottom: 20px;
   `,
@@ -33,7 +34,7 @@ export const S = {
     position: absolute;
     left: 17px;
   `,
-  CommentButton: styled.button`
+  CommentButton: styled.div`
     border-radius: 8px;
     background: #FADA5E;
     color: #000000;
@@ -42,14 +43,14 @@ export const S = {
     width: 72px;
     height: 40px;
     letter-spacing: -0.32px;
-    position: absolute;
     right: 17px;
   `,
   WriteInput: styled.textarea`
+  box-sizing: border-box;
     border-radius: 10px;
     background: #fff;
-    width: 96.5%;
-    height: 132px;
+    width: 96%;
+    height: 88px;
     font-family: "Inter";
     font-size: 15px;
     line-height: 25px;

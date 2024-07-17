@@ -25,7 +25,6 @@ import Meta from "../../../../components/common/Meta";
 import ModalScrap from "../RefModalScrap";
 import { useRecoilState } from "recoil";
 import { editState } from "../../../../state/editState";
-import btnStyle from "../../../../layout/Button.module.css";
 import {
   deleteReference,
   getReference,
@@ -34,6 +33,8 @@ import {
 } from "../../../../apis/modal/reference";
 import { useCheckLike } from "../../../../hooks/checkMyWork";
 import { checking, isInteger } from "../../../../functions/checkPage";
+import WhiteButton from "../../../../components/common/Button/WhiteButton.styles";
+import YellowButton from "../../../../components/common/Button/YellowButton.styles";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
@@ -431,8 +432,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
               </S.HeaderDetail2>
             </S.HeaderUserInfo>
             <S.DetailFeedbackButtonWrapper>
-              <button
-                className={btnStyle.white}
+              <WhiteButton
                 onClick={() => {
                   handleScrap();
                 }}
@@ -448,13 +448,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                     <span>스크랩하기</span>
                   </>
                 )}
-              </button>
-              <button
+              </WhiteButton>
+              <YellowButton
                 onClick={() => onModalHandler3(id2)}
-                className={btnStyle.yellow}
               >
                 <span>상세피드백 보기</span>
-              </button>
+              </YellowButton>
               {/* 움직이는 모달 */}
               <Draggable onDrag={(_, data) => trackPos(data)}>
                 <S.Drag>
@@ -707,8 +706,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         <div
           style={{ width: "100%", display: "flex", justifyContent: "center" }}
         >
-          <button
-            className={btnStyle.white}
+          <WhiteButton
             onClick={() => handleLike()}
             style={{ height: "56px", width: "115px", marginBottom: "45px" }}
           >
@@ -725,7 +723,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                 &nbsp;{formatCount(top.likeCount)}
               </span>
             </S.TraceBoxAlign>
-          </button>
+          </WhiteButton>
         </div>
         <RefModalComment
           postId={id2}

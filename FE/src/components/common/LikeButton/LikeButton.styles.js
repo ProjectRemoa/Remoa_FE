@@ -1,5 +1,6 @@
 import styled from "styled-components";
-export const B = {
+
+export const S = {
   LikeButton: styled.div`
   cursor: pointer;
   width: 51px;
@@ -22,5 +23,4 @@ export const B = {
   line-height: 14px; /* 100% */
   letter-spacing: -0.28px;
 `,
-}
-
+};

@@ -1,7 +1,8 @@
 import styles from "../../../../layout/Modal.module.css";
 import { AiOutlineClose } from "react-icons/ai";
 import { S } from "./RefModalDelete.styles";
-import btnStyle from "../../../../layout/Button.module.css";
+import YellowButton from "../../../../components/common/Button/YellowButton.styles";
+import WhiteButton from "../../../../components/common/Button/WhiteButton.styles";
 
 function ModalDelete({ setModalOpenDelete, onDelete }) {
   const closeModal = () => {
@@ -23,16 +24,15 @@ function ModalDelete({ setModalOpenDelete, onDelete }) {
       <S.AskDelete>정말 삭제하시겠습니까?</S.AskDelete>
       <S.AskHelp>누군가에게 도움이 될 작품이에요!</S.AskHelp>
       <S.ButtonWrapper>
-        <button className={btnStyle.yellow} onClick={onDelete}>
+        <YellowButton onClick={onDelete}>
           <span>네</span>
-        </button>
-        <button
+        </YellowButton>
+        <WhiteButton
           style={{marginLeft:'10px'}}
           onClick={closeModal}
-          className={btnStyle.white}
         >
           <span>아니오</span>
-        </button>
+        </WhiteButton>
       </S.ButtonWrapper>
     </div>
   );

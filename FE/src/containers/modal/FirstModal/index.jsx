@@ -2,9 +2,9 @@ import React from "react";
 import { S } from "./FirstModal.styles";
 import { useNavigate } from "react-router-dom";
 
-export default function FirstModal({ setModalOpen }) {
+export default function FirstModal({ modalOpen, setModalOpen }) {
   const navigate = useNavigate();
-
+  if (!modalOpen) return null;
   return (
     <>
       <S.ModalWrapper>

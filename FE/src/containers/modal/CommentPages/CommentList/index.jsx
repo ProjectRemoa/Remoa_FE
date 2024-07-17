@@ -1,7 +1,6 @@
 import { S } from "./CommentList.styles";
-import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import CustomLikeButton from "../../../../components/common/LikeButton";
 import React, { useState, useEffect } from "react";
-import { B } from "../../../../styles/Button";
 import CommentWriteReply from "../CommentWriteReply";
 import CommentListReply from "../CommentListReply";
 import {
@@ -10,7 +9,10 @@ import {
   putComment,
 } from "../../../../apis/modal/comment";
 import { getReference } from "../../../../apis/modal/reference";
-
+import CustomProfileImage from "../../../../components/common/ProfileSize";
+import { onChangeHandler } from "../../../../functions/onChangeHandler";
+import YellowButton from "../../../../components/common/Button/YellowButton.styles";
+import { placeholder } from "../../../../components/common/Placeholder";
 export default function ModalCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
@@ -18,12 +20,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
   const [putMemberId, setPutMemberId] = useState(0);
 
   const onChangeContents = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue.length > 300) {
-      setContents(inputValue.substring(0, 300));
-      return;
-    }
-    setContents(inputValue);
+    onChangeHandler(event, 300, setContents);
   };
   // [{},{} 배열 형태로 들어옴]
   useEffect(() => {
@@ -77,37 +74,45 @@ export default function ModalCommentList({ comments, postId, setComments }) {
             <S.AgainTable key={index}>
               <tbody>
                 <tr>
-                  <td style={{width:'40px'}}>
-                    <S.ProfileSize src={comments.member.profileImage} alt="" />
+                  <td style={{ width: "40px" }}>
+                    <CustomProfileImage
+                      src={comments.member.profileImage}
+                      alt=""
+                      style={{ position: "absolute" }}
+                    />
                   </td>
                   <td>
                     <S.ProfileName>{comments.member.nickname}</S.ProfileName>
-                    <div style={{margin:"10px 0px"}}>
-                    {putMemberId === comments.commentId ? ( // 일치할 때만 수정 가능한 칸
-                      <div id={comments.commentId}>
-                        <S.EditButton
-                          onClick={() => {
-                            return (
-                              onPutHandler(comments.commentId),
-                              setIsEdit(!isEdit)
-                            );
-                          }}
-                        >
-                          수정완료
-                        </S.EditButton>
-                        <S.WriteInput
-                          placeholder="해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
-                          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
-                          onChange={onChangeContents}
-                          defaultValue={comments.content}
-                          style={{ padding: "10px" }}
-                        />
-                      </div>
-                    ) : (
-                      <div>
-                        <S.Comment>{comments.content}</S.Comment>
-                      </div>
-                    )}
+                    <div style={{ margin: "10px 0px" }}>
+                      {putMemberId === comments.commentId ? ( // 일치할 때만 수정 가능한 칸
+                        <div id={comments.commentId}>
+                          <S.WriteInput
+                            placeholder={placeholder}
+                            onChange={onChangeContents}
+                            defaultValue={comments.content}
+                          />
+                          <YellowButton
+                            style={{
+                              width: "72px",
+                              height: "40px",
+                              float: "right",
+                              marginTop: "10px",
+                            }}
+                            onClick={() => {
+                              return (
+                                onPutHandler(comments.commentId),
+                                setIsEdit(!isEdit)
+                              );
+                            }}
+                          >
+                            수정
+                          </YellowButton>
+                        </div>
+                      ) : (
+                        <div>
+                          <S.Comment>{comments.content}</S.Comment>
+                        </div>
+                      )}
                     </div>
                     {putMemberId !== comments.commentId && (
                       <S.CommentTableBottom>
@@ -141,16 +146,12 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                             </div>
                           </>
                         )}
-                        <B.LikeButton
-                          style={{
-                            position: "absolute",
-                            right: 0,
-                          }}
+                        <CustomLikeButton
+                          style={{ position: "absolute", right: 0 }}
                           onClick={() => onClickThumb(comments.commentId)}
-                        >
-                          <BsFillHandThumbsUpFill />
-                          <span>{comments.likeCount}</span>
-                        </B.LikeButton>
+                          count={comments.likeCount}
+                          isLiked={comments.isLiked}
+                        />
                       </S.CommentTableBottom>
                     )}
                   </td>

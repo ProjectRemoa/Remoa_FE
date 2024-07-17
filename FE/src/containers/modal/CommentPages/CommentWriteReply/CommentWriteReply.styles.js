@@ -27,16 +27,6 @@ export const S = {
   InlineWrapper:styled.div`
     display: inline;
   `,
-  CloseButton: styled.div`
-    cursor: pointer;
-    display: inline-flex;
-    padding: 12px 22px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border-radius: 8px;
-    background: var(--loyal-yellow, #FADA5E);
-  `,
   Nickname: styled.div`
     margin-bottom: 10px;
     display: flex;

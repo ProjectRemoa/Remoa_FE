@@ -7,7 +7,7 @@ export const S = {
     background: var(--line, #E1E2E5);
   `,
   WriteInput: styled.textarea`
-    width: 97%;
+    width: 96.5%;
     height: auto;
     padding: 20px;
     font-family: "Inter";
@@ -21,15 +21,6 @@ export const S = {
       line-height: 150%;
       letter-spacing: -0.32px;
     }
-  `,
-  ProfileSize: styled.img`
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
   `,
   ProfileName: styled.div`
     color: var(--black, #1e1e1e);
@@ -49,16 +40,7 @@ export const S = {
     font-style: normal;
     font-family: Pretendard;
     word-break: break-all;
-  `,
-  EditButton: styled.div`
-    position: absolute;
-    right: 22px;
-    top: 0px;
-    color: var(--gray, #a7a7a7);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: -0.28px;
-    cursor: pointer;
+    white-space: pre-wrap; 
   `,
   CommentTableBottom: styled.div`
     color: var(--gray, #a7a7a7);
