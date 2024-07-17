@@ -43,7 +43,9 @@ function KakaoLogin() {
 
   /* 카카오에서 인가코드 받아와서 백엔드에 넘겨주기 */
   useEffect(() => {
-    sendToken();
+    if (code) {
+      sendToken();
+    }
   }, []);
 
   return <></>

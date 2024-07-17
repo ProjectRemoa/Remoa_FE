@@ -33,20 +33,22 @@ function RefPage() {
       }
     });
   };
-  
+
   useEffect(() => {
     handleCategorySelection(window.location.href);
   }, [pathname]);
 
-  if (sessionStorage.getItem("refreshToken")) {
-    const isFirstLogin = sessionStorage.getItem("isFirstLogin");
-    if (!isFirstLogin) {
-      sessionStorage.setItem("isFirstLogin", "true");
-      setModalOpen(true);
-    } else {
-      navigate("/");
+  useEffect(() => {
+    if (sessionStorage.getItem("refreshToken")) {
+      const isFirstLogin = localStorage.getItem("isFirstLogin");
+      if (!isFirstLogin) {
+        localStorage.setItem("isFirstLogin", "true");
+        setModalOpen(true);
+      } else {
+        navigate("/");
+      }
     }
-  }
+  }, [navigate]);
   return (
     <Layout>
       <div style={{ flexDirection: "column" }}>
