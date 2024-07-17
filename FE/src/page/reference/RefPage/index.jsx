@@ -33,7 +33,7 @@ function RefPage() {
       }
     });
   };
-
+  
   useEffect(() => {
     handleCategorySelection(window.location.href);
   }, [pathname]);
