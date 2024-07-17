@@ -1,35 +1,28 @@
 import { useEffect, useState } from "react";
 import { S } from "./FeedbackCommentList.styles";
-import { BsFillHandThumbsUpFill } from "react-icons/bs";
-import { B } from "../../../../styles/Button";
+import CustomLikeButton from "../../../../components/common/LikeButton";
 import {
   likeFeedbackComment,
   putFeedbackComment,
   deleteFeedbackComment,
 } from "../../../../apis/modal/feedbackComment";
 import { getReference } from "../../../../apis/modal/reference";
-
+import { onChangeHandler } from "../../../../functions/onChangeHandler";
 export default function FeedbackCommentList({
   feedbacks,
   link,
   setFeedback,
   id,
 }) {
-
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
 
   const onChangeContents = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue.length > 300) {
-      setContents(inputValue.substr(0, 1000));
-      return;
-    }
-    setContents(inputValue);
+    onChangeHandler(event, 300, setContents);
   };
 
-  const onClickThumb = async (feedback_id) => {
-    const res = await likeFeedbackComment(feedback_id);
+  const onClickThumb = async (feedback_member_id) => {
+    const res = await likeFeedbackComment(id,feedback_member_id);
     try {
       const res = await getReference(id);
       setFeedback(res.data.feedbacks);
@@ -52,14 +45,14 @@ export default function FeedbackCommentList({
     } else {
       const response = await putFeedbackComment(feedback_id, {
         feedback: contents,
-      })
+      });
       setFeedback(response.data);
       setPutMemberId(0);
     }
   };
 
   const onClickDelete = async (feedback_id) => {
-    const response = await deleteFeedbackComment(feedback_id)
+    const response = await deleteFeedbackComment(feedback_id);
     setFeedback(response.data);
   };
 
@@ -71,13 +64,12 @@ export default function FeedbackCommentList({
             <S.FeedWrapperHeader>
               <S.ProfileSize src={feedbacks.member.profileImage} alt="" />
               <S.ProfileName>{feedbacks.member.nickname}</S.ProfileName>
-              <B.LikeButton
-                style={{ right: "28px", position: "absolute" }}
-                onClick={() => onClickThumb(feedbacks.feedbackId)}
-              >
-                <BsFillHandThumbsUpFill />
-                {feedbacks.likeCount}
-              </B.LikeButton>
+              <CustomLikeButton
+                style={{ position: "absolute", right: "28px" }}
+                onClick={() => onClickThumb(feedbacks.member.memberId)}
+                count={feedbacks.likeCount}
+                isLiked={feedbacks.isLiked}
+              />
             </S.FeedWrapperHeader>
             <S.Line />
             {feedbacks.feedbackInfos.map((feedback, index) => (

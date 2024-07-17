@@ -1,10 +1,13 @@
 import { S } from "./CommentWriteReply.styles";
 import { useState, useEffect } from "react";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
-import { S as SS } from "../CommentList/CommentList.styles";
+import CustomProfileImage from "../../../../components/common/ProfileSize";
 import { postCommentReply } from "../../../../apis/modal/commentReply";
 import { getUserInfo, getUserProfileImg } from "../../../../apis/mypage/user";
-
+import { onChangeHandler } from "../../../../functions/onChangeHandler";
+import YellowButton from "../../../../components/common/Button/YellowButton.styles";
+import WhiteButton from "../../../../components/common/Button/WhiteButton.styles";
+import { placeholder } from "../../../../components/common/Placeholder";
 export default function CommentWriteReply({
   id,
   openWriteAgain,
@@ -16,12 +19,7 @@ export default function CommentWriteReply({
   const [contents, setContents] = useState("");
   const token = sessionStorage.getItem("accessToken");
   const onChangeContents = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue.length > 300) {
-      setContents(inputValue.substring(0, 300));
-      return;
-    }
-    setContents(inputValue);
+    onChangeHandler(event, 300, setContents);
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -59,10 +57,8 @@ export default function CommentWriteReply({
 
   const getProfileImg = async () => {
     if (token) {
-
-        const response = await getUserProfileImg()
-        setProfileImage(response);
-      
+      const response = await getUserProfileImg();
+      setProfileImage(response);
     } else {
       setProfileImage(
         "https://upload.wikimedia.org/wikipedia/commons/e/ec/Black_colour_br_.webp"
@@ -76,49 +72,42 @@ export default function CommentWriteReply({
   }, []);
 
   return (
-    <div style={{ display: openWriteAgain === id ? "block" : "none", marginBottom:'10px' }}>
-      <table>
+    <div
+      style={{
+        display: openWriteAgain === id ? "block" : "none",
+        marginBottom: "10px",
+      }}
+    >
+      <table style={{ width: "100%" }}>
         <tbody>
-          <tr>
-            <td rowSpan="2">
+          <tr style={{ display: "flex" }}>
+            <td>
               <MdOutlineSubdirectoryArrowRight style={{ fontSize: "23px" }} />
             </td>
-            <td rowSpan="2">
-              <SS.ProfileSize
-                src={profileImage}
-                style={{ position: "relative" }}
-              />
+            <td>
+              <CustomProfileImage src={profileImage} />
             </td>
-          </tr>
-          <tr>
-            <td style={{ position: "relative", width:'100%' }}>
+            <td style={{ position: "relative", width: "100%", paddingLeft: "5px" }}>
               <S.Nickname>{userData}</S.Nickname>
               <S.WriteInput
                 wrap="hard"
                 onChange={onChangeContents}
                 value={contents}
-                placeholder="해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
-          욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
+                placeholder={placeholder}
               />
-              <div
-                style={{
-                  position: "absolute",
-                  right: 1,
-                  bottom: 5,
-                  margin: "12px",
-                }}
-              >
-                <S.CloseButton
+              <div style={{display:'flex', marginTop:'10px', float:'right'}}>
+                <WhiteButton
                   onClick={onCloseHandler}
-                  style={{
-                    marginRight: "12px",
-                    backgroundColor: "white",
-                    border: "1px solid black",
-                  }}
+                  style={{ width: "72px", height: "40px",marginRight:'10px' }}
                 >
                   닫기
-                </S.CloseButton>
-                <S.CloseButton onClick={onSubmitHandler}>등록</S.CloseButton>
+                </WhiteButton>
+                <YellowButton
+                  onClick={onSubmitHandler}
+                  style={{ width: "72px", height: "40px" }}
+                >
+                  등록
+                </YellowButton>
               </div>
             </td>
           </tr>

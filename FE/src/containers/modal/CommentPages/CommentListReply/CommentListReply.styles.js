@@ -10,20 +10,10 @@ export const S = {
     font-style: normal;
     font-weight: 500;
     letter-spacing: -0.32px;
-  `,
-    EditButton: styled.div`
-    position: relative;
-    float: right;
-    right:20px;
-    bottom: 10px;
-    color: var(--gray, #a7a7a7);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: -0.28px;
-    cursor: pointer;
+    white-space: pre-wrap; 
   `,
   WriteInput: styled.textarea`
-    width: 95%;
+    width: 96.5%;
     height: auto;
     padding: 20px;
     font-family: "Inter";
@@ -49,18 +39,14 @@ export const S = {
   Nickname: styled.p`
     margin: 0px;
     color: var(--black, #1e1e1e);
-    font-family: Pretended;
     font-size: 16px;
-    font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.32px;
   `,
   Edit: styled.div`
     color: var(--gray, #a7a7a7);
-    font-family: Pretendard;
     font-size: 14px;
-    font-style: normal;
     font-weight: 500;
     line-height: normal;
     letter-spacing: -0.28px;

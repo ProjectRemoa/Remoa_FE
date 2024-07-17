@@ -1,23 +1,25 @@
 import { S } from "./CommentWrite.styles";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { postComment } from "../../../../apis/modal/comment";
-
+import { getUserProfileImg } from "../../../../apis/mypage/user";
+import CustomProfileImage from "../../../../components/common/ProfileSize";
+import YellowButton from "../../../../components/common/Button/YellowButton.styles";
+import { placeholder } from "../../../../components/common/Placeholder";
+import { onChangeHandler } from "../../../../functions/onChangeHandler";
 export default function CommentWrite({ postId, setComments }) {
   const [comment, setCommentChange] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const token = sessionStorage.getItem("accessToken");
+
   const onChangeComments = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue.length > 300) {
-      setCommentChange(inputValue.substring(0, 300));
-      return;
-    }
-    setCommentChange(inputValue);
+    onChangeHandler(event,300,setCommentChange)
   };
 
-  const onSumbitHandler = async (e) => {
+  const onSubmitHandler = async (e) => {
     if (comment) {
       e.preventDefault();
       try {
-        const response = await postComment(postId, {comment})
+        const response = await postComment(postId, { comment });
         setComments(response.data);
         alert("댓글 등록이 완료되었습니다.");
       } catch (err) {
@@ -27,22 +29,42 @@ export default function CommentWrite({ postId, setComments }) {
       e.preventDefault();
       alert("내용을 입력하세요!");
     }
-    
+
     setCommentChange("");
   };
+
+  const getProfileImg = async () => {
+    if (token) {
+      const response = await getUserProfileImg();
+      setProfileImage(response);
+    } else {
+      setProfileImage(
+        "https://upload.wikimedia.org/wikipedia/commons/e/ec/Black_colour_br_.webp"
+      );
+    }
+  };
+  useEffect(() => {
+    getProfileImg();
+  }, []);
 
   return (
     <S.CommentWriteWrapper>
       <S.CommentWriteHeader>
         <S.CommentTitle>Comment</S.CommentTitle>
-        <S.CommentButton onClick={onSumbitHandler}>등록</S.CommentButton>
       </S.CommentWriteHeader>
-      <S.WriteInput
-        placeholder="해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요!
-        욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
-        onChange={onChangeComments}
-        value={comment}
-      />
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom:'20px' }}>
+        <CustomProfileImage src={profileImage} style={{ marginTop: "12px" }} />
+        <S.WriteInput
+          placeholder={placeholder}
+          onChange={onChangeComments}
+          value={comment}
+        />
+      </div>
+      <div style={{display:'flex', justifyContent:'flex-end'}}>
+      <YellowButton onClick={onSubmitHandler} style={{width:'72px',height:'40px'}}>
+        <span>등록</span>
+      </YellowButton>
+      </div>
     </S.CommentWriteWrapper>
   );
 }

@@ -1,16 +1,17 @@
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { S } from "./CommentListReply.styles";
-import { S as SS } from "../CommentList/CommentList.styles";
-import { B } from "../../../../styles/Button";
-import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import CustomProfileImage from "../../../../components/common/ProfileSize";
+import CustomLikeButton from "../../../../components/common/LikeButton";
 import {
   likeCommentReply,
   deleteCommentReply,
   putCommentReply,
 } from "../../../../apis/modal/commentReply";
 import { getReference } from "../../../../apis/modal/reference";
-
+import { onChangeHandler } from "../../../../functions/onChangeHandler";
+import YellowButton from "../../../../components/common/Button/YellowButton.styles";
+import { placeholder } from "../../../../components/common/Placeholder";
 export default function CommentListReply({
   reply,
   postId,
@@ -28,12 +29,7 @@ export default function CommentListReply({
   }, [reply]);
 
   const onChangeContents = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue.length > 300) {
-      setContents(inputValue.substring(0, 300));
-      return;
-    }
-    setContents(inputValue);
+    onChangeHandler(event, 300, setContents);
   };
 
   const onClickThumb = async (replyId) => {
@@ -69,42 +65,46 @@ export default function CommentListReply({
 
   return (
     <S.Parent>
-      <table style={{width:'100%'}}>
+      <table style={{ width: "100%" }}>
         <tbody>
-          <tr>
+          <tr style={{ display: "flex" }}>
             <td>
               <MdOutlineSubdirectoryArrowRight style={{ fontSize: "23px" }} />
             </td>
             <td>
-              <SS.ProfileSize
-                src={reply.member.profileImage}
-                style={{position:'relative'}}
-                alt=""
-              />
+              <CustomProfileImage src={reply.member.profileImage} />
             </td>
-            <td style={{width:'100%'}}>
+            <td style={{ width: "100%", paddingLeft: "5px" }}>
               <S.Nickname>{reply.member.nickname}</S.Nickname>
-              <div style={{margin:"10px 0"}}>
-              {putMemberId === reply.member.memberId ? (
-                <div id={reply.commentReplyId}>
-                  <S.EditButton
-                    onClick={() => onPutHandler(reply.commentReplyId)}
-                  >
-                    수정완료
-                  </S.EditButton>
-                  <S.WriteInput
-                    placeholder="해당 작업물에 대한 의견을 최대 300자까지 남길 수 있어요! 욕설이나 비방 등 이용약관에 위배되는 코멘트는 서비스 이용 정지 사유가 될 수 있습니다."
-                    onChange={onChangeContents}
-                    defaultValue={reply.content}
-                  />
-                </div>
-              ) : (
-                <>
-                  <S.Content>{reply.content}</S.Content>
-                </>
-              )}
+              <div style={{ margin: "6px 0" }}>
+                {putMemberId === reply.member.memberId ? (
+                  <div id={reply.commentReplyId}>
+                    <S.WriteInput
+                      placeholder={placeholder}
+                      onChange={onChangeContents}
+                      defaultValue={reply.content}
+                    />
+                    <YellowButton
+                      onClick={() => onPutHandler(reply.commentReplyId)}
+                      style={{width:'72px', height:'40px',float: "right",
+                        marginTop: "10px",}}
+                    >
+                      수정
+                    </YellowButton>
+                  </div>
+                ) : (
+                  <>
+                    <S.Content>{reply.content}</S.Content>
+                  </>
+                )}
               </div>
-              <div style={{display:'flex', alignItems:'center'}}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "20px",
+                }}
+              >
                 {putMemberId !== reply.member.memberId &&
                   reply.member.nickname ===
                     sessionStorage.getItem("nickname") && (
@@ -115,19 +115,18 @@ export default function CommentListReply({
                         >
                           수정하기
                         </span>
-                        &nbsp;|&nbsp;
+                        &nbsp; | &nbsp;
                         <span onClick={() => onDelete(reply.commentReplyId)}>
                           삭제하기
                         </span>
                       </S.Edit>
 
-                      <B.LikeButton 
-                      onClick={() => onClickThumb(reply.commentReplyId)}
-                      style={{position:'absolute', right:'15px'}}
-                      >
-                        <BsFillHandThumbsUpFill />
-                        <span>{reply.likeCount}</span>
-                      </B.LikeButton>
+                      <CustomLikeButton
+                        style={{ position: "absolute", right: "15px" }}
+                        onClick={() => onClickThumb(reply.commentReplyId)}
+                        count={reply.likeCount}
+                        isLiked={reply.isLiked}
+                      />
                     </>
                   )}
               </div>

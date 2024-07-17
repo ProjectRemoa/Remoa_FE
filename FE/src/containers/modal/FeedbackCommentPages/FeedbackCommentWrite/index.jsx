@@ -2,13 +2,13 @@ import { S } from "./FeedbackCommentWrite.styles";
 import React, { useState } from "react";
 import FeedbackCommentList from "../FeedbackCommentList";
 import { AiOutlineClose } from "react-icons/ai";
-import btnStyle from "../../../../layout/Button.module.css";
 import { FaCaretDown } from "react-icons/fa";
 import { useCheckLike } from "../../../../hooks/checkMyWork";
 import { postFeedbackComment } from "../../../../apis/modal/feedbackComment";
 import axiosInstance from "../../../../apis/axiosInterceptors";
 import AutoCloseModal from "../../../../components/common/AutoCloseModal";
-
+import YellowButton from "../../../../components/common/Button/YellowButton.styles";
+import { onChangeHandler } from "../../../../functions/onChangeHandler";
 export default function FeedbackCommentWrite({
   id3,
   modalVisibleId3,
@@ -26,12 +26,7 @@ export default function FeedbackCommentWrite({
 
   const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue.length > 300) {
-      setContents(inputValue.substring(0, 1000));
-      return;
-    }
-    setContents(inputValue);
+    onChangeHandler(event, 300, setContents);
   };
   const [selected, setSelected] = useState(1);
 
@@ -177,13 +172,12 @@ export default function FeedbackCommentWrite({
 
           {/* 사진*/}
 
-          <button
-            className={btnStyle.yellow}
+          <YellowButton
             onClick={onSubmitHandler}
             style={{ width: "72px", height: "43px", right: 0, fontWeight: 600 }}
           >
-            등록
-          </button>
+            <span>등록</span>
+          </YellowButton>
         </S.RegTop>
         <S.RegBottom>
           <S.WriteInput

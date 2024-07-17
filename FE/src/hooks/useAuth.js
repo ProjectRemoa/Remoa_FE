@@ -19,8 +19,6 @@ export const useAuth = () => {
       await axiosInstance.put("api/member/logout");
 
       sessionStorage.removeItem("nickname");
-      sessionStorage.removeItem("email");
-      sessionStorage.removeItem("new");
       sessionStorage.removeItem("accessToken");
       sessionStorage.removeItem("refreshToken");
 

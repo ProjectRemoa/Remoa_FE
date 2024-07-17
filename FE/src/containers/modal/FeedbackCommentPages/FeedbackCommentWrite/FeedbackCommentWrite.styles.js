@@ -123,10 +123,8 @@ export const S = {
     overflow-x: hidden;
     box-sizing: border-box;
     padding-right: 15px; /* Add padding to accommodate custom scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: #b0b0b0 transparent;
-
-   
+    scrollbar-width: thin;
+    scrollbar-color: #b0b0b0 transparent;
   `,
   SelectWrapper: styled.div`
     padding: 4px;
