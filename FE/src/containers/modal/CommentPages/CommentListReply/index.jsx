@@ -12,6 +12,9 @@ import { getReference } from "../../../../apis/modal/reference";
 import { onChangeHandler } from "../../../../functions/onChangeHandler";
 import YellowButton from "../../../../components/common/Button/YellowButton.styles";
 import { placeholder } from "../../../../components/common/Placeholder";
+import TextArea from "../../../../components/common/TextArea/TextArea.styles";
+import Pre from "../../../../components/common/TextArea/Pre.styles";
+import { EditNbsp, EditText } from "../../../../components/common/TextArea/Edit.styles";
 export default function CommentListReply({
   reply,
   postId,
@@ -79,7 +82,7 @@ export default function CommentListReply({
               <div style={{ margin: "6px 0" }}>
                 {putMemberId === reply.member.memberId ? (
                   <div id={reply.commentReplyId}>
-                    <S.WriteInput
+                    <TextArea
                       placeholder={placeholder}
                       onChange={onChangeContents}
                       defaultValue={reply.content}
@@ -94,7 +97,7 @@ export default function CommentListReply({
                   </div>
                 ) : (
                   <>
-                    <S.Content>{reply.content}</S.Content>
+                    <Pre>{reply.content}</Pre>
                   </>
                 )}
               </div>
@@ -109,17 +112,17 @@ export default function CommentListReply({
                   reply.member.nickname ===
                     sessionStorage.getItem("nickname") && (
                     <>
-                      <S.Edit>
-                        <span
+                      <div>
+                        <EditText
                           onClick={() => setPutMemberId(reply.member.memberId)}
                         >
                           수정하기
-                        </span>
-                        &nbsp; | &nbsp;
-                        <span onClick={() => onDelete(reply.commentReplyId)}>
+                        </EditText>
+                        <EditNbsp>&nbsp; | &nbsp;</EditNbsp>
+                        <EditText onClick={() => onDelete(reply.commentReplyId)}>
                           삭제하기
-                        </span>
-                      </S.Edit>
+                        </EditText>
+                      </div>
 
                       <CustomLikeButton
                         style={{ position: "absolute", right: "15px" }}

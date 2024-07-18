@@ -9,6 +9,8 @@ import axiosInstance from "../../../../apis/axiosInterceptors";
 import AutoCloseModal from "../../../../components/common/AutoCloseModal";
 import YellowButton from "../../../../components/common/Button/YellowButton.styles";
 import { onChangeHandler } from "../../../../functions/onChangeHandler";
+import { checkNonMember } from "../../../../functions/checkNonMember";
+import TextArea from "../../../../components/common/TextArea/TextArea.styles";
 export default function FeedbackCommentWrite({
   id3,
   modalVisibleId3,
@@ -23,7 +25,7 @@ export default function FeedbackCommentWrite({
 }) {
   const [contents, setContents] = useState("");
   const [showModal, setShowModal] = useState(false);
-
+  const refreshToken = sessionStorage.getItem("refreshToken")
   const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
@@ -41,6 +43,7 @@ export default function FeedbackCommentWrite({
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     checkLike();
+    checkNonMember(refreshToken)
     if (!contents) return alert("내용이 비어있습니다.");
 
     let user = undefined;
@@ -48,7 +51,6 @@ export default function FeedbackCommentWrite({
     const res = await axiosInstance.get("user");
     if (res.data.data) {
       user = countPage.find((item) => item.nickname === res.data.data.nickname);
-      console.log(countPage, res.data.data)
       if (user?.pages.includes(selected)) {
         pageContainsResult = true;
       }
@@ -180,11 +182,12 @@ export default function FeedbackCommentWrite({
           </YellowButton>
         </S.RegTop>
         <S.RegBottom>
-          <S.WriteInput
+          <TextArea
             onChange={onChangeContents}
             value={contents}
             required
-            placeholder="해당 작업물에 대한 의견을 최대 1000자까지 남길 수 있어요!"
+            placeholder="최대 300자까지 피드백을 남겨주세요."
+            style={{height:'149px', width:'90%'}}
           />
         </S.RegBottom>
       </S.ModalWriteFeed>

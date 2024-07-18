@@ -8,6 +8,9 @@ import { onChangeHandler } from "../../../../functions/onChangeHandler";
 import YellowButton from "../../../../components/common/Button/YellowButton.styles";
 import WhiteButton from "../../../../components/common/Button/WhiteButton.styles";
 import { placeholder } from "../../../../components/common/Placeholder";
+import { checkNonMember } from "../../../../functions/checkNonMember";
+import TextArea from "../../../../components/common/TextArea/TextArea.styles";
+
 export default function CommentWriteReply({
   id,
   openWriteAgain,
@@ -17,17 +20,13 @@ export default function CommentWriteReply({
   setComments,
 }) {
   const [contents, setContents] = useState("");
-  const token = sessionStorage.getItem("accessToken");
+  const refreshToken = sessionStorage.getItem("refreshToken");
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
   };
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    if (!token) {
-      alert("로그인 후 이용해주세요.");
-      window.location.href = "/sociallogin";
-      return;
-    }
+    checkNonMember(refreshToken);
+
     if (contents) {
       const response = await postCommentReply(postId, comments.commentId, {
         commentReply: contents,
@@ -44,7 +43,7 @@ export default function CommentWriteReply({
     setOpenWriteAgain("");
   };
   const getProfile = async () => {
-    if (token) {
+    if (refreshToken) {
       const res = await getUserInfo();
       setUserData(res.nickname);
     } else {
@@ -56,7 +55,7 @@ export default function CommentWriteReply({
   const [profileImage, setProfileImage] = useState("");
 
   const getProfileImg = async () => {
-    if (token) {
+    if (refreshToken) {
       const response = await getUserProfileImg();
       setProfileImage(response);
     } else {
@@ -89,7 +88,7 @@ export default function CommentWriteReply({
             </td>
             <td style={{ position: "relative", width: "100%", paddingLeft: "5px" }}>
               <S.Nickname>{userData}</S.Nickname>
-              <S.WriteInput
+              <TextArea
                 wrap="hard"
                 onChange={onChangeContents}
                 value={contents}

@@ -1,26 +1,26 @@
 import axiosInstance from "../axiosInterceptors";
 
-export const postFeedbackCommentReply = async (referenceId, feedbackId, params) => {
+export const postFeedbackCommentReply = async (referenceId, feedbackMemberLogId, params) => {
   try {
-    const response = await axiosInstance.post(`reference/${referenceId}/feedback/${feedbackId}`, params);
+    const response = await axiosInstance.post(`reference/${referenceId}/feedback/${feedbackMemberLogId}`, params);
     return response.data;
   } catch (error) {
     console.error('Error postFeedbackCommentReply:', error);
   }
 };
 
-export const putFeedbackCommentReply = async (feedbackId, replyId, params) => {
+export const putFeedbackCommentReply = async (feedbackMemberLogId, replyId, params) => {
   try {
-    const response = await axiosInstance.put(`reference/feedback/${feedbackId}/reply/${replyId}`, params);
+    const response = await axiosInstance.put(`reference/feedback/${feedbackMemberLogId}/reply/${replyId}`, params);
     return response.data;
   } catch (error) {
     console.error('Error putFeedbackCommentReply:', error);
   }
 };
 
-export const deleteFeedbackCommentReply = async (feedbackId, replyId) => {
+export const deleteFeedbackCommentReply = async (feedbackMemberLogId, replyId) => {
   try {
-    const response = await axiosInstance.delete(`reference/feedback/${feedbackId}/reply/${replyId}`);
+    const response = await axiosInstance.delete(`reference/feedback/${feedbackMemberLogId}/reply/${replyId}`);
     return response.data;
   } catch (error) {
     console.error('Error deleteFeedbackCommentReply:', error);

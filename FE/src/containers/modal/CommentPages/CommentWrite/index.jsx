@@ -6,16 +6,19 @@ import CustomProfileImage from "../../../../components/common/ProfileSize";
 import YellowButton from "../../../../components/common/Button/YellowButton.styles";
 import { placeholder } from "../../../../components/common/Placeholder";
 import { onChangeHandler } from "../../../../functions/onChangeHandler";
+import { checkNonMember } from "../../../../functions/checkNonMember";
+import TextArea from "../../../../components/common/TextArea/TextArea.styles";
 export default function CommentWrite({ postId, setComments }) {
   const [comment, setCommentChange] = useState("");
   const [profileImage, setProfileImage] = useState("");
-  const token = sessionStorage.getItem("accessToken");
+  const refreshToken = sessionStorage.getItem("refreshToken");
 
   const onChangeComments = (event) => {
     onChangeHandler(event,300,setCommentChange)
   };
 
   const onSubmitHandler = async (e) => {
+    checkNonMember(refreshToken)
     if (comment) {
       e.preventDefault();
       try {
@@ -34,7 +37,7 @@ export default function CommentWrite({ postId, setComments }) {
   };
 
   const getProfileImg = async () => {
-    if (token) {
+    if (refreshToken) {
       const response = await getUserProfileImg();
       setProfileImage(response);
     } else {
@@ -54,7 +57,7 @@ export default function CommentWrite({ postId, setComments }) {
       </S.CommentWriteHeader>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom:'20px' }}>
         <CustomProfileImage src={profileImage} style={{ marginTop: "12px" }} />
-        <S.WriteInput
+        <TextArea
           placeholder={placeholder}
           onChange={onChangeComments}
           value={comment}

@@ -13,6 +13,10 @@ import CustomProfileImage from "../../../../components/common/ProfileSize";
 import { onChangeHandler } from "../../../../functions/onChangeHandler";
 import YellowButton from "../../../../components/common/Button/YellowButton.styles";
 import { placeholder } from "../../../../components/common/Placeholder";
+import TextArea from "../../../../components/common/TextArea/TextArea.styles";
+import Pre from "../../../../components/common/TextArea/Pre.styles";
+import { EditNbsp, EditText } from "../../../../components/common/TextArea/Edit.styles";
+
 export default function ModalCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
@@ -86,7 +90,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                     <div style={{ margin: "10px 0px" }}>
                       {putMemberId === comments.commentId ? ( // 일치할 때만 수정 가능한 칸
                         <div id={comments.commentId}>
-                          <S.WriteInput
+                          <TextArea
                             placeholder={placeholder}
                             onChange={onChangeContents}
                             defaultValue={comments.content}
@@ -110,24 +114,24 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                         </div>
                       ) : (
                         <div>
-                          <S.Comment>{comments.content}</S.Comment>
+                          <Pre>{comments.content}</Pre>
                         </div>
                       )}
                     </div>
                     {putMemberId !== comments.commentId && (
                       <S.CommentTableBottom>
-                        <div
+                        <EditText
                           style={{ cursor: "pointer" }}
                           onClick={() => showAgain(comments.commentId)}
                         >
                           답글
-                        </div>
+                        </EditText>
 
                         {comments.member.nickname ===
                           sessionStorage.getItem("nickname") && (
                           <>
-                            &nbsp; | &nbsp;
-                            <div
+                            <EditNbsp>&nbsp; | &nbsp;</EditNbsp>
+                            <EditText
                               style={{ cursor: "pointer" }}
                               onClick={() => {
                                 //setIsEdit(!isEdit);
@@ -136,14 +140,14 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                               }}
                             >
                               수정하기
-                            </div>
-                            &nbsp; | &nbsp;
-                            <div
+                            </EditText>
+                            <EditNbsp>&nbsp; | &nbsp;</EditNbsp>
+                            <EditText
                               onClick={() => onDelete(comments.commentId)}
                               style={{ cursor: "pointer" }}
                             >
                               삭제하기
-                            </div>
+                            </EditText>
                           </>
                         )}
                         <CustomLikeButton

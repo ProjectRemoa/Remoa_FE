@@ -8,6 +8,17 @@ import {
 } from "../../../../apis/modal/feedbackComment";
 import { getReference } from "../../../../apis/modal/reference";
 import { onChangeHandler } from "../../../../functions/onChangeHandler";
+import { S as WS } from "../FeedbackCommentWrite/FeedbackCommentWrite.styles";
+import YellowButton from "../../../../components/common/Button/YellowButton.styles";
+import { FaCaretDown } from "react-icons/fa";
+import CustomProfileImage from "../../../../components/common/ProfileSize";
+import FeedbackCommentWriteReply from "../FeedbackCommentWriteReply";
+import FeedbackCommentListReply from "../FeedbackCommentListReply";
+import TextArea from "../../../../components/common/TextArea/TextArea.styles";
+import Pre from "../../../../components/common/TextArea/Pre.styles";
+import Line from "../../../../components/common/TextArea/Line.styles";
+import { EditNbsp, EditText } from "../../../../components/common/TextArea/Edit.styles";
+
 export default function FeedbackCommentList({
   feedbacks,
   link,
@@ -16,13 +27,19 @@ export default function FeedbackCommentList({
 }) {
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
+  const refreshToken = sessionStorage.getItem("refreshToken");
+  const [openWriteReply, setOpenWriteReply] = useState("");
+
+  const showReply = (feedbackMemberLogId) => {
+    setOpenWriteReply(feedbackMemberLogId);
+  };
 
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
   };
 
   const onClickThumb = async (feedback_member_id) => {
-    const res = await likeFeedbackComment(id,feedback_member_id);
+    const res = await likeFeedbackComment(id, feedback_member_id);
     try {
       const res = await getReference(id);
       setFeedback(res.data.feedbacks);
@@ -43,7 +60,7 @@ export default function FeedbackCommentList({
     if (!contents) {
       alert("내용이 수정되지 않았습니다.");
     } else {
-      const response = await putFeedbackComment(feedback_id, {
+      const response = await putFeedbackComment(id, feedback_id, {
         feedback: contents,
       });
       setFeedback(response.data);
@@ -52,7 +69,7 @@ export default function FeedbackCommentList({
   };
 
   const onClickDelete = async (feedback_id) => {
-    const response = await deleteFeedbackComment(feedback_id);
+    const response = await deleteFeedbackComment(id, feedback_id);
     setFeedback(response.data);
   };
 
@@ -62,42 +79,67 @@ export default function FeedbackCommentList({
         feedbacks.map((feedbacks, index) => (
           <div key={index}>
             <S.FeedWrapperHeader>
-              <S.ProfileSize src={feedbacks.member.profileImage} alt="" />
+              <CustomProfileImage src={feedbacks.member.profileImage} />
               <S.ProfileName>{feedbacks.member.nickname}</S.ProfileName>
-              <CustomLikeButton
-                style={{ position: "absolute", right: "28px" }}
-                onClick={() => onClickThumb(feedbacks.member.memberId)}
-                count={feedbacks.likeCount}
-                isLiked={feedbacks.isLiked}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  position: "absolute",
+                  right: "14px",
+                }}
+              >
+                {refreshToken && (
+                  <S.LikeButton
+                    onClick={() => {
+                      showReply(feedbacks.feedbackMemberLogId);
+                    }}
+                  >
+                    답글
+                  </S.LikeButton>
+                )}
+                <CustomLikeButton
+                  onClick={() => onClickThumb(feedbacks.member.memberId)}
+                  count={feedbacks.likeCount}
+                  isLiked={feedbacks.isLiked}
+                />
+              </div>
             </S.FeedWrapperHeader>
-            <S.Line />
+            <Line style={{marginTop: 0}} />
             {feedbacks.feedbackInfos.map((feedback, index) => (
               <div key={index}>
                 {putMemberId === feedback.feedbackId ? (
-                  <div id={feedback.feedbackId}>
-                    <S.FeedWrapperButton>
-                      {link ? (
-                        <S.WrapperSearch>동영상</S.WrapperSearch>
-                      ) : (
-                        <S.WrapperSearch href={`#${feedback.page}`}>
-                          {feedback.page}페이지
-                        </S.WrapperSearch>
-                      )}
-                    </S.FeedWrapperButton>
-                    <S.ModifyText
+                  <div id={feedback.feedbackId} style={{ marginTop: "10px" }}>
+                    <WS.RegTop>
+                      <WS.FeedbackTextNum style={{ marginLeft: "-27px" }}>
+                        페이지 번호
+                      </WS.FeedbackTextNum>
+                      <WS.FeedbackSelect
+                        disabled={true}
+                        style={{ left: "10px", alignItems: "center" }}
+                      >
+                        {feedback.page || 1}
+                        <FaCaretDown style={{ marginLeft: "5px" }} />
+                      </WS.FeedbackSelect>
+                      <YellowButton
+                        onClick={() => {
+                          return onPutHandler(feedback.feedbackId);
+                        }}
+                        style={{
+                          width: "72px",
+                          height: "42px",
+                        }}
+                      >
+                        <span>수정</span>
+                      </YellowButton>
+                    </WS.RegTop>
+                    <TextArea
+                      style={{ height: "96px" }}
                       required
-                      placeholder="해당 작업물에 대한 의견을 최대 1000자까지 남길 수 있어요!"
+                      placeholder="최대 300자까지 피드백을 남겨주세요."
                       onChange={onChangeContents}
                       defaultValue={feedback.feedback}
                     />
-                    <S.ModifyFin
-                      onClick={() => {
-                        return onPutHandler(feedback.feedbackId);
-                      }}
-                    >
-                      수정완료
-                    </S.ModifyFin>
                   </div>
                 ) : (
                   <>
@@ -110,34 +152,42 @@ export default function FeedbackCommentList({
                         </S.WrapperSearch>
                       )}
                     </S.FeedWrapperButton>
-                    <S.FeedbackView>{feedback.feedback}</S.FeedbackView>
+                    <Pre Feed>{feedback.feedback}</Pre>
                   </>
                 )}
                 <S.ButtonWrapper>
-                  <S.HeaderButton>답글</S.HeaderButton>
-
                   {feedbacks.member.nickname ===
                     sessionStorage.getItem("nickname") &&
                     putMemberId !== feedback.feedbackId && (
                       <>
-                        <S.Nbsp> &nbsp;|&nbsp; </S.Nbsp>
-                        <S.HeaderButton
+                        <EditText
                           onClick={() => setPutMemberId(feedback.feedbackId)}
                         >
                           수정하기
-                        </S.HeaderButton>
-                        <S.Nbsp> &nbsp;|&nbsp; </S.Nbsp>
-                        <S.HeaderButton
+                        </EditText>
+                        <EditNbsp> &nbsp;|&nbsp; </EditNbsp>
+                        <EditText
                           onClick={() => onClickDelete(feedback.feedbackId)}
                         >
                           삭제하기
-                        </S.HeaderButton>
+                        </EditText>
                       </>
                     )}
                 </S.ButtonWrapper>
               </div>
             ))}
-            <S.Line
+            <FeedbackCommentWriteReply
+              referenceId={id}
+              feedbackMemberLogId={feedbacks.feedbackMemberLogId}
+              openWriteReply={openWriteReply}
+              setOpenWriteReply={setOpenWriteReply}
+              setFeedback={setFeedback}
+            />
+            {feedbacks.replies.map((feedback) => (
+              <FeedbackCommentListReply feedback={feedback} feedbackMemberLogId={feedbacks.feedbackMemberLogId} setFeedback={setFeedback} />
+            ))}
+            
+            <Line
               style={{
                 height: "8px",
                 width: "477px",

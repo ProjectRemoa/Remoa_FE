@@ -24,7 +24,7 @@ export const S = {
     border: 1px solid var(--line, #e1e2e5);
   `,
   ModalHeader: styled.div`
-    height: 80px;
+  height: 80px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -81,22 +81,6 @@ export const S = {
     height: auto;
     display: flex;
     justify-content: center;
-  `,
-  WriteInput: styled.textarea`
-    width: 428px;
-    height: 139px;
-    border-radius: 10px;
-    font-family: "Inter";
-    resize: none;
-    border: 1px solid gray;
-    padding: 17px;
-    box-sizing: border-box;
-    ::placeholder {
-      color: var(--gray, #a7a7a7);
-      font-size: 16px;
-      font-weight: 500;
-      letter-spacing: -0.32px;
-    }
   `,
   FeedbackSend: styled.button`
     display: inline-flex;

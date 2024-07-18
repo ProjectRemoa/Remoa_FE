@@ -45,26 +45,6 @@ export const S = {
     letter-spacing: -0.32px;
     right: 17px;
   `,
-  WriteInput: styled.textarea`
-  box-sizing: border-box;
-    border-radius: 10px;
-    background: #fff;
-    width: 96%;
-    height: 88px;
-    font-family: "Inter";
-    font-size: 15px;
-    line-height: 25px;
-    resize: none;
-    border: 1px solid #a7a7a7;
-    padding: 20px;
-    ::placeholder {
-      color: var(--gray, #a7a7a7);
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 150%;
-      letter-spacing: -0.32px;
-    }
-  `,
   CommentWriteHeader: styled.div`
     width: auto;
     height: 40px;
