@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const API_SERVER = process.env.REACT_APP_API_SERVER;
+
 export const getRefreshToken = async () => {
   const accessToken = sessionStorage.getItem("accessToken");
   const refreshToken = sessionStorage.getItem("refreshToken");
@@ -7,7 +9,7 @@ export const getRefreshToken = async () => {
   try {
     axios
       .put(
-        "/BE/api/member/reissue",
+        `${API_SERVER}api/member/reissue`,
         {},
         {
           headers: {

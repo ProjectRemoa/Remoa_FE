@@ -1,9 +1,11 @@
 import axios from "axios";
 import { getRefreshToken } from "../functions/getRefreshToken";
 
+const API_SERVER = process.env.REACT_APP_API_SERVER;
+
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: "/BE/", // 절대 경로 사용
+  baseURL: API_SERVER, // 절대 경로 사용
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
