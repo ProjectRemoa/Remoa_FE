@@ -54,7 +54,7 @@ function MyPageProfile() {
     getProfile();
   }, []);
 
-  // /BE/user에서 유저 정보 받아오기
+  // 유저 정보 받아오기
 
   const getProfile = async () => {
     try {
