@@ -2,8 +2,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+export const REDIRECT_URI =
+  process.env.NODE_ENV === "development"
+    ? process.env.REACT_APP_DEV_REDIRECT_URI
+    : process.env.REACT_APP_PROD_REDIRECT_URI;
+
 function KakaoLogin() {
-  
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
   sessionStorage.setItem("kakao", code);
@@ -11,7 +15,7 @@ function KakaoLogin() {
   const sendToken = () => {
     // back에 인가 코드 보내기
     axios
-      .get(`/BE/login/kakao?code=${code}`)
+      .get(`/BE/login/kakao?code=${code}&redirect_uri=${REDIRECT_URI}`)
       .then((res) => {
         // 성공
         if (res.status === 201) {
@@ -30,7 +34,7 @@ function KakaoLogin() {
             res.data.data.remoaToken.refreshToken
           );
           alert("환영합니다! " + sessionStorage.getItem("nickname") + "님!");
-          navigate("/")
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -48,7 +52,7 @@ function KakaoLogin() {
     }
   }, []);
 
-  return <></>
+  return <></>;
 }
 
 export default KakaoLogin;
