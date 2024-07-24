@@ -2,6 +2,13 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+export const REDIRECT_URI =
+  process.env.NODE_ENV === "development"
+    ? process.env.REACT_APP_DEV_REDIRECT_URI
+    : process.env.REACT_APP_PROD_REDIRECT_URI;
+
+// console.log(REDIRECT_URI);
+
 const API_SERVER = process.env.REACT_APP_API_SERVER;
 
 function KakaoLogin() {
@@ -12,7 +19,7 @@ function KakaoLogin() {
   const sendToken = () => {
     // back에 인가 코드 보내기
     axios
-      .get(`${API_SERVER}login/kakao?code=${code}`)
+      .get(`${API_SERVER}login/kakao?code=${code}&redirect_uri=${REDIRECT_URI}`)
       .then((res) => {
         // 성공
         if (res.status === 201) {
