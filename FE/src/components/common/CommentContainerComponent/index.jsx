@@ -24,6 +24,8 @@ const {
   MyPaginate,
 } = styledComponent;
 
+const API_SERVER = process.env.REACT_APP_API_SERVER;
+
 function CommentContainerComponent({
   data,
   setPage,
@@ -42,7 +44,7 @@ function CommentContainerComponent({
 
   const onClickPopupFeedback = (postId) => {
     setPostId(postId);
-    let endpoint = `/BE/reference/${postId}`;
+    let endpoint = `${API_SERVER}reference/${postId}`;
 
     const fetchData = async () => {
       try {

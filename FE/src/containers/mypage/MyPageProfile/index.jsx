@@ -33,12 +33,7 @@ const {
   EditButton,
 } = styledComponent;
 
-const instance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "development"
-      ? ""
-      : "https://d197wa6gufmlpc.cloudfront.net",
-});
+const API_SERVER = process.env.REACT_APP_API_SERVER;
 
 function MyPageProfile() {
   const imgRef = useRef();
@@ -59,7 +54,7 @@ function MyPageProfile() {
     getProfile();
   }, []);
 
-  // /BE/user에서 유저 정보 받아오기
+  // 유저 정보 받아오기
 
   const getProfile = async () => {
     try {
@@ -134,7 +129,7 @@ function MyPageProfile() {
   const handleNicknameDuplicationCheck = async (nickname) => {
     if (!nickname) return;
     try {
-      const res = await instance.get(`/BE/nickname?nickname=${nickname}`);
+      const res = await axios.get(`${API_SERVER}nickname?nickname=${nickname}`);
 
       if (!res.data.data) {
         setIdCheckMessage("중복된 닉네임이 존재합니다.");

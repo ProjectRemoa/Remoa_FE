@@ -7,6 +7,10 @@ export const REDIRECT_URI =
     ? process.env.REACT_APP_DEV_REDIRECT_URI
     : process.env.REACT_APP_PROD_REDIRECT_URI;
 
+// console.log(REDIRECT_URI);
+
+const API_SERVER = process.env.REACT_APP_API_SERVER;
+
 function KakaoLogin() {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
@@ -15,7 +19,7 @@ function KakaoLogin() {
   const sendToken = () => {
     // back에 인가 코드 보내기
     axios
-      .get(`/BE/login/kakao?code=${code}&redirect_uri=${REDIRECT_URI}`)
+      .get(`${API_SERVER}login/kakao?code=${code}&redirect_uri=${REDIRECT_URI}`)
       .then((res) => {
         // 성공
         if (res.status === 201) {
