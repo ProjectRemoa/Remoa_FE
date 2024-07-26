@@ -1,7 +1,7 @@
 import { FaHeart } from "react-icons/fa";
 
 import StyledComponents from "./RefCard.styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import RefModalFollow from "../../modal/RefModalFollow";
 import { useParams } from "react-router-dom";

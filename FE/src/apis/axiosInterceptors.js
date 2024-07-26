@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getRefreshToken } from "../functions/getRefreshToken";
-
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
   baseURL: "/BE/", // 절대 경로 사용
@@ -39,6 +38,7 @@ axiosInstance.interceptors.response.use(
         case 401:
           console.error("Unauthorized");
           alert("로그인이 되지 않았거나 인증이 이루어지지 않았습니다.");
+          sessionStorage.clear();
           break;
         case 403:
           console.error("Forbidden");
@@ -50,7 +50,8 @@ axiosInstance.interceptors.response.use(
           break;
         case 423:
           console.error("토큰 만료!");
-          getRefreshToken();
+
+          getRefreshToken()
           break;
         case 500:
           console.error("Internal Server Error");

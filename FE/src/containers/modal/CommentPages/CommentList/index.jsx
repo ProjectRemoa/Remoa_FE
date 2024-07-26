@@ -15,7 +15,11 @@ import YellowButton from "../../../../components/common/Button/YellowButton.styl
 import { placeholder } from "../../../../components/common/Placeholder";
 import TextArea from "../../../../components/common/TextArea/TextArea.styles";
 import Pre from "../../../../components/common/TextArea/Pre.styles";
-import { EditNbsp, EditText } from "../../../../components/common/TextArea/Edit.styles";
+import {
+  EditNbsp,
+  EditText,
+} from "../../../../components/common/TextArea/Edit.styles";
+import RefModalFollow from "../../RefModalFollow";
 
 export default function ModalCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -70,6 +74,16 @@ export default function ModalCommentList({ comments, postId, setComments }) {
     setOpenWriteAgain(commentId);
   };
 
+  const [selectedPostId, setSelectedPostId] = useState("");
+
+  const handleOnClick = async (memberId) => {
+    if (selectedPostId === memberId) {
+      setSelectedPostId("");
+    } else {
+      setSelectedPostId(memberId);
+    }
+  };
+
   return (
     <div>
       {comments &&
@@ -82,8 +96,13 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                     <CustomProfileImage
                       src={comments.member.profileImage}
                       alt=""
-                      style={{ position: "absolute" }}
+                      style={{ position: "absolute", cursor: "pointer" }}
+                      onClick={() => handleOnClick(comments.member.memberId)}
                     />
+
+                    {comments.member.memberId === selectedPostId && (
+                      <RefModalFollow member={comments.member} location={0} />
+                    )}
                   </td>
                   <td>
                     <S.ProfileName>{comments.member.nickname}</S.ProfileName>
@@ -163,6 +182,7 @@ export default function ModalCommentList({ comments, postId, setComments }) {
               </tbody>
             </S.AgainTable>
             <S.Differentiate style={{ margin: "20px 0px" }} />
+
             <CommentWriteReply
               openWriteAgain={openWriteAgain}
               setOpenWriteAgain={setOpenWriteAgain}

@@ -7,7 +7,7 @@ export const S = {
     top: 80px;
     right: 0px;
     width: 484px;
-    height: 829px;
+    height: 1121px;
     border-radius: 8px;
     border: 1px solid var(--line, #d5d5d5);
     background: #fff;

@@ -16,8 +16,6 @@ export const useAuth = () => {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.put("api/member/logout");
-
       sessionStorage.removeItem("nickname");
       sessionStorage.removeItem("accessToken");
       sessionStorage.removeItem("refreshToken");
@@ -27,9 +25,8 @@ export const useAuth = () => {
       alert("로그아웃 되었습니다.");
       navigate("/");
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
   };
-
   return { isLogin, handleLogout };
 };

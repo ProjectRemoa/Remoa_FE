@@ -1,111 +1,190 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { createTheme } from "@mui/material";
 
-export const S = {
-  ModalWrapper:styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 11;
-    background-color: rgba(0, 0, 0, 0.1);
-    cursor: default;
-    overflow-y: scroll;
-  `,
-  Modal:styled.div`
-    box-sizing: border-box;
-    width: 460px;
-    height: 448px;
-    background: #FFFFFF;
-    border: 0.5px solid #B0B0B0;
-    border-radius: 10px;
-    font-family: 'Noto Sans KR';
-    font-style: normal;
-    font-weight: 700;
-  `,
-  Welcome:styled.div`
-    letter-spacing: -0.48px;
-    font-size: 24px;
-    line-height: 100%;
-    margin-top: 50px;
-    margin-bottom: 18px;
-    font-weight: 700;
-    color: #1e1e1e;
-  `,
-  Warn:styled.div`
-    letter-spacing: -0.28px;
-    font-size: 14px;
-    line-height: 100%;
-    margin-bottom: 18px;
-    font-weight: 500;
-    color: #727272;
-  `,
-  Guide:styled.div`
-    font-size: 20px;
-    line-height: 29px;
-    color: #464646;
-    margin-bottom: 18px;
-  `,
-  Up:styled.div`
+const Theme = createTheme({
+  palette: {
+    primary: {
+      main: "#FADA5E", // 노란색으로 커스텀
+    },
+  },
+});
+
+const ModalWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  `,
-  How:styled.div`
-    text-align: left;
-    font-size: 13px;
-    line-height: 140%;
-    font-weight: 600;
-    color: #464646;
-    padding-left: 6px;
-  `,
-  InfoDiv:styled.div`
-    background-color: #F7F6F5;
-    display: flex;
-    justify-content: center;
-    border-radius: 20px;
-    width:340px;
-    height: 160px;
-    margin: 33px 60px 34px 60px;
-  `,
-  HowWrapper:styled.td`
-  `,
-  Howtable:styled.table`
-    position: relative;
-    padding-left: 10px;
-  `,
-  ChangeProfile:styled.button`
-    width: 404px;
-    height: 54px;
-    border: 1px solid #D0D0D0;
-    border-radius: 12px;
-    background: #FADA5E;
-    color: var(--black, #1E1E1E);
-    text-align: center;
-    cursor: pointer;
-    /* button */
-    font-family: Pretendard;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: -0.32px;
-  `,
-  Close:styled.div`
-    margin-top: 16px;
-    cursor: pointer;
-    text-decoration: underline;
-    color: var(--gray, #A7A7A7);
-    font-family: Pretendard;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    letter-spacing: -0.28px;
-  `,
-}
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: default;
+`;
+const Modal = styled.div`
+  box-sizing: border-box;
+  width: 460px;
+  height: 624px;
+  background: #ffffff;
+  border: 0.5px solid #b0b0b0;
+  border-radius: 10px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+`;
+
+
+const Box = styled.div`
+  height: 485px;
+  overflow-y: scroll;
+  padding: 28px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const AgreeText = styled.div`
+  font-weight: 700;
+  font-size: 24px;
+`;
+
+const AgreeLastText = styled.div`
+  font-weight: 500;
+  font-size: 14px;
+  padding-left: 3px;
+  margin-top: 9px;
+  margin-bottom: 26px;
+  color: #727272;
+`;
+
+const AgreeAllBox = styled.div`
+  background-color: #fef5d2;
+  width: 404px;
+  height: 114px;
+  display: flex;
+  border-radius: 12px;
+  margin-bottom: 14px;
+`;
+
+const AgreeAllCheckBox = styled.div`
+  margin-left: -15px; //-16px;
+  margin-right: 4px;
+  margin-top: 11px; //-6px;
+  padding-right: 5px;
+`;
+
+const AgreeAllTextBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const AgreeAllText = styled.div`
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin-bottom: 12px;
+`;
+
+const AgreeAllSubText = styled.span`
+font-size: 14px;
+font-weight: 500;
+line-height: 21px;
+letter-spacing: -0.03em;
+
+`;
+
+const AgreeBox = styled.div`
+  margin: 5px 8px;
+  font-family: NotoSansKR-400;
+  font-size: 16px;
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+`;
+
+const AgreeCheckBox = styled.div`
+  margin-left: -16px;
+`;
+
+const AgreeDetailBox = styled.div`
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const AgreeSubText = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: #464646;
+  margin-left: 5px;
+  padding-top: 5px;
+`;
+
+const DetailButton = styled.div`
+  width: ${(props) => (props.state ? "60px" : "80px")};
+  height: 26px;
+  border: 1px solid #e1e2e5;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 12px;
+  color: ${(props) => (props.state ? "#727272" : "black")};
+`;
+
+const DetailChildBox = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const ButtonBox = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`;
+
+const Button = styled.button`
+  width: 404px;
+  height: 54px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  border-radius: 12px;
+  color: ${(props) => (props.state ? "#1E1E1E" : "#6c6c6c")};
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: none;
+  border: none;
+  cursor: ${(props) => (props.state ? "pointer" : "default")};
+  background: ${(props) => (props.state ? "#FADA5E" : "#EDEDED")};
+`;
+
+const S = {
+  Theme,
+  ModalWrapper,
+  Modal,
+  Box,
+  AgreeText,
+  AgreeLastText,
+  AgreeSubText,
+  AgreeAllBox,
+  AgreeAllCheckBox,
+  AgreeAllTextBox,
+  AgreeAllText,
+  AgreeAllSubText,
+  AgreeBox,
+  AgreeCheckBox,
+  AgreeDetailBox,
+  DetailButton,
+  DetailChildBox,
+  ButtonBox,
+  Button,
+};
+
+export default S;
