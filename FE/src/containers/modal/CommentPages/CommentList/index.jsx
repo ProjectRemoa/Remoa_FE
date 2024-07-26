@@ -20,6 +20,7 @@ import {
   EditText,
 } from "../../../../components/common/TextArea/Edit.styles";
 import RefModalFollow from "../../RefModalFollow";
+import { handleOnFollowModal } from "../../../../functions/handleOnFollowModal";
 
 export default function ModalCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -76,14 +77,6 @@ export default function ModalCommentList({ comments, postId, setComments }) {
 
   const [selectedPostId, setSelectedPostId] = useState("");
 
-  const handleOnClick = async (memberId) => {
-    if (selectedPostId === memberId) {
-      setSelectedPostId("");
-    } else {
-      setSelectedPostId(memberId);
-    }
-  };
-
   return (
     <div>
       {comments &&
@@ -97,11 +90,11 @@ export default function ModalCommentList({ comments, postId, setComments }) {
                       src={comments.member.profileImage}
                       alt=""
                       style={{ position: "absolute", cursor: "pointer" }}
-                      onClick={() => handleOnClick(comments.member.memberId)}
+                      onClick={() => handleOnFollowModal(comments.member.memberId, selectedPostId, setSelectedPostId)}
                     />
 
                     {comments.member.memberId === selectedPostId && (
-                      <RefModalFollow member={comments.member} location={0} />
+                      <RefModalFollow member={comments.member} />
                     )}
                   </td>
                   <td>

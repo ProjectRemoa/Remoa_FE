@@ -100,7 +100,7 @@ export const S = {
   `,
   Feedback: styled.div`
     width: 484px;
-    height: 520px;
+    height: 793px;
     position: absolute;
     top: 80px;
     overflow-y: scroll;

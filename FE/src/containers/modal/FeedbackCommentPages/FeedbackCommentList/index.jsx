@@ -17,8 +17,12 @@ import FeedbackCommentListReply from "../FeedbackCommentListReply";
 import TextArea from "../../../../components/common/TextArea/TextArea.styles";
 import Pre from "../../../../components/common/TextArea/Pre.styles";
 import Line from "../../../../components/common/TextArea/Line.styles";
-import { EditNbsp, EditText } from "../../../../components/common/TextArea/Edit.styles";
-
+import {
+  EditNbsp,
+  EditText,
+} from "../../../../components/common/TextArea/Edit.styles";
+import { handleOnFollowModal } from "../../../../functions/handleOnFollowModal";
+import RefModalFollow from "../../RefModalFollow";
 export default function FeedbackCommentList({
   feedbacks,
   link,
@@ -29,6 +33,7 @@ export default function FeedbackCommentList({
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
   const refreshToken = sessionStorage.getItem("refreshToken");
   const [openWriteReply, setOpenWriteReply] = useState("");
+  const [selectedPostId, setSelectedPostId] = useState("");
 
   const showReply = (feedbackMemberLogId) => {
     setOpenWriteReply(feedbackMemberLogId);
@@ -79,7 +84,22 @@ export default function FeedbackCommentList({
         feedbacks.map((feedbacks, index) => (
           <div key={index}>
             <S.FeedWrapperHeader>
-              <CustomProfileImage src={feedbacks.member.profileImage} />
+              <div style={{ position: "relative" }}>
+                <CustomProfileImage
+                  src={feedbacks.member.profileImage}
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    handleOnFollowModal(
+                      feedbacks.member.memberId,
+                      selectedPostId,
+                      setSelectedPostId
+                    )
+                  }
+                />
+                {feedbacks.member.memberId === selectedPostId && (
+                  <RefModalFollow member={feedbacks.member} />
+                )}
+              </div>
               <S.ProfileName>{feedbacks.member.nickname}</S.ProfileName>
               <div
                 style={{
@@ -105,7 +125,7 @@ export default function FeedbackCommentList({
                 />
               </div>
             </S.FeedWrapperHeader>
-            <Line style={{marginTop: 0}} />
+            <Line style={{ marginTop: 0 }} />
             {feedbacks.feedbackInfos.map((feedback, index) => (
               <div key={index}>
                 {putMemberId === feedback.feedbackId ? (
@@ -184,9 +204,13 @@ export default function FeedbackCommentList({
               setFeedback={setFeedback}
             />
             {feedbacks.replies.map((feedback) => (
-              <FeedbackCommentListReply feedback={feedback} feedbackMemberLogId={feedbacks.feedbackMemberLogId} setFeedback={setFeedback} />
+              <FeedbackCommentListReply
+                feedback={feedback}
+                feedbackMemberLogId={feedbacks.feedbackMemberLogId}
+                setFeedback={setFeedback}
+              />
             ))}
-            
+
             <Line
               style={{
                 height: "8px",

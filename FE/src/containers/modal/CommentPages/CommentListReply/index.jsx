@@ -14,7 +14,12 @@ import YellowButton from "../../../../components/common/Button/YellowButton.styl
 import { placeholder } from "../../../../components/common/Placeholder";
 import TextArea from "../../../../components/common/TextArea/TextArea.styles";
 import Pre from "../../../../components/common/TextArea/Pre.styles";
-import { EditNbsp, EditText } from "../../../../components/common/TextArea/Edit.styles";
+import {
+  EditNbsp,
+  EditText,
+} from "../../../../components/common/TextArea/Edit.styles";
+import RefModalFollow from "../../RefModalFollow";
+import { handleOnFollowModal } from "../../../../functions/handleOnFollowModal";
 export default function CommentListReply({
   reply,
   postId,
@@ -24,7 +29,7 @@ export default function CommentListReply({
   const [putMemberId, setPutMemberId] = useState(0);
   const [originalContent, setOriginalContent] = useState("");
   const [contents, setContents] = useState("");
-
+  const [selectedPostId, setSelectedPostId] = useState("");
   useEffect(() => {
     // 초기 데이터로 상태 설정
     setContents(reply.content);
@@ -66,6 +71,8 @@ export default function CommentListReply({
     }
   };
 
+
+
   return (
     <S.Parent>
       <table style={{ width: "100%" }}>
@@ -75,7 +82,16 @@ export default function CommentListReply({
               <MdOutlineSubdirectoryArrowRight style={{ fontSize: "23px" }} />
             </td>
             <td>
-              <CustomProfileImage src={reply.member.profileImage} />
+              <div style={{position:'relative'}}>
+              <CustomProfileImage
+                src={reply.member.profileImage}
+                style={{ cursor: "pointer" }}
+                onClick={() => handleOnFollowModal(reply.member.memberId, selectedPostId, setSelectedPostId)}
+              />
+                    {reply.member.memberId === selectedPostId && (
+                <RefModalFollow member={reply.member} location={0} />
+              )}
+              </div>
             </td>
             <td style={{ width: "100%", paddingLeft: "5px" }}>
               <S.Nickname>{reply.member.nickname}</S.Nickname>
@@ -89,8 +105,12 @@ export default function CommentListReply({
                     />
                     <YellowButton
                       onClick={() => onPutHandler(reply.commentReplyId)}
-                      style={{width:'72px', height:'40px',float: "right",
-                        marginTop: "10px",}}
+                      style={{
+                        width: "72px",
+                        height: "40px",
+                        float: "right",
+                        marginTop: "10px",
+                      }}
                     >
                       수정
                     </YellowButton>
@@ -119,7 +139,9 @@ export default function CommentListReply({
                           수정하기
                         </EditText>
                         <EditNbsp>&nbsp; | &nbsp;</EditNbsp>
-                        <EditText onClick={() => onDelete(reply.commentReplyId)}>
+                        <EditText
+                          onClick={() => onDelete(reply.commentReplyId)}
+                        >
                           삭제하기
                         </EditText>
                       </div>

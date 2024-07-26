@@ -14,6 +14,8 @@ import {
 } from "../../../../apis/modal/feedbackCommentReply";
 import { onChangeHandler } from "../../../../functions/onChangeHandler";
 import TextArea from "../../../../components/common/TextArea/TextArea.styles";
+import { handleOnFollowModal } from "../../../../functions/handleOnFollowModal";
+import RefModalFollow from "../../RefModalFollow";
 
 export default function FeedbackCommentListReply({
   feedback,
@@ -22,6 +24,8 @@ export default function FeedbackCommentListReply({
 }) {
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0);
+  const [selectedPostId, setSelectedPostId] = useState("");
+
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
   };
@@ -61,10 +65,27 @@ export default function FeedbackCommentListReply({
         <MdOutlineSubdirectoryArrowRight
           style={{ fontSize: "24px", color: "#A7A7A7" }}
         />
-        <CustomProfileImage
-          src={feedback.member.profileImage}
-          style={{ width: "24px", height: "24px", margin: "0px 8px" }}
-        />
+        <div style={{ position: "relative" }}>
+          <CustomProfileImage
+            src={feedback.member.profileImage}
+            style={{
+              width: "24px",
+              height: "24px",
+              margin: "0px 8px",
+              cursor: "pointer",
+            }}
+            onClick={() =>
+              handleOnFollowModal(
+                feedback.member.memberId,
+                selectedPostId,
+                setSelectedPostId
+              )
+            }
+          />
+          {feedback.member.memberId === selectedPostId && (
+            <RefModalFollow member={feedback.member} />
+          )}
+        </div>
         <span style={{ fontSize: "15px", lineHeight: "24px" }}>
           {feedback.member.nickname}
         </span>
@@ -87,7 +108,7 @@ export default function FeedbackCommentListReply({
               height: "40px",
               position: "relative",
               top: "8px",
-              left: '355px'
+              left: "355px",
             }}
           >
             <span>수정</span>
