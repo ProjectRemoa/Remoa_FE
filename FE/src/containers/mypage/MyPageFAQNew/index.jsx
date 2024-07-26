@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../../../apis/axiosInterceptors";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styledComponent from "./MyPageFAQNew.styles";
@@ -31,7 +31,7 @@ function MyPageFAQNew() {
 
   const handleSubmit = async () => {
     try {
-      await axios.post(`/BE/${category}`, {
+      await axiosInstance.post(`${category}`, {
         title,
         content,
       });

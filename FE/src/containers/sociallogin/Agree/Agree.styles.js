@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const AgreeBox = styled.div`
   border: 1px solid #e1e2e5;
@@ -18,8 +18,17 @@ const AgreeBox = styled.div`
     border-radius: 30px;
   }
 `;
+const TableBody = styled.tbody`
+  width: 100%;
+`;
+const TableTD = styled.td`
+width: ${props => props.three ? '33%' : props.two ? '50%' : '25%'};
+vertical-align:top;
+`
 const S = {
-  AgreeBox
-}
+  AgreeBox,
+  TableBody,
+  TableTD
+};
 
 export default S;

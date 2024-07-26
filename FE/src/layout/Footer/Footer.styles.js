@@ -13,6 +13,11 @@ const FooterContainer = styled.footer`
   box-sizing: border-box;
 `;
 
+const FooterLinkLi = styled.a`
+  cursor: pointer; 
+  text-decoration: none; 
+  color: inherit; 
+`;
 const FooterInner = styled.div`
   display: inline-flex;
   flex-direction: column;
@@ -67,6 +72,7 @@ const StyledComponents = {
   FooterLogo,
   FooterLink,
   FooterMenu,
+  FooterLinkLi
 };
 
 export default StyledComponents;

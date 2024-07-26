@@ -1,8 +1,8 @@
-import axios from "axios";
+import axiosInstance from "../../../apis/axiosInterceptors";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { useLocation } from 'react-router-dom';
-import S from './ManageShareContainer.styles'
+import { useLocation } from "react-router-dom";
+import S from "./ManageShareContainer.styles";
 import { useRecoilState } from "recoil";
 import { editState } from "../../../state/editState";
 
@@ -11,6 +11,8 @@ function getByteLength(s, b, i, c) {
   for (b = i = 0; (c = s.charCodeAt(i++)); b += c >> 11 ? 3 : c >> 7 ? 2 : 1);
   return b;
 }
+
+const token = sessionStorage.getItem("refreshToken");
 
 function ManageShareContainer() {
   const [name, setName] = useState("");
@@ -23,7 +25,7 @@ function ManageShareContainer() {
   //const [loading, setLoading] = useState(false);
 
   const [buttonColor, setButtonColor] = useState(false);
-  const [isEdit, setIsEdit] = useRecoilState(editState)
+  const [isEdit, setIsEdit] = useRecoilState(editState);
 
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ function ManageShareContainer() {
   /* 카테고리 */
   const onChangeCategory = (name) => {
     setCategory(name);
-    if (name === "idea") setChecked([1, 0, 0, 0, 0, 0]);    
+    if (name === "idea") setChecked([1, 0, 0, 0, 0, 0]);
     if (name === "marketing") setChecked([0, 1, 0, 0, 0, 0]);
     if (name === "video") {
       setChecked([0, 0, 1, 0, 0, 0]);
@@ -153,14 +155,13 @@ function ManageShareContainer() {
     } else if (allisSizeError) {
       alert("최대 20MB까지 첨부할 수 있습니다.");
     }
-    
+
     setUploads(UploadList); // 덮어 씌우기
   };
 
   const onClickDelete = (name) => {
     setUploads(uploads.filter((upload) => upload.name !== name));
   };
-
 
   /* 검사 */
   useEffect(() => {
@@ -174,7 +175,7 @@ function ManageShareContainer() {
         thumbnail !== null &&
         youtubeLink.length > 0
       ) {
-       setButtonColor(true);
+        setButtonColor(true);
       } else {
         setButtonColor(false);
       }
@@ -192,8 +193,8 @@ function ManageShareContainer() {
       }
     }
   }, [name, comp, category, uploads, thumbnail, youtubeLink]);
-  
-  const onClickRegister = () => {
+
+  const onClickRegister = (token) => {
     const formdata = new FormData();
 
     // json 파일은 따로 Blob에 담음
@@ -218,12 +219,11 @@ function ManageShareContainer() {
     // file은 따로 넣고
     Object.values(uploads).forEach((file) => formdata.append("file", file));
 
-    axios.defaults.withCredentials = true;
-
-    axios
-      .post("/BE/reference", formdata, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
+    axiosInstance
+      .post("reference", formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((response) => {
         if (response.status === 200) {
@@ -232,17 +232,19 @@ function ManageShareContainer() {
         }
       })
       .catch((err) => {
+        console.log(err);
         alert("통신 오류");
       });
   };
 
   const location = useLocation();
 
-  useEffect(() => { // 수정 페이지에서 이탈 시에 실행
+  useEffect(() => {
+    // 수정 페이지에서 이탈 시
     if (!location.pathname.includes(`/manage/put`)) {
-      setIsEdit(false)
+      setIsEdit(false);
     }
-  }, [location.pathname])
+  }, [location.pathname]);
 
   return (
     <S.ManageShareContainer>
@@ -431,7 +433,7 @@ function ManageShareContainer() {
         <S.Button
           disabled={!buttonColor}
           state={buttonColor}
-          onClick={onClickRegister}
+          onClick={() => onClickRegister(token)}
         >
           {isEdit ? "수정하기" : "등록하기"}
         </S.Button>

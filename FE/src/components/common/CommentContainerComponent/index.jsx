@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import RefModal from "../../../containers/modal/RefModalPages/RefModal";
-import DetailedFeedback from "../../../containers/modal/DetailedFeedbackPages/DetailedFeedback";
+import FeedbackCommentWrite from "../../../containers/modal/FeedbackCommentPages/FeedbackCommentWrite";
 import styledComponent from "./CommentContainerComponent.styles";
 
 const {
@@ -120,7 +120,7 @@ function CommentContainerComponent({
                           )}
                         </MyCommentTitle>
                         <OneComment>
-                          가장 먼저 작성한 코멘트 1개만 노출됩니다
+                          가장 최근에 작성한 코멘트 1개만 노출됩니다
                         </OneComment>
                       </CommentsContainer>
                       <ProfileContainer>
@@ -237,7 +237,7 @@ function CommentContainerComponent({
                   <CommentsContainer>
                     <MyCommentTitle>내가 작성한 코멘트</MyCommentTitle>
                     <OneComment>
-                      가장 먼저 작성한 코멘트 1개만 노출됩니다
+                      가장 최근에 작성한 코멘트 1개만 노출됩니다
                     </OneComment>
                   </CommentsContainer>
                   <ProfileContainer>
@@ -295,7 +295,7 @@ function CommentContainerComponent({
         />
       )}
       {fbVisibleId !== "" && (
-        <DetailedFeedback
+        <FeedbackCommentWrite
           id3={postId}
           modalVisibleId3={fbVisibleId}
           setModalVisibleId3={setFbVisibleId}

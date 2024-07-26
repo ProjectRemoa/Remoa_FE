@@ -17,15 +17,11 @@ const {
 function TableComponent({ title, data, category }) {
   const navigate = useNavigate();
 
-  const handleWriteButton = (category) => {
-    navigate(`/mypage/faq/${category}/new`);
-  };
-
   return (
     <Wrapper>
       <Header>
         <Title>{title}</Title>
-        <WriteButton onClick={() => handleWriteButton(category)}>
+        <WriteButton onClick={() => navigate(`/mypage/faq/${category}/new`)}>
           글쓰기
         </WriteButton>
       </Header>
@@ -41,6 +37,7 @@ function TableComponent({ title, data, category }) {
             </Trow>
           </Thead>
           {data?.map((item, index) => {
+            // 작성자 글자 수 3 이상 시 ... 처리
             let author = "";
             if (item.author?.length > 3) {
               author = item.author?.slice(0, 3) + "...";
@@ -50,11 +47,9 @@ function TableComponent({ title, data, category }) {
             return (
               <Tbody key={index}>
                 <Trow
-                  onClick={() =>
-                    navigate(`/mypage/faq/${category}/${item.noticeId}`)
-                  }
+                  onClick={() => navigate(`/mypage/faq/${category}/${item.id}`)}
                 >
-                  <TbodyValue>{item.noticeId}</TbodyValue>
+                  <TbodyValue>{item.id}</TbodyValue>
                   <TbodyValue>{item.title}</TbodyValue>
                   <TbodyValue>{author}</TbodyValue>
                   <TbodyValue>{item.postingTime}</TbodyValue>

@@ -1,7 +1,7 @@
-import axios from "axios";
+import axiosInstance from "../axiosInterceptors";
 
 export const getFollow = async (type) => {
-  const response = await axios.get(`/BE/${type}`);
+  const response = await axiosInstance.get(`${type}`);
   const {
     data: {
       data,
@@ -12,5 +12,5 @@ export const getFollow = async (type) => {
 };
 
 export const postFollow = async (memberId) => {
-  return await axios.post(`/BE/follow/${memberId}`);
+  return await axiosInstance.post(`follow/${memberId}`);
 };

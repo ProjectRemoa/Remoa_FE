@@ -3,9 +3,8 @@ import { useNavigate } from "react-router";
 import kakao_login from "../../images/kakao_login_large.png";
 import { KAKAO_AUTH_URL } from "./KakaoLogin/kakaodata";
 import { useEffect } from "react";
-import Modal from "./Modal";
 import S from "./SocialLoginContainer.styles";
-
+// 사용 x
 function SocialLoginContainer() {
   const navigate = useNavigate();
 
@@ -26,7 +25,7 @@ function SocialLoginContainer() {
 
   return (
     <>
-      {sessionStorage.getItem("new") && <Modal />}
+      
       <S.Wrapper>
         <S.Container>
           <S.OuterWrapper>

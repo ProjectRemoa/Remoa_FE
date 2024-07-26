@@ -1,8 +1,8 @@
 import React from "react";
-import AgreeList from "./AgreeList";
+import { AgreeList } from "./AgreeList";
 import S from "./Agree.styles";
-
-const Item = ({ text }) => {
+import AgreeTable from "./AgreeTable";
+export const Item = ({ text }) => {
   return (
     <>
       {text.split("\n").map((txt) => (
@@ -19,6 +19,7 @@ function Agree(props) {
   return (
     <S.AgreeBox>
       <Item text={AgreeList[props.name].summary} />
+      {props.name ? <AgreeTable name={props.name} /> : ""}
     </S.AgreeBox>
   );
 }
