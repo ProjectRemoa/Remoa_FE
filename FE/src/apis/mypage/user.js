@@ -1,5 +1,4 @@
 import axiosInstance from "../axiosInterceptors";
-const token = sessionStorage.getItem("accessToken");
 
 export const getUserProfileImg = async () => {
   try {
@@ -25,7 +24,6 @@ export const putUserProfileImg = async (newImage) => {
     formData.append("file", newImage);
     return await axiosInstance.put("user/img", formData, {
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });

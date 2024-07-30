@@ -12,11 +12,4 @@ module.exports = function (app) {
       },
     })
   );
-
-  app.use(
-    createProxyMiddleware("/cnet", {
-      target: "https://www.career.go.kr",
-      changeOrigin: true,
-    })
-  );
 };

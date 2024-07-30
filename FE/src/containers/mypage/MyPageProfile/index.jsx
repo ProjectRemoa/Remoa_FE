@@ -127,7 +127,7 @@ function MyPageProfile() {
   // 닉네임 중복체크
 
   const handleNicknameDuplicationCheck = async (nickname) => {
-    if (!nickname) return;
+    if (!nickname || nickname === sessionStorage.getItem("nickname")) return;
     try {
       const res = await axios.get(`${API_SERVER}nickname?nickname=${nickname}`);
 
@@ -186,7 +186,6 @@ function MyPageProfile() {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    mutate(imgRef.current.files[0]);
 
     const profileData = {
       nickname,
@@ -206,6 +205,9 @@ function MyPageProfile() {
       setEditMessageColor(false);
       setEditMessage("아직 필수항목을 모두 입력하지 않았어요.");
     } else {
+      if (imgRef.current.files[0]) {
+        mutate(imgRef.current.files[0]);
+      }
       axiosInstance
         .put("user", profileData)
         .then(() => {
