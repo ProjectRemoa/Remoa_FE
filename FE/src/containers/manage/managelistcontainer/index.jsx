@@ -44,7 +44,7 @@ function ManageListContainer() {
     if (window.location.href.includes("user/list")) {
       setIsOtherUser(true);
       // 다른 사람의 작업물
-      endpoint = `user/reference/${param}/?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
+      endpoint = `user/reference/${param}?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
     } else {
       setIsOtherUser(false);
       endpoint = `user/reference?page=${pageNumber}&sort=${sortOption}&category=${categoryName}`;
