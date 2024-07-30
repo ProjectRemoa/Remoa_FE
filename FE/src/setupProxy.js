@@ -12,14 +12,4 @@ module.exports = function (app) {
       },
     })
   );
-
-  app.use(
-    createProxyMiddleware("/cnet/openapi", {
-      target: "https://www.career.go.kr",
-      changeOrigin: true,
-      pathRewrite: {
-        "^/api/university": "",
-      },
-    })
-  );
 };

@@ -1,8 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import axiosInstance from "../../../apis/axiosInterceptors";
+import { useState } from "react";
 import { FaXmark } from "react-icons/fa6";
-import styledComponent from "./MyPageUniversityModal.styles";
 import SearchBar from "../../../components/common/SearchBar";
+import styledComponent from "./MyPageUniversityModal.styles";
 const {
   FullLayer,
   ContentWrapper,
@@ -19,36 +19,17 @@ const {
   Trow,
 } = styledComponent;
 
-const API_KEY = process.env.REACT_APP_UNIVERSITY_KEY;
-const UNIVERSITY_URL = `/cnet/openapi/getOpenApi?apiKey=${API_KEY}&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&thisPage=1&perPage=500`;
-
 const MyPageUniversityModal = ({ changeUniversity, close }) => {
   const [input, setInput] = useState("");
-  const [universityData, setUniversityData] = useState([]);
   const [schoolData, setSchoolData] = useState([]);
   const [clickedIndex, setClickedIndex] = useState(null);
 
-  useEffect(() => {
-    getUniversityData();
-  }, []);
-
-  const getUniversityData = async () => {
-    try {
-      const response = await axios.get(UNIVERSITY_URL);
-      setUniversityData(response.data.dataSearch.content);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const handleUniversitySearch = (input) => {
-    const inputData = input.toUpperCase().trim();
-    if (!inputData) return;
-    setSchoolData(
-      universityData.filter((university) =>
-        university.schoolName.includes(inputData)
-      )
-    );
+    if (!input) return;
+    axiosInstance
+      .get(`university?searchSchulNm=${input}`)
+      .then((res) => setSchoolData(res.data.data.dataSearch.content))
+      .catch((err) => console.log(err));
   };
 
   return (
