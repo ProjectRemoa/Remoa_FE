@@ -3,6 +3,7 @@ import { useState } from "react";
 import RefModal from "../../../containers/modal/RefModalPages/RefModal";
 import FeedbackCommentWrite from "../../../containers/modal/FeedbackCommentPages/FeedbackCommentWrite";
 import styledComponent from "./CommentContainerComponent.styles";
+import Draggable from "react-draggable";
 
 const {
   ContentsContainer,
@@ -36,12 +37,11 @@ function CommentContainerComponent({
   const [modalVisibleId, setModalVisibleId] = useState("");
   const [fbVisibleId, setFbVisibleId] = useState("");
   const [feedback, setFeedback] = useState([]);
-
+  const [link, setLink] = useState("")
   const onClickModal = (postId) => {
     setPostId(postId);
     setModalVisibleId(postId);
   };
-
   const onClickPopupFeedback = (postId) => {
     setPostId(postId);
     let endpoint = `${API_SERVER}reference/${postId}`;
@@ -49,7 +49,6 @@ function CommentContainerComponent({
     const fetchData = async () => {
       try {
         const response = await axios.get(endpoint);
-        console.log(response);
 
         const {
           data: {
@@ -57,6 +56,7 @@ function CommentContainerComponent({
           },
         } = response;
 
+        setLink(response.data.data.youtubeLink)
         if (feedbacks.length) {
           setFeedback(feedbacks);
           setFbVisibleId(postId);
@@ -71,7 +71,11 @@ function CommentContainerComponent({
 
     fetchData();
   };
+  const [, setPosition] = useState({ x: 0, y: 0 });
 
+  const trackPos = (data) => {
+    setPosition({ x: data.x, y: data.y });
+  };
   return (
     <>
       {Array.isArray(data) ? (
@@ -216,10 +220,7 @@ function CommentContainerComponent({
               </Button>
               <Button
                 onClick={() => {
-                  //if (isFromManage) {
                   onClickPopupFeedback(data.postId);
-                  //}
-                  //else onClickModal(data.postId);
                 }}
               >
                 {isFromManage === true ? (
@@ -297,17 +298,21 @@ function CommentContainerComponent({
         />
       )}
       {fbVisibleId !== "" && (
-        <FeedbackCommentWrite
-          id3={postId}
-          modalVisibleId3={fbVisibleId}
-          setModalVisibleId3={setFbVisibleId}
-          numPages={1}
-          media={data}
-          link={data}
-          feedbacks={feedback}
-          setFeedback={setFeedback}
-          isFromManage={true}
-        />
+        <Draggable onDrag={(_, data) => trackPos(data)}>
+          <div style={{ position: "absolute", top:0, right:'100px'}}>
+            <FeedbackCommentWrite
+              id3={postId}
+              modalVisibleId3={fbVisibleId}
+              setModalVisibleId3={setFbVisibleId}
+              numPages={1}
+              media={data}
+              link={link}
+              feedbacks={feedback}
+              setFeedback={setFeedback}
+              isFromManage={true}
+            />
+          </div>
+        </Draggable>
       )}
     </>
   );

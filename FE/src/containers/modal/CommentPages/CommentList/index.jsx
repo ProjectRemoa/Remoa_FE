@@ -39,11 +39,11 @@ export default function ModalCommentList({ comments, postId, setComments }) {
   }, [comments]);
 
   const onPutHandler = async (commentId) => {
-    if (contents === originalContent) {
-      alert("변경된 내용이 없습니다.");
-      return;
-    }
-
+    // if (contents === originalContent) {
+    //   alert(originalContent);
+    //   return;
+    // }
+    if (!contents) setContents(comments.content)
     const response = await putComment(commentId, {
       comment: contents,
     });

@@ -23,6 +23,7 @@ export default function FeedbackCommentWrite({
   isFromManage,
   countPage,
 }) {
+
   const [contents, setContents] = useState("");
   const [showModal, setShowModal] = useState(false);
   const refreshToken = sessionStorage.getItem("refreshToken")
@@ -96,6 +97,7 @@ export default function FeedbackCommentWrite({
 
       <S.Feedback>
         <FeedbackCommentList
+        isFromManage={isFromManage}
           link={link}
           feedbacks={feedbacks}
           setFeedback={setFeedback}
@@ -107,18 +109,18 @@ export default function FeedbackCommentWrite({
         <S.RegTop>
           <S.RegExplain>
             <S.FeedbackText>피드백</S.FeedbackText>
-            <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>
+            {!link && <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>}
           </S.RegExplain>
+          {!link &&
           <S.FeedbackSelect
             onChange={handleSelect}
             onClick={showExpandModalDelete}
-            disabled={!!link}
             style={{ left: "10px", alignItems: "center" }}
           >
             {selected}
             {selected && <FaCaretDown style={{ marginLeft: "5px" }} />}
           </S.FeedbackSelect>
-
+}
           {expandModalOpenDelete && pageCountLength < optiLength && (
             <S.SelectWrapper
               style={{

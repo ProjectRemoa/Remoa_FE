@@ -29,6 +29,7 @@ export default function FeedbackCommentList({
   link,
   setFeedback,
   id,
+  isFromManage
 }) {
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
@@ -42,6 +43,12 @@ export default function FeedbackCommentList({
 
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
+  };
+
+  const handleLinkClick = (event) => {
+    if (isFromManage) {
+      event.preventDefault();
+    }
   };
 
   const onClickThumb = async (feedback_member_id) => {
@@ -165,12 +172,12 @@ export default function FeedbackCommentList({
                 ) : (
                   <>
                     <S.FeedWrapperButton>
-                      {link ? (
-                        <S.WrapperSearch>동영상</S.WrapperSearch>
-                      ) : (
-                        <S.WrapperSearch href={`#${feedback.page}`}>
+                      {!link ? (
+                        <S.WrapperSearch href={`#${feedback.page}`} onClick={handleLinkClick}>
                           {feedback.page}페이지
                         </S.WrapperSearch>
+                      ) : (
+                        <S.WrapperSearch>동영상</S.WrapperSearch>
                       )}
                     </S.FeedWrapperButton>
                     <Pre Feed>{feedback.feedback}</Pre>

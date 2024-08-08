@@ -78,6 +78,7 @@ export const S = {
     letter-spacing: -0.32px;
   `,
   ProfileSize: styled.img`
+    cursor: pointer;
     width: 24px;
     height: 24px;
     object-fit: cover;

@@ -35,6 +35,8 @@ import { useCheckLike } from "../../../../hooks/checkMyWork";
 import { checking, isInteger } from "../../../../functions/checkPage";
 import WhiteButton from "../../../../components/common/Button/WhiteButton.styles";
 import YellowButton from "../../../../components/common/Button/YellowButton.styles";
+import { handleOnFollowModal } from "../../../../functions/handleOnFollowModal";
+import RefModalFollow from "../../RefModalFollow";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function RefModal({ id2, setModalVisibleId2 }) {
@@ -78,6 +80,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
   const [category, setCategory] = useState("");
   const [countPage, setCountPage] = useState([]);
+  console.log(countPage)
   useEffect(() => {
     const fetchReference = async () => {
       try {
@@ -154,9 +157,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
       }
     };
     fetchReference();
-
   }, [id2]);
-
 
   useEffect(() => {
     setTimeout(() => {
@@ -165,10 +166,12 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   }, [loading]);
 
   useEffect(() => {
-    setCountPage(feedbacks.map(feedback => ({
-      pages: feedback.feedbackInfos.map(info => info.page),
-      nickname: feedback.member.nickname
-    })));
+    setCountPage(
+      feedbacks.map((feedback) => ({
+        pages: feedback.feedbackInfos.map((info) => info.page),
+        nickname: feedback.member.nickname,
+      }))
+    );
   }, [feedbacks]);
   const handleLike = async () => {
     checkLike();
@@ -312,13 +315,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
   const [pageVisibleId, setPageVisibleId] = useState("");
 
-  const onModalHandler = (id) => {
-    setPageVisibleId(id);
+  const handleHover = (index, isEntering) => {
+    if (isEntering) {
+      setPageVisibleId(index);
+    } else {
+      setPageVisibleId("");
+    }
   };
-  const onCloseHandler = () => {
-    setPageVisibleId("");
-  };
-
   const scrollRef = useRef();
   const scrollRef2 = useRef();
 
@@ -336,6 +339,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
         break;
     }
   };
+
+  const [selectedPostId, setSelectedPostId] = useState("");
 
   return (
     <S.ModalWrapper
@@ -396,7 +401,19 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
 
           <S.HeaderDiv2>
             <S.HeaderUserInfo>
-              <S.ProfileSize src={postMember.profileImage} />
+              <S.ProfileSize
+                src={postMember.profileImage}
+                onClick={() =>
+                  handleOnFollowModal(
+                    postMember.memberId,
+                    selectedPostId,
+                    setSelectedPostId
+                  )
+                }
+              />
+              {postMember.memberId === selectedPostId && (
+                <RefModalFollow member={postMember} />
+              )}
               <S.HeaderUserName>{postMember.nickname}</S.HeaderUserName>
               <S.HeaderDetail2>
                 <S.eachIcon>
@@ -449,9 +466,7 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                   </>
                 )}
               </WhiteButton>
-              <YellowButton
-                onClick={() => onModalHandler3(id2)}
-              >
+              <YellowButton onClick={() => onModalHandler3(id2)}>
                 <span>상세피드백 보기</span>
               </YellowButton>
               {/* 움직이는 모달 */}
@@ -565,6 +580,8 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                             position: "relative",
                           }}
                           key={index}
+                          onMouseEnter={() => handleHover(index, true)}
+                          onMouseLeave={() => handleHover(index, false)}
                         >
                           <S.ContentImg
                             style={{
@@ -575,12 +592,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                             key={srcLink}
                             id={index + 1}
                             className="image"
-                            onMouseOver={() => {
-                              onModalHandler(index);
-                            }}
-                            onMouseOut={() => {
-                              onCloseHandler(index);
-                            }}
                           />
                           {pageVisibleId === index ? (
                             <S.PdfPageShow
@@ -675,18 +686,13 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
                             justifyContent: "center",
                             position: "relative",
                           }}
+                          onMouseEnter={() => handleHover(index, true)}
+                          onMouseLeave={() => handleHover(index, false)}
                         >
                           <Page
                             width={pageScale * 1000}
                             pageNumber={index + 1}
                             renderAnnotationLayer={false}
-                            onMouseOver={() => {
-                              onModalHandler(index);
-                              console.log();
-                            }}
-                            onMouseOut={() => {
-                              onCloseHandler(index);
-                            }}
                           />
                           {pageVisibleId === index ? (
                             <S.PdfPageShow>{index + 1}페이지</S.PdfPageShow>
