@@ -4,7 +4,7 @@ import kakao_login from "../../images/kakao_login_large.png";
 import { KAKAO_AUTH_URL } from "./KakaoLogin/kakaodata";
 import { useEffect } from "react";
 import S from "./SocialLoginContainer.styles";
-// 사용 x
+
 function SocialLoginContainer() {
   const navigate = useNavigate();
 
@@ -25,7 +25,6 @@ function SocialLoginContainer() {
 
   return (
     <>
-      
       <S.Wrapper>
         <S.Container>
           <S.OuterWrapper>
