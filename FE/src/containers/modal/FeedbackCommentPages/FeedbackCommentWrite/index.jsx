@@ -23,10 +23,9 @@ export default function FeedbackCommentWrite({
   isFromManage,
   countPage,
 }) {
-
   const [contents, setContents] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const refreshToken = sessionStorage.getItem("refreshToken")
+  const refreshToken = sessionStorage.getItem("refreshToken");
   const { checkLike } = useCheckLike("");
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
@@ -44,7 +43,7 @@ export default function FeedbackCommentWrite({
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     checkLike();
-    checkNonMember(refreshToken)
+    checkNonMember(refreshToken);
     if (!contents) return alert("내용이 비어있습니다.");
 
     let user = undefined;
@@ -97,7 +96,7 @@ export default function FeedbackCommentWrite({
 
       <S.Feedback>
         <FeedbackCommentList
-        isFromManage={isFromManage}
+          isFromManage={isFromManage}
           link={link}
           feedbacks={feedbacks}
           setFeedback={setFeedback}
@@ -111,16 +110,16 @@ export default function FeedbackCommentWrite({
             <S.FeedbackText>피드백</S.FeedbackText>
             {!link && <S.FeedbackTextNum>페이지 번호</S.FeedbackTextNum>}
           </S.RegExplain>
-          {!link &&
-          <S.FeedbackSelect
-            onChange={handleSelect}
-            onClick={showExpandModalDelete}
-            style={{ left: "10px", alignItems: "center" }}
-          >
-            {selected}
-            {selected && <FaCaretDown style={{ marginLeft: "5px" }} />}
-          </S.FeedbackSelect>
-}
+          {!link && (
+            <S.FeedbackSelect
+              onChange={handleSelect}
+              onClick={showExpandModalDelete}
+              style={{ left: "10px", alignItems: "center" }}
+            >
+              {selected}
+              {selected && <FaCaretDown style={{ marginLeft: "5px" }} />}
+            </S.FeedbackSelect>
+          )}
           {expandModalOpenDelete && pageCountLength < optiLength && (
             <S.SelectWrapper
               style={{
@@ -139,7 +138,10 @@ export default function FeedbackCommentWrite({
                     color: selected === a ? "#1E1E1E" : "#727272",
                     fontWeight: selected === a ? 700 : 500,
                   }}
-                  onClick={() => setSelected(a)}
+                  onClick={() => {
+                    setSelected(a);
+                    showExpandModalDelete();
+                  }}
                 >
                   {a}
                 </S.FeedbackSelect>
@@ -166,7 +168,10 @@ export default function FeedbackCommentWrite({
                     color: selected === a ? "#1E1E1E" : "#727272",
                     fontWeight: selected === a ? 700 : 500,
                   }}
-                  onClick={() => setSelected(a)}
+                  onClick={() => {
+                    setSelected(a);
+                    showExpandModalDelete();
+                  }}
                 >
                   {a}
                 </S.FeedbackSelect>
@@ -189,13 +194,15 @@ export default function FeedbackCommentWrite({
             value={contents}
             required
             placeholder="최대 300자까지 피드백을 남겨주세요."
-            style={{height:'149px', width:'90%'}}
+            style={{ height: "149px", width: "90%" }}
           />
         </S.RegBottom>
       </S.ModalWriteFeed>
       {showModal && (
         <AutoCloseModal onClose={() => setShowModal(false)} duration={1000}>
-          <S.PageModalText>이미 해당 페이지에 대한 피드백을 작성했어요.</S.PageModalText>
+          <S.PageModalText>
+            이미 해당 페이지에 대한 피드백을 작성했어요.
+          </S.PageModalText>
         </AutoCloseModal>
       )}
     </S.ModalWrapper>

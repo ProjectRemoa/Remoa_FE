@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import YellowButton from "../../../../components/common/Button/YellowButton.styles";
 import Line from "../../../../components/common/TextArea/Line.styles";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
@@ -29,23 +29,38 @@ export default function FeedbackCommentListReply({
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
   };
-
   const onPutHandler = async (replyId) => {
-    if (!contents) {
-      alert("내용이 수정되지 않았습니다.");
-    } else {
-      const response = await putFeedbackCommentReply(
-        feedbackMemberLogId,
-        replyId,
-        {
-          feedbackReply: contents,
-        }
-      );
-      setFeedback(response.data);
-      setPutMemberId(0);
+    let updatedContents = contents;
+    if (!updatedContents) {
+      updatedContents = feedback.content;
     }
+    const response = await putFeedbackCommentReply(
+      feedbackMemberLogId,
+      replyId,
+      {
+        feedbackReply: updatedContents,
+      }
+    );
+    setFeedback(response.data);
+    setPutMemberId(0);
   };
 
+  /**
+  const onPutHandler = async (commentId) => {
+    let updatedContents = contents;
+    if (!updatedContents) {
+      const foundComment = comments.find(comment => comment.commentId === commentId).content;
+      updatedContents = foundComment;
+    }
+  
+    const response = await putComment(commentId, {
+      comment: updatedContents,
+    });
+    setComments(response.data);
+    setPutMemberId(0);
+  };
+
+   */
   const onClickDelete = async (replyId) => {
     const response = await deleteFeedbackCommentReply(
       feedbackMemberLogId,

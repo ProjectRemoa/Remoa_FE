@@ -29,7 +29,7 @@ export default function FeedbackCommentList({
   link,
   setFeedback,
   id,
-  isFromManage
+  isFromManage,
 }) {
   const [contents, setContents] = useState("");
   const [putMemberId, setPutMemberId] = useState(0); //수정할 member id
@@ -70,15 +70,25 @@ export default function FeedbackCommentList({
   }, [id, setFeedback]);
 
   const onPutHandler = async (feedback_id) => {
-    if (!contents) {
-      alert("내용이 수정되지 않았습니다.");
-    } else {
-      const response = await putFeedbackComment(id, feedback_id, {
-        feedback: contents,
-      });
-      setFeedback(response.data);
-      setPutMemberId(0);
+    let updatedContents = contents;
+
+    if (!updatedContents) {
+      let foundComment = null;
+      for (let feedback of feedbacks) {
+        foundComment = feedback.feedbackInfos.find(
+          (info) => info.feedbackId === feedback_id
+        );
+        if (foundComment) {
+          updatedContents = foundComment.feedback;
+          break;
+        }
+      }
     }
+    const response = await putFeedbackComment(id, feedback_id, {
+      feedback: updatedContents,
+    });
+    setFeedback(response.data);
+    setPutMemberId(0);
   };
 
   const onClickDelete = async (feedback_id) => {
@@ -139,16 +149,20 @@ export default function FeedbackCommentList({
                 {putMemberId === feedback.feedbackId ? (
                   <div id={feedback.feedbackId} style={{ marginTop: "10px" }}>
                     <WS.RegTop>
-                      <WS.FeedbackTextNum style={{ marginLeft: "-27px" }}>
-                        페이지 번호
-                      </WS.FeedbackTextNum>
-                      <WS.FeedbackSelect
-                        disabled={true}
-                        style={{ left: "10px", alignItems: "center" }}
-                      >
-                        {feedback.page || 1}
-                        <FaCaretDown style={{ marginLeft: "5px" }} />
-                      </WS.FeedbackSelect>
+                      {!link && (
+                        <>
+                          <WS.FeedbackTextNum style={{ marginLeft: "-27px" }}>
+                            페이지 번호
+                          </WS.FeedbackTextNum>
+                          <WS.FeedbackSelect
+                            disabled={true}
+                            style={{ left: "10px", alignItems: "center" }}
+                          >
+                            {feedback.page || 1}
+                          </WS.FeedbackSelect>
+                        </>
+                      )}
+
                       <YellowButton
                         onClick={() => {
                           return onPutHandler(feedback.feedbackId);
@@ -173,7 +187,10 @@ export default function FeedbackCommentList({
                   <>
                     <S.FeedWrapperButton>
                       {!link ? (
-                        <S.WrapperSearch href={`#${feedback.page}`} onClick={handleLinkClick}>
+                        <S.WrapperSearch
+                          href={`#${feedback.page}`}
+                          onClick={handleLinkClick}
+                        >
                           {feedback.page}페이지
                         </S.WrapperSearch>
                       ) : (

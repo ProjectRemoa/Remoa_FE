@@ -25,37 +25,28 @@ import { handleOnFollowModal } from "../../../../functions/handleOnFollowModal";
 export default function ModalCommentList({ comments, postId, setComments }) {
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState("");
-  const [originalContent, setOriginalContent] = useState("");
   const [putMemberId, setPutMemberId] = useState(0);
 
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
   };
-  // [{},{} 배열 형태로 들어옴]
-  useEffect(() => {
-    // 초기 데이터로 상태 설정
-    setContents(comments.content);
-    setOriginalContent(comments.content);
-  }, [comments]);
-
+ 
   const onPutHandler = async (commentId) => {
-    // if (contents === originalContent) {
-    //   alert(originalContent);
-    //   return;
-    // }
-    if (!contents) setContents(comments.content)
+    let updatedContents = contents;
+    if (!updatedContents) {
+      const foundComment = comments.find(comment => comment.commentId === commentId).content;
+      updatedContents = foundComment;
+    }
+  
     const response = await putComment(commentId, {
-      comment: contents,
+      comment: updatedContents,
     });
-    console.log(response);
     setComments(response.data);
-    alert("댓글 수정이 완료되었습니다.");
     setPutMemberId(0);
   };
 
   const onDelete = async (commentId) => {
     const response = await deleteComment(commentId);
-    console.log(response);
     setComments(response.data);
   };
 

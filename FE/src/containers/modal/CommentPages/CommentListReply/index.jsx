@@ -27,14 +27,8 @@ export default function CommentListReply({
   setComments,
 }) {
   const [putMemberId, setPutMemberId] = useState(0);
-  const [originalContent, setOriginalContent] = useState("");
   const [contents, setContents] = useState("");
   const [selectedPostId, setSelectedPostId] = useState("");
-  useEffect(() => {
-    // 초기 데이터로 상태 설정
-    setContents(reply.content);
-    setOriginalContent(reply.content);
-  }, [reply]);
 
   const onChangeContents = (event) => {
     onChangeHandler(event, 300, setContents);
@@ -55,23 +49,16 @@ export default function CommentListReply({
   };
 
   const onPutHandler = async (replyId) => {
-    try {
-      if (contents === originalContent) {
-        alert("변경된 내용이 없습니다.");
-        return;
-      }
-
-      const response = await putCommentReply(commentId, replyId, {
-        commentReply: contents,
-      });
-      setComments(response.data);
-      setPutMemberId(0);
-    } catch (err) {
-      console.log(err);
+    let updatedContents = contents;
+    if (!updatedContents) {
+      updatedContents = reply.content;
     }
+    const response = await putCommentReply(commentId, replyId, {
+      commentReply: updatedContents,
+    });
+    setComments(response.data);
+    setPutMemberId(0);
   };
-
-
 
   return (
     <S.Parent>
@@ -82,15 +69,21 @@ export default function CommentListReply({
               <MdOutlineSubdirectoryArrowRight style={{ fontSize: "23px" }} />
             </td>
             <td>
-              <div style={{position:'relative'}}>
-              <CustomProfileImage
-                src={reply.member.profileImage}
-                style={{ cursor: "pointer" }}
-                onClick={() => handleOnFollowModal(reply.member.memberId, selectedPostId, setSelectedPostId)}
-              />
-                    {reply.member.memberId === selectedPostId && (
-                <RefModalFollow member={reply.member} location={0} />
-              )}
+              <div style={{ position: "relative" }}>
+                <CustomProfileImage
+                  src={reply.member.profileImage}
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    handleOnFollowModal(
+                      reply.member.memberId,
+                      selectedPostId,
+                      setSelectedPostId
+                    )
+                  }
+                />
+                {reply.member.memberId === selectedPostId && (
+                  <RefModalFollow member={reply.member} location={0} />
+                )}
               </div>
             </td>
             <td style={{ width: "100%", paddingLeft: "5px" }}>

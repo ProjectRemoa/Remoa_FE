@@ -80,7 +80,6 @@ export default function RefModal({ id2, setModalVisibleId2 }) {
   };
   const [category, setCategory] = useState("");
   const [countPage, setCountPage] = useState([]);
-  console.log(countPage)
   useEffect(() => {
     const fetchReference = async () => {
       try {

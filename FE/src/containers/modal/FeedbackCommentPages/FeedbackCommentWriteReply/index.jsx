@@ -18,7 +18,6 @@ export default function FeedbackCommentWriteReply({
     onChangeHandler(event, 300, setContents);
   };
   const onSubmitHandler = async (e) => {
-    console.log(referenceId, feedbackMemberLogId)
     if (contents) {
       e.preventDefault();
       const response = await postFeedbackCommentReply(
