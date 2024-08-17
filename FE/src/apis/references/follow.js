@@ -6,10 +6,7 @@ import axiosInstance from '../axiosInterceptors';
 
 export const fetchFollowData = async (memberId) => {
   try {
-    console.log('팔로우 데이터 조회 시작');
-
     const response = await axiosInstance.get(`/follow/${memberId}`);
-    console.log('팔로우 데이터 조회 성공', response.data);
     return response.data.data;
   } catch (error) {
     console.log(error);
@@ -48,5 +45,5 @@ export const useFollowData = (memberId) => {
     }
   }, [query.isLoading, setIsFollowDataLoading]);
 
-  return { followData, isFollowDataLoading, refetchFollowData };
+  return { followData, refetchFollowData };
 };

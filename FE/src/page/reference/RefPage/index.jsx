@@ -8,6 +8,7 @@ import RefListWrapper from "../../../containers/reference/RefListWrapper";
 import { pageLinks } from "../../../containers/reference/constants";
 import SecondModal from "../../../containers/modal/SecondModal";
 import FirstModal from "../../../containers/modal/FirstModal";
+import { categoryToIndexMap } from "../../../containers/reference/constants";
 
 function RefPage() {
   const { pathname } = useLocation();
@@ -26,12 +27,10 @@ function RefPage() {
     setCheckIdx(matchedIndex !== -1 ? matchedIndex : 0);
   };
 
+  
   const onChangeCategory = (category) => {
-    Object.keys(pageLinks).forEach((key) => {
-      if (pageLinks[key].keyword === category) {
-        setCheckIdx(key);
-      }
-    });
+    const index = categoryToIndexMap[category];
+    if (index !== undefined) setCheckIdx(index)
   };
 
   useEffect(() => {
@@ -42,11 +41,7 @@ function RefPage() {
     // 들어가자마자 리프레시 토큰 있으면
     if (sessionStorage.getItem("refreshToken")) {
       const isFirstLogin = localStorage.getItem("isFirstLogin");
-      if (!isFirstLogin) {    
-        setIsFirstModalOpen(true);
-      } else {
-        navigate("/");
-      }
+      if (!isFirstLogin) setIsFirstModalOpen(true);
     }
   }, [navigate]);
 

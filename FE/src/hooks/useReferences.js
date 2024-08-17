@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 export const useReferencesData = (params) => {
   const [referenceData, setReferenceData] = useState();
-
   const { data } = useQuery(
     ['references', params],
     () => getReferences(params),
@@ -15,8 +14,10 @@ export const useReferencesData = (params) => {
 
   useEffect(() => {
     if (data) {
-      setReferenceData({ ...data.data.data });
+      const fetchedData = data.data.data;
+      setReferenceData({ ...fetchedData });
     }
+  
   }, [data]);
 
   return { referenceData };

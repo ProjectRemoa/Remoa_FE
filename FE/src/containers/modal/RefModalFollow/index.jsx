@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StyledComponents from "./RefModalFollow.styles";
 import { useNavigate } from "react-router-dom";
 import { useFollowData } from "../../../apis/references/follow";
-import axios from "axios";
 import { formatCount } from "../../../functions/formatCount";
+import { postFollow } from "../../../apis/mypage/follow";
+import { useReferencesData } from "../../../hooks/useReferences";
 
 const {
   ProfileModalWrapper,
@@ -20,34 +21,17 @@ const {
 function RefModalFollow({ member, location }) {
   const navigate = useNavigate();
   const nickname = sessionStorage.getItem("nickname");
-  const token = sessionStorage.getItem("accessToken");
-
   const { followData, refetchFollowData } = useFollowData(member.memberId);
-  const [isFollowing, setIsFollowing] = useState(member.isFollow);
 
   const onClickMemberFeed = (memberId) => {
     navigate(`/user/list/${memberId}`);
   };
 
   const handleMemberFollow = async () => {
-
     try {
-      await axios.post(
-        `/BE/follow/${member.memberId}`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await postFollow(member.memberId)
       refetchFollowData();
-      setIsFollowing(!isFollowing);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        alert("로그인이 필요한 서비스입니다.");
-
-        sessionStorage.removeItem("nickname");
-        sessionStorage.removeItem("email");
-        sessionStorage.removeItem("new");
-        navigate("/sociallogin");
-      }
       console.log(error);
       return error;
     }
@@ -80,7 +64,7 @@ function RefModalFollow({ member, location }) {
       <ProfileFollowButtonWrapper>
         {/* 팔로우 버튼 */}
         {member.nickname !== nickname ? (
-          isFollowing ? (
+          followData?.isFollow ? (
             <ProfileFollowButton
               className="followed"
               onClick={handleMemberFollow}
