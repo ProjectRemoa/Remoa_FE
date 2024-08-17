@@ -28,3 +28,13 @@ export const filterOptions = [
     value: '스크랩순',
   },
 ];
+
+export const categoryToIndexMap = {
+  all: 0,
+  idea: 1,
+  marketing: 2,
+  video: 3,
+  design: 4,
+  digital: 5,
+  etc: 6,
+};

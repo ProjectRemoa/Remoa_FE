@@ -13,7 +13,7 @@ import Category from "../../../components/common/Category";
 import { getWork } from "../../../apis/manage/list";
 import { useQuery } from "react-query";
 import Loading from "../../../styles/Loading";
-
+import { categoryToIndexMap } from "../../reference/constants";
 const { RefList } = StyledComponents;
 
 function ManageListContainer() {
@@ -110,14 +110,9 @@ function ManageListContainer() {
 
   const onChangeCategory = (category) => {
     setCategoryName(category);
-    console.log(category);
-    if (category === "all") setCheckIdx(0);
-    if (category === "idea") setCheckIdx(1);
-    if (category === "marketing") setCheckIdx(2);
-    if (category === "video") setCheckIdx(3);
-    if (category === "design") setCheckIdx(4);
-    if (category === "digital") setCheckIdx(5);
-    if (category === "etc") setCheckIdx(6);
+    const index = categoryToIndexMap[category];
+    if (index !== undefined) setCheckIdx(index);
+  
 
     setPageNumber(1);
     setTP(1);
@@ -126,7 +121,6 @@ function ManageListContainer() {
     setSortOption(filterOptions[0].key);
     setFilter(filterOptions[0].value);
     setCategoryName(category);
-    console.log(category);
   };
 
   const onClickRegister = () => {
