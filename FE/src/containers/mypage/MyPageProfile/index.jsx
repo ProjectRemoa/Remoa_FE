@@ -9,6 +9,7 @@ import {
 import MyPageUniversityModal from "../MyPageUniversityModal";
 import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageProfile.styles";
+import { Outlet, useNavigate } from "react-router-dom";
 const {
   Wrapper,
   ProfileImg,
@@ -36,6 +37,7 @@ const {
 const API_SERVER = process.env.REACT_APP_API_SERVER;
 
 function MyPageProfile() {
+  const navigate = useNavigate();
   const imgRef = useRef();
   const [userData, setUserData] = useState({});
   const [previewImage, setPreviewImage] = useState("");
@@ -51,6 +53,9 @@ function MyPageProfile() {
     userData;
 
   useEffect(() => {
+    if (!sessionStorage.getItem("nickname")) {
+      navigate("/sociallogin");
+    }
     getProfile();
   }, []);
 
