@@ -1,17 +1,17 @@
-import { React, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { React, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { pageLinks, filterOptions } from '../constants';
+import { pageLinks, filterOptions } from "../constants";
 
-import RefCard from '../RefCard';
-import RefModal from '../../modal/RefModalPages/RefModal';
+import RefCard from "../RefCard";
+import RefModal from "../../modal/RefModalPages/RefModal";
 
-import StyledComponents from './RefListWrapper.styles';
+import StyledComponents from "./RefListWrapper.styles";
 
-import Pagination from '../../../components/common/Pagination';
-import Dropdown from '../../../components/common/Dropdown';
+import Pagination from "../../../components/common/Pagination";
+import Dropdown from "../../../components/common/Dropdown";
 
-import { useReferencesData } from '../../../hooks/useReferences';
+import { useReferencesData } from "../../../hooks/useReferences";
 
 const {
   RefListWrapper,
@@ -27,7 +27,7 @@ export default function RefListContainer({ search: searchKeyword }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [category, setCategory] = useState(''); // 카테고리
+  const [category, setCategory] = useState(""); // 카테고리
   const [filter, setFilter] = useState(filterOptions[0].value); // 필터
   const [sortOption, setSortOption] = useState(filterOptions[0].key);
 
@@ -66,9 +66,9 @@ export default function RefListContainer({ search: searchKeyword }) {
 
   const handlePageClick = (data) => {
     // 버튼 클릭 시 2페이지 이상은 로그인 된 유저만 볼 수 있음 -> 로그인 된 상태가 아니면 로그인 창으로 이동
-    if (data.selected + 1 > 1 && !sessionStorage.getItem('nickname')) {
-      alert('로그인 후 이용해주세요!');
-      navigate('/sociallogin');
+    if (data.selected + 1 > 1 && !sessionStorage.getItem("nickname")) {
+      alert("로그인 후 이용해주세요!");
+      navigate("/sociallogin");
     } else {
       setPage(data.selected + 1);
     }
@@ -96,13 +96,15 @@ export default function RefListContainer({ search: searchKeyword }) {
       <RefListHeader>
         <RefListHeading>
           <span>
-            {searchKeyword !== ''
+            {searchKeyword !== ""
               ? searchKeyword
-              : category?.text === '전체'
-              ? '다양한'
+              : category?.text === "전체"
+              ? "다양한"
               : category?.text}
           </span>
-          공모전의 레퍼런스를 찾아보세요
+          {searchKeyword === ""
+            ? "공모전의 레퍼런스를 찾아보세요"
+            : "로/으로 검색된 작업물입니다"}
         </RefListHeading>
       </RefListHeader>
 
@@ -110,11 +112,11 @@ export default function RefListContainer({ search: searchKeyword }) {
       {referenceData?.references?.length === 0 ? (
         <NoResultWrapper>
           <NoResultText className="emphasis">
-            검색 결과가 없어요 😪{' '}
+            검색 결과가 없어요 😪{" "}
           </NoResultText>
           <NoResultText>해당 키워드의 작업물을 업로드 해주세요!</NoResultText>
 
-          <button onClick={() => navigate('/manage/share')}>등록하기</button>
+          <button onClick={() => navigate("/manage/share")}>등록하기</button>
         </NoResultWrapper>
       ) : (
         <>
@@ -160,7 +162,7 @@ export default function RefListContainer({ search: searchKeyword }) {
 
       {/* 상세 페이지 모달 */}
       {/* TODO : props 이름 변경 및 모달 리팩토링 후 isRefModal 조건 삭제 */}
-      {selectedData && isRefModal !== '' && (
+      {selectedData && isRefModal !== "" && (
         <RefModal
           id2={selectedData.postId}
           setData={selectedData}
