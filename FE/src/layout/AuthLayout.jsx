@@ -6,7 +6,6 @@ function AuthLayout() {
 
   useEffect(() => {
     if (!sessionStorage.getItem("nickname")) {
-      alert("로그인 후 이용해주세요.");
       navigate("/sociallogin");
     }
   }, []);
