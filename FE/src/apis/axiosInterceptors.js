@@ -52,7 +52,6 @@ axiosInstance.interceptors.response.use(
           break;
         case 423:
           console.error("토큰 만료!");
-
           getRefreshToken()
           break;
         case 500:
