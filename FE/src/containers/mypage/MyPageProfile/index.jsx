@@ -9,6 +9,7 @@ import {
 import MyPageUniversityModal from "../MyPageUniversityModal";
 import Loading from "../../../styles/Loading";
 import styledComponent from "./MyPageProfile.styles";
+import { Outlet, useNavigate } from "react-router-dom";
 const {
   Wrapper,
   ProfileImg,
@@ -36,6 +37,7 @@ const {
 const API_SERVER = process.env.REACT_APP_API_SERVER;
 
 function MyPageProfile() {
+  const token = localStorage.getItem('refreshToken');
   const imgRef = useRef();
   const [userData, setUserData] = useState({});
   const [previewImage, setPreviewImage] = useState("");
@@ -44,7 +46,10 @@ function MyPageProfile() {
   const [idCheckColor, setIdCheckColor] = useState("");
   const [editMessage, setEditMessage] = useState("");
   const [editMessageColor, setEditMessageColor] = useState(true);
-  const { data: profileImage, isLoading } = useQuery("", getUserProfileImg);
+  const { data: profileImage, isLoading } = useQuery("", getUserProfileImg,
+    {
+      enabled: !!token,  
+    });
   const { mutate } = useMutation(putUserProfileImg);
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =

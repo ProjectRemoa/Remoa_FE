@@ -36,11 +36,10 @@ axiosInstance.interceptors.response.use(
       switch (status) {
         case 400:
           console.error("Bad Request");
-          alert("잘못된 요청입니다.");
           break;
         case 401:
           console.error("Unauthorized");
-          alert("로그인이 되지 않았거나 인증이 이루어지지 않았습니다.");
+          alert("로그인 후 이용해주세요!");
           sessionStorage.clear();
           break;
         case 403:
