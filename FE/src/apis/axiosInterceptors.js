@@ -36,7 +36,6 @@ axiosInstance.interceptors.response.use(
       switch (status) {
         case 400:
           console.error("Bad Request");
-          alert("잘못된 요청입니다.");
           break;
         case 401:
           console.error("Unauthorized");

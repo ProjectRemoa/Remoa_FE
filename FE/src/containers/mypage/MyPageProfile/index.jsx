@@ -37,7 +37,7 @@ const {
 const API_SERVER = process.env.REACT_APP_API_SERVER;
 
 function MyPageProfile() {
-  const navigate = useNavigate();
+  const token = localStorage.getItem('refreshToken');
   const imgRef = useRef();
   const [userData, setUserData] = useState({});
   const [previewImage, setPreviewImage] = useState("");
@@ -46,16 +46,16 @@ function MyPageProfile() {
   const [idCheckColor, setIdCheckColor] = useState("");
   const [editMessage, setEditMessage] = useState("");
   const [editMessageColor, setEditMessageColor] = useState(true);
-  const { data: profileImage, isLoading } = useQuery("", getUserProfileImg);
+  const { data: profileImage, isLoading } = useQuery("", getUserProfileImg,
+    {
+      enabled: !!token,  
+    });
   const { mutate } = useMutation(putUserProfileImg);
 
   const { email, nickname, phoneNumber, university, oneLineIntroduction } =
     userData;
 
   useEffect(() => {
-    if (!sessionStorage.getItem("nickname")) {
-      navigate("/sociallogin");
-    }
     getProfile();
   }, []);
 
